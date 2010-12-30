@@ -1,0 +1,17 @@
+﻿uGet 1.7.0 (developing)
+
+This version requires GTK+ version 2.18+
+
+What's new since 1.6.x:
+For user:
+1. You can see new icons and "Active" subcategory.
+2. It also can refresh progress more fast than 1.6.
+3. Program will rename config directory from "Uget" to "uGet" automatically.
+4. Program can change tray icon if an error occurred or downloading start.
+
+For developer:
+1. The UgCategory becomes a independent structure and removes watch and dispatch functions.
+2. New UgRunning is a group contains all running jobs, all watch and dispatch functions move to here.
+3. New UgDataLog is used for log. It only has two members currently.
+4. I implement a simple average speed limit in ug_running_do_speed_limit(). I hope anyone can improve it.
+

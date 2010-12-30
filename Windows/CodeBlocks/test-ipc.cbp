@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="test-ipc" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="Debug\test-ipc" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add directory="Debug" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="Release\test-ipc" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add directory="Release" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="D:\devpack\gtk2\include" />
+			<Add directory="D:\devpack\gtk2\include\glib-2.0" />
+			<Add directory="D:\devpack\gtk2\lib\glib-2.0\include" />
+			<Add directory="D:\devpack\curl-mingw\include" />
+			<Add directory="..\..\uglib" />
+		</Compiler>
+		<Linker>
+			<Add library="uglib" />
+			<Add library="glib-2.0.dll" />
+			<Add library="gthread-2.0.dll" />
+			<Add library="gmodule-2.0.dll" />
+			<Add library="intl.dll" />
+			<Add library="curldll" />
+			<Add library="ws2_32" />
+			<Add directory="D:\devpack\gtk2\lib" />
+			<Add directory="D:\devpack\curl-mingw\lib" />
+		</Linker>
+		<Unit filename="..\..\tests\test-ipc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,80 @@
+2010-12-30  Raymond Huang
+
+	* UgPlugin.c
+	(ug_plugin_new): If plugin initial failed, free resource and return NULL.
+
+	* UgPlugin-curl.c
+	(ug_plugin_curl_init): initial curl here. 
+	(ug_plugin_curl_thread) remove curl_easy_init().
+
+	* UgRunning.h, UgRunning.c:
+	(ug_running_add): This new function can add and activate job. it replace ug_category_start.
+	(ug_running_remove): This new function can remove and stop job, it replace ug_category_stop.
+	(ug_running_clear): This new function can remove and stop all job.
+	(ug_running_get_inactive): get inactive(completed, paused, or error-occurred) jobs.
+	(ug_running_get_speed): count speed.
+	(ug_running_set_speed): set speed limit.
+	(ug_running_get_n_jobs): get number of jobs.
+	(ug_running_dispatch): It can dispatch all messages from all jobs.
+	(ug_running_do_speed_limit): It can adjust speed of all job.
+
+	* UgCategory.h, UgCategory.c
+	(UgCategoryFuncs): new interface for application, ug_category_list_link, and ug_category_list_save.
+	(UgCategoryClass): It becomes a independent class.
+	(UgRelationClass): It becomes a independent class.
+	(ug_category_refresh): removed. replace by ug_running_dispatch_xxx
+	(ug_category_start): removed. replace by ug_running_add
+	(ug_category_stop): removed. replace by ug_running_remove
+	(ug_category_list_link): remove callback and use UgCategoryFuncs::add
+	(ug_category_list_save): remove callback and use UgCategoryFuncs::get_all
+
+	* UgCategory-cmd.h, UgCategory-cmd.c
+	(ug_category_cmd_add): implement interface "UgCategoryFuncs".
+	(ug_category_cmd_get_all): implement interface "UgCategoryFuncs".
+	(ug_category_cmd_get_jobs): implement interface "UgCategoryFuncs".
+	(ug_category_cmd_changed): implement interface "UgCategoryFuncs".
+	(ug_category_cmd_run): removed. use ug_category_get_jobs and ug_running_add_jobs to replace it.
+
+	* UgCategory-gtk.h, UgCategory-gtk.c
+	(UgCategoryGtk): add new subcategory "Active".
+	(ug_category_gtk_add): implement interface "UgCategoryFuncs".
+	(ug_category_gtk_get_all): implement interface "UgCategoryFuncs".
+	(ug_category_gtk_get_jobs): implement interface "UgCategoryFuncs".
+	(ug_category_gtk_changed): implement interface "UgCategoryFuncs".
+	(ug_category_gtk_refresh): removed. use ug_running_dispatch_xxx and ug_running_get_inactive to replace it.
+	(ug_category_gtk_activate): removed. use ug_category_get_jobs and ug_running_add_jobs to replace it.
+
+	* UgetGtk-callback.c
+	(on_delete_download): use UgRunning to stop job.
+	(on_delete_download_file_response): use UgRunning to stop job.
+	(on_set_download_to_pause): use UgRunning to stop job.
+	(on_offline_mode): use UgRunning to stop all jobs.
+	(on_tray_icon_activate): clear error status.
+
+	* UgetGtk-timeout.c
+	(uget_gtk_timeout_queuing): rename from uget_gtk_timeout_queue and rewrite by UgRunning.
+	(uget_gtk_init_timeout): add timeout callback - ug_running_dispatch and ug_running_do_speed_limit.
+	(refresh_category_info): replace by uget_gtk_timeout_queuing.
+	(count_speed): replace by ug_running_get_speed.
+	(UgCategoryInfo): removed.
+
+	* UgCategoryWidget.c: Add subcategory "Active".
+
+	* UgetCmd.h, UgetGtk.h: change config directory from "Uget" to "uGet".
+
+	* UgetCmd.c
+	(uget_cmd_run): add timeout callback - ug_running_dispatch and uget_cmd_timer_queuing.
+	(uget_cmd_timer_queuing): separate from uget_cmd_timer_ipc and rewrite it by UgRunning.
+
+	* UgetGtk.c
+	(uget_gtk_update_config_dir): rename config directory from "Uget" to "uGet".
+	(uget_gtk_tray_icon_refresh): change tray icon when active or error-occurred.
+	(uget_gtk_init): call uget_gtk_update_config_dir.
+	(uget_gtk_confirm_to_delete): change string from "Remember this action" to "Do not ask me again" in function.
+
+	* pixmaps/icons/*: new icons for new uGet. (Michael Tunnell).
+	* po/*.po: update for changing string from "Exit Uget" to "Exit uGet".
+
+	* configure.ac, UgetGtk-setting.h: change version to 1.7.0
+	* uget-cmd/main-cmd.c: change version to 1.7.0
+

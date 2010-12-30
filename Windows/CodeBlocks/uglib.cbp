@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="uglib" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="Debug\libuglib" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="Debug\" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="Release\libuglib" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="Release\" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-DNDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="D:\devpack\gtk2\include" />
+			<Add directory="D:\devpack\gtk2\include\glib-2.0" />
+			<Add directory="D:\devpack\gtk2\lib\glib-2.0\include" />
+			<Add directory="D:\devpack\curl-mingw\include" />
+			<Add directory="..\..\uglib" />
+		</Compiler>
+		<Unit filename="..\..\uglib\UgCategory.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgCategory.h" />
+		<Unit filename="..\..\uglib\UgData-download.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgData-download.h" />
+		<Unit filename="..\..\uglib\UgData.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgData.h" />
+		<Unit filename="..\..\uglib\UgDataset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgDataset.h" />
+		<Unit filename="..\..\uglib\UgHtml.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgHtml.h" />
+		<Unit filename="..\..\uglib\UgIpc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgIpc.h" />
+		<Unit filename="..\..\uglib\UgMarkup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgMarkup.h" />
+		<Unit filename="..\..\uglib\UgMessage.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgMessage.h" />
+		<Unit filename="..\..\uglib\UgOption.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgOption.h" />
+		<Unit filename="..\..\uglib\UgPlugin-curl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgPlugin-curl.h" />
+		<Unit filename="..\..\uglib\UgPlugin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgPlugin.h" />
+		<Unit filename="..\..\uglib\UgRegistry.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgRegistry.h" />
+		<Unit filename="..\..\uglib\UgRunning.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgRunning.h" />
+		<Unit filename="..\..\uglib\UgStdio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgStdio.h" />
+		<Unit filename="..\..\uglib\UgString.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgString.h" />
+		<Unit filename="..\..\uglib\UgUri.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgUri.h" />
+		<Unit filename="..\..\uglib\UgUtils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgUtils.h" />
+		<Unit filename="..\..\uglib\uglib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\uglib.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

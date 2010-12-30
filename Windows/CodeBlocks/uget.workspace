@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="uget Workspace">
+		<Project filename="uglib.cbp" active="1" />
+		<Project filename="uget-gtk.cbp" />
+		<Project filename="uget-cmd.cbp" />
+		<Project filename="test-conf.cbp" />
+		<Project filename="test-download.cbp" />
+		<Project filename="test-ipc.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>
