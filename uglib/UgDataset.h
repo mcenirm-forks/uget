@@ -39,7 +39,7 @@
 // UgData
 // |
 // `- UgDataset
-
+//
 #ifndef UG_DATASET_H
 #define UG_DATASET_H
 

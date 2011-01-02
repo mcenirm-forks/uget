@@ -54,10 +54,21 @@ extern "C" {
 #define UGET_GTK_NAME					"uGet"
 #define UGET_GTK_VERSION				PACKAGE_VERSION " (developing)"
 // default setting
-#define UGET_GTK_CLIPBOARD_PATTERN		"ZIP|BIN|GZ|Z|TAR|TGZ|BZ2|A[0-9]?|LZH|MP3|RPM|DEB|EXE|RAR|R[0-9][0-9]"
+#define UGET_GTK_CLIPBOARD_PATTERN		"ZIP|BIN|GZ|7Z|Z|TAR|TGZ|BZ2|A[0-9]?|LZH|MP3|RPM|DEB|EXE|RAR|R[0-9][0-9]"
 #define UGET_GTK_LAUNCH_APP_TYPES		"torrent"
 
 typedef struct	UgetGtkSetting_			UgetGtkSetting;
+typedef enum	UgScheduleState_		UgScheduleState;
+
+enum UgScheduleState_
+{
+	UG_SCHEDULE_STATE_OFF,
+	UG_SCHEDULE_STATE_UPLOAD,	// reserve
+	UG_SCHEDULE_STATE_LIMIT,
+	UG_SCHEDULE_STATE_FULL,
+
+	UG_SCHEDULE_N_STATE,
+};
 
 // <UgetGtkSetting>
 struct UgetGtkSetting_
@@ -147,6 +158,16 @@ struct UgetGtkSetting_
 		gint			nth_category;
 	} clipboard;
 
+	// "SchedulerSetting"
+	struct UgSchedulerSetting
+	{
+		UG_DATA_MEMBERS;
+//		UgDataClass*	data_class;		// for UgMarkup parse/write
+
+		gboolean		enable;
+		guint			state[7][24];	// 1 week, 7 days, 24 hours
+	} scheduler;
+
 	gboolean		offline_mode;
 	guint			shutdown;			// shutdown when downloads complete
 
@@ -174,6 +195,7 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting);
 
 gboolean	uget_gtk_setting_save  (UgetGtkSetting* setting, const gchar* file);
 gboolean	uget_gtk_setting_load  (UgetGtkSetting* setting, const gchar* file);
+
 
 #ifdef __cplusplus
 }

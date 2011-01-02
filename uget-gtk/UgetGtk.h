@@ -81,6 +81,7 @@ struct UgetGtk_
 
 	UgetGtkSetting	setting;		// uget-gtk-setting.h
 	gboolean		user_action;	// some job stop by user
+	UgScheduleState	schedule_state;
 
 	// Launch application
 	GRegex*			launch_regex;

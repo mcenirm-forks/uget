@@ -35,11 +35,15 @@
  */
 
 #include <string.h>
+#include <stdlib.h>
+
 #include <UgData-download.h>
 #include <UgetGtk-setting.h>
 
 static void	ug_string_list_in_markup (GList** string_list, GMarkupParseContext* context);
 static void	ug_string_list_to_markup (GList** string_list, UgMarkup* markup);
+static void	ug_schedule_state_in_markup (guint (*state)[7][24], GMarkupParseContext* context);
+static void	ug_schedule_state_to_markup (guint (*state)[7][24], UgMarkup* markup);
 
 
 // ----------------------------------------------------------------------------
@@ -57,6 +61,7 @@ static UgDataEntry	uget_setting_data_entry[] =
 	{"Window",			G_STRUCT_OFFSET (UgetGtkSetting, window),			UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
 	{"UserInterface",	G_STRUCT_OFFSET (UgetGtkSetting, ui),				UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
 	{"Clipboard",		G_STRUCT_OFFSET (UgetGtkSetting, clipboard),		UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
+	{"Scheduler",		G_STRUCT_OFFSET (UgetGtkSetting, scheduler),		UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
 //	{"OfflineMode",		G_STRUCT_OFFSET (UgetGtkSetting, offline_mode),		UG_DATA_TYPE_INT,		NULL,		NULL},
 //	{"Shutdown",		G_STRUCT_OFFSET (UgetGtkSetting, shutdown),			UG_DATA_TYPE_INT,		NULL,		NULL},
 	{"CategoryDefault",	G_STRUCT_OFFSET (UgetGtkSetting, category),			UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
@@ -122,6 +127,13 @@ static UgDataEntry	clipboard_setting_data_entry[] =
 	{"NthCategory",	G_STRUCT_OFFSET (struct UgClipboardSetting, nth_category),	UG_DATA_TYPE_INT,	NULL,	NULL},
 	{NULL},			// null-terminated
 };
+// SchedulerSetting
+static UgDataEntry	scheduler_setting_data_entry[] =
+{
+	{"enable",		G_STRUCT_OFFSET (struct UgSchedulerSetting, enable),	UG_DATA_TYPE_INT,		NULL,	NULL},
+	{"state",		G_STRUCT_OFFSET (struct UgSchedulerSetting, state),		UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_schedule_state_in_markup,	(UgToMarkupFunc) ug_schedule_state_to_markup},
+	{NULL},			// null-terminated
+};
 
 
 // ----------------------------------------------------------------------------
@@ -181,6 +193,15 @@ static UgDataClass	clipboard_setting_data_class =
 	clipboard_setting_data_entry,
 	NULL, NULL, NULL,
 };
+// SchedulerSetting
+static UgDataClass	scheduler_setting_data_class =
+{
+	"SchedulerSetting",
+	NULL,
+	sizeof (struct UgSchedulerSetting),
+	scheduler_setting_data_entry,
+	NULL, NULL, NULL,
+};
 
 
 // ----------------------------------------------------------------------------
@@ -225,6 +246,58 @@ static void	ug_string_list_to_markup (GList** string_list, UgMarkup* markup)
 		ug_markup_write_element_start	(markup, "string value='%s'", link->data);
 		ug_markup_write_element_end	(markup, "string");
 	}
+}
+
+// ----------------------------------------------------------------------------
+// "UgSchedulerSetting" UgMarkup functions
+//
+void ug_schedule_state_text (GMarkupParseContext *context,
+                             const gchar         *text,
+                             gsize                text_len,
+                             guint              (*state)[7][24],
+                             GError             **error)
+{
+	guint		weekdays, dayhours;
+
+	for (weekdays = 0;  weekdays < 7;  weekdays++) {
+		for (dayhours = 0;  dayhours < 24;  dayhours++) {
+			(*state)[weekdays][dayhours] = atoi (text);
+			text = strchr (text, ',');
+			if (text)
+				text++;
+		}
+	}
+}
+
+// guint (*state)[7][24]
+static GMarkupParser	ug_schedule_state_parser =
+{
+	(gpointer) NULL,
+	(gpointer) g_markup_parse_context_pop,
+	(gpointer) ug_schedule_state_text,
+	NULL, NULL
+};
+
+static void	ug_schedule_state_in_markup (guint (*state)[7][24], GMarkupParseContext* context)
+{
+	g_markup_parse_context_push (context, &ug_schedule_state_parser, state);
+}
+
+static void	ug_schedule_state_to_markup (guint (*state)[7][24], UgMarkup* markup)
+{
+	guint		weekdays, dayhours;
+	GString*	gstr;
+
+	gstr = g_string_sized_new (2 * 7 * 24 + 1);
+	for (weekdays = 0;  weekdays < 7;  weekdays++) {
+		for (dayhours = 0;  dayhours < 24;  dayhours++) {
+			g_string_append_printf (gstr, "%u,",
+					(*state)[weekdays][dayhours]);
+		}
+	}
+
+	ug_markup_write_text (markup, gstr->str, gstr->len);
+	g_string_free (gstr, TRUE);
 }
 
 // ----------------------------------------------------------------------------
@@ -285,6 +358,8 @@ void	uget_gtk_setting_init (UgetGtkSetting* setting)
 	setting->ui.data_class = &ui_setting_data_class;
 	// "ClipboardSetting"
 	setting->clipboard.data_class = &clipboard_setting_data_class;
+	// "SchedulerSetting"
+	setting->scheduler.data_class = &scheduler_setting_data_class;
 	// "CategoryDefault"
 	setting->category.data_class = UgCategoryClass;
 	ug_category_init (&setting->category);
@@ -295,6 +370,7 @@ void	uget_gtk_setting_init (UgetGtkSetting* setting)
 void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 {
 	UgDataCommon*	common;
+	guint			weekdays, dayhours;
 
 	// "SummarySetting"
 	setting->summary.name     = TRUE;
@@ -340,6 +416,13 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->clipboard.monitor = TRUE;
 	setting->clipboard.quiet = FALSE;
 	setting->clipboard.nth_category = 0;
+
+	// "SchedulerSetting"
+	setting->scheduler.enable = FALSE;
+	for (weekdays = 0;  weekdays < 7;  weekdays++) {
+		for (dayhours = 0;  dayhours < 24;  dayhours++)
+			setting->scheduler.state[weekdays][dayhours] = UG_SCHEDULE_STATE_FULL;
+	}
 
 	setting->offline_mode = FALSE;
 	setting->shutdown = 0;

@@ -34,54 +34,42 @@
  *
  */
 
-#ifndef UG_SETTING_DIALOG_H
-#define UG_SETTING_DIALOG_H
+#ifndef UG_SCHEDULE_GRID_H
+#define UG_SCHEDULE_GRID_H
 
+#include <UgetGtk-setting.h>
 #include <gtk/gtk.h>
-#include <UgSettingForm.h>
-#include <UgScheduleGrid.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-typedef struct	UgSettingDialog_		UgSettingDialog;
-
-// ----------------------------------------------------------------------------
-// UgSettingDialog
-enum UgSettingDialogPage
+struct UgScheduleGrid
 {
-	UG_SETTING_PAGE_UI,
-	UG_SETTING_PAGE_CLIPBOARD,
-	UG_SETTING_PAGE_OTHERS,
+	GtkWidget*		self;
+
+	GtkWidget*		enable;
+
+	GtkWidget*		grid;
+	guint			grid_offset;
+
+	GtkWidget*		tips_box;
+	GtkWidget*		tips_gap;
+	GtkLabel*		tips;
+
+	guint			state[7][24];	// 1 week, 7 days, 24 hours
+	UgScheduleState	last_state;
 };
 
-struct UgSettingDialog_
-{
-	GtkDialog*		self;
-
-	GtkNotebook*	notebook;
-
-	struct UgClipboardSettingForm	clipboard;
-	struct UgUserInterfaceForm		ui;
-	struct UgLaunchSettingForm		launch;
-	struct UgAutoSaveForm			auto_save;
-	struct UgScheduleGrid			scheduler;
-
-	gpointer		user_data;
-};
-
-UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent);
-void				ug_setting_dialog_free (UgSettingDialog* dialog);
-
-void	ug_setting_dialog_get (UgSettingDialog* dialog, UgetGtkSetting* setting);
-void	ug_setting_dialog_set (UgSettingDialog* dialog, UgetGtkSetting* setting);
+void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid);
+void	ug_schedule_grid_get  (struct UgScheduleGrid* sgrid, UgetGtkSetting* setting);
+void	ug_schedule_grid_set  (struct UgScheduleGrid* sgrid, UgetGtkSetting* setting);
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif  // End of UG_SETTING_DIALOG_H
+#endif  // End of UG_SCHEDULE_GRID_H
 

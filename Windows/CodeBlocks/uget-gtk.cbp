@@ -65,6 +65,7 @@
 			<Add library="gthread-2.0.dll" />
 			<Add library="gdk_pixbuf-2.0.dll" />
 			<Add library="gdk-win32-2.0.dll" />
+			<Add library="cairo" />
 			<Add library="intl.dll" />
 			<Add library="curldll" />
 			<Add library="ws2_32" />
@@ -111,6 +112,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\uget-gtk\UgProxyForm.h" />
+		<Unit filename="..\..\uget-gtk\UgScheduleGrid.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uget-gtk\UgScheduleGrid.h" />
 		<Unit filename="..\..\uget-gtk\UgSelector.c">
 			<Option compilerVar="CC" />
 		</Unit>

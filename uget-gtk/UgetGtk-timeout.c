@@ -369,10 +369,11 @@ static gboolean	uget_gtk_timeout_ipc (UgetGtk* ugtk)
 	return TRUE;
 }
 
+
 // ----------------------------------------------------------------------------
-// category queue
+// queuing
 //
-static void	launch_default_app (UgDataset* dataset, GRegex* regex)
+static void	uget_gtk_launch_default_app (UgDataset* dataset, GRegex* regex)
 {
 	UgDataCommon*	common;
 	const gchar*	file_ext;
@@ -388,6 +389,43 @@ static void	launch_default_app (UgDataset* dataset, GRegex* regex)
 		return;
 	if (g_regex_match (regex, file_ext + 1, 0, NULL))
 		ug_launch_default_app (common->folder, common->file);
+}
+
+// scheduler
+static gboolean	uget_gtk_update_schedule_state (UgetGtk* ugtk)
+{
+	struct tm*	timem;
+	time_t		timet;
+	guint		weekdays, dayhours;
+	gboolean	changed;
+	UgScheduleState	state;
+
+	if (ugtk->setting.scheduler.enable == FALSE) {
+		ugtk->schedule_state = UG_SCHEDULE_STATE_FULL;
+		return FALSE;
+	}
+
+	// get current time
+	timet = time (NULL);
+	timem = localtime (&timet);
+	dayhours = timem->tm_hour;
+	if (timem->tm_wday == 0)
+		weekdays = 6;
+	else
+		weekdays = timem->tm_wday - 1;
+	// get current schedule state
+	state = ugtk->setting.scheduler.state [weekdays][dayhours];
+	if (ugtk->schedule_state != state) {
+		ugtk->schedule_state  = state;
+		changed = TRUE;
+	}
+	else
+		changed = FALSE;
+
+	if (state == UG_SCHEDULE_STATE_OFF)
+		ug_running_clear (ugtk->running);
+
+	return changed;
 }
 
 // start, stop jobs and refresh information.
@@ -406,8 +444,8 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 	} temp;
 
 
-	// If changed is TRUE, all category-related data will refresh.
-	changed = FALSE;
+	// If changed is TRUE, it will refresh all category-related data.
+	changed = uget_gtk_update_schedule_state (ugtk);
 	// do something for inactive jobs
 	jobs = ug_running_get_inactive (ugtk->running);
 	for (link = jobs;  link;  link = link->next) {
@@ -416,8 +454,8 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 		if (temp.relation->hints & UG_HINT_ERROR)
 			ugtk->tray_icon.error_occurred = TRUE;
 		// launch default application
-		if (temp.relation->hints & UG_HINT_COMPLETED)
-			launch_default_app (link->data, ugtk->launch_regex);
+		if ((temp.relation->hints & UG_HINT_COMPLETED) && ugtk->setting.launch.active)
+			uget_gtk_launch_default_app (link->data, ugtk->launch_regex);
 		// remove inactive jobs from group
 		ug_running_remove (ugtk->running, link->data);
 		changed = TRUE;
@@ -427,16 +465,17 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 	// category list
 	list = ug_category_widget_get_list (&ugtk->cwidget);
 	for (link = list;  link;  link = link->next) {
-		// get queuing jobs from categories and activate them
-		if (ugtk->setting.offline_mode == FALSE) {
-			jobs = ug_category_gtk_get_jobs (link->data);
-			if (ug_running_add_jobs (ugtk->running, jobs))
-				changed = TRUE;
-			g_list_free (jobs);
-		}
 		// clear excess downloads
 		if (ug_category_gtk_clear_excess (link->data))
 			changed = TRUE;
+		// Don't activate jobs if offline mode was enabled or schedule turns off jobs.
+		if (ugtk->setting.offline_mode || ugtk->schedule_state == UG_SCHEDULE_STATE_OFF)
+			continue;
+		// get queuing jobs from categories and activate them
+		jobs = ug_category_gtk_get_jobs (link->data);
+		if (ug_running_add_jobs (ugtk->running, jobs))
+			changed = TRUE;
+		g_list_free (jobs);
 	}
 	g_list_free (list);
 

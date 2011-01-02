@@ -54,7 +54,7 @@ UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent)
 	                  NULL);
 	gtk_dialog_set_default_response (dialog->self, GTK_RESPONSE_OK);
 	widget = gtk_notebook_new ();
-	gtk_widget_set_size_request (widget, 365, 300);
+	gtk_widget_set_size_request (widget, 420, 300);
 	vbox = (GtkBox*) gtk_dialog_get_content_area (dialog->self);
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
 	dialog->notebook = (GtkNotebook*) widget;
@@ -74,6 +74,13 @@ UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent)
 	gtk_container_set_border_width (GTK_CONTAINER (dialog->clipboard.self), 2);
 	gtk_notebook_append_page (dialog->notebook, dialog->clipboard.self,
 			gtk_label_new (_("Clipboard")));
+
+	// ------------------------------------------------------------------------
+	// Scheduler settings page
+	ug_schedule_grid_init (&dialog->scheduler);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog->scheduler.self), 2);
+	gtk_notebook_append_page (dialog->notebook, dialog->scheduler.self,
+			gtk_label_new (_("Scheduler")));
 
 	// ------------------------------------------------------------------------
 	// Others settings page
@@ -102,6 +109,7 @@ void	ug_setting_dialog_free (UgSettingDialog* dialog)
 
 void	ug_setting_dialog_set (UgSettingDialog* dialog, UgetGtkSetting* setting)
 {
+	ug_schedule_grid_set (&dialog->scheduler, setting);
 	ug_clipboard_setting_form_set (&dialog->clipboard, setting);
 	ug_user_interface_form_set (&dialog->ui, setting);
 	ug_launch_setting_form_set (&dialog->launch, setting);
@@ -110,6 +118,7 @@ void	ug_setting_dialog_set (UgSettingDialog* dialog, UgetGtkSetting* setting)
 
 void	ug_setting_dialog_get (UgSettingDialog* dialog, UgetGtkSetting* setting)
 {
+	ug_schedule_grid_get (&dialog->scheduler, setting);
 	ug_clipboard_setting_form_get (&dialog->clipboard, setting);
 	ug_user_interface_form_get (&dialog->ui, setting);
 	ug_launch_setting_form_get (&dialog->launch, setting);

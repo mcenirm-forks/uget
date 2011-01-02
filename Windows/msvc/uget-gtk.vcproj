@@ -217,6 +217,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\uget-gtk\UgScheduleGrid.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\uget-gtk\UgSelector.c"
 				>
 			</File>
@@ -292,6 +296,10 @@
 			</File>
 			<File
 				RelativePath="..\..\uget-gtk\UgProxyForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgScheduleGrid.h"
 				>
 			</File>
 			<File

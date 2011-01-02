@@ -1,3 +1,18 @@
+2011-01-02  Raymond Huang
+
+	* UgetGtk-timeout.c
+	(uget_gtk_timeout_queuing): Don't launch default app if setting is disabled.
+	(uget_gtk_update_schedule_state): used to check and update schedule state.
+	(uget_gtk_launch_default_app): rename from launch_default_app.
+
+	* UgScheduleGrid.h, UgScheduleGrid.c: scheduler setup widget.
+
+	* UgSettingDialog.h, UgSettingDialog.c: add Scheduler settings page.
+
+	* UgetGtk-setting.h, UgetGtk-setting.c: add Scheduler settings.
+
+	* UgetGtk-timeout.h: add 7Z to UGET_GTK_CLIPBOARD_PATTERN and add UgScheduleState for scheduler.
+
 2010-12-30  Raymond Huang
 
 	* UgPlugin.c
