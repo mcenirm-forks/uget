@@ -54,9 +54,9 @@ struct UgScheduleGrid
 	GtkWidget*		grid;
 	guint			grid_offset;
 
-	GtkWidget*		tips_box;
-	GtkWidget*		tips_gap;
-	GtkLabel*		tips;
+	GtkWidget*		table;
+	GtkLabel*		time_tips;
+	GtkSpinButton*	spin_speed;
 
 	guint			state[7][24];	// 1 week, 7 days, 24 hours
 	UgScheduleState	last_state;

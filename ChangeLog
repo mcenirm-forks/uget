@@ -1,3 +1,23 @@
+2011-01-03  Raymond Huang
+
+	* UgetGtk.h, UgetGtk.c: add two columns - "Added On" and "Completed On"
+	* UgetGtk-callback.c: add two columns - "Added On" and "Completed On"
+	* UgetGtk-gui.c: add two columns - "Added On" and "Completed On"
+	* UgDownloadWidget.h, UgDownloadWidget.c: add two columns - "Added On" and "Completed On"
+	* UgetGtk-setting.h, UgetGtk-setting.c: add two columns - "Added On" and "Completed On".
+
+	* UgCategory-gtk.c
+	(ug_category_gtk_add): set "Added On" to dataset.
+
+	* UgScheduleGrid.h, UgScheduleGrid.c: adjust widget layout.
+	* UgetGtk-timeout.c: adjust schedule state.
+
+	* UgRunning.c
+	(ug_running_do_speed_limit): Don't control speed if no jobs in group.
+
+	* UgString.h, UgString.c
+	(ug_str_from_time): This new function used to convert time to string.
+
 2011-01-02  Raymond Huang
 
 	* UgetGtk-timeout.c

@@ -212,7 +212,7 @@ gboolean	ug_running_do_speed_limit (UgRunning* running)
 	gint64		average;
 	GList*		link;
 
-	if (running->speed_limit == 0)
+	if (running->speed_limit == 0 || running->group.length == 0)
 		return TRUE;
 
 	average = running->speed_limit / running->group.length;

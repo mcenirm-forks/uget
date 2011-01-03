@@ -80,6 +80,8 @@ static UgDataEntry	download_column_data_entry[] =
 	{"retry",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, retry),		UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"category",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, category),		UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"URL",			G_STRUCT_OFFSET (struct UgDownloadColumnSetting, url),			UG_DATA_TYPE_INT,	NULL,	NULL},
+	{"AddedOn",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, added_on),		UG_DATA_TYPE_INT,	NULL,	NULL},
+	{"CompletedOn",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, completed_on),	UG_DATA_TYPE_INT,	NULL,	NULL},
 	{NULL}			// null-terminated
 };
 // UgSummarySetting
@@ -132,6 +134,7 @@ static UgDataEntry	scheduler_setting_data_entry[] =
 {
 	{"enable",		G_STRUCT_OFFSET (struct UgSchedulerSetting, enable),	UG_DATA_TYPE_INT,		NULL,	NULL},
 	{"state",		G_STRUCT_OFFSET (struct UgSchedulerSetting, state),		UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_schedule_state_in_markup,	(UgToMarkupFunc) ug_schedule_state_to_markup},
+//	{"SpeedLimit",	G_STRUCT_OFFSET (struct UgSchedulerSetting, speed_limit),	UG_DATA_TYPE_INT64,	NULL,	NULL},
 	{NULL},			// null-terminated
 };
 
@@ -380,15 +383,17 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->summary.message  = TRUE;
 
 	// "DownloadColumnSetting"
-	setting->download_column.completed = TRUE;
-	setting->download_column.total     = TRUE;
-	setting->download_column.percent   = TRUE;
-	setting->download_column.elapsed   = TRUE;
-	setting->download_column.left      = TRUE;
-	setting->download_column.speed     = TRUE;
-	setting->download_column.retry     = TRUE;
-	setting->download_column.category  = TRUE;
-	setting->download_column.url       = TRUE;
+	setting->download_column.completed    = TRUE;
+	setting->download_column.total        = TRUE;
+	setting->download_column.percent      = TRUE;
+	setting->download_column.elapsed      = TRUE;
+	setting->download_column.left         = TRUE;
+	setting->download_column.speed        = TRUE;
+	setting->download_column.retry        = TRUE;
+	setting->download_column.category     = TRUE;
+	setting->download_column.url          = FALSE;
+	setting->download_column.added_on     = TRUE;
+	setting->download_column.completed_on = FALSE;
 
 	// "WindowSetting"
 	setting->window.toolbar   = TRUE;
@@ -421,8 +426,9 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->scheduler.enable = FALSE;
 	for (weekdays = 0;  weekdays < 7;  weekdays++) {
 		for (dayhours = 0;  dayhours < 24;  dayhours++)
-			setting->scheduler.state[weekdays][dayhours] = UG_SCHEDULE_STATE_FULL;
+			setting->scheduler.state[weekdays][dayhours] = UG_SCHEDULE_MAX_SPEED;
 	}
+	setting->scheduler.speed_limit = 5;
 
 	setting->offline_mode = FALSE;
 	setting->shutdown = 0;

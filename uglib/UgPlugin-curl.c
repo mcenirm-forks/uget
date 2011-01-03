@@ -224,6 +224,7 @@ UgResult	ug_plugin_curl_set (UgPluginCurl* plugin, guint parameter, gpointer dat
 
 	speed_limit = *(gint64*)data;
 	curl_easy_setopt (plugin->curl, CURLOPT_MAX_RECV_SPEED_LARGE, (curl_off_t) speed_limit);
+	curl_easy_setopt (plugin->curl, CURLOPT_MAX_SEND_SPEED_LARGE, (curl_off_t) speed_limit);
 
 	return UG_RESULT_OK;
 }

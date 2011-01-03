@@ -57,7 +57,8 @@ static const gdouble	colors[UG_SCHEDULE_N_STATE][3] =
 	{1.0,   1.0,   1.0},		// turn off
 	{1.0,   0.752, 0.752},		// reserve - upload only
 	{0.552, 0.807, 0.552},		// limited speed
-	{0.0,   0.658, 0.0},		// full speed
+//	{0.0,   0.658, 0.0},		// max speed
+	{0.0,   0.758, 0.0},		// max speed
 };
 
 static const gchar*	week_days[7] =
@@ -79,11 +80,13 @@ static void		on_enable_toggled (GtkToggleButton* togglebutton, struct UgSchedule
 static gboolean	on_expose_event (GtkWidget* widget, GdkEventExpose* event, struct UgScheduleGrid* sgrid);
 static gboolean on_button_press_event (GtkWidget* widget, GdkEventMotion* event, struct UgScheduleGrid* sgrid);
 static gboolean on_motion_notify_event (GtkWidget* widget, GdkEventMotion* event, struct UgScheduleGrid* sgrid);
+static gboolean	on_leave_notify_event (GtkWidget* menu, GdkEventCrossing* event, struct UgScheduleGrid* sgrid);
 
 
 void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 {
 	GtkWidget*	widget;
+	GtkTable*	table;
 	GtkBox*		hbox;
 	GtkBox*		vbox;
 
@@ -106,46 +109,80 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 //	gtk_widget_set_has_window (widget, FALSE);
 	gtk_widget_set_size_request (widget,
 			GRID_WIDTH_ALL + 32, GRID_HEIGHT_ALL);
-	gtk_widget_add_events (widget, GDK_BUTTON_PRESS_MASK | GDK_POINTER_MOTION_MASK);
+	gtk_widget_add_events (widget,
+			GDK_BUTTON_PRESS_MASK | GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK);
 	g_signal_connect (widget, "expose-event",
 			G_CALLBACK (on_expose_event), sgrid);
 	g_signal_connect (widget, "button-press-event",
 			G_CALLBACK (on_button_press_event), sgrid);
 	g_signal_connect (widget, "motion-notify-event",
 			G_CALLBACK (on_motion_notify_event), sgrid);
+	g_signal_connect (widget, "leave-notify-event",
+			G_CALLBACK (on_leave_notify_event), sgrid);
 	sgrid->grid = widget;
 
-	// ----------------------------------------------------
-	// tips
-	sgrid->tips_box = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start (vbox, (GtkWidget*)sgrid->tips_box, FALSE, FALSE, 2);
-	vbox = (GtkBox*) sgrid->tips_box;
-	// tips gap
-	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
-	gtk_box_pack_start (vbox, (GtkWidget*)hbox, FALSE, FALSE, 2);
+	// table for tips, SpinButton
+	sgrid->table = gtk_table_new (5, 5, FALSE);
+	gtk_box_pack_start (vbox, sgrid->table, FALSE, FALSE, 2);
+//	gtk_container_set_border_width (GTK_CONTAINER (sgrid->table), 10);
+	table = (GtkTable*) sgrid->table;
+	// time tips
 	widget = gtk_label_new ("");
-	gtk_widget_set_size_request (widget, 24, 0);
-	gtk_box_pack_start (hbox, widget , FALSE, TRUE, 0);
-	sgrid->tips_gap = widget;
-	// tips
-	widget = gtk_label_new ("");
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_widget_set_size_request (widget, 10, 16);
-	gtk_box_pack_start (hbox, widget, TRUE, TRUE, 2);
-	sgrid->tips = GTK_LABEL (widget);
-	// Full speed
-	widget = ug_grid_one_new (colors[UG_SCHEDULE_STATE_FULL]);
-	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
-	widget = gtk_label_new (_("Full speed"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
-	// Trun off
-	widget = ug_grid_one_new (colors[UG_SCHEDULE_STATE_OFF]);
-	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.4, 0.5);	// left, center
+	gtk_table_attach (table, widget, 0, 5, 0, 1,
+			GTK_FILL, GTK_FILL, 5, 5);
+	sgrid->time_tips = GTK_LABEL (widget);
+	// grid - Trun off
+	widget = ug_grid_one_new (colors[UG_SCHEDULE_TURN_OFF]);
+	gtk_table_attach (table, widget, 0, 1, 1, 2,
+			GTK_SHRINK, GTK_SHRINK, 3, 3);
+	// label - Trun off
 	widget = gtk_label_new (_("Trun off"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	gtk_table_attach (table, widget, 1, 2, 1, 2,
+			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+	// label - Help for Trun off
+	widget = gtk_label_new (_("- stop all task"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
+	gtk_table_attach (table, widget, 2, 4, 1, 2,
+			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+	// grid - Max speed
+	widget = ug_grid_one_new (colors[UG_SCHEDULE_MAX_SPEED]);
+	gtk_table_attach (table, widget, 0, 1, 2, 3,
+			GTK_SHRINK, GTK_SHRINK, 3, 3);
+	// label - Max speed
+	widget = gtk_label_new (_("Max speed"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
+	gtk_table_attach (table, widget, 1, 2, 2, 3,
+			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+	// label - Help for Max speed
+	widget = gtk_label_new (_("- run task normally"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
+	gtk_table_attach (table, widget, 2, 4, 2, 3,
+			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+/*
+	// grid - Speed limit
+	widget = ug_grid_one_new (colors[UG_SCHEDULE_LIMITED_SPEED]);
+	gtk_table_attach (table, widget, 0, 1, 3, 4,
+			GTK_SHRINK, GTK_SHRINK, 3, 3);
+	// label - Speed limit
+	widget = gtk_label_new (_("Limited speed"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
+	gtk_table_attach (table, widget, 1, 2, 3, 4,
+			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+	// SpinButton - Speed limit
+	widget = gtk_spin_button_new_with_range (5, 99999999, 1);
+	gtk_table_attach (table, widget, 2, 3, 3, 4,
+			GTK_SHRINK, GTK_SHRINK, 2, 2);
+	sgrid->spin_speed = (GtkSpinButton*) widget;
+	// label - KiB/s
+	widget = gtk_label_new ("KiB/s");
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
+	gtk_table_attach (table, widget, 3, 4, 3, 4,
+			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+ */
 
+	// change sensitive state
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sgrid->enable), FALSE);
 	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (sgrid->enable));
 	gtk_widget_show_all (sgrid->self);
@@ -153,15 +190,25 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 
 void	ug_schedule_grid_get (struct UgScheduleGrid* sgrid, UgetGtkSetting* setting)
 {
+//	gint	value;
+
 	memcpy (setting->scheduler.state, sgrid->state, sizeof (setting->scheduler.state));
 	setting->scheduler.enable = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (sgrid->enable));
+
+//	value = gtk_spin_button_get_value_as_int (sgrid->spin_speed);
+//	setting->scheduler.speed_limit = value * 1024;
 }
 
 void	ug_schedule_grid_set (struct UgScheduleGrid* sgrid, UgetGtkSetting* setting)
 {
+//	gint	value;
+
 	memcpy (sgrid->state, setting->scheduler.state, sizeof (sgrid->state));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sgrid->enable), setting->scheduler.enable);
 	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (sgrid->enable));
+
+//	value = setting->scheduler.speed_limit / 1024;
+//	gtk_spin_button_set_value (sgrid->spin_speed, value);
 }
 
 
@@ -174,7 +221,7 @@ static void	on_enable_toggled (GtkToggleButton* togglebutton, struct UgScheduleG
 
 	active = gtk_toggle_button_get_active (togglebutton);
 	gtk_widget_set_sensitive (sgrid->grid, active);
-	gtk_widget_set_sensitive (sgrid->tips_box, active);
+	gtk_widget_set_sensitive (sgrid->table, active);
 }
 
 static gboolean	on_expose_event (GtkWidget* widget, GdkEventExpose* event, struct UgScheduleGrid* sgrid)
@@ -193,7 +240,7 @@ static gboolean	on_expose_event (GtkWidget* widget, GdkEventExpose* event, struc
 	// week days
 	ox = 0.0;		// x offset
 	cairo_set_font_size (cr, GRID_FONT_SIZE);
-	for (cy = 1.5, y = 0;  y < 7;  y++, cy+=GRID_HEIGHT_LINE) {
+	for (cy = 2.5, y = 0;  y < 7;  y++, cy+=GRID_HEIGHT_LINE) {
 		string = gettext (week_days[y]);
 		cairo_text_extents (cr, string, &extents);
 		cairo_move_to (cr, 1 + 0.5, cy + extents.height);
@@ -201,10 +248,8 @@ static gboolean	on_expose_event (GtkWidget* widget, GdkEventExpose* event, struc
 		if (extents.width + 4 > ox)
 			ox = extents.width + 4;
 	}
-	if (sgrid->grid_offset == 0) {
+	if (sgrid->grid_offset == 0)
 		sgrid->grid_offset = ox;
-		gtk_widget_set_size_request (sgrid->tips_gap, ox, 0);
-	}
 	// draw grid columns
 	for (cx = 0.5;  cx <= GRID_WIDTH_ALL;  cx += GRID_WIDTH_LINE) {
 		cairo_move_to (cr, ox + cx, 0 + 0.5);
@@ -256,10 +301,12 @@ static gboolean on_button_press_event (GtkWidget *widget, GdkEventMotion *event,
 	if (x < 0 || y < 0 || x >= 24 || y >= 7)
 		return FALSE;
 
-	state = (sgrid->state[y][x]) ? UG_SCHEDULE_STATE_OFF : UG_SCHEDULE_STATE_FULL;
+	state = (sgrid->state[y][x] == UG_SCHEDULE_TURN_OFF) ? UG_SCHEDULE_MAX_SPEED : UG_SCHEDULE_TURN_OFF;
 //	state = sgrid->state[y][x] + 1;
-//	if (state > UG_SCHEDULE_STATE_FULL)
-//		state = UG_SCHEDULE_STATE_OFF;
+//	if (state == UG_SCHEDULE_UPLOAD_ONLY)
+//		state++;
+//	if (state  > UG_SCHEDULE_MAX_SPEED)
+//		state  = UG_SCHEDULE_TURN_OFF;
 	sgrid->state[y][x] = state;
 	sgrid->last_state = state;
 	// cairo
@@ -294,14 +341,14 @@ static gboolean on_motion_notify_event (GtkWidget *widget, GdkEventMotion *event
 	x /= GRID_WIDTH_LINE;
 	y /= GRID_HEIGHT_LINE;
 	if (x < 0 || y < 0 || x >= 24 || y >= 7) {
-		// clear tips
-		gtk_label_set_text (sgrid->tips, "");
+		// clear time_tips
+		gtk_label_set_text (sgrid->time_tips, "");
 		return FALSE;
 	}
-	// update tips
+	// update time_tips
 	string = g_strdup_printf ("%s, %.2d:00 - %.2d:59",
 			gettext (week_days[y]), x, x);
-	gtk_label_set_text (sgrid->tips, string);
+	gtk_label_set_text (sgrid->time_tips, string);
 	g_free (string);
 	// if no button press
 	if ((mod & GDK_BUTTON1_MASK) == 0)
@@ -327,6 +374,12 @@ static gboolean on_motion_notify_event (GtkWidget *widget, GdkEventMotion *event
 	cairo_fill (cr);
 	cairo_destroy (cr);
 
+	return TRUE;
+}
+
+static gboolean	on_leave_notify_event (GtkWidget* menu, GdkEventCrossing* event, struct UgScheduleGrid* sgrid)
+{
+	gtk_label_set_text (sgrid->time_tips, "");
 	return TRUE;
 }
 

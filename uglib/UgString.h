@@ -100,6 +100,11 @@ gchar*	ug_str_dtoa_unit (gdouble value, gint precision, const gchar* tail);
  */
 gchar*	ug_str_from_seconds (guint seconds, gboolean limit_99_99_99);
 
+/*
+ * convert time_t to string
+ */
+gchar*	ug_str_from_time (time_t ptt, gboolean date_only);
+
 
 #ifdef __cplusplus
 }

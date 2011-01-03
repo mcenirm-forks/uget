@@ -449,6 +449,40 @@ static void col_set_url (GtkTreeViewColumn *tree_column,
 	g_object_set (cell, "text", UG_DATASET_COMMON (dataset)->url, NULL);
 }
 
+static void col_set_added_on (GtkTreeViewColumn *tree_column,
+                              GtkCellRenderer   *cell,
+                              GtkTreeModel      *model,
+                              GtkTreeIter       *iter,
+                              gpointer           data)
+{
+	UgDataset*	dataset;
+	UgDataLog*	datalog;
+	gchar*		string;
+
+	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	datalog = ug_dataset_get (dataset, UgDataLogClass, 0);
+	string = (datalog) ? datalog->added_on : NULL;
+
+	g_object_set (cell, "text", string, NULL);
+}
+
+static void col_set_completed_on (GtkTreeViewColumn *tree_column,
+                                  GtkCellRenderer   *cell,
+                                  GtkTreeModel      *model,
+                                  GtkTreeIter       *iter,
+                                  gpointer           data)
+{
+	UgDataset*	dataset;
+	UgDataLog*	datalog;
+	gchar*		string;
+
+	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	datalog = ug_dataset_get (dataset, UgDataLogClass, 0);
+	string = (datalog) ? datalog->completed_on : NULL;
+
+	g_object_set (cell, "text", string, NULL);
+}
+
 GtkTreeView*	ug_download_view_new (void)
 {
 	GtkTreeView*       tview;
@@ -610,6 +644,34 @@ GtkTreeView*	ug_download_view_new (void)
 	                                         NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_column_set_min_width (column, 300);
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_append_column (tview, column);
+
+	// column addon_on
+//	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_title (column, _("Added On"));
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_column_set_cell_data_func (column,
+	                                         renderer,
+	                                         col_set_added_on,
+	                                         NULL, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
+	gtk_tree_view_column_set_min_width (column, 110);
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_append_column (tview, column);
+
+	// column completed_on
+//	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_title (column, _("Completed On"));
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_column_set_cell_data_func (column,
+	                                         renderer,
+	                                         col_set_completed_on,
+	                                         NULL, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
+	gtk_tree_view_column_set_min_width (column, 110);
 	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_append_column (tview, column);
 

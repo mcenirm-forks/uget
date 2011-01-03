@@ -288,6 +288,12 @@ void	uget_gtk_set_setting (UgetGtk* ugtk, UgetGtkSetting* setting)
 	gtk_check_menu_item_set_active (
 			(GtkCheckMenuItem*) ugtk->menubar.view.columns.url,
 			setting->download_column.url);
+	gtk_check_menu_item_set_active (
+			(GtkCheckMenuItem*) ugtk->menubar.view.columns.added_on,
+			setting->download_column.added_on);
+	gtk_check_menu_item_set_active (
+			(GtkCheckMenuItem*) ugtk->menubar.view.columns.completed_on,
+			setting->download_column.completed_on);
 }
 
 void	uget_gtk_get_setting (UgetGtk* ugtk, UgetGtkSetting* setting)
@@ -827,6 +833,10 @@ void	uget_gtk_refresh_download_column (UgetGtk* ugtk)
 		gtk_tree_view_column_set_visible (column, setting->category);
 		column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_URL);
 		gtk_tree_view_column_set_visible (column, setting->url);
+		column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_ADDED_ON);
+		gtk_tree_view_column_set_visible (column, setting->added_on);
+		column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_COMPLETED_ON);
+		gtk_tree_view_column_set_visible (column, setting->completed_on);
 	}
 }
 

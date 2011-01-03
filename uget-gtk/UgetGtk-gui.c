@@ -546,6 +546,16 @@ static void uget_gtk_menubar_init (struct UgetGtkMenubar* menubar, GtkAccelGroup
 	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.url = menu_item;
+	// Download Columns - Added On
+	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Added On"));
+	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
+	menubar->view.columns.added_on = menu_item;
+	// Download Columns - Completed On
+	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Completed On"));
+	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
+	menubar->view.columns.completed_on = menu_item;
 	// Download Columns --- end ---
 
 	// ----------------------------------------------------

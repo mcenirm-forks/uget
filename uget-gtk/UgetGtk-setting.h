@@ -62,10 +62,10 @@ typedef enum	UgScheduleState_		UgScheduleState;
 
 enum UgScheduleState_
 {
-	UG_SCHEDULE_STATE_OFF,
-	UG_SCHEDULE_STATE_UPLOAD,	// reserve
-	UG_SCHEDULE_STATE_LIMIT,
-	UG_SCHEDULE_STATE_FULL,
+	UG_SCHEDULE_TURN_OFF,
+	UG_SCHEDULE_UPLOAD_ONLY,	// reserve
+	UG_SCHEDULE_LIMITED_SPEED,
+	UG_SCHEDULE_MAX_SPEED,
 
 	UG_SCHEDULE_N_STATE,
 };
@@ -93,6 +93,8 @@ struct UgetGtkSetting_
 		gboolean	retry;
 		gboolean	category;
 		gboolean	url;
+		gboolean	added_on;
+		gboolean	completed_on;
 	} download_column;
 
 	// "SummarySetting"
@@ -166,6 +168,7 @@ struct UgetGtkSetting_
 
 		gboolean		enable;
 		guint			state[7][24];	// 1 week, 7 days, 24 hours
+		gint64			speed_limit;
 	} scheduler;
 
 	gboolean		offline_mode;

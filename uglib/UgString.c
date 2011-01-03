@@ -228,3 +228,30 @@ gchar*	ug_str_from_seconds (guint seconds, gboolean limit_99_99_99)
 	}
 }
 
+/*
+ * convert time_t to string
+ */
+gchar*	ug_str_from_time (time_t ptt, gboolean date_only)
+{
+	GString*	gstr;
+	struct tm*	timem;
+
+	timem = localtime (&ptt);
+	if (date_only)
+		gstr = g_string_sized_new (11);
+	else
+		gstr = g_string_sized_new (11 + 9);
+	g_string_append_printf (gstr, "%.4d-%.2d-%.2d",
+			timem->tm_year + 1900,
+			timem->tm_mon  + 1,
+			timem->tm_mday);
+	if (date_only == FALSE) {
+		g_string_append_printf (gstr, " %.2d:%.2d:%.2d",
+				timem->tm_hour,
+				timem->tm_min,
+				timem->tm_sec);
+	}
+
+	return g_string_free (gstr, FALSE);
+}
+

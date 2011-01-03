@@ -1108,6 +1108,14 @@ void	on_change_visible_column (GtkWidget* widget, UgetGtk* ugtk)
 		column_index = UG_DOWNLOAD_COLUMN_URL;
 		setting->url = visible;
 	}
+	else if (widget == ugtk->menubar.view.columns.added_on) {
+		column_index = UG_DOWNLOAD_COLUMN_ADDED_ON;
+		setting->added_on = visible;
+	}
+	else if (widget == ugtk->menubar.view.columns.completed_on) {
+		column_index = UG_DOWNLOAD_COLUMN_COMPLETED_ON;
+		setting->completed_on = visible;
+	}
 	else
 		return;
 
@@ -1610,6 +1618,10 @@ static void uget_gtk_menubar_init_callback (struct UgetGtkMenubar* menubar, Uget
 	g_signal_connect (menubar->view.columns.category, "toggled",
 			G_CALLBACK (on_change_visible_column), ugtk);
 	g_signal_connect (menubar->view.columns.url, "toggled",
+			G_CALLBACK (on_change_visible_column), ugtk);
+	g_signal_connect (menubar->view.columns.added_on, "toggled",
+			G_CALLBACK (on_change_visible_column), ugtk);
+	g_signal_connect (menubar->view.columns.completed_on, "toggled",
 			G_CALLBACK (on_change_visible_column), ugtk);
 
 	// ----------------------------------------------------

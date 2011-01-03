@@ -242,6 +242,8 @@ struct UgetGtk_
 				GtkWidget*	retry;
 				GtkWidget*	category;
 				GtkWidget*	url;
+				GtkWidget*	added_on;
+				GtkWidget*	completed_on;
 			} columns;					// download columns
 		} view;
 

@@ -57,6 +57,7 @@
 
 #include <UgUri.h>
 #include <UgUtils.h>
+#include <UgString.h>
 #include <UgData-download.h>
 #include <UgetGtk.h>
 #include <UgDownloadDialog.h>
@@ -68,6 +69,7 @@ static void	uget_gtk_notify_starting (UgetGtk* ugtk);
 static void	uget_gtk_notify_completed (UgetGtk* ugtk);
 // GSourceFunc
 static gboolean	uget_gtk_timeout_ipc (UgetGtk* ugtk);
+static gboolean	uget_gtk_timeout_running (UgetGtk* ugtk);
 static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk);
 static gboolean	uget_gtk_timeout_clipboard (UgetGtk* ugtk);
 static gboolean	uget_gtk_timeout_autosave (UgetGtk* ugtk);
@@ -79,10 +81,7 @@ void	uget_gtk_init_timeout (UgetGtk* ugtk)
 			(GSourceFunc) uget_gtk_timeout_ipc, ugtk, NULL);
 	// 0.5 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500,
-			(GSourceFunc) ug_running_dispatch, ugtk->running, NULL);
-	// 0.5 seconds
-	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500,
-			(GSourceFunc) ug_running_do_speed_limit, ugtk->running, NULL);
+			(GSourceFunc) uget_gtk_timeout_running, ugtk, NULL);
 	// 1 seconds
 	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT_IDLE, 1,
 			(GSourceFunc) uget_gtk_timeout_queuing, ugtk, NULL);
@@ -371,6 +370,18 @@ static gboolean	uget_gtk_timeout_ipc (UgetGtk* ugtk)
 
 
 // ----------------------------------------------------------------------------
+// running
+//
+static gboolean	uget_gtk_timeout_running (UgetGtk* ugtk)
+{
+	ug_running_dispatch (ugtk->running);
+	ug_running_do_speed_limit (ugtk->running);
+
+	// return FALSE if the source should be removed.
+	return TRUE;
+}
+
+// ----------------------------------------------------------------------------
 // queuing
 //
 static void	uget_gtk_launch_default_app (UgDataset* dataset, GRegex* regex)
@@ -401,7 +412,7 @@ static gboolean	uget_gtk_update_schedule_state (UgetGtk* ugtk)
 	UgScheduleState	state;
 
 	if (ugtk->setting.scheduler.enable == FALSE) {
-		ugtk->schedule_state = UG_SCHEDULE_STATE_FULL;
+		ugtk->schedule_state = UG_SCHEDULE_MAX_SPEED;
 		return FALSE;
 	}
 
@@ -415,17 +426,40 @@ static gboolean	uget_gtk_update_schedule_state (UgetGtk* ugtk)
 		weekdays = timem->tm_wday - 1;
 	// get current schedule state
 	state = ugtk->setting.scheduler.state [weekdays][dayhours];
-	if (ugtk->schedule_state != state) {
+	if (ugtk->schedule_state == state)
+		changed = FALSE;
+	else {
 		ugtk->schedule_state  = state;
 		changed = TRUE;
-	}
-	else
-		changed = FALSE;
+		// switch mode
+		switch (state)
+		{
+		case UG_SCHEDULE_TURN_OFF:
+			ug_running_clear (ugtk->running);
+			break;
 
-	if (state == UG_SCHEDULE_STATE_OFF)
-		ug_running_clear (ugtk->running);
+		case UG_SCHEDULE_LIMITED_SPEED:
+			ug_running_set_speed (ugtk->running,
+					ugtk->setting.scheduler.speed_limit);
+			break;
+
+		default:
+			// no speed limit
+			ug_running_set_speed (ugtk->running, 0);
+			break;
+		}
+	}
 
 	return changed;
+}
+
+static void uget_gtk_set_completed_on (UgDataset* dataset)
+{
+	UgDataLog* log;
+
+	log = ug_dataset_realloc (dataset, UgDataLogClass, 0);
+	g_free (log->completed_on);
+	log->completed_on = ug_str_from_time (time (NULL), FALSE);
 }
 
 // start, stop jobs and refresh information.
@@ -454,8 +488,10 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 		if (temp.relation->hints & UG_HINT_ERROR)
 			ugtk->tray_icon.error_occurred = TRUE;
 		// launch default application
-		if ((temp.relation->hints & UG_HINT_COMPLETED) && ugtk->setting.launch.active)
+		if ((temp.relation->hints & UG_HINT_COMPLETED) && ugtk->setting.launch.active) {
+			uget_gtk_set_completed_on ((UgDataset*) link->data);
 			uget_gtk_launch_default_app (link->data, ugtk->launch_regex);
+		}
 		// remove inactive jobs from group
 		ug_running_remove (ugtk->running, link->data);
 		changed = TRUE;
@@ -469,7 +505,7 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 		if (ug_category_gtk_clear_excess (link->data))
 			changed = TRUE;
 		// Don't activate jobs if offline mode was enabled or schedule turns off jobs.
-		if (ugtk->setting.offline_mode || ugtk->schedule_state == UG_SCHEDULE_STATE_OFF)
+		if (ugtk->setting.offline_mode || ugtk->schedule_state == UG_SCHEDULE_TURN_OFF)
 			continue;
 		// get queuing jobs from categories and activate them
 		jobs = ug_category_gtk_get_jobs (link->data);
