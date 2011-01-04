@@ -657,7 +657,7 @@ GtkTreeView*	ug_download_view_new (void)
 	                                         col_set_added_on,
 	                                         NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
-	gtk_tree_view_column_set_min_width (column, 110);
+	gtk_tree_view_column_set_min_width (column, 130);
 	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_append_column (tview, column);
 
@@ -671,7 +671,7 @@ GtkTreeView*	ug_download_view_new (void)
 	                                         col_set_completed_on,
 	                                         NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
-	gtk_tree_view_column_set_min_width (column, 110);
+	gtk_tree_view_column_set_min_width (column, 130);
 	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_append_column (tview, column);
 
