@@ -132,16 +132,16 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 	gtk_table_attach (table, widget, 0, 5, 0, 1,
 			GTK_FILL, GTK_FILL, 5, 5);
 	sgrid->time_tips = GTK_LABEL (widget);
-	// grid - Trun off
+	// grid - Turn off
 	widget = ug_grid_one_new (colors[UG_SCHEDULE_TURN_OFF]);
 	gtk_table_attach (table, widget, 0, 1, 1, 2,
 			GTK_SHRINK, GTK_SHRINK, 3, 3);
-	// label - Trun off
-	widget = gtk_label_new (_("Trun off"));
+	// label - Turn off
+	widget = gtk_label_new (_("Turn off"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 1, 2, 1, 2,
 			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
-	// label - Help for Trun off
+	// label - Help for Turn off
 	widget = gtk_label_new (_("- stop all task"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 2, 4, 1, 2,
