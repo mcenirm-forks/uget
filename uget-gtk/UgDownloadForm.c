@@ -493,9 +493,10 @@ void	ug_download_form_set_folder_list (UgDownloadForm* dform, GList* folder_list
 {
 	GtkComboBox*	combo;
 
-	combo = (GtkComboBox*) dform->folder_combo;
+	combo = GTK_COMBO_BOX (dform->folder_combo);
 	for (;  folder_list;  folder_list = folder_list->next)
 		gtk_combo_box_append_text (combo, folder_list->data);
+	gtk_combo_box_set_active (combo, 0);
 }
 
 void	ug_download_form_get_folder_list (UgDownloadForm* dform, GList** folder_list)
@@ -505,7 +506,7 @@ void	ug_download_form_get_folder_list (UgDownloadForm* dform, GList** folder_lis
 	GList*			link;
 	guint			length;
 
-	combo   = (GtkComboBox*) dform->folder_combo;
+	combo   = GTK_COMBO_BOX (dform->folder_combo);
 	current = gtk_entry_get_text ((GtkEntry*) dform->folder_entry);
 	if (*current == 0)
 		return;
