@@ -1,3 +1,8 @@
+2011-01-04  Raymond Huang
+
+	* UgetGtk-gui.c
+	(uget_gtk_window_init): change layout of main window.
+
 2011-01-03  Raymond Huang
 
 	* UgetGtk.h, UgetGtk.c: add two columns - "Added On" and "Completed On"

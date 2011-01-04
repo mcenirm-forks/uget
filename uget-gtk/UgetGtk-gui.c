@@ -151,6 +151,7 @@ static void uget_gtk_tray_icon_init (struct UgetGtkTrayIcon* icon)
 static void uget_gtk_window_init  (struct UgetGtkWindow* window, UgetGtk* ugtk)
 {
 	GtkBox*			vbox;
+	GtkBox*			rbox;
 
 	window->self = (GtkWindow*) gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (window->self, UGET_GTK_NAME);
@@ -161,16 +162,18 @@ static void uget_gtk_window_init  (struct UgetGtkWindow* window, UgetGtk* ugtk)
 	// top container for Main Window
 	vbox = (GtkBox*) gtk_vbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (window->self), GTK_WIDGET (vbox));
-
 	gtk_box_pack_start (vbox, ugtk->menubar.self, FALSE, FALSE, 0);
-	gtk_box_pack_start (vbox, ugtk->toolbar.self, FALSE, FALSE, 0);
-	// hpaned & vpaned
+	// right side vbox
+	rbox = (GtkBox*) gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_start (rbox, ugtk->toolbar.self, FALSE, FALSE, 0);
+	// hpaned
 	window->hpaned = (GtkPaned*) gtk_hpaned_new ();
-	window->vpaned = (GtkPaned*) gtk_vpaned_new ();
 	gtk_box_pack_start (vbox, GTK_WIDGET (window->hpaned), TRUE, TRUE, 0);
 	gtk_paned_pack1 (window->hpaned, ugtk->cwidget.self, FALSE, TRUE);
-	gtk_paned_pack2 (window->hpaned, GTK_WIDGET (window->vpaned), TRUE, FALSE);
+	gtk_paned_pack2 (window->hpaned, GTK_WIDGET (rbox), TRUE, FALSE);
 	// vpaned
+	window->vpaned = (GtkPaned*) gtk_vpaned_new ();
+	gtk_box_pack_start (rbox, (GtkWidget*) window->vpaned, TRUE, TRUE, 0);
 //	gtk_paned_pack1 (window->vpaned, GTK_WIDGET (ugtk->cwidget.primary->all.self), TRUE, TRUE);
 	gtk_paned_pack2 (window->vpaned, GTK_WIDGET (ugtk->summary.self), FALSE, TRUE);
 
