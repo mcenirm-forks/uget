@@ -42,6 +42,18 @@
 
 #include <glib/gi18n.h>
 
+// Function used by GtkTreeModelSort.
+static gint	ug_download_model_cmp_name (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_category (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_added_on (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_completed_on (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+// signal handler
+static void	on_name_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeSortable* sortable);
+static void	on_category_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeSortable* sortable);
+static void	on_added_on_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeSortable* sortable);
+static void	on_completed_on_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeSortable* sortable);
+
+
 void	ug_download_widget_init (UgDownloadWidget* dwidget, GtkTreeModel* model)
 {
 	GtkTreeSelection*	selection;
@@ -80,19 +92,42 @@ void	ug_download_widget_set_filter (UgDownloadWidget* dwidget, GtkTreeModel* mod
 	dwidget->model = filter;
 }
 
-void	ug_download_widget_set_sortable (UgDownloadWidget* dwidget, GtkTreeModel* model, GtkTreeIterCompareFunc func, gpointer data)
+void	ug_download_widget_use_sortable (UgDownloadWidget* dwidget, GtkTreeModel* model)
 {
 	GtkTreeModel*		sort;
 	GtkTreeSortable*	sortable;
+	GtkTreeViewColumn*	column;
 
 	sort = gtk_tree_model_sort_new_with_model (model);
 	sortable = GTK_TREE_SORTABLE (sort);
-	gtk_tree_sortable_set_default_sort_func (sortable, func, data, NULL);
+	gtk_tree_sortable_set_default_sort_func (sortable,
+			ug_download_model_cmp_name, NULL, NULL);
 
 	gtk_tree_view_set_model (dwidget->view, sort);
 	if (dwidget->model)
 		g_object_unref (dwidget->model);
 	dwidget->model = sort;
+
+	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_NAME
+	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_NAME);
+	gtk_tree_view_column_set_clickable (column, TRUE);
+	g_signal_connect (column, "clicked",
+			G_CALLBACK (on_name_column_clicked), sortable);
+	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_CATEGORY
+	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_CATEGORY);
+	gtk_tree_view_column_set_clickable (column, TRUE);
+	g_signal_connect (column, "clicked",
+			G_CALLBACK (on_category_column_clicked), sortable);
+	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_ADDED_ON
+	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_ADDED_ON);
+	gtk_tree_view_column_set_clickable (column, TRUE);
+	g_signal_connect (column, "clicked",
+			G_CALLBACK (on_added_on_column_clicked), sortable);
+	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_COMPLETED_ON
+	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_COMPLETED_ON);
+	gtk_tree_view_column_set_clickable (column, TRUE);
+	g_signal_connect (column, "clicked",
+			G_CALLBACK (on_completed_on_column_clicked), sortable);
 }
 
 GList*	ug_download_widget_get_selected (UgDownloadWidget* dwidget)
@@ -703,5 +738,134 @@ void	ug_download_view_use_all_icon (GtkTreeView* view, gboolean visible_all)
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_cell_data_func (column, renderer,
 			col_set_name, NULL, NULL);
+}
+
+// ----------------------------------------------------------------------------
+// Function used by GtkTreeModelSort.
+//
+static gint	ug_download_model_cmp_name (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
+{
+	UgDataset*		dataset;
+	UgDataCommon*	common;
+	gchar*			name1;
+	gchar*			name2;
+
+	gtk_tree_model_get (model, a, 0, &dataset, -1);
+	if (dataset == NULL)
+		return 0;
+	common = UG_DATASET_COMMON (dataset);
+	if (common->name)
+		name1 = common->name;
+	else if (common->file)
+		name1 = common->file;
+	else
+		name1 = "unnamed";
+
+	gtk_tree_model_get (model, b, 0, &dataset, -1);
+	if (dataset == NULL)
+		return 0;
+	common = UG_DATASET_COMMON (dataset);
+	if (common->name)
+		name2 = common->name;
+	else if (common->file)
+		name2 = common->file;
+	else
+		name2 = "unnamed";
+	return strcmp (name1, name2);
+}
+
+static gint	ug_download_model_cmp_category (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
+{
+	UgDataset*	dataset;
+	UgRelation*	relation;
+	UgCategory*	category1;
+	UgCategory*	category2;
+
+	gtk_tree_model_get (model, a, 0, &dataset, -1);
+	if (dataset == NULL)
+		return 0;
+	relation = UG_DATASET_RELATION (dataset);
+	category1 = relation->category;
+
+	gtk_tree_model_get (model, b, 0, &dataset, -1);
+	if (dataset == NULL)
+		return 0;
+	relation = UG_DATASET_RELATION (dataset);
+	category2 = relation->category;
+
+	return strcmp (category1->name, category2->name);
+}
+
+static gint	ug_download_model_cmp_added_on (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
+{
+	UgDataset*	dataset;
+	UgDataLog*	datalog1;
+	UgDataLog*	datalog2;
+
+	gtk_tree_model_get (model, a, 0, &dataset, -1);
+	if (dataset == NULL)
+		return 0;
+	datalog1 = ug_dataset_get (dataset, UgDataLogClass, 0);
+	if (datalog1 == NULL)
+		return 0;
+
+	gtk_tree_model_get (model, b, 0, &dataset, -1);
+	if (dataset == NULL)
+		return 0;
+	datalog2 = ug_dataset_get (dataset, UgDataLogClass, 0);
+	if (datalog2 == NULL)
+		return 0;
+
+	return strcmp (datalog1->added_on, datalog2->added_on);
+}
+
+static gint	ug_download_model_cmp_completed_on (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
+{
+	UgDataset*	dataset;
+	UgDataLog*	datalog1;
+	UgDataLog*	datalog2;
+
+	gtk_tree_model_get (model, a, 0, &dataset, -1);
+	if (dataset == NULL)
+		return 0;
+	datalog1 = ug_dataset_get (dataset, UgDataLogClass, 0);
+	if (datalog1 == NULL)
+		return 0;
+
+	gtk_tree_model_get (model, b, 0, &dataset, -1);
+	if (dataset == NULL)
+		return 0;
+	datalog2 = ug_dataset_get (dataset, UgDataLogClass, 0);
+	if (datalog2 == NULL)
+		return 0;
+
+	return strcmp (datalog1->completed_on, datalog2->completed_on);
+}
+
+// ----------------------------------------------------------------------------
+// signal handler
+//
+static void	on_name_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeSortable* sortable)
+{
+	gtk_tree_sortable_set_default_sort_func (sortable,
+			ug_download_model_cmp_name, NULL, NULL);
+}
+
+static void	on_category_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeSortable* sortable)
+{
+	gtk_tree_sortable_set_default_sort_func (sortable,
+			ug_download_model_cmp_category, NULL, NULL);
+}
+
+static void	on_added_on_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeSortable* sortable)
+{
+	gtk_tree_sortable_set_default_sort_func (sortable,
+			ug_download_model_cmp_added_on, NULL, NULL);
+}
+
+static void	on_completed_on_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeSortable* sortable)
+{
+	gtk_tree_sortable_set_default_sort_func (sortable,
+			ug_download_model_cmp_completed_on, NULL, NULL);
 }
 

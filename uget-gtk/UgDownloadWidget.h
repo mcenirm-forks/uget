@@ -62,7 +62,7 @@ void	ug_download_widget_init (UgDownloadWidget* dwidget, GtkTreeModel* model);
 void	ug_download_widget_finalize (UgDownloadWidget* dwidget);
 
 void	ug_download_widget_set_filter (UgDownloadWidget* dwidget, GtkTreeModel* model, GtkTreeModelFilterVisibleFunc func, gpointer data);
-void	ug_download_widget_set_sortable (UgDownloadWidget* dwidget, GtkTreeModel* model, GtkTreeIterCompareFunc func, gpointer data);
+void	ug_download_widget_use_sortable (UgDownloadWidget* dwidget, GtkTreeModel* model);
 // (UgDataset*) list->data
 GList*	ug_download_widget_get_selected (UgDownloadWidget* dwidget);
 // GPOINTER_TO_INT (link->data)

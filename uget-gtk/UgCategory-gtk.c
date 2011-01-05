@@ -55,8 +55,6 @@ static void				ug_category_gtk_free (UgCategoryGtk* cgtk);
 
 // free GtkTreeIter in UgRelation::position
 static void		ug_slice_free_tree_iter (GtkTreeIter* iter);
-// Function used by GtkTreeModelSort.
-static gint		ug_download_model_compare (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
 // Function used by GtkTreeModelFilter.
 static gboolean	ug_download_model_filter_category (GtkTreeModel *model, GtkTreeIter *iter, UgCategory* category);
 static gboolean	ug_download_model_filter_active   (GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
@@ -200,8 +198,8 @@ void	ug_category_use_gtk (UgCategory* category, UgCategory* primary)
 				category, NULL);
 	}
 
-	ug_download_widget_set_sortable (&cgtk->all, cgtk->filter,
-			ug_download_model_compare, NULL);
+	ug_download_widget_use_sortable (&cgtk->all, cgtk->filter);
+	// filter
 	ug_download_widget_set_filter (&cgtk->active, cgtk->all.model,
 			ug_download_model_filter_active, NULL);
 	ug_download_widget_set_filter (&cgtk->queuing, cgtk->filter,
@@ -662,38 +660,6 @@ gboolean	ug_category_gtk_clear_excess (UgCategory* category)
 static void		ug_slice_free_tree_iter (GtkTreeIter* iter)
 {
 	g_slice_free1 (sizeof (GtkTreeIter), iter);
-}
-
-// Function used by GtkTreeModelSort.
-static gint	ug_download_model_compare (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
-{
-	UgDataset*		dataset;
-	UgDataCommon*	common;
-	gchar*			name1;
-	gchar*			name2;
-
-	gtk_tree_model_get (model, a, 0, &dataset, -1);
-	if (dataset == NULL)
-		return 0;
-	common = UG_DATASET_COMMON (dataset);
-	if (common->name)
-		name1 = common->name;
-	else if (common->file)
-		name1 = common->file;
-	else
-		name1 = "unnamed";
-
-	gtk_tree_model_get (model, b, 0, &dataset, -1);
-	if (dataset == NULL)
-		return 0;
-	common = UG_DATASET_COMMON (dataset);
-	if (common->name)
-		name2 = common->name;
-	else if (common->file)
-		name2 = common->file;
-	else
-		name2 = "unnamed";
-	return strcmp (name1, name2);
 }
 
 // Function used by GtkTreeModelFilter.
