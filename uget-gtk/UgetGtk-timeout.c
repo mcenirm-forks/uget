@@ -69,7 +69,6 @@ static void	uget_gtk_notify_starting (UgetGtk* ugtk);
 static void	uget_gtk_notify_completed (UgetGtk* ugtk);
 // GSourceFunc
 static gboolean	uget_gtk_timeout_ipc (UgetGtk* ugtk);
-static gboolean	uget_gtk_timeout_running (UgetGtk* ugtk);
 static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk);
 static gboolean	uget_gtk_timeout_clipboard (UgetGtk* ugtk);
 static gboolean	uget_gtk_timeout_autosave (UgetGtk* ugtk);
@@ -81,7 +80,7 @@ void	uget_gtk_init_timeout (UgetGtk* ugtk)
 			(GSourceFunc) uget_gtk_timeout_ipc, ugtk, NULL);
 	// 0.5 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500,
-			(GSourceFunc) uget_gtk_timeout_running, ugtk, NULL);
+			(GSourceFunc) ug_running_dispatch, ugtk->running, NULL);
 	// 1 seconds
 	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT_IDLE, 1,
 			(GSourceFunc) uget_gtk_timeout_queuing, ugtk, NULL);
@@ -368,18 +367,6 @@ static gboolean	uget_gtk_timeout_ipc (UgetGtk* ugtk)
 	return TRUE;
 }
 
-
-// ----------------------------------------------------------------------------
-// running
-//
-static gboolean	uget_gtk_timeout_running (UgetGtk* ugtk)
-{
-	ug_running_dispatch (ugtk->running);
-	ug_running_do_speed_limit (ugtk->running);
-
-	// return FALSE if the source should be removed.
-	return TRUE;
-}
 
 // ----------------------------------------------------------------------------
 // queuing

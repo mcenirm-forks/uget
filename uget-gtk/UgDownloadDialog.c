@@ -85,7 +85,7 @@ UgDownloadDialog*	ug_download_dialog_new (const gchar* title, GtkWindow* parent)
 	ug_download_form_init (&ddialog->download,
 			&ddialog->proxy, (GtkWindow*) ddialog->self);
 	// initialize page status
-	ddialog->page.array[1] = ddialog->download.self;
+	ddialog->page.array[1] = ug_download_from_use_notebook (&ddialog->download, NULL, NULL);
 	ddialog->page.completed[1] = FALSE;
 	ddialog->page.completed[0] = TRUE;
 	ug_download_dialog_set_current_page (ddialog, 1);
@@ -109,8 +109,11 @@ void	ug_download_dialog_free (UgDownloadDialog* ddialog)
 		ug_selector_finalize (&ddialog->selector);
 		gtk_widget_destroy (ddialog->selector.self);
 	}
-	if (ddialog->download.self)
-		gtk_widget_destroy (ddialog->download.self);
+	if (ddialog->download.page1) {
+		gtk_widget_destroy (ddialog->page.array[1]);
+//		gtk_widget_destroy (ddialog->download.page1);
+//		gtk_widget_destroy (ddialog->download.page2);
+	}
 	if (ddialog->batch.self)
 		gtk_widget_destroy (ddialog->batch.self);
 	// free external data
@@ -128,7 +131,7 @@ void	ug_download_dialog_use_batch (UgDownloadDialog* ddialog)
 	// (Page 0)
 	ug_batch_form_init (&ddialog->batch);
 	ug_download_form_set_multiple (&ddialog->download, TRUE);
-	gtk_widget_size_request (ddialog->download.self, &requisition);
+	gtk_widget_size_request (ddialog->download.page1, &requisition);
 	gtk_widget_set_size_request (ddialog->batch.self,
 			requisition.width, requisition.height);
 	// setup page and button
@@ -150,7 +153,7 @@ void	ug_download_dialog_use_selector (UgDownloadDialog* ddialog)
 	// (Page 0)
 	ug_selector_init (&ddialog->selector, (GtkWindow*) ddialog->self);
 	ug_download_form_set_multiple (&ddialog->download, TRUE);
-	gtk_widget_size_request (ddialog->download.self, &requisition);
+	gtk_widget_size_request (ddialog->download.page1, &requisition);
 	gtk_widget_set_size_request (ddialog->selector.self,
 			requisition.width, requisition.height);
 	// setup page and button

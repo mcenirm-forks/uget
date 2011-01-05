@@ -44,6 +44,9 @@
 
 #include <glib/gi18n.h>
 
+
+static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* proxy);
+static void	ug_download_form_init_page2 (UgDownloadForm* dform);
 //	signal handler
 static void	on_spin_changed (GtkEditable *editable, UgDownloadForm* dform);
 static void	on_entry_changed (GtkEditable *editable, UgDownloadForm* dform);
@@ -53,16 +56,9 @@ static void	on_select_folder (GtkEntry* entry, GtkEntryIconPosition icon_pos, Gd
 static void	on_select_cookie (GtkEntry* entry, GtkEntryIconPosition icon_pos, GdkEvent* event, UgDownloadForm* dform);
 static void	on_select_post   (GtkEntry* entry, GtkEntryIconPosition icon_pos, GdkEvent* event, UgDownloadForm* dform);
 
+
 void	ug_download_form_init (UgDownloadForm* dform, UgProxyForm* proxy, GtkWindow* parent)
 {
-	GtkWidget*	entry;
-	GtkWidget*	label;
-	GtkTable*	top_table;
-	GtkTable*	table;
-	GtkWidget*	frame;
-	GtkWidget*	vbox;
-	GtkWidget*	hbox;
-
 	dform->changed.enable   = TRUE;
 	dform->changed.url      = FALSE;
 	dform->changed.file     = FALSE;
@@ -75,96 +71,113 @@ void	ug_download_form_init (UgDownloadForm* dform, UgProxyForm* proxy, GtkWindow
 	dform->changed.retry    = FALSE;
 	dform->changed.delay    = FALSE;
 	dform->parent = parent;
-	dform->self = gtk_table_new (7, 3, FALSE);
-	top_table = (GtkTable*) dform->self;
 
-	// URL Label & Entry
-//	button = gtk_button_new ();
-//	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-//	gtk_container_add (GTK_CONTAINER (button),
-//			gtk_image_new_from_stock (GTK_STOCK_PASTE, GTK_ICON_SIZE_MENU));
-//	gtk_table_attach (top_table, button, 2, 3, 0, 1,
-//			GTK_SHRINK, GTK_SHRINK, 2, 1);
-//	dform->url_button = button;
-	// entry
-	label = gtk_label_new_with_mnemonic (_("_URL:"));
-	entry = gtk_entry_new ();
-	gtk_entry_set_width_chars (GTK_ENTRY (entry), 20);
-	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-	gtk_label_set_mnemonic_widget (GTK_LABEL(label), entry);
-	gtk_table_attach (top_table, label,  0, 1, 0, 1,
-			GTK_SHRINK, GTK_SHRINK, 3, 2);
-	gtk_table_attach (top_table, entry,  1, 3, 0, 1,
+	ug_download_form_init_page1 (dform, proxy);
+	ug_download_form_init_page2 (dform);
+
+	gtk_widget_show_all (dform->page1);
+	gtk_widget_show_all (dform->page2);
+}
+
+GtkWidget*	ug_download_from_use_notebook (UgDownloadForm* dform, const gchar* label1, const gchar* label2)
+{
+	GtkWidget*		widget;
+	GtkNotebook*	notebook;
+
+	label1 = (label1) ? label1 : _("General");
+	label2 = (label2) ? label2 : _("Advanced");
+
+	widget = gtk_notebook_new ();
+	gtk_widget_show (widget);
+	notebook = (GtkNotebook*) widget;
+	gtk_notebook_append_page (notebook, dform->page1,
+			gtk_label_new (label1));
+	gtk_notebook_append_page (notebook, dform->page2,
+			gtk_label_new (label2));
+
+	return widget;
+}
+
+static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* proxy)
+{
+	GtkWidget*	widget;
+	GtkTable*	top_table;
+	GtkTable*	table;
+	GtkWidget*	frame;
+	GtkWidget*	vbox;
+	GtkWidget*	hbox;
+
+	dform->page1 = gtk_table_new (7, 3, FALSE);
+	top_table = (GtkTable*) dform->page1;
+	gtk_container_set_border_width (GTK_CONTAINER (top_table), 2);
+
+	// URL - entry
+	widget = gtk_entry_new ();
+	gtk_entry_set_width_chars (GTK_ENTRY (widget), 20);
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	gtk_table_attach (top_table, widget,  1, 3, 0, 1,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 2);
-	g_signal_connect (GTK_EDITABLE (entry), "changed",
+	g_signal_connect (GTK_EDITABLE (widget), "changed",
 			G_CALLBACK (on_url_entry_changed), dform);
-	dform->url_label  = label;
-	dform->url_entry  = entry;
+	dform->url_entry = widget;
+	// URL - label
+	widget = gtk_label_new_with_mnemonic (_("_URL:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL(widget), dform->url_entry);
+	gtk_table_attach (top_table, widget,  0, 1, 0, 1,
+			GTK_SHRINK, GTK_SHRINK, 3, 2);
+	dform->url_label = widget;
 
-	// "File" label & entry
-//	button = gtk_button_new ();
-//	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-//	gtk_container_add (GTK_CONTAINER (button),
-//			gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU));
-//	gtk_table_attach (top_table, button, 2, 3, 1, 2,
-//			GTK_SHRINK, GTK_SHRINK, 2, 1);
-//	dform->file_button = button;
-	// entry
-	label = gtk_label_new_with_mnemonic (_("File:"));
-	entry = gtk_entry_new ();
-	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
-	gtk_table_attach (top_table, label,  0, 1, 1, 2,
-			GTK_SHRINK, GTK_SHRINK, 3, 1);
-	gtk_table_attach (top_table, entry,  1, 3, 1, 2,
+	// File - entry
+	widget = gtk_entry_new ();
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	gtk_table_attach (top_table, widget,  1, 3, 1, 2,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
-	g_signal_connect (GTK_EDITABLE (entry), "changed",
+	g_signal_connect (GTK_EDITABLE (widget), "changed",
 			G_CALLBACK (on_entry_changed), dform);
-	dform->file_entry = entry;
-	dform->file_label = label;
+	dform->file_entry = widget;
+	// File - label
+	widget = gtk_label_new_with_mnemonic (_("File:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dform->file_entry);
+	gtk_table_attach (top_table, widget,  0, 1, 1, 2,
+			GTK_SHRINK, GTK_SHRINK, 3, 1);
+	dform->file_label = widget;
 
-	// "Folder" label, entry, and icon
-//	button = gtk_button_new ();
-//	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-//	gtk_container_add (GTK_CONTAINER (button),
-//			gtk_image_new_from_stock (GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU));
-//	gtk_table_attach (top_table, button, 2, 3, 2, 3,
-//			GTK_SHRINK, GTK_SHRINK, 2, 1);
-//	dform->folder_button = button;
-	// entry
+	// Folder - combo entry + icon
 	dform->folder_combo = gtk_combo_box_entry_new_text ();
 	dform->folder_entry = gtk_bin_get_child (GTK_BIN (dform->folder_combo));
-	label = gtk_label_new_with_mnemonic (_("_Folder:"));
-	entry = dform->folder_entry;
-	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-	gtk_entry_set_icon_from_stock (GTK_ENTRY (entry),
+	widget = dform->folder_entry;
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	gtk_entry_set_icon_from_stock (GTK_ENTRY (widget),
 			GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_DIRECTORY);
-	gtk_entry_set_icon_tooltip_text (GTK_ENTRY (entry),
+	gtk_entry_set_icon_tooltip_text (GTK_ENTRY (widget),
 			GTK_ENTRY_ICON_SECONDARY, _("Select Folder"));
-	gtk_label_set_mnemonic_widget(GTK_LABEL (label), dform->folder_combo);
-	gtk_table_attach (top_table, label,  0, 1, 2, 3,
-			GTK_SHRINK, GTK_SHRINK, 3, 1);
 	gtk_table_attach (top_table, dform->folder_combo,  1, 2, 2, 3,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
-	g_signal_connect (entry, "icon-release",
+	g_signal_connect (widget, "icon-release",
 			G_CALLBACK (on_select_folder), dform);
-	g_signal_connect (GTK_EDITABLE (entry), "changed",
+	g_signal_connect (GTK_EDITABLE (widget), "changed",
 			G_CALLBACK (on_entry_changed), dform);
-
-	// "Referrer" label & entry
-	label = gtk_label_new_with_mnemonic (_("Referrer:"));
-	entry = gtk_entry_new ();
-	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
-	gtk_table_attach (top_table, label, 0, 1, 3, 4,
+	// Folder - label
+	widget = gtk_label_new_with_mnemonic (_("_Folder:"));
+	gtk_label_set_mnemonic_widget(GTK_LABEL (widget), dform->folder_combo);
+	gtk_table_attach (top_table, widget,  0, 1, 2, 3,
 			GTK_SHRINK, GTK_SHRINK, 3, 1);
-	gtk_table_attach (top_table, entry, 1, 3, 3, 4,
+
+	// Referrer - entry
+	widget = gtk_entry_new ();
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	gtk_table_attach (top_table, widget, 1, 3, 3, 4,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
-	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-	g_signal_connect (GTK_EDITABLE (entry), "changed",
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	g_signal_connect (GTK_EDITABLE (widget), "changed",
 			G_CALLBACK (on_http_entry_changed), dform);
-	dform->referrer_entry = entry;
-//	dform->referrer_label = label;
+	dform->referrer_entry = widget;
+	// Referrer - label
+	widget = gtk_label_new_with_mnemonic (_("Referrer:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dform->referrer_entry);
+	gtk_table_attach (top_table, widget, 0, 1, 3, 4,
+			GTK_SHRINK, GTK_SHRINK, 3, 1);
+//	dform->referrer_label = widget;
 
 	// ----------------------------------------------------
 	// HBox for "Status" and "Login"
@@ -183,8 +196,8 @@ void	ug_download_form_init (UgDownloadForm* dform, UgProxyForm* proxy, GtkWindow
 				_("_Runnable"));
 	dform->radio_pause = gtk_radio_button_new_with_mnemonic_from_widget (
 				(GtkRadioButton*)dform->radio_runnable, _("P_ause"));
-	gtk_box_pack_start (GTK_BOX (vbox), dform->radio_runnable, FALSE, FALSE, 1);
-	gtk_box_pack_start (GTK_BOX (vbox), dform->radio_pause, FALSE, FALSE, 1);
+	gtk_box_pack_start (GTK_BOX (vbox), dform->radio_runnable, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), dform->radio_pause, FALSE, FALSE, 0);
 
 	// ----------------------------------------------------
 	// frame for login
@@ -193,99 +206,92 @@ void	ug_download_form_init (UgDownloadForm* dform, UgProxyForm* proxy, GtkWindow
 	gtk_container_set_border_width (GTK_CONTAINER (table), 2);
 	gtk_container_add (GTK_CONTAINER (frame), (GtkWidget*) table);
 	gtk_box_pack_start (GTK_BOX (hbox), frame, TRUE, TRUE, 2);
-	// user
-	label = gtk_label_new (_("User:"));
-	entry = gtk_entry_new ();
-	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-	gtk_table_attach (table, label, 0, 1, 0, 1,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 2, 1);
-	gtk_table_attach (table, entry, 1, 2, 0, 1,
+	// User - entry
+	widget = gtk_entry_new ();
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	gtk_table_attach (table, widget, 1, 2, 0, 1,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
-	g_signal_connect (GTK_EDITABLE (entry), "changed",
+	g_signal_connect (GTK_EDITABLE (widget), "changed",
 			G_CALLBACK (on_entry_changed), dform);
-	dform->username_entry = entry;
-//	dform->username_label = label;
-	// password
-	label = gtk_label_new (_("Password:"));
-	entry = gtk_entry_new ();
-	gtk_entry_set_visibility (GTK_ENTRY (entry), FALSE);
-	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-	gtk_table_attach (table, label, 0, 1, 1, 2,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 2, 1);
-	gtk_table_attach (table, entry, 1, 2, 1, 2,
+	dform->username_entry = widget;
+	// User - label
+	widget = gtk_label_new (_("User:"));
+	gtk_table_attach (table, widget, 0, 1, 0, 1,
+			GTK_FILL, GTK_SHRINK, 2, 1);
+//	dform->username_label = widget;
+
+	// Password - entry
+	widget = gtk_entry_new ();
+	gtk_entry_set_visibility (GTK_ENTRY (widget), FALSE);
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	gtk_table_attach (table, widget, 1, 2, 1, 2,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
-	g_signal_connect (GTK_EDITABLE (entry), "changed",
+	g_signal_connect (GTK_EDITABLE (widget), "changed",
 			G_CALLBACK (on_entry_changed), dform);
-	dform->password_entry = entry;
-//	dform->password_label = label;
+	dform->password_entry = widget;
+	// Password - label
+	widget = gtk_label_new (_("Password:"));
+	gtk_table_attach (table, widget, 0, 1, 1, 2,
+			GTK_FILL, GTK_SHRINK, 2, 1);
+//	dform->password_label = widget;
 
 	// ----------------------------------------------------
 	// frame for option
 	frame = gtk_frame_new (_("Options"));
-	table = (GtkTable*) gtk_table_new (2, 5, FALSE);
+	table = (GtkTable*) gtk_table_new (2, 7, FALSE);
 	gtk_container_add (GTK_CONTAINER (frame), (GtkWidget*) table);
 	gtk_container_set_border_width (GTK_CONTAINER (table), 2);
 	gtk_table_attach (top_table, frame, 0, 3, 5, 6,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
-	// Retry limit
+	// Retry limit - spin button
 	dform->spin_retry = gtk_spin_button_new_with_range (0.0, 99.0, 1.0);
-	label = gtk_label_new_with_mnemonic (_("Retry _limit:"));
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), dform->spin_retry);
-	gtk_table_attach (table, label, 0, 1, 0, 1,
-			GTK_SHRINK, GTK_SHRINK, 2, 1);
 	gtk_table_attach (table, dform->spin_retry, 1, 2, 0, 1,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
 	g_signal_connect (GTK_EDITABLE (dform->spin_retry), "changed",
 			G_CALLBACK (on_spin_changed), dform);
-	// Retry delay
-	dform->spin_delay = gtk_spin_button_new_with_range (0.0, 600.0, 1.0);
-	label = gtk_label_new_with_mnemonic (_("Retry _delay:"));
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), dform->spin_delay);
-	gtk_table_attach (table, label, 0, 1, 1, 2,
+	// Retry limit - label
+	widget = gtk_label_new_with_mnemonic (_("Retry _limit:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dform->spin_retry);
+	gtk_table_attach (table, widget, 0, 1, 0, 1,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
+	// counts - label
+	widget = gtk_label_new (_("counts"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_table_attach (table, widget, 2, 3, 0, 1,
+			GTK_FILL, GTK_SHRINK, 2, 1);
+	// Retry delay - spin button
+	dform->spin_delay = gtk_spin_button_new_with_range (0.0, 600.0, 1.0);
 	gtk_table_attach (table, dform->spin_delay, 1, 2, 1, 2,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
 	g_signal_connect (GTK_EDITABLE (dform->spin_delay), "changed",
 			G_CALLBACK (on_spin_changed), dform);
+	// Retry delay - label
+	widget = gtk_label_new_with_mnemonic (_("Retry _delay:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dform->spin_delay);
+	gtk_table_attach (table, widget, 0, 1, 1, 2,
+			GTK_SHRINK, GTK_SHRINK, 2, 1);
+	// seconds - label
+	widget = gtk_label_new (_("seconds"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_table_attach (table, widget, 2, 3, 1, 2,
+			GTK_FILL, GTK_SHRINK, 2, 1);
 	// separator
-	gtk_table_attach (table, gtk_vseparator_new (), 2, 3, 0, 2,
-			GTK_FILL, GTK_FILL, 2, 1);
-	// cookie
-	label = gtk_label_new (_("Cookie:"));
-	entry = gtk_entry_new ();
-	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-	gtk_entry_set_icon_from_stock (GTK_ENTRY (entry),
-			GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_FILE);
-	gtk_entry_set_icon_tooltip_text (GTK_ENTRY (entry),
-			GTK_ENTRY_ICON_SECONDARY, _("Select Cookie File"));
-	gtk_table_attach (table, label, 3, 4, 0, 1,
-			GTK_SHRINK, GTK_SHRINK, 2, 1);
-	gtk_table_attach (table, entry, 4, 5, 0, 1,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
-	g_signal_connect (entry, "icon-release",
-			G_CALLBACK (on_select_cookie), dform);
-	g_signal_connect (GTK_EDITABLE (entry), "changed",
-			G_CALLBACK (on_http_entry_changed), dform);
-	dform->cookie_entry = entry;
-//	dform->cookie_label = label;
-	// post
-	label = gtk_label_new (_("Post:"));
-	entry = gtk_entry_new ();
-	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-	gtk_entry_set_icon_from_stock (GTK_ENTRY (entry),
-			GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_FILE);
-	gtk_entry_set_icon_tooltip_text (GTK_ENTRY (entry),
-			GTK_ENTRY_ICON_SECONDARY, _("Select Post File"));
-	gtk_table_attach (table, label, 3, 4, 1, 2,
-			GTK_SHRINK, GTK_SHRINK, 2, 1);
-	gtk_table_attach (table, entry, 4, 5, 1, 2,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
-	g_signal_connect (entry, "icon-release",
-			G_CALLBACK (on_select_post), dform);
-	g_signal_connect (GTK_EDITABLE (entry), "changed",
-			G_CALLBACK (on_http_entry_changed), dform);
-	dform->post_entry = entry;
-//	dform->post_label = label;
+//	gtk_table_attach (table, gtk_vseparator_new (), 3, 4, 0, 2,
+//			GTK_FILL | GTK_EXPAND, GTK_FILL, 2, 1);
+	// split - spin button
+//	dform->spin_split = gtk_spin_button_new_with_range (0.0, 9.0, 1.0);
+//	widget = dform->spin_split;
+//	gtk_entry_set_width_chars (GTK_ENTRY (widget), 3);
+//	gtk_table_attach (table, widget, 5, 6, 0, 1,
+//			GTK_SHRINK, GTK_SHRINK, 2, 1);
+	// split - label
+//	widget = gtk_label_new (_("Split:"));
+//	gtk_table_attach (table, widget, 4, 5, 0, 1,
+//			GTK_SHRINK, GTK_SHRINK, 2, 1);
+	// parts - label
+//	widget = gtk_label_new (_("parts"));
+//	gtk_table_attach (table, widget, 6, 7, 0, 1,
+//			GTK_SHRINK, GTK_SHRINK, 2, 1);
 
 	// ----------------------------------------------------
 	// proxy
@@ -293,8 +299,73 @@ void	ug_download_form_init (UgDownloadForm* dform, UgProxyForm* proxy, GtkWindow
 	if (proxy)
 		gtk_table_attach (top_table, proxy->self, 0, 3, 6, 7,
 				GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
+}
 
-	gtk_widget_show_all (dform->self);
+static void	ug_download_form_init_page2 (UgDownloadForm* dform)
+{
+	GtkWidget*	widget;
+	GtkTable*	table;
+
+	dform->page2 = gtk_table_new (7, 3, FALSE);
+	table = (GtkTable*) dform->page2;
+	gtk_container_set_border_width (GTK_CONTAINER (table), 2);
+
+	// label - cookie file
+	widget = gtk_label_new (_("Cookie file:"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
+	gtk_table_attach (table, widget, 3, 4, 0, 1,
+			GTK_SHRINK, GTK_SHRINK, 2, 1);
+//	dform->cookie_label = widget;
+	// entry - cookie file
+	widget = gtk_entry_new ();
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	gtk_entry_set_icon_from_stock (GTK_ENTRY (widget),
+			GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_FILE);
+	gtk_entry_set_icon_tooltip_text (GTK_ENTRY (widget),
+			GTK_ENTRY_ICON_SECONDARY, _("Select Cookie File"));
+	gtk_table_attach (table, widget, 4, 6, 0, 1,
+			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
+	g_signal_connect (widget, "icon-release",
+			G_CALLBACK (on_select_cookie), dform);
+	g_signal_connect (GTK_EDITABLE (widget), "changed",
+			G_CALLBACK (on_http_entry_changed), dform);
+	dform->cookie_entry = widget;
+	// label - post file
+	widget = gtk_label_new (_("Post file:"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
+	gtk_table_attach (table, widget, 3, 4, 1, 2,
+			GTK_SHRINK, GTK_SHRINK, 2, 1);
+//	dform->post_label = widget;
+	// entry - post file
+	widget = gtk_entry_new ();
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	gtk_entry_set_icon_from_stock (GTK_ENTRY (widget),
+			GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_FILE);
+	gtk_entry_set_icon_tooltip_text (GTK_ENTRY (widget),
+			GTK_ENTRY_ICON_SECONDARY, _("Select Post File"));
+	gtk_table_attach (table, widget, 4, 6, 1, 2,
+			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
+	g_signal_connect (widget, "icon-release",
+			G_CALLBACK (on_select_post), dform);
+	g_signal_connect (GTK_EDITABLE (widget), "changed",
+			G_CALLBACK (on_http_entry_changed), dform);
+	dform->post_entry = widget;
+
+	// label - Speed limit
+	widget = gtk_label_new (_("Speed limit:"));
+	gtk_table_attach (table, widget, 3, 4, 2, 3,
+			GTK_SHRINK, GTK_SHRINK, 2, 1);
+	// spin - Speed limit
+	widget = gtk_spin_button_new_with_range (0, 99999999, 1);
+	gtk_entry_set_width_chars (GTK_ENTRY (widget), 8);
+	gtk_table_attach (table, widget, 4, 5, 2, 3,
+			GTK_FILL, GTK_SHRINK, 1, 1);
+	dform->spin_speed = (GtkSpinButton*) widget;
+	// label - "KiB/s"
+	widget = gtk_label_new ("KiB/s");
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
+	gtk_table_attach (table, widget, 5, 6, 2, 3,
+			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 2, 2);
 }
 
 void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
@@ -312,6 +383,9 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	ug_str_set (&common->password, gtk_entry_get_text ((GtkEntry*)dform->password_entry), -1);
 	common->retry_limit = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_retry);
 	common->retry_delay = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_delay);
+	common->max_download_speed = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_speed) * 1024;
+	common->max_upload_speed = common->max_download_speed;
+//	common->segments_per_download = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_split);
 	if (gtk_widget_is_sensitive (dform->url_entry) == TRUE) {
 		ug_str_set (&common->url,  gtk_entry_get_text ((GtkEntry*)dform->url_entry),  -1);
 		ug_str_set (&common->file, gtk_entry_get_text ((GtkEntry*)dform->file_entry), -1);
@@ -385,6 +459,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		dform->changed.password = common->keeping.password;
 		dform->changed.retry    = common->keeping.retry_limit;
 		dform->changed.delay    = common->keeping.retry_delay;
+		dform->changed.speed    = common->keeping.max_download_speed;
 	}
 	// set data
 	if (keep_changed==FALSE || dform->changed.url==FALSE) {
@@ -422,6 +497,14 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_delay,
 				(common) ? common->retry_delay : 6);
 	}
+	if (keep_changed==FALSE || dform->changed.speed==FALSE) {
+		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_speed,
+				common->max_download_speed / 1024);
+	}
+//	if (keep_changed==FALSE || dform->changed.speed==FALSE) {
+//		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_split,
+//				common->segments_per_download);
+//	}
 
 	// UgDataHttp
 	// set data

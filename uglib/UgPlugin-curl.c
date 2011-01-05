@@ -217,6 +217,7 @@ static UgResult	ug_plugin_curl_get_state (UgPluginCurl* plugin, UgState* state)
 
 UgResult	ug_plugin_curl_set (UgPluginCurl* plugin, guint parameter, gpointer data)
 {
+/*
 	gint64	speed_limit;
 
 	if (parameter != UG_DATA_TYPE_INT64)
@@ -227,6 +228,8 @@ UgResult	ug_plugin_curl_set (UgPluginCurl* plugin, guint parameter, gpointer dat
 	curl_easy_setopt (plugin->curl, CURLOPT_MAX_SEND_SPEED_LARGE, (curl_off_t) speed_limit);
 
 	return UG_RESULT_OK;
+ */
+	return UG_RESULT_UNSUPPORT;
 }
 
 static UgResult	ug_plugin_curl_get (UgPluginCurl* plugin, guint parameter, gpointer data)
@@ -298,6 +301,12 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 			common->file = g_strdup ("index.htm");
 		ug_plugin_post ((UgPlugin*) plugin,
 				ug_message_new_data (UG_MESSAGE_DATA_FILE_CHANGED, common->file));
+	}
+	if (common->max_download_speed) {
+		curl_easy_setopt (curl, CURLOPT_MAX_SEND_SPEED_LARGE,
+				(curl_off_t) common->max_upload_speed);
+		curl_easy_setopt (curl, CURLOPT_MAX_RECV_SPEED_LARGE,
+				(curl_off_t) common->max_download_speed);
 	}
 
 	// Proxy option -----------------------------------------------------------

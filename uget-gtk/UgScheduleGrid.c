@@ -140,26 +140,26 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 	widget = gtk_label_new (_("Turn off"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 1, 2, 1, 2,
-			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+			GTK_FILL, GTK_SHRINK, 2, 2);
 	// label - Help for Turn off
 	widget = gtk_label_new (_("- stop all task"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 2, 4, 1, 2,
-			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+			GTK_FILL, GTK_SHRINK, 2, 2);
 	// grid - Max speed
 	widget = ug_grid_one_new (colors[UG_SCHEDULE_MAX_SPEED]);
 	gtk_table_attach (table, widget, 0, 1, 2, 3,
 			GTK_SHRINK, GTK_SHRINK, 3, 3);
 	// label - Max speed
-	widget = gtk_label_new (_("Max speed"));
+	widget = gtk_label_new (_("Normal"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 1, 2, 2, 3,
-			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+			GTK_FILL, GTK_SHRINK, 2, 2);
 	// label - Help for Max speed
 	widget = gtk_label_new (_("- run task normally"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 2, 4, 2, 3,
-			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+			GTK_FILL, GTK_SHRINK, 2, 2);
 /*
 	// grid - Speed limit
 	widget = ug_grid_one_new (colors[UG_SCHEDULE_LIMITED_SPEED]);
@@ -169,7 +169,7 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 	widget = gtk_label_new (_("Limited speed"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 1, 2, 3, 4,
-			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+			GTK_FILL, GTK_SHRINK, 2, 2);
 	// SpinButton - Speed limit
 	widget = gtk_spin_button_new_with_range (5, 99999999, 1);
 	gtk_table_attach (table, widget, 2, 3, 3, 4,
@@ -179,7 +179,7 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 	widget = gtk_label_new ("KiB/s");
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 3, 4, 3, 4,
-			GTK_SHRINK | GTK_FILL, GTK_SHRINK, 2, 2);
+			TK_FILL, GTK_SHRINK, 2, 2);
  */
 
 	// change sensitive state

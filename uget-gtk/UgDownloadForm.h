@@ -52,8 +52,12 @@ typedef	void	(*UgDownloadFormNotify) (gpointer user_data, gboolean completed);
 
 struct UgDownloadForm_
 {
-	GtkWidget*	self;			// GtkTable
 	GtkWindow*	parent;			// parent window of UgDownloadForm.self
+
+	// ----------------------------------------------------
+	// Page 1
+	//
+	GtkWidget*	page1;
 
 	GtkWidget*	url_label;
 	GtkWidget*	url_entry;
@@ -82,15 +86,26 @@ struct UgDownloadForm_
 
 //	GtkWidget*	spin_parts;
 //	GtkWidget*	spin_redirect;
-	GtkWidget*	spin_retry;
-	GtkWidget*	spin_delay;
+	GtkWidget*	spin_retry;		// counts
+	GtkWidget*	spin_delay;		// seconds
+
+	GtkWidget*	spin_split;		// segments
+
+	// ----------------------------------------------------
+	// Page 2
+	//
+	GtkWidget*	page2;
 
 //	GtkWidget*	cookie_label;
 	GtkWidget*	cookie_entry;
 //	GtkWidget*	post_label;
 	GtkWidget*	post_entry;
 
+	GtkSpinButton*	spin_speed;
+
+	// ----------------------------------------------------
 	// User changed entry
+	//
 	struct UgDownloadFormChanged
 	{
 		gboolean	enable:1;
@@ -104,9 +119,12 @@ struct UgDownloadForm_
 		gboolean	post:1;
 		gboolean	retry:1;	// spin_retry
 		gboolean	delay:1;	// spin_delay
+		gboolean	speed:1;	// spin_speed
 	} changed;
 
+	// ----------------------------------------------------
 	// callback
+	//
 	struct
 	{
 		UgDownloadFormNotify	func;
@@ -114,7 +132,8 @@ struct UgDownloadForm_
 	} notify;
 };
 
-void	ug_download_form_init  (UgDownloadForm* dform, UgProxyForm* proxy, GtkWindow* parent);
+void		ug_download_form_init (UgDownloadForm* dform, UgProxyForm* proxy, GtkWindow* parent);
+GtkWidget*	ug_download_from_use_notebook (UgDownloadForm* dform, const gchar* label1, const gchar* label2);
 
 void	ug_download_form_get (UgDownloadForm* dform, UgDataset* dataset);
 void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean keep_changed);

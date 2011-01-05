@@ -60,8 +60,10 @@ UgCategoryDialog*	ug_category_dialog_new (const gchar* title, GtkWindow* parent)
 	gtk_widget_show ((GtkWidget*) notebook);
 	gtk_notebook_append_page (notebook, cdialog->category.self,
 			gtk_label_new (_("Category settings")));
-	gtk_notebook_append_page (notebook, cdialog->download.self,
-			gtk_label_new (_("Default for new download")));
+	gtk_notebook_append_page (notebook, cdialog->download.page1,
+			gtk_label_new (_("Default for new download 1")));
+	gtk_notebook_append_page (notebook, cdialog->download.page2,
+			gtk_label_new (_("Default 2")));
 
 	vbox = gtk_dialog_get_content_area (cdialog->self);
 	gtk_box_pack_start ((GtkBox*) vbox, (GtkWidget*) notebook, FALSE, FALSE, 0);
