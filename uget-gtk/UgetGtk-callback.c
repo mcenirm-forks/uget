@@ -1077,7 +1077,7 @@ void	on_change_visible_column (GtkWidget* widget, UgetGtk* ugtk)
 		setting->completed = visible;
 	}
 	else if (widget == ugtk->menubar.view.columns.total) {
-		column_index = UG_DOWNLOAD_COLUMN_TOTAL;
+		column_index = UG_DOWNLOAD_COLUMN_SIZE;
 		setting->total = visible;
 	}
 	else if (widget == ugtk->menubar.view.columns.percent) {

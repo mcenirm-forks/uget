@@ -81,7 +81,7 @@ enum UgDownloadViewColumn
 {
 	UG_DOWNLOAD_COLUMN_NAME,
 	UG_DOWNLOAD_COLUMN_COMPLETE,
-	UG_DOWNLOAD_COLUMN_TOTAL,
+	UG_DOWNLOAD_COLUMN_SIZE,
 	UG_DOWNLOAD_COLUMN_PERCENT,
 	UG_DOWNLOAD_COLUMN_ELAPSED,    // consuming time
 	UG_DOWNLOAD_COLUMN_LEFT,       // remaining time
@@ -96,7 +96,6 @@ enum UgDownloadViewColumn
 
 GtkTreeView*	ug_download_view_new (void);
 void			ug_download_view_use_all_icon (GtkTreeView* view, gboolean visible_all);
-
 
 #ifdef __cplusplus
 }
