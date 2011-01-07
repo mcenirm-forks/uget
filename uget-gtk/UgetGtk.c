@@ -120,9 +120,8 @@ void	uget_gtk_init (UgetGtk* ugtk)
 
 void	uget_gtk_quit (UgetGtk* ugtk)
 {
-	// stop all active download (offline mode)
-	gtk_check_menu_item_set_active (
-			(GtkCheckMenuItem*) ugtk->menubar.file.offline_mode, TRUE);
+	// stop all active download
+	ug_running_clear (ugtk->running);
 	// get and update setting before program save it
 	uget_gtk_get_setting (ugtk, &ugtk->setting);
 	// save data
@@ -825,7 +824,7 @@ void	uget_gtk_refresh_download_column (UgetGtk* ugtk)
 			column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_SPEED);
 			gtk_tree_view_column_set_visible (column, setting->speed);
 		}
-		column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_TOTAL);
+		column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_SIZE);
 		gtk_tree_view_column_set_visible (column, setting->total);
 		column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_RETRY);
 		gtk_tree_view_column_set_visible (column, setting->retry);
