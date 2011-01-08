@@ -33,14 +33,8 @@
  *  files in the program, then also delete it here.
  *
  */
-#ifdef _WIN32
-#include <sys/utime.h>
-#else
-#include <utime.h>
-#endif
 
 #include <string.h>
-#include <glib/gstdio.h>
 #include <UgPlugin-curl.h>
 #include <UgData-download.h>
 #include <UgStdio.h>
@@ -99,9 +93,6 @@ static void		ug_plugin_curl_set_proxy	(UgPluginCurl* plugin, CURL* curl);
 // libcurl callback functions
 static int		ug_plugin_curl_progress		(UgPluginCurl* plugin, double  dltotal, double  dlnow, double  ultotal, double  ulnow);
 static size_t	ug_plugin_curl_header_http	(char *buffer, size_t size, size_t nmemb, UgPluginCurl *plugin);
-
-// static functions
-static int		ug_set_file_time (const gchar *file_utf8, time_t mod_time);
 
 // static data for UgPluginClass
 static const char*	supported_schemes[] = {"http", "https", "ftp", "ftps", NULL};
@@ -572,7 +563,7 @@ exit:
 #endif
 		curl_easy_getinfo (curl, CURLINFO_FILETIME, &curl_time);
 		if (curl_time != -1)
-			ug_set_file_time (plugin->path, (time_t) curl_time);
+			ug_modify_file_time (plugin->path, (time_t) curl_time);
 		ug_plugin_post ((UgPlugin*) plugin,
 				ug_message_new_info (UG_MESSAGE_INFO_COMPLETE, NULL));
 		ug_plugin_post ((UgPlugin*) plugin,
@@ -826,21 +817,6 @@ static size_t	ug_plugin_curl_header_http (char *buffer, size_t size, size_t nmem
 	return nmemb;
 }
 
-// static function
-static int	ug_set_file_time (const gchar *file_utf8, time_t mod_time)
-{
-	struct utimbuf	utb;
-	gchar*			file;
-	int				result;
-
-	utb.actime = time (NULL);
-	utb.modtime = mod_time;
-	file = g_filename_from_utf8 (file_utf8, -1, NULL, NULL, NULL);
-	result = g_utime (file, &utb);
-	g_free (file);
-
-	return result;
-}
 
 // ----------------------------------------------------------------------------
 // PWMD

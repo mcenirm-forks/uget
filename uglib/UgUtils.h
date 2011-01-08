@@ -77,6 +77,8 @@ int		ug_copy_file (const gchar *src_file_utf8, const gchar *new_file_utf8);
 int		ug_create_dir_all (const gchar *dir_utf8, gint len);
 // Remove a File or Directory Recursively
 int		ug_delete_dir_recursive (const gchar *dir_utf8);
+// Change the modified time of file
+int		ug_modify_file_time (const gchar *file_utf8, time_t mod_time);
 
 
 // ------------------------------------------------------------------

@@ -40,6 +40,9 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include <sys/utime.h>	// struct utimbuf
+#else
+#include <utime.h>		// struct utimbuf
 #endif
 
 #include <gio/gio.h>
@@ -305,6 +308,22 @@ int  ug_delete_dir_recursive (const gchar *utf8_dir)
 	g_dir_close (dir);
 	ug_delete_dir (utf8_dir);
 	return 0;
+}
+
+// Change the modified time of file
+int	ug_modify_file_time (const gchar *file_utf8, time_t mod_time)
+{
+	struct utimbuf	utb;
+	gchar*			file;
+	int				result;
+
+	utb.actime = time (NULL);
+	utb.modtime = mod_time;
+	file = g_filename_from_utf8 (file_utf8, -1, NULL, NULL, NULL);
+	result = g_utime (file, &utb);
+	g_free (file);
+
+	return result;
 }
 
 
