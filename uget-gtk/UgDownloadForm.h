@@ -119,6 +119,7 @@ struct UgDownloadForm_
 		gboolean	post:1;
 		gboolean	retry:1;	// spin_retry
 		gboolean	delay:1;	// spin_delay
+		gboolean	split:1;	// spin_split
 		gboolean	speed:1;	// spin_speed
 	} changed;
 
