@@ -80,6 +80,10 @@ void	ug_plugin_class_unregister (const UgPluginClass* plugin_class)
 {
 	const gchar**	string;
 
+	// Don't unregister plug-in if it not found.
+	if (ug_registry_search (plugin_class->name, UG_REG_PLUGIN_CLASS) == NULL)
+		return;
+
 	ug_registry_remove (plugin_class->name, UG_REG_PLUGIN_CLASS);
 
 	if (plugin_class->schemes) {
