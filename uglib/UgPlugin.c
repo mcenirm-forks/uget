@@ -53,11 +53,13 @@
 // ---------------------------------------------------------------------------
 // UgPluginClass
 //
-void	ug_plugin_class_register (const UgPluginClass* plugin_class)
+gboolean	ug_plugin_class_register (const UgPluginClass* plugin_class)
 {
 	const gchar**	string;
 
-	plugin_class->global_init ();
+	// If plug-in failed to initialize, don't register it.
+	if (plugin_class->global_init () == FALSE)
+		return FALSE;
 
 	ug_registry_insert (plugin_class->name, UG_REG_PLUGIN_CLASS, (gpointer) plugin_class);
 
@@ -70,6 +72,8 @@ void	ug_plugin_class_register (const UgPluginClass* plugin_class)
 		for (string = plugin_class->file_types;  *string;  string++)
 			ug_registry_insert (*string, UG_REG_PLUGIN_FILE_TYPE, (gpointer) plugin_class);
 	}
+
+	return TRUE;
 }
 
 void	ug_plugin_class_unregister (const UgPluginClass* plugin_class)
