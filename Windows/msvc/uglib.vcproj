@@ -151,19 +151,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\uglib\UgRunning.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\uglib\UgCategory.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\uglib\UgData.c"
+				RelativePath="..\..\uglib\UgData-download.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\uglib\UgData-download.c"
+				RelativePath="..\..\uglib\UgData.c"
 				>
 			</File>
 			<File
@@ -179,6 +175,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\uglib\uglib.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\uglib\UgMarkup.c"
 				>
 			</File>
@@ -191,7 +191,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\uglib\UgPlugin.c"
+				RelativePath="..\..\uglib\UgPlugin-aria2.c"
 				>
 			</File>
 			<File
@@ -199,7 +199,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\uglib\UgPlugin.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\uglib\UgRegistry.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uglib\UgRunning.c"
 				>
 			</File>
 			<File
@@ -218,10 +226,6 @@
 				RelativePath="..\..\uglib\UgUtils.c"
 				>
 			</File>
-			<File
-				RelativePath="..\..\uglib\uglib.c"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="¼ÐÀYÀÉ"
@@ -229,19 +233,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\uglib\UgRunning.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\uglib\UgCategory.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\uglib\UgData.h"
+				RelativePath="..\..\uglib\UgData-download.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\uglib\UgData-download.h"
+				RelativePath="..\..\uglib\UgData.h"
 				>
 			</File>
 			<File
@@ -257,6 +257,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\uglib\uglib.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\uglib\UgMarkup.h"
 				>
 			</File>
@@ -269,7 +273,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\uglib\UgPlugin.h"
+				RelativePath="..\..\uglib\UgPlugin-aria2.h"
 				>
 			</File>
 			<File
@@ -277,7 +281,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\uglib\UgPlugin.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\uglib\UgRegistry.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uglib\UgRunning.h"
 				>
 			</File>
 			<File
@@ -294,10 +306,6 @@
 			</File>
 			<File
 				RelativePath="..\..\uglib\UgUtils.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uglib\uglib.h"
 				>
 			</File>
 		</Filter>

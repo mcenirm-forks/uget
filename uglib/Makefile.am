@@ -14,11 +14,11 @@ libuglib_a_SOURCES  = uglib.c  \
 	UgOption.c  UgMarkup.c   UgIpc.c  UgRegistry.c  \
 	UgStdio.c   UgString.c   UgUri.c  UgUtils.c  UgHtml.c  \
 	UgData.c    UgDataset.c  UgData-download.c  UgCategory.c  UgMessage.c  \
-	UgPlugin.c  UgPlugin-curl.c  UgRunning.c
+	UgRunning.c UgPlugin.c   UgPlugin-aria2.c  UgPlugin-curl.c
 
 noinst_HEADERS      = uglib.h  \
 	UgOption.h  UgMarkup.h   UgIpc.h  UgRegistry.h  \
 	UgStdio.h   UgString.h   UgUri.h  UgUtils.h  UgHtml.h  \
 	UgData.h    UgDataset.h  UgData-download.h  UgCategory.h  UgMessage.h  \
-	UgPlugin.h  UgPlugin-curl.h  UgRunning.h
+	UgRunning.h UgPlugin.h   UgPlugin-aria2.h  UgPlugin-curl.h
 

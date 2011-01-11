@@ -78,6 +78,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\uglib\UgOption.h" />
+		<Unit filename="..\..\uglib\UgPlugin-aria2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgPlugin-aria2.h" />
 		<Unit filename="..\..\uglib\UgPlugin-curl.c">
 			<Option compilerVar="CC" />
 		</Unit>
