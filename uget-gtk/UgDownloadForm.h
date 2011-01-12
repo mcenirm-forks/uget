@@ -89,6 +89,10 @@ struct UgDownloadForm_
 	GtkWidget*	spin_retry;		// counts
 	GtkWidget*	spin_delay;		// seconds
 
+	// multi-segment download
+	GtkWidget*	label_multi;
+	GtkWidget*	label_split;
+	GtkWidget*	label_parts;
 	GtkWidget*	spin_split;		// segments
 
 	// ----------------------------------------------------
@@ -141,6 +145,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 
 void	ug_download_form_set_multiple (UgDownloadForm* dform, gboolean multiple_mode);
 void	ug_download_form_set_relation (UgDownloadForm* dform, gboolean relation_mode);
+void	ug_download_form_set_segments (UgDownloadForm* dform, gboolean use_segments);
 void	ug_download_form_set_folder_list (UgDownloadForm* dform, GList*  folder_list);
 void	ug_download_form_get_folder_list (UgDownloadForm* dform, GList** folder_list);
 void	ug_download_form_complete_entry (UgDownloadForm* dform);
