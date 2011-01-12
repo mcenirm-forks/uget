@@ -866,9 +866,9 @@ static gint	ug_download_model_cmp_complete (GtkTreeModel* model, GtkTreeIter* a,
 	}
 
 	if (user_data == NULL)
-		return completed1 - completed2;
+		return (gint) (completed1 - completed2);
 	else
-		return completed2 - completed1;
+		return (gint) (completed2 - completed1);
 }
 
 static gint	ug_download_model_cmp_size (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
@@ -895,9 +895,9 @@ static gint	ug_download_model_cmp_size (GtkTreeModel* model, GtkTreeIter* a, Gtk
 	}
 
 	if (user_data == NULL)
-		return size1 - size2;
+		return (gint) (size1 - size2);
 	else
-		return size2 - size1;
+		return (gint) (size2 - size1);
 }
 
 static gint	ug_download_model_cmp_percent (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
@@ -924,9 +924,9 @@ static gint	ug_download_model_cmp_percent (GtkTreeModel* model, GtkTreeIter* a, 
 	}
 
 	if (user_data == NULL)
-		return percent1 - percent2;
+		return (gint) (percent1 - percent2);
 	else
-		return percent2 - percent1;
+		return (gint) (percent2 - percent1);
 }
 
 static gint	ug_download_model_cmp_elapsed (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
@@ -953,9 +953,9 @@ static gint	ug_download_model_cmp_elapsed (GtkTreeModel* model, GtkTreeIter* a, 
 	}
 
 	if (user_data == NULL)
-		return elapsed1 - elapsed2;
+		return (gint) (elapsed1 - elapsed2);
 	else
-		return elapsed2 - elapsed1;
+		return (gint) (elapsed2 - elapsed1);
 }
 
 static gint	ug_download_model_cmp_left (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
@@ -982,9 +982,9 @@ static gint	ug_download_model_cmp_left (GtkTreeModel* model, GtkTreeIter* a, Gtk
 	}
 
 	if (user_data == NULL)
-		return left1 - left2;
+		return (gint) (left1 - left2);
 	else
-		return left2 - left1;
+		return (gint) (left2 - left1);
 }
 
 static gint	ug_download_model_cmp_speed (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
@@ -1011,17 +1011,17 @@ static gint	ug_download_model_cmp_speed (GtkTreeModel* model, GtkTreeIter* a, Gt
 	}
 
 	if (user_data == NULL)
-		return speed1 - speed2;
+		return (gint) (speed1 - speed2);
 	else
-		return speed2 - speed1;
+		return (gint) (speed2 - speed1);
 }
 
 static gint	ug_download_model_cmp_retry (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*		dataset;
 	UgDataCommon*	common;
-	gdouble			retry1;
-	gdouble			retry2;
+	gint			retry1;
+	gint			retry2;
 
 	retry1 = 0;
 	gtk_tree_model_get (model, a, 0, &dataset, -1);
