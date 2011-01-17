@@ -114,6 +114,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\uglib\UgUtils.h" />
+		<Unit filename="..\..\uglib\UgXmlrpc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uglib\UgXmlrpc.h" />
 		<Unit filename="..\..\uglib\uglib.c">
 			<Option compilerVar="CC" />
 		</Unit>

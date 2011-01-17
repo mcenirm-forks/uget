@@ -226,6 +226,10 @@
 				RelativePath="..\..\uglib\UgUtils.c"
 				>
 			</File>
+			<File
+				RelativePath="..\..\uglib\UgXmlrpc.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="¼ÐÀYÀÉ"
@@ -306,6 +310,10 @@
 			</File>
 			<File
 				RelativePath="..\..\uglib\UgUtils.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uglib\UgXmlrpc.h"
 				>
 			</File>
 		</Filter>

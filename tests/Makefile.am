@@ -1,5 +1,5 @@
 
-noinst_PROGRAMS = test-download  test-conf  test-ipc
+noinst_PROGRAMS = test-download  test-conf  test-ipc  test-xmlrpc
 
 # set the include path found by configure
 AM_CPPFLAGS = -I$(top_srcdir)/uglib -I$(top_srcdir)/tests 
@@ -14,4 +14,7 @@ test_conf_SOURCES  = test-conf.c
 
 test_ipc_LDADD    = $(top_builddir)/uglib/libuglib.a
 test_ipc_SOURCES  = test-ipc.c
+
+test_xmlrpc_LDADD    = $(top_builddir)/uglib/libuglib.a
+test_xmlrpc_SOURCES  = test-xmlrpc.c
 

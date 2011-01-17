@@ -28,6 +28,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uget-cmd", "uget-cmd.vcproj
 		{742B79B4-66D8-471B-8720-BC789D706356} = {742B79B4-66D8-471B-8720-BC789D706356}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test-xmlrpc", "test-xmlrpc.vcproj", "{F43E17FF-786B-43B0-8702-9998797C5FD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -58,6 +60,10 @@ Global
 		{EC1E1B1A-CA74-4BB1-B3B4-0DC1BF68D2EA}.Debug|Win32.Build.0 = Debug|Win32
 		{EC1E1B1A-CA74-4BB1-B3B4-0DC1BF68D2EA}.Release|Win32.ActiveCfg = Release|Win32
 		{EC1E1B1A-CA74-4BB1-B3B4-0DC1BF68D2EA}.Release|Win32.Build.0 = Release|Win32
+		{F43E17FF-786B-43B0-8702-9998797C5FD6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F43E17FF-786B-43B0-8702-9998797C5FD6}.Debug|Win32.Build.0 = Debug|Win32
+		{F43E17FF-786B-43B0-8702-9998797C5FD6}.Release|Win32.ActiveCfg = Release|Win32
+		{F43E17FF-786B-43B0-8702-9998797C5FD6}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

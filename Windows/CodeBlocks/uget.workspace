@@ -7,5 +7,6 @@
 		<Project filename="test-conf.cbp" />
 		<Project filename="test-download.cbp" />
 		<Project filename="test-ipc.cbp" />
+		<Project filename="test-xmlrpc.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
