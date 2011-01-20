@@ -37,9 +37,11 @@
 /*
  *	XML-RPC for C Language
  *
- *	UgXmlrpc	xmlrpc;
+ *	UgXmlrpc		xmlrpc;
+ *	UgXmlrpcValue*	value;
  *
  *	ug_xmlrpc_init (&xmlrpc);
+ *	value = ug_xmlrpc_value_new ();
  *
  *	ug_xmlrpc_use_client (&xmlrpc, "http://localhost:8080/RPC", "Agent/1.0");
  *
@@ -48,10 +50,8 @@
  *			UG_XMLRPC_STRING, "sample",
  *			UG_XMLRPC_NONE);
  *
- *	if (ug_xmlrpc_response (&xmlrpc) == UG_XMLRPC_RESPONSE_FAULT)
+ *	if (ug_xmlrpc_response (&xmlrpc) != UG_XMLRPC_ERROR)
  *		ug_xmlrpc_get_value (&xmlrpc, value);
- *	else
- *		ug_xmlrpc_get_param (&xmlrpc, value);
  *
  *	ug_xmlrpc_finalize (&xmlrpc);
  *
@@ -85,7 +85,6 @@ extern "C" {
 
 
 typedef struct	UgXmlrpc			UgXmlrpc;
-typedef struct	UgXmlrpcData		UgXmlrpcData;
 typedef struct	UgXmlrpcValue		UgXmlrpcValue;
 typedef union	UgXmlrpcValueC		UgXmlrpcValueC;
 typedef enum	UgXmlrpcType		UgXmlrpcType;
@@ -106,19 +105,19 @@ enum UgXmlrpcType
 	UG_XMLRPC_DATETIME,		// <dateTime.iso8601>	// char*
 	UG_XMLRPC_BASE64,		// <base64>				// char*
 
-	UG_XMLRPC_STRUCT,		// <struct>				// UgXmlrpcData*
-	UG_XMLRPC_ARRAY,		// <array>				// UgXmlrpcData*
-
 	// XML-RPC extension, such as
 	// Python's None object, Perl's undef value, or a NULL pointer in C.
 	UG_XMLRPC_NIL,			// <nil>				// NULL
+
+	UG_XMLRPC_ARRAY,		// <array>				// UgXmlrpcValue*
+	UG_XMLRPC_STRUCT,		// <struct>				// UgXmlrpcValue*
 };
 
 enum UgXmlrpcResponse
 {
-	UG_XMLRPC_RESPONSE_OK,
-	UG_XMLRPC_RESPONSE_FAULT,
-	UG_XMLRPC_RESPONSE_ERROR,	// HTTP header or data has error
+	UG_XMLRPC_OK,
+	UG_XMLRPC_FAULT,
+	UG_XMLRPC_ERROR,	// HTTP header or data has error
 };
 
 
@@ -148,7 +147,7 @@ struct UgXmltag
 void	ug_xmltag_init     (UgXmltag* xmltag);
 void	ug_xmltag_finalize (UgXmltag* xmltag);
 
-#define	ug_xmltag_len(xmltag)		((xmltag)->end - (xmltag)->cur)
+#define		ug_xmltag_len(xmltag)		((xmltag)->end - (xmltag)->beg)
 
 gboolean	ug_xmltag_parse (UgXmltag* xmltag, gchar* string);
 void		ug_xmltag_push  (UgXmltag* xmltag, UgXmltagFunc func, gpointer data);
@@ -178,85 +177,77 @@ void	ug_xmlrpc_finalize (UgXmlrpc* xmlrpc);
 
 void	ug_xmlrpc_use_client (UgXmlrpc* xmlrpc, const gchar* url, const gchar* user_agent);
 
-//gboolean	ug_xmlrpc_connect (UgXmlrpc* xmlrpc, const gchar* url);
-
 // ----------------------------------------------------------------------------
 // functions used to write UgXmlrpc.buffer
 //
 //
-//	UgXmlrpcData*	xmlarray;
-//	UgXmlrpcData*	xmlstruct;
+//	UgXmlrpcValue*	xrarray  = ug_xmlrpc_value_new_array (0);
+//	UgXmlrpcValue*	xrstruct = ug_xmlrpc_value_new_struct (0);
 //
 //	ug_xmlrpc_call (xmlrpc,   "methodName",
 //			UG_XMLRPC_INT,    9876,
 //			UG_XMLRPC_DOUBLE, 0.65,
 //			UG_XMLRPC_STRING, "sample",
-//			UG_XMLRPC_ARRAY,  xmlarray,
-//			UG_XMLRPC_STRUCT, xmlstruct,
+//			UG_XMLRPC_ARRAY,  xrarray,
+//			UG_XMLRPC_STRUCT, xrstruct,
 //			UG_XMLRPC_NIL,    NULL,
 //			UG_XMLRPC_NONE);
 //
 gboolean	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...);
-
-void		ug_xmlrpc_add_value  (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
-void		ug_xmlrpc_add_array  (UgXmlrpc* xmlrpc, UgXmlrpcData* xrdata);
-void		ug_xmlrpc_add_struct (UgXmlrpc* xmlrpc, UgXmlrpcData* xrdata);
-
 
 // ----------------------------------------------------------------------------
 // functions used to parse UgXmlrpc.buffer
 //
 UgXmlrpcResponse	ug_xmlrpc_response (UgXmlrpc* xmlrpc);
 
-gboolean	ug_xmlrpc_get_param  (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
-gboolean	ug_xmlrpc_get_value  (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
+gboolean	ug_xmlrpc_get_value (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
 
 
 // ----------------------------------------------------------------------------
-// UgXmlrpcValue: XML-RPC value for array, struct, and others
+// UgXmlrpcValueC: XML-RPC value for C Language
+//
+union UgXmlrpcValueC
+{
+	int				int_;		// UG_XMLRPC_INT
+	gint64			int64;		// UG_XMLRPC_INT64
+	int				boolean;	// UG_XMLRPC_BOOLEAN
+	char*			string;		// UG_XMLRPC_STRING
+	double			double_;	// UG_XMLRPC_DOUBLE
+//	time_t			datetime;	// UG_XMLRPC_DATETIME
+	char*			datetime;	// UG_XMLRPC_DATETIME
+	char*			base64;		// UG_XMLRPC_BASE64
+
+	// used for UG_XMLRPC_STRUCT only
+	GTree*			tree;
+};
+
+
+// ----------------------------------------------------------------------------
+// UgXmlrpcValue: XML-RPC value
 //
 struct UgXmlrpcValue
 {
 	UgXmlrpcType	type;
+	UgXmlrpcValueC	c;
 
 	// used for member of UG_XMLRPC_STRUCT
 	gchar*			name;
 
-	union UgXmlrpcValueC
-	{
-		int				int_;		// UG_XMLRPC_INT
-		gint64			int64;		// UG_XMLRPC_INT64
-		int				boolean;	// UG_XMLRPC_BOOLEAN
-		char*			string;		// UG_XMLRPC_STRING
-		double			double_;	// UG_XMLRPC_DOUBLE
-//		time_t			datetime;	// UG_XMLRPC_DATETIME
-		char*			datetime;	// UG_XMLRPC_DATETIME
-		char*			base64;		// UG_XMLRPC_BASE64
-
-		UgXmlrpcData*	struct_;	// UG_XMLRPC_STRUCT
-		UgXmlrpcData*	array;		// UG_XMLRPC_ARRAY
-	} c;
-};
-
-UgXmlrpcValue*	ug_xmlrpc_value_new  (void);
-void			ug_xmlrpc_value_free (UgXmlrpcValue* value);
-
-
-// ----------------------------------------------------------------------------
-// UgXmlrpcData: for XML-RPC array, struct
-//
-struct UgXmlrpcData
-{
+	// used for UG_XMLRPC_ARRAY and UG_XMLRPC_STRUCT
 	UgXmlrpcValue*	data;
 	guint			len;
 	guint			allocated;
-	GTree*			tree;
 };
 
-UgXmlrpcData*	ug_xmlrpc_data_new   (guint n);
-void			ug_xmlrpc_data_free  (UgXmlrpcData* xrdata);
-UgXmlrpcValue*	ug_xmlrpc_data_alloc (UgXmlrpcData* xrdata);
-UgXmlrpcValue*	ug_xmlrpc_data_find  (UgXmlrpcData* xrdata, const gchar* name);
+UgXmlrpcValue*	ug_xmlrpc_value_new   (void);
+void			ug_xmlrpc_value_free  (UgXmlrpcValue* value);
+void			ug_xmlrpc_value_clear (UgXmlrpcValue* value);
+UgXmlrpcValue*	ug_xmlrpc_value_alloc (UgXmlrpcValue* value);
+UgXmlrpcValue*	ug_xmlrpc_value_find  (UgXmlrpcValue* value, const gchar* name);
+
+UgXmlrpcValue*	ug_xmlrpc_value_new_data (UgXmlrpcType type, guint preallocated_size);
+#define			ug_xmlrpc_value_new_array(size)		ug_xmlrpc_value_new_data (UG_XMLRPC_ARRAY,  size)
+#define			ug_xmlrpc_value_new_struct(size)	ug_xmlrpc_value_new_data (UG_XMLRPC_STRUCT, size)
 
 
 #ifdef __cplusplus
