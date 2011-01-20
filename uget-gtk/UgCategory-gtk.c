@@ -347,8 +347,11 @@ void	ug_category_gtk_changed	(UgCategory* category, UgDataset* dataset)
 		dlwidget = &cgtk->queuing;
 
 	// Don't move job to the same UgDownloadWidget.
-	if (relation->user.data == &cgtk->active  &&  dlwidget == &cgtk->queuing)
-		;
+	if (relation->user.data == &cgtk->active  &&  dlwidget == &cgtk->queuing) {
+		relation->user.data = dlwidget;
+		gtk_list_store_move_after (relation->user.storage,
+				relation->user.position, NULL);
+	}
 	else if (relation->user.data != dlwidget) {
 		relation->user.data = dlwidget;
 		if (dlwidget == &cgtk->recycled || dlwidget == &cgtk->finished) {
