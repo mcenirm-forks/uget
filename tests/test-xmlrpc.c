@@ -1,8 +1,12 @@
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #ifdef _WIN32
 #include <winsock.h>
-#else
-#include <unistd.h>
 #endif
+
+#ifdef HAVE_PLUGIN_ARIA2
 
 #include <UgXmlrpc.h>
 
@@ -110,6 +114,8 @@ void test_xmlrpc (void)
 	ug_xmlrpc_finalize (&xmlrpc);
 }
 
+#endif	// HAVE_PLUGIN_ARIA2
+
 int main (int argc, char* argv[])
 {
 #ifdef _WIN32
@@ -118,7 +124,9 @@ int main (int argc, char* argv[])
 	WSAStartup (MAKEWORD (2, 2), &WSAData);
 #endif
 
+#ifdef HAVE_PLUGIN_ARIA2
 	test_xmlrpc ();
+#endif
 
 #ifdef _WIN32
 	WSACleanup ();

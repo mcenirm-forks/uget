@@ -48,18 +48,19 @@
 
 #include <UgPlugin.h>
 #include <UgData-download.h>
+#include <UgXmlrpc.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-typedef	struct	UgPluginAria2_	UgPluginAria2;
+typedef	struct	UgPluginAria2	UgPluginAria2;
 
 extern	const	UgPluginClass*	UgPluginAria2Class;
 
 
-struct UgPluginAria2_
+struct UgPluginAria2
 {
 	UG_PLUGIN_MEMBERS;
 //	const UgPluginClass*	plugin_class;
@@ -73,6 +74,21 @@ struct UgPluginAria2_
 	UgDataProxy*	proxy;
 	UgDataHttp*		http;
 	UgDataFtp*		ftp;
+
+	// temp
+	GString*		string;
+	GStringChunk*	chunk;
+
+	// aria2 progress and status
+	gchar*			gid;
+	guint			errorCode;
+	guint			aria2Status;
+	gint64			totalLength;
+	gint64			completedLength;
+	gint			downloadSpeed;
+	gdouble			consumeTime;
+
+	UgXmlrpc		xmlrpc;
 };
 
 

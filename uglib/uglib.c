@@ -34,10 +34,15 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 
 #include <uglib.h>
 #include <UgPlugin-curl.h>
+#include <UgPlugin-aria2.h>
 
 
 // ------------------------------------------------------------------
@@ -56,7 +61,11 @@ gboolean ug_class_init (void)
 	// message
 	ug_data_class_register (UgMessageClass);
 	// plug-ins
+#ifdef HAVE_PLUGIN_ARIA2
+	ug_plugin_class_register (UgPluginAria2Class);
+#else
 	ug_plugin_class_register (UgPluginCurlClass);
+#endif
 
 	return TRUE;
 }
@@ -76,6 +85,10 @@ void ug_class_finalize (void)
 	// message
 	ug_data_class_unregister (UgMessageClass);
 	// plug-ins
+#ifdef HAVE_PLUGIN_ARIA2
+	ug_plugin_class_unregister (UgPluginAria2Class);
+#else
 	ug_plugin_class_unregister (UgPluginCurlClass);
+#endif
 }
 

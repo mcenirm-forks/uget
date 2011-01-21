@@ -235,6 +235,8 @@ gboolean	ug_running_dispatch (UgRunning* running)
 		ug_running_dispatch_1 (running, link->data);
 	// adjust speed limit after dispatching messages
 	ug_running_do_speed_limit (running);
+
+	// return FALSE if the source should be removed.
 	return TRUE;
 }
 

@@ -34,6 +34,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#ifdef HAVE_PLUGIN_ARIA2
+
 #ifndef _WIN32
 #include <netdb.h>		// gethostbyname ()
 #include <arpa/inet.h>	// inet_addr ()
@@ -51,6 +57,7 @@
 static void	ug_xmlrpc_add_value  (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
 static void	ug_xmlrpc_add_array  (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
 static void	ug_xmlrpc_add_struct (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
+static void	ug_str_unescape_text (gchar* text);
 
 void	ug_xmlrpc_init (UgXmlrpc* xmlrpc)
 {
@@ -159,6 +166,7 @@ gboolean	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...)
 {
 	GString*	buffer;
 	va_list		args;
+	gchar*		temp;
 	int			n;
 
 	if (ug_xmlrpc_open_socket (xmlrpc) == FALSE)
@@ -197,8 +205,10 @@ gboolean	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...)
 			break;
 
 		case UG_XMLRPC_STRING:
+			temp = g_markup_escape_text (va_arg (args, char*), -1);
 			g_string_append_printf (buffer,
-					"<string>%s</string>", va_arg (args, char*));
+					"<string>%s</string>", temp);
+			g_free (temp);
 			break;
 
 		case UG_XMLRPC_DOUBLE:
@@ -285,7 +295,8 @@ break_for_loop:
 
 static void	ug_xmlrpc_add_value (UgXmlrpc* xmlrpc, UgXmlrpcValue* value)
 {
-	GString*		buffer;
+	GString*	buffer;
+	gchar*		temp;
 
 	buffer   = xmlrpc->buffer;
 	g_string_append (buffer, "<value>");
@@ -306,8 +317,10 @@ static void	ug_xmlrpc_add_value (UgXmlrpc* xmlrpc, UgXmlrpcValue* value)
 		break;
 
 	case UG_XMLRPC_STRING:
+		temp = g_markup_escape_text (value->c.string, -1);
 		g_string_append_printf (buffer,
-				"<string>%s</string>", value->c.string);
+				"<string>%s</string>", temp);
+		g_free (temp);
 		break;
 
 	case UG_XMLRPC_DOUBLE:
@@ -464,7 +477,11 @@ gboolean	ug_xmlrpc_get_value  (UgXmlrpc* xmlrpc, UgXmlrpcValue* value)
 	else
 		ug_xmltag_push (&xmlrpc->tag, (UgXmltagFunc) ug_xmltag_parse_value_top, value);
 
-	return ug_xmltag_parse (&xmlrpc->tag, xmlrpc->tag.beg);
+	if (ug_xmltag_parse (&xmlrpc->tag, xmlrpc->tag.beg) == FALSE) {
+		ug_xmlrpc_value_clear (value);
+		return FALSE;
+	}
+	return TRUE;
 }
 
 // parser ---------
@@ -515,6 +532,7 @@ static void	ug_xmltag_parse_value (UgXmltag* xmltag, UgXmlrpcValue* value)
 			value->type = UG_XMLRPC_STRING;
 			value->c.string = text;
 			xmltag->next[0] = 0;	// null-terminated
+			ug_str_unescape_text (text);
 		}
 		break;
 
@@ -711,7 +729,7 @@ void	ug_xmlrpc_value_clear (UgXmlrpcValue* value)
 	UgXmlrpcValue*	cur;
 	UgXmlrpcValue*	end;
 
-	if (value->type >= UG_XMLRPC_ARRAY) {
+	if (value->data) {
 		cur = value->data;
 		end = cur + value->len;
 		// free array data or struct members
@@ -723,7 +741,7 @@ void	ug_xmlrpc_value_clear (UgXmlrpcValue* value)
 		value->data = NULL;
 		value->len = 0;
 		value->allocated = 0;
-		// free balance tree
+		// free Balanced Binary Trees
 		if (value->c.tree) {
 			g_tree_destroy (value->c.tree);
 			value->c.tree = NULL;
@@ -772,4 +790,47 @@ UgXmlrpcValue*	ug_xmlrpc_value_find (UgXmlrpcValue* value, const gchar* name)
 	}
 	return NULL;
 }
+
+
+// ----------------------------------------------------------------------------
+// utility
+//
+static void	ug_str_unescape_text (gchar* text)
+{
+	gchar*	beg;
+	gchar*	end;
+	guint	len;
+
+	if ((text = strchr (text, '&')) == NULL)
+		return;
+	end = text;
+	// beg  end
+	//  v   v
+	// &quot;
+	for (;;) {
+		for (beg = end;  *beg;  beg++) {
+			if (*beg == '&')
+				break;
+		}
+		while (end < beg)
+			*text++ = *end++;
+		if ((end = strchr (beg, ';')) == NULL)
+			break;
+		len =  end - (beg += 1);
+
+		if (strncmp (beg, "quot", len) == 0)
+			*text++ = '\"';
+		else if (strncmp (beg, "amp", len) == 0)
+			*text++ = '&';
+		else if (strncmp (beg, "lt", len) == 0)
+			*text++ = '<';
+		else if (strncmp (beg, "gt", len) == 0)
+			*text++ = '>';
+		end++;
+	}
+
+	*text = 0;
+}
+
+#endif	// HAVE_PLUGIN_ARIA2
 

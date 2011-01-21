@@ -130,7 +130,7 @@ typedef void	(*UgXmltagFunc)	(UgXmltag* xmltag, gpointer user_data);
 struct UgXmltag
 {
 	// beg        end  next
-	//  V          V    V
+	//  v          v    v
 	// <elementName>text<nextElement>
 	gchar*			beg;
 	gchar*			end;
@@ -217,7 +217,7 @@ union UgXmlrpcValueC
 	char*			datetime;	// UG_XMLRPC_DATETIME
 	char*			base64;		// UG_XMLRPC_BASE64
 
-	// used for UG_XMLRPC_STRUCT only
+	// Balanced Binary Trees used for UG_XMLRPC_STRUCT only
 	GTree*			tree;
 };
 
@@ -248,6 +248,7 @@ UgXmlrpcValue*	ug_xmlrpc_value_find  (UgXmlrpcValue* value, const gchar* name);
 UgXmlrpcValue*	ug_xmlrpc_value_new_data (UgXmlrpcType type, guint preallocated_size);
 #define			ug_xmlrpc_value_new_array(size)		ug_xmlrpc_value_new_data (UG_XMLRPC_ARRAY,  size)
 #define			ug_xmlrpc_value_new_struct(size)	ug_xmlrpc_value_new_data (UG_XMLRPC_STRUCT, size)
+#define			ug_xmlrpc_value_at(value, index)	(&(value)->data[index])
 
 
 #ifdef __cplusplus

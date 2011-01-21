@@ -104,6 +104,18 @@ AC_SUBST(CURL_CFLAGS)
 AC_SUBST(CURL_LIBS)
 
 ## -----------------
+## aria2
+AC_ARG_ENABLE(
+	[plugin-aria2],
+	AC_HELP_STRING([--enable-plugin-aria2], [Enable aria2 plug-in.]),
+	[plugin_aria2="$enableval"],
+	[plugin_aria2="no"]
+)
+if test "x$plugin_aria2" = "xyes"; then
+    AC_DEFINE(HAVE_PLUGIN_ARIA2, 1, [Define to 1 to use aria2 plug-in.])
+fi
+
+## -----------------
 ## libpwmd
 AC_ARG_ENABLE(
 	[pwmd],
