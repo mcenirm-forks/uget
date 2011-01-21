@@ -206,9 +206,8 @@ static UgResult	ug_plugin_curl_get_state (UgPluginCurl* plugin, UgState* state)
 	return UG_RESULT_ERROR;
 }
 
-UgResult	ug_plugin_curl_set (UgPluginCurl* plugin, guint parameter, gpointer data)
+static UgResult	ug_plugin_curl_set (UgPluginCurl* plugin, guint parameter, gpointer data)
 {
-/*
 	gint64	speed_limit;
 
 	if (parameter != UG_DATA_TYPE_INT64)
@@ -219,8 +218,6 @@ UgResult	ug_plugin_curl_set (UgPluginCurl* plugin, guint parameter, gpointer dat
 	curl_easy_setopt (plugin->curl, CURLOPT_MAX_SEND_SPEED_LARGE, (curl_off_t) speed_limit);
 
 	return UG_RESULT_OK;
- */
-	return UG_RESULT_UNSUPPORT;
 }
 
 static UgResult	ug_plugin_curl_get (UgPluginCurl* plugin, guint parameter, gpointer data)

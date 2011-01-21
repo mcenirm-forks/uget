@@ -85,6 +85,10 @@ gdouble		ug_running_get_speed (UgRunning* running);
 void		ug_running_set_speed (UgRunning* running, guint64 speed_limit);
 
 // This is a GSourceFunc, you can use it with GSource.
+// It can adjust speed of all job.
+gboolean	ug_running_do_speed_limit (UgRunning* running);
+
+// This is a GSourceFunc, you can use it with GSource.
 // It can dispatch all messages from all jobs.
 gboolean	ug_running_dispatch (UgRunning* running);
 

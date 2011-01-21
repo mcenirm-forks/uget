@@ -86,8 +86,6 @@ gboolean	ug_running_add (UgRunning* running, UgDataset* dataset)
 			return FALSE;
 		}
 	}
-	// activate job
-	ug_plugin_set_state (relation->plugin, UG_STATE_ACTIVE);
 	// change relation->hints and notify category
 	relation->hints &= ~UG_HINT_INACTIVE;
 	relation->hints |=  UG_HINT_DOWNLOADING;
@@ -96,6 +94,9 @@ gboolean	ug_running_add (UgRunning* running, UgDataset* dataset)
 	// add to group
 	ug_dataset_ref (dataset);
 	g_queue_push_tail (&running->group, dataset);
+	// activate job
+	ug_plugin_set_state (relation->plugin, UG_STATE_ACTIVE);
+	ug_running_do_speed_limit (running);
 	// If this job can activate, return TRUE.
 	return TRUE;
 }
@@ -204,6 +205,27 @@ void	ug_running_set_speed (UgRunning* running, guint64 speed_limit)
 }
 
 // This is a GSourceFunc, you can use it with GSource.
+// It can adjust speed of all job.
+gboolean	ug_running_do_speed_limit (UgRunning* running)
+{
+	UgRelation*	relation;
+	gint64		average;
+	GList*		link;
+
+	if (running->speed_limit == 0)
+		return TRUE;
+
+	average = running->speed_limit / running->group.length;
+	for (link = running->group.head;  link;  link = link->next) {
+		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
+		ug_plugin_set (relation->plugin, UG_DATA_TYPE_INT64, &average);
+	}
+
+	// return FALSE if the source should be removed.
+	return TRUE;
+}
+
+// This is a GSourceFunc, you can use it with GSource.
 // It can dispatch all messages from all jobs.
 gboolean	ug_running_dispatch (UgRunning* running)
 {
@@ -211,7 +233,8 @@ gboolean	ug_running_dispatch (UgRunning* running)
 
 	for (link = running->group.head;  link;  link = link->next)
 		ug_running_dispatch_1 (running, link->data);
-
+	// adjust speed limit after dispatching messages
+	ug_running_do_speed_limit (running);
 	return TRUE;
 }
 
