@@ -390,7 +390,7 @@ static void	uget_gtk_launch_default_app (UgDataset* dataset, GRegex* regex)
 }
 
 // scheduler
-static gboolean	uget_gtk_update_schedule_state (UgetGtk* ugtk)
+static gboolean	uget_gtk_decide_schedule_state (UgetGtk* ugtk)
 {
 	struct tm*	timem;
 	time_t		timet;
@@ -466,7 +466,7 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 
 
 	// If changed is TRUE, it will refresh all category-related data.
-	changed = uget_gtk_update_schedule_state (ugtk);
+	changed = uget_gtk_decide_schedule_state (ugtk);
 	// do something for inactive jobs
 	jobs = ug_running_get_inactive (ugtk->running);
 	for (link = jobs;  link;  link = link->next) {
