@@ -115,6 +115,7 @@ struct UgetGtk_
 	{
 		GtkStatusIcon*	self;
 		gboolean		error_occurred;
+		guint			last_status;
 
 		struct UgetGtkTrayIconMenu
 		{

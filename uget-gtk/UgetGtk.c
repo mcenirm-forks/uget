@@ -720,15 +720,26 @@ void	uget_gtk_tray_icon_refresh (struct UgetGtkTrayIcon* icon, guint n_active, g
 {
 	gchar*	string;
 	gchar*	string_speed;
+	guint	current_status;
 
 	// change tray icon
-	if (icon->error_occurred)
+	if (icon->error_occurred) {
 		string = UGET_GTK_ICON_ERROR_NAME;
-	else if (n_active > 0)
+		current_status = 2;
+	}
+	else if (n_active > 0) {
 		string = UGET_GTK_ICON_ACTIVE_NAME;
-	else
+		current_status = 1;
+	}
+	else {
 		string = UGET_GTK_ICON_NAME;
-	gtk_status_icon_set_from_icon_name (icon->self, string);
+		current_status = 0;
+	}
+
+	if (icon->last_status != current_status) {
+		icon->last_status  = current_status;
+		gtk_status_icon_set_from_icon_name (icon->self, string);
+	}
 	// change tooltip
 	string_speed = ug_str_dtoa_unit (speed, 1, "/s");
 	string = g_strdup_printf (
