@@ -45,17 +45,24 @@ extern "C" {
 #endif
 
 
-#define		UG_REG_MODULE				"Module"
-#define		UG_REG_DATA_CLASS			"DataClass"
-#define		UG_REG_OPTION_CLASS			"OptionClass"
-#define		UG_REG_PLUGIN_CLASS			"PluginClass"
-#define		UG_REG_PLUGIN_FILE_TYPE		"PluginFileType"
-#define		UG_REG_PLUGIN_SCHEME		"PluginScheme"
+enum UgRegistryType
+{
+	UG_REG_NONE,
+	UG_REG_MODULE,
+	UG_REG_DATA_CLASS,
+	UG_REG_OPTION_CLASS,
+	UG_REG_PLUGIN_CLASS,
+	UG_REG_PLUGIN_FILE_TYPE,
+	UG_REG_PLUGIN_SCHEME,
+	UG_REG_PLUGIN_TYPE_LAST = UG_REG_PLUGIN_SCHEME,
+
+	UG_REG_N_TYPE,
+};
 
 
-void		ug_registry_insert (const gchar* key_name, const gchar* key_type, gpointer value);
-void		ug_registry_remove (const gchar* key_name, const gchar* key_type);
-gpointer	ug_registry_search (const gchar* key_name, const gchar* key_type);
+void		ug_registry_insert (const gchar* key_name, enum UgRegistryType key_type, gpointer value);
+void		ug_registry_remove (const gchar* key_name, enum UgRegistryType key_type);
+gpointer	ug_registry_search (const gchar* key_name, enum UgRegistryType key_type);
 
 // attachment
 gboolean	ug_attachment_init (const gchar* dir);

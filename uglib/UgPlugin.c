@@ -37,7 +37,6 @@
 #include <string.h>
 
 #include <UgPlugin.h>
-#include <UgRegistry.h>
 #include <UgData-download.h>
 #include <UgUtils.h>
 #include <UgStdio.h>
@@ -56,6 +55,7 @@
 gboolean	ug_plugin_class_register (const UgPluginClass* plugin_class)
 {
 	const gchar**	string;
+	GList*			list;
 
 	// If plug-in failed to initialize, don't register it.
 	if (plugin_class->global_init () == FALSE)
@@ -64,13 +64,19 @@ gboolean	ug_plugin_class_register (const UgPluginClass* plugin_class)
 	ug_registry_insert (plugin_class->name, UG_REG_PLUGIN_CLASS, (gpointer) plugin_class);
 
 	if (plugin_class->schemes) {
-		for (string = plugin_class->schemes;  *string;  string++)
-			ug_registry_insert (*string, UG_REG_PLUGIN_SCHEME, (gpointer) plugin_class);
+		for (string = plugin_class->schemes;  *string;  string++) {
+			list = ug_registry_search (*string, UG_REG_PLUGIN_SCHEME);
+			list = g_list_prepend (list, (gpointer) plugin_class);
+			ug_registry_insert (*string, UG_REG_PLUGIN_SCHEME, list);
+		}
 	}
 
 	if (plugin_class->file_types) {
-		for (string = plugin_class->file_types;  *string;  string++)
-			ug_registry_insert (*string, UG_REG_PLUGIN_FILE_TYPE, (gpointer) plugin_class);
+		for (string = plugin_class->file_types;  *string;  string++) {
+			list = ug_registry_search (*string, UG_REG_PLUGIN_FILE_TYPE);
+			list = g_list_prepend (list, (gpointer)plugin_class);
+			ug_registry_insert (*string, UG_REG_PLUGIN_FILE_TYPE, list);
+		}
 	}
 
 	return TRUE;
@@ -79,6 +85,7 @@ gboolean	ug_plugin_class_register (const UgPluginClass* plugin_class)
 void	ug_plugin_class_unregister (const UgPluginClass* plugin_class)
 {
 	const gchar**	string;
+	GList*			list;
 
 	// Don't unregister plug-in if it not found.
 	if (ug_registry_search (plugin_class->name, UG_REG_PLUGIN_CLASS) == NULL)
@@ -87,24 +94,43 @@ void	ug_plugin_class_unregister (const UgPluginClass* plugin_class)
 	ug_registry_remove (plugin_class->name, UG_REG_PLUGIN_CLASS);
 
 	if (plugin_class->schemes) {
-		for (string = plugin_class->schemes;  *string;  string++)
-			ug_registry_remove (*string, UG_REG_PLUGIN_SCHEME);
+		for (string = plugin_class->schemes;  *string;  string++) {
+			list = ug_registry_search (*string, UG_REG_PLUGIN_SCHEME);
+			list = g_list_remove (list, (gpointer) plugin_class);
+			if (list)
+				ug_registry_insert (*string, UG_REG_PLUGIN_SCHEME, list);
+			else
+				ug_registry_remove (*string, UG_REG_PLUGIN_SCHEME);
+		}
 	}
 
 	if (plugin_class->file_types) {
-		for (string = plugin_class->file_types;  *string;  string++)
-			ug_registry_remove (*string, UG_REG_PLUGIN_FILE_TYPE);
+		for (string = plugin_class->file_types;  *string;  string++) {
+			list = ug_registry_search (*string, UG_REG_PLUGIN_FILE_TYPE);
+			list = g_list_remove (list, (gpointer) plugin_class);
+			if (list)
+				ug_registry_insert (*string, UG_REG_PLUGIN_FILE_TYPE, list);
+			else
+				ug_registry_remove (*string, UG_REG_PLUGIN_FILE_TYPE);
+		}
 	}
 
 	plugin_class->global_finalize ();
 }
 
-const UgPluginClass*	ug_plugin_class_find (const gchar* name, const gchar* type)
+const UgPluginClass*	ug_plugin_class_find (const gchar* name, enum UgRegistryType type)
 {
-	if (type == NULL)
+	gpointer	data;
+
+	if (type < UG_REG_PLUGIN_CLASS || type > UG_REG_PLUGIN_TYPE_LAST)
 		type = UG_REG_PLUGIN_CLASS;
 
-	return (const UgPluginClass*) ug_registry_search (name, type);
+	data = ug_registry_search (name, type);
+	if (type == UG_REG_PLUGIN_CLASS)
+		return (const UgPluginClass*) data;
+	else if (data)
+		return (const UgPluginClass*) ((GList*)data)->data;
+	return NULL;
 }
 
 
@@ -142,7 +168,7 @@ UgPlugin*	ug_plugin_new_by_name	(const gchar* name, UgDataset* dataset)
 {
 	const UgPluginClass*	plugin_class;
 
-	plugin_class = ug_plugin_class_find (name, NULL);
+	plugin_class = ug_plugin_class_find (name, UG_REG_PLUGIN_CLASS);
 	if (plugin_class == NULL)
 		return NULL;
 	return ug_plugin_new (plugin_class, dataset);

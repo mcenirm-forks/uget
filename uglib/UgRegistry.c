@@ -43,40 +43,52 @@
 #include <UgUtils.h>
 
 static GHashTable*	string_hash	= NULL;
+static const gchar*	type_string[UG_REG_N_TYPE] =
+{
+	NULL,				// UG_REG_NONE
+	"Module",			// UG_REG_MODULE
+	"DataClass",		// UG_REG_DATA_CLASS
+	"OptionClass",		// UG_REG_OPTION_CLASS
+	"PluginClass",		// UG_REG_PLUGIN_CLASS
+	"PluginFileType",	// UG_REG_PLUGIN_FILE_TYPE
+	"PluginScheme",		// UG_REG_PLUGIN_SCHEME
+};
 
-void		ug_registry_insert (const gchar* key_name, const gchar* key_type, gpointer value)
+void	ug_registry_insert (const gchar* key_name, enum UgRegistryType key_type, gpointer value)
 {
 	gchar*		key;
 
+	if (key_type >= UG_REG_N_TYPE)
+		return;
 	if (string_hash == NULL)
 		string_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
-	key = g_strconcat (key_name, "-", key_type, NULL);
+	key = g_strconcat (key_name, "-", type_string [key_type], NULL);
 	g_hash_table_insert (string_hash, key, value);
 //	key will be freed by g_hash_table_insert() in this case.
 }
 
-void		ug_registry_remove (const gchar* key_name, const gchar* key_type)
+void	ug_registry_remove (const gchar* key_name, enum UgRegistryType key_type)
 {
 	gchar*		key;
 
-	if (string_hash == NULL)
+	if (string_hash == NULL || key_type >= UG_REG_N_TYPE)
 		return;
 
-	key = g_strconcat (key_name, "-", key_type, NULL);
+	key = g_strconcat (key_name, "-", type_string [key_type], NULL);
 	g_hash_table_remove (string_hash, key);
 	g_free (key);
 }
 
-gpointer	ug_registry_search (const gchar* key_name, const gchar* key_type)
+gpointer	ug_registry_search (const gchar* key_name, enum UgRegistryType key_type)
 {
 	gchar*		key;
 	gpointer	value;
 
-	if (string_hash == NULL)
+	if (string_hash == NULL || key_type >= UG_REG_N_TYPE)
 		return NULL;
 
-	key = g_strconcat (key_name, "-", key_type, NULL);
+	key = g_strconcat (key_name, "-", type_string [key_type], NULL);
 	value = g_hash_table_lookup (string_hash, key);
 	g_free (key);
 	return value;

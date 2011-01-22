@@ -63,9 +63,8 @@ gboolean ug_class_init (void)
 	// plug-ins
 #ifdef HAVE_PLUGIN_ARIA2
 	ug_plugin_class_register (UgPluginAria2Class);
-#else
-	ug_plugin_class_register (UgPluginCurlClass);
 #endif
+	ug_plugin_class_register (UgPluginCurlClass);
 
 	return TRUE;
 }
@@ -87,8 +86,7 @@ void ug_class_finalize (void)
 	// plug-ins
 #ifdef HAVE_PLUGIN_ARIA2
 	ug_plugin_class_unregister (UgPluginAria2Class);
-#else
-	ug_plugin_class_unregister (UgPluginCurlClass);
 #endif
+	ug_plugin_class_unregister (UgPluginCurlClass);
 }
 

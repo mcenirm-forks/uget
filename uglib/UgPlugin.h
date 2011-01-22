@@ -41,6 +41,7 @@
 #define UG_PLUGIN_H
 
 #include <glib.h>
+#include <UgRegistry.h>
 #include <UgDataset.h>
 #include <UgMessage.h>
 
@@ -120,7 +121,7 @@ gboolean	ug_plugin_class_register	(const UgPluginClass* plugin_class);
 void		ug_plugin_class_unregister	(const UgPluginClass* plugin_class);
 
 // if type==NULL, type will be UG_REG_PLUGIN_CLASS.
-const UgPluginClass*	ug_plugin_class_find	(const gchar* name,	const gchar* type);
+const UgPluginClass*	ug_plugin_class_find	(const gchar* name,	enum UgRegistryType type);
 
 
 // ---------------------------------------------------------------------------
