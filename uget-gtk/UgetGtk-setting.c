@@ -426,7 +426,7 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->scheduler.enable = FALSE;
 	for (weekdays = 0;  weekdays < 7;  weekdays++) {
 		for (dayhours = 0;  dayhours < 24;  dayhours++)
-			setting->scheduler.state[weekdays][dayhours] = UG_SCHEDULE_MAX_SPEED;
+			setting->scheduler.state[weekdays][dayhours] = UG_SCHEDULE_NORMAL;
 	}
 	setting->scheduler.speed_limit = 5;
 

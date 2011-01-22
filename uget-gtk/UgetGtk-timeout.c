@@ -399,7 +399,7 @@ static gboolean	uget_gtk_decide_schedule_state (UgetGtk* ugtk)
 	UgScheduleState	state;
 
 	if (ugtk->setting.scheduler.enable == FALSE) {
-		ugtk->schedule_state = UG_SCHEDULE_MAX_SPEED;
+		ugtk->schedule_state = UG_SCHEDULE_NORMAL;
 		return FALSE;
 	}
 

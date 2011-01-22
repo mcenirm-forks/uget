@@ -54,11 +54,11 @@
 
 static const gdouble	colors[UG_SCHEDULE_N_STATE][3] =
 {
-	{1.0,   1.0,   1.0},		// turn off
-	{1.0,   0.752, 0.752},		// reserve - upload only
-	{0.552, 0.807, 0.552},		// limited speed
-//	{0.0,   0.658, 0.0},		// max speed
-	{0.0,   0.758, 0.0},		// max speed
+	{1.0,   1.0,   1.0},		// UG_SCHEDULE_TURN_OFF
+	{1.0,   0.752, 0.752},		// UG_SCHEDULE_UPLOAD_ONLY - reserve
+	{0.552, 0.807, 0.552},		// UG_SCHEDULE_LIMITED_SPEED
+//	{0.0,   0.658, 0.0},		// UG_SCHEDULE_NORMAL
+	{0.0,   0.758, 0.0},		// UG_SCHEDULE_NORMAL
 };
 
 static const gchar*	week_days[7] =
@@ -146,16 +146,16 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 2, 4, 1, 2,
 			GTK_FILL, GTK_SHRINK, 2, 2);
-	// grid - Max speed
-	widget = ug_grid_one_new (colors[UG_SCHEDULE_MAX_SPEED]);
+	// grid - Normal
+	widget = ug_grid_one_new (colors[UG_SCHEDULE_NORMAL]);
 	gtk_table_attach (table, widget, 0, 1, 2, 3,
 			GTK_SHRINK, GTK_SHRINK, 3, 3);
-	// label - Max speed
+	// label - Normal
 	widget = gtk_label_new (_("Normal"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 1, 2, 2, 3,
 			GTK_FILL, GTK_SHRINK, 2, 2);
-	// label - Help for Max speed
+	// label - Help for Normal
 	widget = gtk_label_new (_("- run task normally"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 2, 4, 2, 3,
@@ -301,11 +301,11 @@ static gboolean on_button_press_event (GtkWidget *widget, GdkEventMotion *event,
 	if (x < 0 || y < 0 || x >= 24 || y >= 7)
 		return FALSE;
 
-	state = (sgrid->state[y][x] == UG_SCHEDULE_TURN_OFF) ? UG_SCHEDULE_MAX_SPEED : UG_SCHEDULE_TURN_OFF;
+	state = (sgrid->state[y][x] == UG_SCHEDULE_TURN_OFF) ? UG_SCHEDULE_NORMAL : UG_SCHEDULE_TURN_OFF;
 //	state = sgrid->state[y][x] + 1;
 //	if (state == UG_SCHEDULE_UPLOAD_ONLY)
 //		state++;
-//	if (state  > UG_SCHEDULE_MAX_SPEED)
+//	if (state  > UG_SCHEDULE_NORMAL)
 //		state  = UG_SCHEDULE_TURN_OFF;
 	sgrid->state[y][x] = state;
 	sgrid->last_state = state;
