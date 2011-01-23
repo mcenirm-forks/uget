@@ -41,9 +41,12 @@
 #include <string.h>
 
 #include <uglib.h>
+#ifdef HAVE_PLUGIN_CURL
 #include <UgPlugin-curl.h>
+#endif
+#ifdef HAVE_PLUGIN_ARIA2
 #include <UgPlugin-aria2.h>
-
+#endif
 
 // ------------------------------------------------------------------
 gboolean ug_class_init (void)
@@ -64,7 +67,9 @@ gboolean ug_class_init (void)
 #ifdef HAVE_PLUGIN_ARIA2
 	ug_plugin_class_register (UgPluginAria2Class);
 #endif
+#ifdef HAVE_PLUGIN_CURL
 	ug_plugin_class_register (UgPluginCurlClass);
+#endif
 
 	return TRUE;
 }
@@ -87,6 +92,8 @@ void ug_class_finalize (void)
 #ifdef HAVE_PLUGIN_ARIA2
 	ug_plugin_class_unregister (UgPluginAria2Class);
 #endif
+#ifdef HAVE_PLUGIN_CURL
 	ug_plugin_class_unregister (UgPluginCurlClass);
+#endif
 }
 

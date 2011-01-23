@@ -36,6 +36,8 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-DHAVE_PLUGIN_CURL" />
+			<Add option="-DHAVE_PLUGIN_ARIA2" />
 			<Add directory="D:\devpack\gtk2\include" />
 			<Add directory="D:\devpack\gtk2\include\glib-2.0" />
 			<Add directory="D:\devpack\gtk2\lib\glib-2.0\include" />

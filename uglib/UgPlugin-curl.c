@@ -34,6 +34,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#ifdef HAVE_PLUGIN_CURL
+
 #include <string.h>
 #include <UgPlugin-curl.h>
 #include <UgData-download.h>
@@ -946,4 +952,6 @@ fail:
 }
 
 #endif	// HAVE_LIBPWMD
+
+#endif	// HAVE_PLUGIN_CURL
 

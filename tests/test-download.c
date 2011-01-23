@@ -6,10 +6,11 @@
 #include <winsock.h>
 #endif  // _WIN32
 
+#include <uglib.h>
 #include <UgOption.h>
 #include <UgDataset.h>
 #include <UgData-download.h>
-#include <UgPlugin-curl.h>
+#include <UgPlugin.h>
 
 
 static void  dump_progress (UgProgress* progress)
@@ -107,6 +108,7 @@ int main (int argc, char* argv[])
 	// GLib: GThread
 	if (g_thread_supported () == FALSE)
 		g_thread_init (NULL);
+	ug_class_init ();
 
 	// parse command-line options
 	context = g_option_context_new ("[URL]");
@@ -129,15 +131,16 @@ int main (int argc, char* argv[])
 	common = ug_dataset_realloc (dataset, UgDataCommonClass, 0);
 	common->url = g_strdup (argv[1]);
 
-	plugin = ug_plugin_new (UgPluginCurlClass, dataset);
+	plugin = ug_plugin_new_by_data (dataset);
 	ug_dataset_unref (dataset);
+	if (plugin) {
+		ug_plugin_set_state (plugin, UG_STATE_ACTIVE);
+		while (ug_plugin_dispatch (plugin, plugin_callback, NULL))
+			ug_plugin_delay (plugin, 1000);
+		ug_plugin_unref (plugin);
+	}
 
-	ug_plugin_set_state (plugin, UG_STATE_ACTIVE);
-	while (ug_plugin_dispatch (plugin, plugin_callback, NULL))
-		ug_plugin_delay (plugin, 1000);
-
-	ug_plugin_unref (plugin);
-
+	ug_class_finalize ();
 #ifdef _WIN32
 	WSACleanup ();
 #endif
