@@ -54,8 +54,8 @@ void ug_xmlrpc_value_dump (UgXmlrpcValue* value)
 		g_print ("datetime = '%s'\n", value->c.datetime);
 		break;
 
-	case UG_XMLRPC_BASE64:
-		g_print ("base64 = '%s'\n", value->c.base64);
+	case UG_XMLRPC_BINARY:
+		g_print ("binary data, length = %u\n", value->len);
 		break;
 
 	case UG_XMLRPC_NIL:

@@ -35,7 +35,7 @@
  */
 
 /*
- *	XML-RPC for C Language
+ *	XML-RPC for C Language, it base on GLib.
  *
  *	UgXmlrpc		xmlrpc;
  *	UgXmlrpcValue*	value;
@@ -61,6 +61,7 @@
 #define UG_XMLRPC_H
 
 #include <stdarg.h>
+#include <memory.h>
 #include <glib.h>
 
 #ifdef _WIN32
@@ -103,7 +104,7 @@ enum UgXmlrpcType
 	UG_XMLRPC_DOUBLE,		// <double>				// double
 //	UG_XMLRPC_DATETIME,		// <dateTime.iso8601>	// time_t
 	UG_XMLRPC_DATETIME,		// <dateTime.iso8601>	// char*
-	UG_XMLRPC_BASE64,		// <base64>				// char*
+	UG_XMLRPC_BINARY,		// <base64>				// unsigned char*
 
 	// XML-RPC extension, such as
 	// Python's None object, Perl's undef value, or a NULL pointer in C.
@@ -163,13 +164,13 @@ struct UgXmlrpc
 	guint			port;
 
 	SOCKET			fd;
-	GString*		packet;
+	GString*		header;
 	GString*		buffer;
 
 	UgXmltag		tag;
 
 	// position after "Content-length: " in packet
-	guint			packet_pos;
+	guint			header_pos;
 };
 
 void	ug_xmlrpc_init     (UgXmlrpc* xmlrpc);
@@ -181,15 +182,21 @@ void	ug_xmlrpc_use_client (UgXmlrpc* xmlrpc, const gchar* url, const gchar* user
 // functions used to write UgXmlrpc.buffer
 //
 //
-//	UgXmlrpcValue*	xrarray  = ug_xmlrpc_value_new_array (0);
-//	UgXmlrpcValue*	xrstruct = ug_xmlrpc_value_new_struct (0);
+//	UgXmlrpcValue*	xrArray  = ug_xmlrpc_value_new_array (0);
+//	UgXmlrpcValue*	xrStruct = ug_xmlrpc_value_new_struct (0);
+//	UgXmlrpcValue*	xrBinary = ug_xmlrpc_value_new ();
+//
+//	xrBinary->type     = UG_XMLRPC_BINARY;
+//	xrBinary->c.binary = binary;
+//	xrBinary->len      = binary_length;
 //
 //	ug_xmlrpc_call (xmlrpc,   "methodName",
 //			UG_XMLRPC_INT,    9876,
 //			UG_XMLRPC_DOUBLE, 0.65,
 //			UG_XMLRPC_STRING, "sample",
-//			UG_XMLRPC_ARRAY,  xrarray,
-//			UG_XMLRPC_STRUCT, xrstruct,
+//			UG_XMLRPC_BINARY, xrBinary,
+//			UG_XMLRPC_ARRAY,  xrArray,
+//			UG_XMLRPC_STRUCT, xrStruct,
 //			UG_XMLRPC_NIL,    NULL,
 //			UG_XMLRPC_NONE);
 //
@@ -215,9 +222,10 @@ union UgXmlrpcValueC
 	double			double_;	// UG_XMLRPC_DOUBLE
 //	time_t			datetime;	// UG_XMLRPC_DATETIME
 	char*			datetime;	// UG_XMLRPC_DATETIME
-	char*			base64;		// UG_XMLRPC_BASE64
+	unsigned char*	binary;		// UG_XMLRPC_BINARY
 
 	// Balanced Binary Trees used for UG_XMLRPC_STRUCT only
+	// This is not XML-RPC type.
 	GTree*			tree;
 };
 
@@ -233,7 +241,8 @@ struct UgXmlrpcValue
 	// used for member of UG_XMLRPC_STRUCT
 	gchar*			name;
 
-	// used for UG_XMLRPC_ARRAY and UG_XMLRPC_STRUCT
+	// used with UG_XMLRPC_ARRAY and UG_XMLRPC_STRUCT
+	// UG_XMLRPC_BINARY use len with c.binary
 	UgXmlrpcValue*	data;
 	guint			len;
 	guint			allocated;
@@ -241,7 +250,13 @@ struct UgXmlrpcValue
 
 UgXmlrpcValue*	ug_xmlrpc_value_new   (void);
 void			ug_xmlrpc_value_free  (UgXmlrpcValue* value);
+
+//void			ug_xmlrpc_value_init  (UgXmlrpcValue* value);
+#define			ug_xmlrpc_value_init(value)		memset(value, 0, sizeof (UgXmlrpcValue))
+
 void			ug_xmlrpc_value_clear (UgXmlrpcValue* value);
+
+// below functions are used with UG_XMLRPC_ARRAY and UG_XMLRPC_STRUCT
 UgXmlrpcValue*	ug_xmlrpc_value_alloc (UgXmlrpcValue* value);
 UgXmlrpcValue*	ug_xmlrpc_value_find  (UgXmlrpcValue* value, const gchar* name);
 

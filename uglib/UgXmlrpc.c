@@ -65,7 +65,7 @@ void	ug_xmlrpc_init (UgXmlrpc* xmlrpc)
 	xmlrpc->port = 80;
 
 	xmlrpc->fd = INVALID_SOCKET;
-	xmlrpc->packet = g_string_sized_new (1024);
+	xmlrpc->header = g_string_sized_new (128);
 	xmlrpc->buffer = g_string_sized_new (1024);
 
 	ug_xmltag_init (&xmlrpc->tag);
@@ -74,7 +74,7 @@ void	ug_xmlrpc_init (UgXmlrpc* xmlrpc)
 void	ug_xmlrpc_finalize (UgXmlrpc* xmlrpc)
 {
 	g_free (xmlrpc->host);
-	g_string_free (xmlrpc->packet, TRUE);
+	g_string_free (xmlrpc->header, TRUE);
 	g_string_free (xmlrpc->buffer, TRUE);
 
 	if (xmlrpc->fd != INVALID_SOCKET)
@@ -89,7 +89,7 @@ static gboolean	ug_xmlrpc_open_socket (UgXmlrpc* xmlrpc)
 	struct sockaddr_in	saddr;
 	struct hostent*		hostentry;
 
-	fd = socket (AF_INET, SOCK_STREAM, 0);
+	fd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (fd == INVALID_SOCKET)
 		return FALSE;
 
@@ -132,8 +132,7 @@ void	ug_xmlrpc_use_client (UgXmlrpc* xmlrpc, const gchar* url, const gchar* user
 	if (urifull.port)
 		xmlrpc->port = atoi (urifull.port);
 
-	g_string_truncate (xmlrpc->packet, 0);
-	g_string_append_printf (xmlrpc->packet,
+	g_string_printf (xmlrpc->header,
 			"POST %s HTTP/1.0\r\n"
 			"Host: %s:%d\r\n"
 			"User-Agent: %s\r\n"
@@ -148,15 +147,15 @@ void	ug_xmlrpc_use_client (UgXmlrpc* xmlrpc, const gchar* url, const gchar* user
 	if (urifull.authority != urifull.host) {
 		string = g_base64_encode ((const guchar*)urifull.authority,
 				urifull.host - urifull.authority);
-		g_string_append_printf (xmlrpc->packet,
+		g_string_append_printf (xmlrpc->header,
 				"Authorization: %s\r\n",
 				string);
 		g_free (string);
 	}
 
-	g_string_append (xmlrpc->packet,
+	g_string_append (xmlrpc->header,
 			"Content-length: ");
-	xmlrpc->packet_pos = xmlrpc->packet->len;
+	xmlrpc->header_pos = xmlrpc->header->len;
 }
 
 // ----------------------------------------------------------------------------
@@ -166,8 +165,12 @@ gboolean	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...)
 {
 	GString*	buffer;
 	va_list		args;
-	gchar*		temp;
-	int			n;
+	gboolean	result = FALSE;
+	union {
+		int				len;
+		gchar*			str;
+		UgXmlrpcValue*	value;
+	} temp;
 
 	if (ug_xmlrpc_open_socket (xmlrpc) == FALSE)
 		return FALSE;
@@ -205,10 +208,10 @@ gboolean	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...)
 			break;
 
 		case UG_XMLRPC_STRING:
-			temp = g_markup_escape_text (va_arg (args, char*), -1);
+			temp.str = g_markup_escape_text (va_arg (args, char*), -1);
 			g_string_append_printf (buffer,
-					"<string>%s</string>", temp);
-			g_free (temp);
+					"<string>%s</string>", temp.str);
+			g_free (temp.str);
 			break;
 
 		case UG_XMLRPC_DOUBLE:
@@ -221,21 +224,25 @@ gboolean	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...)
 					"<dateTime.iso8601>%s</dateTime.iso8601>", va_arg (args, char*));
 			break;
 
-		case UG_XMLRPC_BASE64:
+		case UG_XMLRPC_BINARY:
+			temp.value = va_arg (args, UgXmlrpcValue*);
+			temp.str = g_base64_encode (temp.value->c.binary, temp.value->len);
 			g_string_append_printf (buffer,
-					"<base64>%s</base64>", va_arg (args, char*));
+					"<base64>%s</base64>", temp.str);
+			g_free (temp.str);
 			break;
 
 		case UG_XMLRPC_NIL:
+			(void) va_arg (args, void*);
 			g_string_append (buffer, "<nil/>");
 			break;
 
 		case UG_XMLRPC_ARRAY:
-			ug_xmlrpc_add_array (xmlrpc, va_arg (args, void*));
+			ug_xmlrpc_add_array (xmlrpc, va_arg (args, UgXmlrpcValue*));
 			break;
 
 		case UG_XMLRPC_STRUCT:
-			ug_xmlrpc_add_struct (xmlrpc, va_arg (args, void*));
+			ug_xmlrpc_add_struct (xmlrpc, va_arg (args, UgXmlrpcValue*));
 			break;
 
 		default:
@@ -254,43 +261,45 @@ break_for_loop:
 					"</params>"
 					"</methodCall>");
 
-	g_string_truncate (xmlrpc->packet, xmlrpc->packet_pos);
-	g_string_append_printf (xmlrpc->packet,
+	// complete HTTP header "Content-length: "
+	xmlrpc->header->len = xmlrpc->header_pos;
+	g_string_append_printf (xmlrpc->header,
 							"%u" "\r\n"
 							"\r\n", (guint) buffer->len);
-	g_string_append_len (xmlrpc->packet, buffer->str, buffer->len);
-
-	// send packet
-	n = send (xmlrpc->fd, xmlrpc->packet->str, xmlrpc->packet->len, 0);
-	if (n == SOCKET_ERROR || n != xmlrpc->packet->len)
-		return FALSE;
-	// recv to buffer
-	n = recv (xmlrpc->fd, buffer->str, buffer->allocated_len, 0);
-	buffer->len = 0;
-	for (;;) {
-		if (n == SOCKET_ERROR)
-			return FALSE;
-		buffer->len += n;
-		if (n == 0) {
-			// buffer is null-terminated
-			g_string_set_size (buffer, buffer->len);
-			break;
+	// send header + content
+	if (send (xmlrpc->fd, xmlrpc->header->str, xmlrpc->header->len, 0) == xmlrpc->header->len &&
+		send (xmlrpc->fd, buffer->str, buffer->len, 0) == buffer->len)
+	{
+		// recv to buffer
+		buffer->len = 0;
+		for (;;) {
+			temp.len = buffer->allocated_len - buffer->len;
+			temp.len = recv (xmlrpc->fd, buffer->str + buffer->len, temp.len, 0);
+			if (temp.len < 1) {
+				if (temp.len == 0)
+					result = TRUE;
+				// buffer is null-terminated
+				g_string_set_size (buffer, buffer->len);
+				break;
+			}
+			buffer->len += temp.len;
+			if (buffer->len == buffer->allocated_len) {
+				temp.len = buffer->len;
+				g_string_set_size (buffer, buffer->allocated_len * 2);
+				buffer->len = temp.len;
+			}
+			// check buffer size
+			if (buffer->len > 1024 * 32) {
+				g_string_set_size (buffer, buffer->len);
+				break;
+			}
 		}
-		if (buffer->len == buffer->allocated_len) {
-			g_string_set_size (buffer, buffer->allocated_len + 1024);
-			buffer->len = buffer->allocated_len - 1024;
-		}
-		// check packet size
-		if (buffer->allocated_len > 4096)
-			return FALSE;
-		// get remained data
-		n = recv (xmlrpc->fd, buffer->str + buffer->len, 1024, 0);
 	}
 
 	closesocket (xmlrpc->fd);
 	xmlrpc->fd = INVALID_SOCKET;
 
-	return TRUE;
+	return result;
 }
 
 static void	ug_xmlrpc_add_value (UgXmlrpc* xmlrpc, UgXmlrpcValue* value)
@@ -333,9 +342,11 @@ static void	ug_xmlrpc_add_value (UgXmlrpc* xmlrpc, UgXmlrpcValue* value)
 				"<dateTime.iso8601>%s</dateTime.iso8601>", value->c.string);
 		break;
 
-	case UG_XMLRPC_BASE64:
+	case UG_XMLRPC_BINARY:
+		temp = g_base64_encode (value->c.binary, value->len);
 		g_string_append_printf (buffer,
-				"<base64>%s</base64>", value->c.base64);
+				"<base64>%s</base64>", temp);
+		g_free (temp);
 		break;
 
 	case UG_XMLRPC_NIL:
@@ -542,9 +553,9 @@ static void	ug_xmltag_parse_value (UgXmltag* xmltag, UgXmlrpcValue* value)
 			value->c.boolean = atoi (text);
 		}
 		else {
-			value->type = UG_XMLRPC_BASE64;
-			value->c.string = text;
+			value->type = UG_XMLRPC_BINARY;
 			xmltag->next[0] = 0;	// null-terminated
+			value->c.binary = g_base64_decode_inplace (text, &value->len);
 		}
 		break;
 
@@ -648,16 +659,14 @@ gboolean	ug_xmltag_parse  (UgXmltag* xmltag, gchar* string)
 	UgXmltagFunc	func;
 	gpointer		data;
 
-	xmltag->beg = string + 1;	// skip '<'
-
-	for (;;) {
+	if (string [0] != '<')
+		return FALSE;
+	for (xmltag->beg = string + 1;  ;  ) {
 		if (xmltag->parser.len == 0)
 			return TRUE;
-
-		if (xmltag->beg == NULL)
-			return FALSE;
-		xmltag->end  = strchr (xmltag->beg,    '>');
-		xmltag->next = strchr (xmltag->end +1, '<');
+		if ((xmltag->end = strchr (xmltag->beg, '>')) == NULL)
+			break;
+		xmltag->next = strchr (xmltag->end + 1, '<');
 
 		if (xmltag->beg[0] == '/')
 			ug_xmltag_pop (xmltag);
@@ -671,9 +680,11 @@ gboolean	ug_xmltag_parse  (UgXmltag* xmltag, gchar* string)
 		}
 
 		if (xmltag->next == NULL)
-			return FALSE;
+			break;
 		xmltag->beg = xmltag->next + 1;
 	}
+	xmltag->parser.len = 0;
+	return FALSE;
 }
 
 void	ug_xmltag_push (UgXmltag* xmltag, UgXmltagFunc func, gpointer data)
@@ -765,7 +776,8 @@ UgXmlrpcValue*	ug_xmlrpc_value_alloc (UgXmlrpcValue* value)
 		}
 
 		newone = value->data + value->len++;
-		memset (newone, 0, sizeof (UgXmlrpcValue));
+//		memset (newone, 0, sizeof (UgXmlrpcValue));
+		ug_xmlrpc_value_init (newone);
 		return newone;
 	}
 

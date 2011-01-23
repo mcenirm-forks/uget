@@ -146,7 +146,7 @@ int		ug_fd_truncate (int fd, gint64 length);
 #  define  ug_fd_read		read
 #  define  ug_fd_write		write
 #  define  ug_fd_seek		lseek
-#  define  ug_fd_tell		tell
+#  define  ug_fd_tell(fd)	lseek(fd, 0L, SEEK_CUR)
 #  define  ug_fd_truncate	ftruncate
 #endif
 

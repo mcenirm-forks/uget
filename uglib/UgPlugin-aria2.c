@@ -40,12 +40,13 @@
 
 #ifdef HAVE_PLUGIN_ARIA2
 
-#include <UgPlugin-aria2.h>
-
 #ifdef HAVE_LIBPWMD
 #include <stdlib.h>
 #include <libpwmd.h>
 #endif  // HAVE_LIBPWMD
+
+#include <UgStdio.h>
+#include <UgPlugin-aria2.h>
 
 #define ARIA2_XMLRPC_URI		"http://localhost:6800/rpc"
 
@@ -65,14 +66,18 @@ static UgResult	ug_plugin_aria2_get			(UgPluginAria2* plugin, guint parameter, g
 static gpointer	ug_plugin_aria2_thread		(UgPluginAria2* plugin);
 
 // aria2 methods
-static gboolean	ug_plugin_aria2_response	(UgPluginAria2* plugin, const gchar* method);
 static gboolean	ug_plugin_aria2_add_uri		(UgPluginAria2* plugin);
+static gboolean	ug_plugin_aria2_add_torrent	(UgPluginAria2* plugin);
+static gboolean	ug_plugin_aria2_add_metalink(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_remove		(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_get_servers	(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_tell_status	(UgPluginAria2* plugin);
+static gboolean	ug_plugin_aria2_change_option(UgPluginAria2* plugin, UgXmlrpcValue* options);
+static gboolean	ug_plugin_aria2_response	(UgPluginAria2* plugin, const gchar* method);
 
 // setup functions
 static void		ug_plugin_aria2_set_scheme	(UgPluginAria2* plugin, UgXmlrpcValue* options);
+static void		ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* options);
 static void		ug_plugin_aria2_set_http	(UgPluginAria2* plugin, UgXmlrpcValue* options);
 static gboolean	ug_plugin_aria2_set_proxy	(UgPluginAria2* plugin, UgXmlrpcValue* options);
 #ifdef HAVE_LIBPWMD
@@ -82,6 +87,7 @@ static gboolean	ug_plugin_aria2_set_proxy_pwmd (UgPluginAria2 *plugin, UgXmlrpcV
 // utility
 static gint64	ug_xmlrpc_value_get_int64	(UgXmlrpcValue* value);
 static int		ug_xmlrpc_value_get_int		(UgXmlrpcValue* value);
+static gpointer	ug_load_binary				(const gchar* file, guint* size);
 
 
 enum Aria2Status
@@ -107,7 +113,7 @@ enum Aria2ErrorCode
 
 // static data for UgPluginClass
 static const char*	supported_schemes[]   = {"http", "https", "ftp", "ftps", NULL};
-static const char*	supported_filetypes[] = {"torrent", "metalink", NULL};
+static const char*	supported_filetypes[] = {"torrent", "metalink", "meta4", NULL};
 
 static const	UgPluginClass	plugin_class_aria2 =
 {
@@ -152,7 +158,7 @@ static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
 	common = ug_dataset_get (dataset, UgDataCommonClass, 0);
 	http   = ug_dataset_get (dataset, UgDataHttpClass, 0);
 	// check data
-	if (common == NULL  ||  common->url == NULL)
+	if (common == NULL)
 		return FALSE;
 	// reset data
 	if (common)
@@ -220,7 +226,33 @@ static UgResult	ug_plugin_aria2_get_state (UgPluginAria2* plugin, UgState* state
 
 UgResult	ug_plugin_aria2_set (UgPluginAria2* plugin, guint parameter, gpointer data)
 {
-	return UG_RESULT_UNSUPPORT;
+	UgXmlrpcValue*	options;
+	UgXmlrpcValue*	member;
+	gint64			speed_limit;
+
+	if (parameter != UG_DATA_TYPE_INT64)
+		return UG_RESULT_UNSUPPORT;
+
+	speed_limit = *(gint64*)data;
+	options = ug_xmlrpc_value_new_struct (2);
+	// max-download-limit
+	member = ug_xmlrpc_value_alloc (options);
+	member->name = "max-download-limit";
+	member->type = UG_XMLRPC_STRING;
+	member->c.string = g_strdup_printf ("%d", (int) speed_limit);
+	// max-upload-limit
+	member = ug_xmlrpc_value_alloc (options);
+	member->name = "max-upload-limit";
+	member->type = UG_XMLRPC_STRING;
+	member->c.string = g_strdup_printf ("%d", (int) speed_limit);
+
+	ug_plugin_aria2_change_option (plugin, options);
+
+	g_free (ug_xmlrpc_value_at (options, 0)->c.string);
+	g_free (ug_xmlrpc_value_at (options, 1)->c.string);
+	ug_xmlrpc_value_free (options);
+
+	return UG_RESULT_OK;
 }
 
 static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpointer data)
@@ -263,13 +295,47 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 	startingTime = time (NULL);
 	redirection  = TRUE;
 
-	if (ug_plugin_aria2_add_uri (plugin) == FALSE)
-		goto exit;
+	if (plugin->common->url) {
+		if (ug_plugin_aria2_add_uri (plugin) == FALSE)
+			goto exit;
+	}
+	else if (plugin->common->file) {
+		string = strrchr (plugin->common->file, G_DIR_SEPARATOR);
+		if (string == NULL)
+			string = plugin->common->file;
+		// get filename extension
+		if ((string = strrchr (string, '.')) == NULL)
+			goto exit;
+		switch (string[1]) {
+		// torrent
+		case 'T':
+		case 't':
+			if (ug_plugin_aria2_add_torrent (plugin) == FALSE)
+				goto exit;
+			break;
 
-	do {
-		plugin->consumeTime = (gdouble) (time(NULL) - startingTime);
+		// metalink
+		case 'M':
+		case 'm':
+			if (ug_plugin_aria2_add_metalink (plugin) == FALSE)
+				goto exit;
+			break;
 
+		default:
+			message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "unsupported file type");
+			ug_plugin_post ((UgPlugin*) plugin, message);
+			goto exit;
+		}
+	}
+
+	for (;;) {
+		if (plugin->state != UG_STATE_ACTIVE) {
+			ug_plugin_aria2_remove (plugin);
+			break;
+		}
 		ug_plugin_delay ((UgPlugin*) plugin, 500);
+
+		plugin->consumeTime = (double) (time(NULL) - startingTime);
 		ug_plugin_aria2_tell_status (plugin);
 
 		if (plugin->completedLength > 0)
@@ -282,20 +348,24 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 
 		switch (plugin->aria2Status) {
 		case ARIA2_COMPLETE:
-			goto exit;
+			ug_plugin_post ((UgPlugin*) plugin,
+					ug_message_new_info (UG_MESSAGE_INFO_COMPLETE, NULL));
+			ug_plugin_post ((UgPlugin*) plugin,
+					ug_message_new_info (UG_MESSAGE_INFO_FINISH, NULL));
+			goto break_while;
 
 		case ARIA2_ERROR:
+			ug_plugin_aria2_remove (plugin);
 			string = g_strdup_printf ("aria2 error code: %u", plugin->errorCode);
 			message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, string);
 			g_free (string);
 			ug_plugin_post ((UgPlugin*) plugin, message);
-			goto exit;
+			goto break_while;
 		}
-	} while (plugin->state == UG_STATE_ACTIVE);
+	}
+break_while:
 
 exit:
-	ug_plugin_aria2_remove (plugin);
-
 	if (plugin->state == UG_STATE_ACTIVE)
 		ug_plugin_aria2_set_state (plugin, UG_STATE_READY);
 	// call ug_plugin_ref () by ug_plugin_aria2_set_state ()
@@ -307,50 +377,15 @@ exit:
 // ----------------------------------------------------------------------------
 // aria2 methods
 //
-static gboolean	ug_plugin_aria2_response (UgPluginAria2* plugin, const gchar* method)
-{
-	UgXmlrpcResponse	response;
-	UgMessage*			message;
-	gchar*				temp;
-
-	response = ug_xmlrpc_response (&plugin->xmlrpc);
-	switch (response) {
-	case UG_XMLRPC_ERROR:
-		temp = g_strconcat (method, " response error", NULL);
-		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, temp);
-		g_free (temp);
-		break;
-
-	case UG_XMLRPC_FAULT:
-		temp = g_strconcat (method, " response fault", NULL);
-		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, temp);
-		g_free (temp);
-		break;
-
-	case UG_XMLRPC_OK:
-		message = NULL;
-		break;
-	}
-
-	if (message) {
-		ug_plugin_post ((UgPlugin*)plugin, message);
-		return FALSE;
-	}
-	return TRUE;
-}
-
 static gboolean	ug_plugin_aria2_add_uri	(UgPluginAria2* plugin)
 {
 	UgXmlrpcValue*		uris;		// UG_XMLRPC_ARRAY
 	UgXmlrpcValue*		options;	// UG_XMLRPC_STRUCT
 	UgXmlrpcValue*		value;
-	GString*			string;
 	UgDataCommon*		common;
 	gboolean			result;
 
-	string = plugin->string;
 	common = plugin->common;
-
 	// URIs array
 	uris = ug_xmlrpc_value_new_array (1);
 	value = ug_xmlrpc_value_alloc (uris);
@@ -358,26 +393,8 @@ static gboolean	ug_plugin_aria2_add_uri	(UgPluginAria2* plugin)
 	value->c.string = common->url;
 	// options struct
 	options = ug_xmlrpc_value_new_struct (16);
-	if (common->folder) {
-		value = ug_xmlrpc_value_alloc (options);
-		value->name = "dir";
-		value->type = UG_XMLRPC_STRING;
-		value->c.string = common->folder;
-	}
-	// max-tries
-	value = ug_xmlrpc_value_alloc (options);
-	value->name = "max-tries";
-	value->type = UG_XMLRPC_STRING;
-	g_string_printf (string, "%u", common->retry_limit);
-	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
-	// lowest-speed-limit
-	value = ug_xmlrpc_value_alloc (options);
-	value->name = "lowest-speed-limit";
-	value->type = UG_XMLRPC_STRING;
-	g_string_printf (string, "%u", 512);
-	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
-	// others
 	ug_plugin_aria2_set_scheme (plugin, options);
+	ug_plugin_aria2_set_common (plugin, options);
 	ug_plugin_aria2_set_proxy (plugin, options);
 	ug_plugin_aria2_set_http (plugin, options);
 
@@ -410,7 +427,100 @@ static gboolean	ug_plugin_aria2_add_uri	(UgPluginAria2* plugin)
 	return TRUE;
 }
 
-static gboolean	ug_plugin_aria2_remove	(UgPluginAria2* plugin)
+static gboolean	ug_plugin_aria2_add_torrent (UgPluginAria2* plugin)
+{
+	UgXmlrpcValue*	torrent;
+	UgXmlrpcValue*	options;
+	gboolean		result;
+
+	// options struct
+	options = ug_xmlrpc_value_new_struct (16);
+	ug_plugin_aria2_set_common (plugin, options);
+	ug_plugin_aria2_set_proxy (plugin, options);
+	// torrent binary
+	torrent = ug_xmlrpc_value_new ();
+	torrent->type = UG_XMLRPC_BINARY;
+	torrent->c.binary = ug_load_binary (plugin->common->file, &torrent->len);
+
+	if (torrent->c.binary == NULL)
+		result = FALSE;
+	else {
+		result = ug_xmlrpc_call (&plugin->xmlrpc,
+				"aria2.addTorrent",
+				UG_XMLRPC_BINARY, torrent,
+				UG_XMLRPC_NIL,    NULL,
+				UG_XMLRPC_STRUCT, options,
+				UG_XMLRPC_NONE);
+	}
+	// free resource
+	g_free (torrent->c.binary);
+	ug_xmlrpc_value_clear (torrent);
+	ug_xmlrpc_value_free (options);
+	// message
+	if (result == FALSE) {
+		ug_plugin_post ((UgPlugin*)plugin,
+				ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM,
+					"An error occurred during aria2.addTorrent"));
+		return FALSE;
+	}
+	if (ug_plugin_aria2_response (plugin, "aria2.addTorrent") == FALSE)
+		return FALSE;
+
+	// get gid
+	ug_xmlrpc_get_value (&plugin->xmlrpc, torrent);
+	plugin->gid = g_string_chunk_insert (plugin->chunk, torrent->c.string);
+	ug_xmlrpc_value_free (torrent);
+	return TRUE;
+}
+
+static gboolean	ug_plugin_aria2_add_metalink (UgPluginAria2* plugin)
+{
+	UgXmlrpcValue*	meta;
+	UgXmlrpcValue*	options;
+	gboolean		result;
+
+	// options struct
+	options = ug_xmlrpc_value_new_struct (16);
+	ug_plugin_aria2_set_scheme (plugin, options);
+	ug_plugin_aria2_set_common (plugin, options);
+	ug_plugin_aria2_set_proxy (plugin, options);
+	ug_plugin_aria2_set_http (plugin, options);
+	// metalink binary
+	meta = ug_xmlrpc_value_new ();
+	meta->type = UG_XMLRPC_BINARY;
+	meta->c.binary = ug_load_binary (plugin->common->file, &meta->len);
+
+	if (meta->c.binary == NULL)
+		result = FALSE;
+	else {
+		result = ug_xmlrpc_call (&plugin->xmlrpc,
+				"aria2.addMetalink",
+				UG_XMLRPC_BINARY, meta,
+				UG_XMLRPC_STRUCT, options,
+				UG_XMLRPC_NONE);
+	}
+	// free resource
+	g_free (meta->c.binary);
+	ug_xmlrpc_value_clear (meta);
+	ug_xmlrpc_value_free (options);
+	// message
+	if (result == FALSE) {
+		ug_plugin_post ((UgPlugin*)plugin,
+				ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM,
+					"An error occurred during aria2.addMetalink"));
+		return FALSE;
+	}
+	if (ug_plugin_aria2_response (plugin, "aria2.addMetalink") == FALSE)
+		return FALSE;
+
+	// get gid
+	ug_xmlrpc_get_value (&plugin->xmlrpc, meta);
+	plugin->gid = g_string_chunk_insert (plugin->chunk, meta->c.string);
+	ug_xmlrpc_value_free (meta);
+	return TRUE;
+}
+
+static gboolean	ug_plugin_aria2_remove (UgPluginAria2* plugin)
 {
 	gboolean			result;
 
@@ -461,8 +571,6 @@ static gboolean	ug_plugin_aria2_get_servers (UgPluginAria2* plugin)
 			ug_plugin_post ((UgPlugin*) plugin,
 					ug_message_new_data (UG_MESSAGE_DATA_URL_CHANGED,
 						member->c.string));
-
-			g_print ("--- currentUri : %s\n", member->c.string);
 		}
 	}
 	// clear
@@ -471,7 +579,7 @@ static gboolean	ug_plugin_aria2_get_servers (UgPluginAria2* plugin)
 	return TRUE;
 }
 
-static gboolean	ug_plugin_aria2_tell_status	(UgPluginAria2* plugin)
+static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 {
 	UgXmlrpcValue*		keys;		// UG_XMLRPC_ARRAY
 	UgXmlrpcValue*		progress;	// UG_XMLRPC_STRUCT
@@ -569,6 +677,57 @@ static gboolean	ug_plugin_aria2_tell_status	(UgPluginAria2* plugin)
 	return TRUE;
 }
 
+static gboolean	ug_plugin_aria2_change_option (UgPluginAria2* plugin, UgXmlrpcValue* options)
+{
+	gboolean	result;
+
+	result = ug_xmlrpc_call (&plugin->xmlrpc,
+			"aria2.changeOption",
+			UG_XMLRPC_STRING, plugin->gid,
+			UG_XMLRPC_STRUCT, options,
+			UG_XMLRPC_NONE);
+	// message
+	if (result == FALSE) {
+		ug_plugin_post ((UgPlugin*)plugin,
+				ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM,
+					"An error occurred during aria2.changeOption"));
+		return FALSE;
+	}
+	if (ug_plugin_aria2_response (plugin, "aria2.changeOption") == FALSE)
+		return FALSE;
+
+	return TRUE;
+}
+
+static gboolean	ug_plugin_aria2_response (UgPluginAria2* plugin, const gchar* method)
+{
+	UgXmlrpcResponse	response;
+	UgMessage*			message;
+	gchar*				temp;
+
+	response = ug_xmlrpc_response (&plugin->xmlrpc);
+	switch (response) {
+	case UG_XMLRPC_ERROR:
+		temp = g_strconcat (method, " response error", NULL);
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, temp);
+		g_free (temp);
+		ug_plugin_post ((UgPlugin*)plugin, message);
+		return FALSE;
+
+	case UG_XMLRPC_FAULT:
+		temp = g_strconcat (method, " response fault", NULL);
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, temp);
+		g_free (temp);
+		ug_plugin_post ((UgPlugin*)plugin, message);
+		return FALSE;
+
+	case UG_XMLRPC_OK:
+		break;
+	}
+
+	return TRUE;
+}
+
 
 // ----------------------------------------------------------------------------
 // aria2 setup functions
@@ -648,6 +807,47 @@ static void	ug_plugin_aria2_set_scheme (UgPluginAria2* plugin, UgXmlrpcValue* op
 			}
 		}
 	}
+}
+
+static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* options)
+{
+	UgXmlrpcValue*	value;
+	UgDataCommon*	common;
+	GString*		string;
+
+	common = plugin->common;
+	string = plugin->string;
+
+	if (common->folder) {
+		value = ug_xmlrpc_value_alloc (options);
+		value->name = "dir";
+		value->type = UG_XMLRPC_STRING;
+		value->c.string = common->folder;
+	}
+	// max-tries
+	value = ug_xmlrpc_value_alloc (options);
+	value->name = "max-tries";
+	value->type = UG_XMLRPC_STRING;
+	g_string_printf (string, "%u", common->retry_limit);
+	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
+	// max-download-limit
+	value = ug_xmlrpc_value_alloc (options);
+	value->name = "max-download-limit";
+	value->type = UG_XMLRPC_STRING;
+	g_string_printf (string, "%u", (guint) common->max_download_speed);
+	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
+	// max-upload-limit
+	value = ug_xmlrpc_value_alloc (options);
+	value->name = "max-upload-limit";
+	value->type = UG_XMLRPC_STRING;
+	g_string_printf (string, "%u", (guint) common->max_upload_speed);
+	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
+	// lowest-speed-limit
+	value = ug_xmlrpc_value_alloc (options);
+	value->name = "lowest-speed-limit";
+	value->type = UG_XMLRPC_STRING;
+	g_string_printf (string, "%u", 512);
+	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
 }
 
 static void	ug_plugin_aria2_set_http (UgPluginAria2* plugin, UgXmlrpcValue* options)
@@ -911,6 +1111,35 @@ static int	ug_xmlrpc_value_get_int (UgXmlrpcValue* value)
 		}
 	}
 	return 0;
+}
+
+static gpointer	ug_load_binary	(const gchar* file, guint* filesize)
+{
+	int			fd;
+	int			size;
+	gpointer	buffer;
+
+//	fd = open (file, O_RDONLY | O_TEXT, S_IREAD);
+	fd = ug_fd_open (file, UG_FD_O_READONLY | UG_FD_O_BINARY, UG_FD_S_IREAD);
+	if (fd == -1)
+		return NULL;
+//	lseek (fd, 0, SEEK_END);
+	ug_fd_seek (fd, 0, SEEK_END);
+//	size = tell (fd);
+	size = (int) ug_fd_tell (fd);
+	buffer = g_malloc (size);
+//	lseek (fd, 0, SEEK_SET);
+	ug_fd_seek (fd, 0, SEEK_SET);
+//	if (read (fd, buffer, size) != size)
+	if (ug_fd_read (fd, buffer, size) != size) {
+		g_free (buffer);
+		buffer = NULL;
+		size = 0;
+	}
+	// close (fd);
+	ug_fd_close (fd);
+	*filesize = size;
+	return buffer;
 }
 
 #endif	// HAVE_PLUGIN_ARIA2
