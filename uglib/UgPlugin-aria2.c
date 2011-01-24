@@ -998,7 +998,7 @@ static gboolean	ug_plugin_aria2_set_proxy_pwmd (UgPluginAria2 *plugin, UgXmlrpcV
 
     // proxy host and port
 	// host
-	value = ug_xmlrpc_value_alloc (options);
+	UgXmlrpcValue *value = ug_xmlrpc_value_alloc (options);
 	value->name = "all-proxy";
 	value->type = UG_XMLRPC_STRING;
 	if (port == 0)
