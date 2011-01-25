@@ -49,8 +49,7 @@
 #include <UgUri.h>
 
 #ifdef HAVE_LIBPWMD
-#include <stdlib.h>
-#include <libpwmd.h>
+#include "pwmd.h"
 static gboolean	ug_plugin_curl_set_proxy_pwmd (UgPluginCurl *plugin);
 #endif  // HAVE_LIBPWMD
 
@@ -820,135 +819,54 @@ static size_t	ug_plugin_curl_header_http (char *buffer, size_t size, size_t nmem
 	return nmemb;
 }
 
-
 // ----------------------------------------------------------------------------
 // PWMD
 //
 #ifdef HAVE_LIBPWMD
 static gboolean	ug_plugin_curl_set_proxy_pwmd (UgPluginCurl *plugin)
 {
-    gpg_error_t rc;
-    gchar *result, *hostname = NULL, *username = NULL, *password = NULL,
-	  *type = NULL;
-    gint port = 80;
-    gchar *path = NULL;
-    gint i;
-    UgMessage *message;
+       UgMessage *message;
+       struct pwmd_proxy_s pwmd;
+       gpg_error_t rc;
 
-    if (plugin->proxy->pwmd.element) {
-	path = g_strdup_printf("%s\t", plugin->proxy->pwmd.element);
+       memset(&pwmd, 0, sizeof(pwmd));
+       rc = ug_set_pwmd_proxy_options(&pwmd, plugin->proxy);
 
-	for (i = 0; i < strlen(path); i++) {
-	    if (path[i] == '^')
-		path[i] = '\t';
-	}
-    }
+       if (rc)
+               goto fail;
 
-    pwmd_init();
-    pwm_t *pwm = pwmd_new("uget");
-    rc = pwmd_connect(pwm, plugin->proxy->pwmd.socket);
+       // proxy host and port
+       curl_easy_setopt (plugin->curl, CURLOPT_PROXY, pwmd.hostname);
+       curl_easy_setopt (plugin->curl, CURLOPT_PROXYPORT, pwmd.port);
 
-    if (rc)
-	goto fail;
+       // proxy user and password
+       if (pwmd.username || pwmd.password || !strcasecmp(pwmd.type, "socks4") || !strcasecmp(pwmd.type, "socks5")) {
+               curl_easy_setopt (plugin->curl, CURLOPT_PROXYUSERNAME,
+                               (pwmd.username) ? pwmd.username : "");
+               curl_easy_setopt (plugin->curl, CURLOPT_PROXYPASSWORD,
+                               (pwmd.password) ? pwmd.password : "");
+       }
+       else {
+               curl_easy_setopt (plugin->curl, CURLOPT_PROXYUSERNAME, NULL);
+               curl_easy_setopt (plugin->curl, CURLOPT_PROXYPASSWORD, NULL);
+       }
 
-    rc = pwmd_open(pwm, plugin->proxy->pwmd.file);
+       if (!strcasecmp(pwmd.type, "socks4"))
+               curl_easy_setopt (plugin->curl, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS4);
+       else if (!strcasecmp(pwmd.type, "socks5"))
+               curl_easy_setopt (plugin->curl, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
 
-    if (rc)
-	goto fail;
-
-    rc = pwmd_command(pwm, &result, "GET %stype", path ? path : "");
-
-    if (rc)
-	goto fail;
-
-    type = result;
-    rc = pwmd_command(pwm, &result, "GET %shostname", path ? path : "");
-
-    if (rc)
-	goto fail;
-
-    hostname = result;
-    rc = pwmd_command(pwm, &result, "GET %sport", path ? path : "");
-
-    if (rc && rc != GPG_ERR_ELEMENT_NOT_FOUND)
-	goto fail;
-
-    port = atoi(result);
-    pwmd_free(result);
-    rc = pwmd_command(pwm, &result, "GET %susername", path ? path : "");
-
-    if (rc && rc != GPG_ERR_ELEMENT_NOT_FOUND)
-	goto fail;
-
-    if (!rc)
-	username = result;
-
-    rc = pwmd_command(pwm, &result, "GET %spassword", path ? path : "");
-
-    if (rc && rc != GPG_ERR_ELEMENT_NOT_FOUND)
-	goto fail;
-
-    if (!rc)
-	password = result;
-
-    // proxy host and port
-    curl_easy_setopt (plugin->curl, CURLOPT_PROXY, hostname);
-    curl_easy_setopt (plugin->curl, CURLOPT_PROXYPORT, port);
-    // proxy user and password
-    if (username || password || !strcasecmp(type, "socks4") || !strcasecmp(type, "socks5")) {
-	curl_easy_setopt (plugin->curl, CURLOPT_PROXYUSERNAME, (username) ? username : "");
-	curl_easy_setopt (plugin->curl, CURLOPT_PROXYPASSWORD, (password) ? password : "");
-    }
-    else {
-	curl_easy_setopt (plugin->curl, CURLOPT_PROXYUSERNAME, NULL);
-	curl_easy_setopt (plugin->curl, CURLOPT_PROXYPASSWORD, NULL);
-    }
-
-    if (!strcasecmp(type, "socks4"))
-	curl_easy_setopt (plugin->curl, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS4);
-    else if (!strcasecmp(type, "socks5"))
-	curl_easy_setopt (plugin->curl, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
-
-    pwmd_free(type);
-    pwmd_free(hostname);
-
-    if (username)
-	pwmd_free(username);
-
-    if (password)
-	pwmd_free(password);
-
-    if (path)
-	g_free(path);
-
-    pwmd_close(pwm);
-    return TRUE;
+       ug_close_pwmd(&pwmd);
+       return TRUE;
 
 fail:
-    if (type)
-	pwmd_free(type);
-
-    if (hostname)
-	pwmd_free(hostname);
-
-    if (username)
-	pwmd_free(username);
-
-    if (password)
-	pwmd_free(password);
-
-    if (path)
-	g_free(path);
-
-    if (pwm)
-	pwmd_close(pwm);
-
-    gchar *e = g_strdup_printf("Pwmd ERR %i: %s", rc, pwmd_strerror(rc));
-    message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, e);
-    ug_plugin_post ((UgPlugin*) plugin, message);
-    fprintf(stderr, "%s\n", e);
-    g_free(e);
-    return FALSE;
+       ug_close_pwmd(&pwmd);
+       gchar *e = g_strdup_printf("Pwmd ERR %i: %s", rc, pwmd_strerror(rc));
+       message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, e);
+       ug_plugin_post ((UgPlugin*) plugin, message);
+       fprintf(stderr, "%s\n", e);
+       g_free(e);
+       return FALSE;
 }
 
 #endif	// HAVE_LIBPWMD

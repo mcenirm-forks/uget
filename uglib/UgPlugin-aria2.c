@@ -41,8 +41,7 @@
 #ifdef HAVE_PLUGIN_ARIA2
 
 #ifdef HAVE_LIBPWMD
-#include <stdlib.h>
-#include <libpwmd.h>
+#include "pwmd.h"
 #endif  // HAVE_LIBPWMD
 
 #include <UgStdio.h>
@@ -932,136 +931,57 @@ static gboolean	ug_plugin_aria2_set_proxy (UgPluginAria2* plugin, UgXmlrpcValue*
 #ifdef HAVE_LIBPWMD
 static gboolean	ug_plugin_aria2_set_proxy_pwmd (UgPluginAria2 *plugin, UgXmlrpcValue* options)
 {
-    gpg_error_t rc;
-    gchar *result, *hostname = NULL, *username = NULL, *password = NULL,
-	  *type = NULL;
-    gint port = 80;
-    gchar *path = NULL;
-    gint i;
-    UgMessage *message;
+       struct pwmd_proxy_s pwmd;
+       gpg_error_t rc;
+       UgMessage *message;
 
-    if (plugin->proxy->pwmd.element) {
-	path = g_strdup_printf("%s\t", plugin->proxy->pwmd.element);
+       memset(&pwmd, 0, sizeof(pwmd));
+       rc = ug_set_pwmd_proxy_options(&pwmd, plugin->proxy);
 
-	for (i = 0; i < strlen(path); i++) {
-	    if (path[i] == '^')
-		path[i] = '\t';
-	}
-    }
+       if (rc)
+               goto fail;
 
-    pwmd_init();
-    pwm_t *pwm = pwmd_new("uget");
-    rc = pwmd_connect(pwm, plugin->proxy->pwmd.socket);
-
-    if (rc)
-	goto fail;
-
-    rc = pwmd_open(pwm, plugin->proxy->pwmd.file);
-
-    if (rc)
-	goto fail;
-
-    rc = pwmd_command(pwm, &result, "GET %stype", path ? path : "");
-
-    if (rc)
-	goto fail;
-
-    type = result;
-    rc = pwmd_command(pwm, &result, "GET %shostname", path ? path : "");
-
-    if (rc)
-	goto fail;
-
-    hostname = result;
-    rc = pwmd_command(pwm, &result, "GET %sport", path ? path : "");
-
-    if (rc && rc != GPG_ERR_ELEMENT_NOT_FOUND)
-	goto fail;
-
-    port = atoi(result);
-    pwmd_free(result);
-    rc = pwmd_command(pwm, &result, "GET %susername", path ? path : "");
-
-    if (rc && rc != GPG_ERR_ELEMENT_NOT_FOUND)
-	goto fail;
-
-    if (!rc)
-	username = result;
-
-    rc = pwmd_command(pwm, &result, "GET %spassword", path ? path : "");
-
-    if (rc && rc != GPG_ERR_ELEMENT_NOT_FOUND)
-	goto fail;
-
-    if (!rc)
-	password = result;
-
-    // proxy host and port
+       // proxy host and port
 	// host
 	UgXmlrpcValue *value = ug_xmlrpc_value_alloc (options);
 	value->name = "all-proxy";
 	value->type = UG_XMLRPC_STRING;
-	if (port == 0)
-		value->c.string = g_string_chunk_insert (plugin->chunk, hostname);
+       if (pwmd.port == 0)
+               value->c.string = g_string_chunk_insert (plugin->chunk,
+                               pwmd.hostname);
 	else {
-		g_string_printf (plugin->string, "%s:%u", hostname, port);
+               g_string_printf (plugin->string, "%s:%u", pwmd.hostname,
+                               pwmd.port);
 		value->c.string = g_string_chunk_insert (plugin->chunk, plugin->string->str);
 	}
 
 	// proxy user and password
-	if (username || password) {
+       if (pwmd.username || pwmd.password) {
 		// user
 		value = ug_xmlrpc_value_alloc (options);
 		value->name = "all-proxy-user";
 		value->type = UG_XMLRPC_STRING;
-		value->c.string = g_string_chunk_insert (plugin->chunk, username ? username : "");
+               value->c.string = g_string_chunk_insert (plugin->chunk,
+                               pwmd.username ? pwmd.username : "");
 		// password
 		value = ug_xmlrpc_value_alloc (options);
 		value->name = "all-proxy-password";
 		value->type = UG_XMLRPC_STRING;
-		value->c.string = g_string_chunk_insert (plugin->chunk, password ? password : "");
+               value->c.string = g_string_chunk_insert (plugin->chunk,
+                               pwmd.password ? pwmd.password : "");
 	}
 
-    pwmd_free(type);
-    pwmd_free(hostname);
-
-    if (username)
-	pwmd_free(username);
-
-    if (password)
-	pwmd_free(password);
-
-    if (path)
-	g_free(path);
-
-    pwmd_close(pwm);
-    return TRUE;
+       ug_close_pwmd(&pwmd);
+       return TRUE;
 
 fail:
-    if (type)
-	pwmd_free(type);
-
-    if (hostname)
-	pwmd_free(hostname);
-
-    if (username)
-	pwmd_free(username);
-
-    if (password)
-	pwmd_free(password);
-
-    if (path)
-	g_free(path);
-
-    if (pwm)
-	pwmd_close(pwm);
-
-    gchar *e = g_strdup_printf("Pwmd ERR %i: %s", rc, pwmd_strerror(rc));
-    message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, e);
-    ug_plugin_post ((UgPlugin*) plugin, message);
-    fprintf(stderr, "%s\n", e);
-    g_free(e);
-    return FALSE;
+       ug_close_pwmd(&pwmd);
+       gchar *e = g_strdup_printf("Pwmd ERR %i: %s", rc, pwmd_strerror(rc));
+       message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, e);
+       ug_plugin_post ((UgPlugin*) plugin, message);
+       fprintf(stderr, "%s\n", e);
+       g_free(e);
+       return FALSE;
 }
 
 #endif	// HAVE_LIBPWMD
@@ -1119,7 +1039,7 @@ static gpointer	ug_load_binary	(const gchar* file, guint* filesize)
 	int			size;
 	gpointer	buffer;
 
-//	fd = open (file, O_RDONLY | O_TEXT, S_IREAD);
+//	fd = open (file, O_RDONLY | O_BINARY, S_IREAD);
 	fd = ug_fd_open (file, UG_FD_O_READONLY | UG_FD_O_BINARY, UG_FD_S_IREAD);
 	if (fd == -1)
 		return NULL;
