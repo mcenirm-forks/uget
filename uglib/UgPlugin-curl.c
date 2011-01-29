@@ -751,8 +751,22 @@ static size_t	ug_plugin_curl_header_http (char *buffer, size_t size, size_t nmem
 	g_print ("%s", buffer);
 #endif
 
+	// handle HTTP header "Accept-Ranges:"
+	if (g_ascii_strncasecmp (buffer, "Accept-Ranges: ", 15) == 0) {
+		buffer += 15;
+		if (strncmp (buffer, "none", 4) == 0) {
+			plugin->resumable = FALSE;
+			ug_plugin_post ((UgPlugin*) plugin,
+					ug_message_new_info (UG_MESSAGE_INFO_UNRESUMABLE, NULL));
+		}
+		else {
+			plugin->resumable = TRUE;
+			ug_plugin_post ((UgPlugin*) plugin,
+					ug_message_new_info (UG_MESSAGE_INFO_RESUMABLE, NULL));
+		}
+	}
 	// handle HTTP header "Location:"
-	if (g_ascii_strncasecmp (buffer, "Location: ", 10) == 0) {
+	else if (g_ascii_strncasecmp (buffer, "Location: ", 10) == 0) {
 		// exclude header and character '\r', '\n'
 		buffer += 10;
 		g_free (common->url);
