@@ -513,6 +513,7 @@ static void	ug_xmltag_parse_value (UgXmltag* xmltag, UgXmlrpcValue* value)
 {
 	gchar*	tag  = xmltag->beg;
 	gchar*	text = xmltag->end + 1;
+	gsize	temp;
 
 	if (xmltag->next == NULL)
 		return;
@@ -555,7 +556,8 @@ static void	ug_xmltag_parse_value (UgXmltag* xmltag, UgXmlrpcValue* value)
 		else {
 			value->type = UG_XMLRPC_BINARY;
 			xmltag->next[0] = 0;	// null-terminated
-			value->c.binary = g_base64_decode_inplace (text, &value->len);
+			value->c.binary = g_base64_decode_inplace (text, &temp);
+			value->len = temp;
 		}
 		break;
 

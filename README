@@ -1,7 +1,22 @@
-﻿uGet 1.7.0 (developing)
+﻿uGet 1.7.1 (developing)
 
 This version requires GTK+ version 2.18+
 
+What's new since 1.7.0:
+For user:
+1. Add scheduler.
+2. Add new timestamp columns - "Added On" and "Completed On"
+3. It can sort downloads by column in "All" category.
+4. It can do speed limit control per download. (global speed control? not ready.)
+5. It can handle HTTP header "Accept-Ranges:" and send message to notify resumable or not.
+6. The layout of main window was changed.
+
+For developer:
+A new aria2 plug-in. If you want to test it, run configure with --enable-plugin-aria2 --disable-plugin-curl
+and run "aria2c --enable-xml-rpc" in commandline.
+All related sourcecode place in uglib/UgXmlrpc.c, uglib/UgPlugin-aria2.c
+
+-----------------------------
 What's new since 1.6.x:
 For user:
 1. You can see new icons and "Active" subcategory.

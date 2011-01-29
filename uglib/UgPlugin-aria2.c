@@ -40,12 +40,14 @@
 
 #ifdef HAVE_PLUGIN_ARIA2
 
-#ifdef HAVE_LIBPWMD
-#include "pwmd.h"
-#endif  // HAVE_LIBPWMD
-
+#include <stdlib.h>
+// uglib
 #include <UgStdio.h>
 #include <UgPlugin-aria2.h>
+
+#ifdef HAVE_LIBPWMD
+#include "pwmd.h"
+#endif
 
 #define ARIA2_XMLRPC_URI		"http://localhost:6800/rpc"
 
