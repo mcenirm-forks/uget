@@ -87,7 +87,7 @@ enum UgMessageInfoCode
 	UG_MESSAGE_INFO_FINISH,		// completed, it will not be used in future.
 	// resumable
 	UG_MESSAGE_INFO_RESUMABLE,
-	UG_MESSAGE_INFO_UNRESUMABLE,
+	UG_MESSAGE_INFO_NOT_RESUMABLE,
 };
 
 enum UgMessageWarningCode

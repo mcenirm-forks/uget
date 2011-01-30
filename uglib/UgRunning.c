@@ -306,15 +306,10 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 				break;
 
 			case UG_MESSAGE_INFO_RESUMABLE:
+			case UG_MESSAGE_INFO_NOT_RESUMABLE:
 				g_free (relation->message.string);
 				relation->message.type = UG_MESSAGE_INFO;
-				relation->message.string = g_strdup (_("Resumable"));
-				break;
-
-			case UG_MESSAGE_INFO_UNRESUMABLE:
-				g_free (relation->message.string);
-				relation->message.type = UG_MESSAGE_INFO;
-				relation->message.string = g_strdup (_("Not resumable"));
+				relation->message.string = g_strdup (msg->string);
 				break;
 
 			default:

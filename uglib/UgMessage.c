@@ -56,7 +56,7 @@ static const gchar*	common_info[] =
 	N_("Finished"),												// UG_MESSAGE_INFO_FINISH,
 	// resumable
 	N_("Resumable"),											// UG_MESSAGE_INFO_RESUMABLE,
-	N_("Not Resumable"),										// UG_MESSAGE_INFO_UNRESUMABLE,
+	N_("Not Resumable"),										// UG_MESSAGE_INFO_NOT_RESUMABLE,
 };
 static const guint	common_info_count = sizeof (common_info) / sizeof (gchar*);
 

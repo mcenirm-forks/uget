@@ -478,7 +478,7 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 			ug_fs_truncate (plugin->file_stream, 0);
 			// send message
 			ug_plugin_post ((UgPlugin*) plugin,
-					ug_message_new_info (UG_MESSAGE_INFO_UNRESUMABLE, NULL));
+					ug_message_new_info (UG_MESSAGE_INFO_NOT_RESUMABLE, NULL));
 			break;
 
 		// retry
@@ -757,7 +757,7 @@ static size_t	ug_plugin_curl_header_http (char *buffer, size_t size, size_t nmem
 		if (strncmp (buffer, "none", 4) == 0) {
 			plugin->resumable = FALSE;
 			ug_plugin_post ((UgPlugin*) plugin,
-					ug_message_new_info (UG_MESSAGE_INFO_UNRESUMABLE, NULL));
+					ug_message_new_info (UG_MESSAGE_INFO_NOT_RESUMABLE, NULL));
 		}
 		else {
 			plugin->resumable = TRUE;

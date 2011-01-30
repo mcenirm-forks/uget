@@ -8,7 +8,7 @@ For user:
 2. Add new timestamp columns - "Added On" and "Completed On"
 3. It can sort downloads by column in "All" category.
 4. It can do speed limit control per download. (global speed control? not ready.)
-5. It can handle HTTP header "Accept-Ranges:" and send message to notify resumable or not.
+5. It can handle HTTP header "Accept-Ranges:" and send message to notify resumable or not resumable.
 6. The layout of main window was changed.
 
 For developer:
