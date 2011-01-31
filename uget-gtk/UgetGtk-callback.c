@@ -476,9 +476,9 @@ static void	on_open_download_folder (GtkWidget* widget, UgetGtk* ugtk)
 
 		path = g_build_filename (common->folder, common->file, NULL);
 		if (g_file_test (path, G_FILE_TEST_EXISTS))
-			argument = g_strconcat ("/e,/select,", path, NULL);
+			argument = g_strconcat ("/e,/select,\"", path, "\"", NULL);
 		else
-			argument = g_strconcat ("/e,", common->folder, NULL);
+			argument = g_strconcat ("/e,\"", common->folder, "\"", NULL);
 		g_free (path);
 		argument_os = g_utf8_to_utf16 (argument, -1, NULL, NULL, NULL);
 		g_free (argument);
