@@ -933,6 +933,9 @@ static void	on_config_settings_response (GtkDialog *dialog, gint response, UgSet
 		g_regex_unref (ugtk->launch_regex);
 		ugtk->launch_regex = g_regex_new (ugtk->setting.launch.types,
 				G_REGEX_CASELESS, 0, NULL);
+		// ui
+		gtk_status_icon_set_visible (ugtk->tray_icon.self,
+				ugtk->setting.ui.show_tray_icon);
 	}
 	ug_setting_dialog_free (sdialog);
 	// refresh

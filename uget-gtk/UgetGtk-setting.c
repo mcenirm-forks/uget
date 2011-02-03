@@ -114,6 +114,7 @@ static UgDataEntry	ui_setting_data_entry[] =
 	{"CloseConfirmation",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting, close_confirmation),	UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"CloseAction",			G_STRUCT_OFFSET (struct UgUserInterfaceSetting, close_action),			UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"DeleteConfirmation",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	delete_confirmation),	UG_DATA_TYPE_INT,	NULL,	NULL},
+	{"ShowTrayIcon",		G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	show_tray_icon),		UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"StartInTray",			G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	start_in_tray),			UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"StartInOfflineMode",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	start_in_offline_mode),	UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"StartNotification",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	start_notification),	UG_DATA_TYPE_INT,	NULL,	NULL},
@@ -410,6 +411,7 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->ui.close_confirmation = TRUE;
 	setting->ui.close_action = 0;
 	setting->ui.delete_confirmation = TRUE;
+	setting->ui.show_tray_icon = TRUE;
 	setting->ui.start_in_tray = FALSE;
 	setting->ui.start_in_offline_mode = FALSE;
 	setting->ui.start_notification = TRUE;

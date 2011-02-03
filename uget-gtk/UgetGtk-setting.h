@@ -142,6 +142,7 @@ struct UgetGtkSetting_
 		gboolean	close_confirmation;
 		gint		close_action;
 		gboolean	delete_confirmation;
+		gboolean	show_tray_icon;
 		gboolean	start_in_tray;
 		gboolean	start_in_offline_mode;
 		gboolean	start_notification;

@@ -97,6 +97,7 @@ static void uget_gtk_tray_icon_init (struct UgetGtkTrayIcon* icon)
 	else
 		icon->self = gtk_status_icon_new_from_stock (GTK_STOCK_GO_DOWN);
 	g_free (file);
+	gtk_status_icon_set_visible (icon->self, FALSE);
 	uget_gtk_tray_icon_refresh (icon, 0, 0.0);
 
 	// UgetGtkTrayIcon.menu

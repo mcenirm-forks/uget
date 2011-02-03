@@ -224,6 +224,9 @@ void	uget_gtk_set_setting (UgetGtk* ugtk, UgetGtkSetting* setting)
 			setting->window.category);
 	gtk_widget_set_visible (ugtk->summary.self,
 			setting->window.summary);
+	// set user interface
+	gtk_status_icon_set_visible (ugtk->tray_icon.self,
+			setting->ui.show_tray_icon);
 	// ----------------------------------------------------
 	// UgetGtkEditMenu
 	gtk_check_menu_item_set_active (
