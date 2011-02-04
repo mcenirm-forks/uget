@@ -434,6 +434,24 @@ gboolean	ug_plugin_rename_and_unhide (UgPlugin* plugin, const gchar* old_utf8, c
 }
 
 // --- virtual functions ---
+UgResult	ug_plugin_global_set (const UgPluginClass* plugin_class, guint parameter, gpointer data)
+{
+	UgGlobalSetFunc  global_set = plugin_class->global_set;
+
+	if (global_set)
+		return global_set (parameter, data);
+	return UG_RESULT_UNSUPPORT;
+}
+
+UgResult	ug_plugin_global_get (const UgPluginClass* plugin_class, guint parameter, gpointer data)
+{
+	UgGlobalGetFunc  global_get = plugin_class->global_get;
+
+	if (global_get)
+		return global_get (parameter, data);
+	return UG_RESULT_UNSUPPORT;
+}
+
 UgResult ug_plugin_set_state (UgPlugin* plugin, UgState  state)
 {
 	UgSetStateFunc  set_state = plugin->plugin_class->set_state;
@@ -452,21 +470,21 @@ UgResult ug_plugin_get_state (UgPlugin* plugin, UgState* state)
 	return UG_RESULT_UNSUPPORT;
 }
 
-UgResult ug_plugin_get (UgPlugin* plugin, guint parameter, gpointer data)
-{
-	UgGetFunc  get = plugin->plugin_class->get;
-
-	if (get)
-		return get (plugin, parameter, data);
-	return UG_RESULT_UNSUPPORT;
-}
-
 UgResult ug_plugin_set (UgPlugin* plugin, guint parameter, gpointer data)
 {
 	UgSetFunc  set = plugin->plugin_class->set;
 
 	if (set)
 		return set (plugin, parameter, data);
+	return UG_RESULT_UNSUPPORT;
+}
+
+UgResult ug_plugin_get (UgPlugin* plugin, guint parameter, gpointer data)
+{
+	UgGetFunc  get = plugin->plugin_class->get;
+
+	if (get)
+		return get (plugin, parameter, data);
 	return UG_RESULT_UNSUPPORT;
 }
 

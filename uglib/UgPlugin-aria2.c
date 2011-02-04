@@ -54,6 +54,7 @@
 // functions for UgPluginClass
 static gboolean	ug_plugin_aria2_global_init		(void);
 static void		ug_plugin_aria2_global_finalize	(void);
+static UgResult	ug_plugin_aria2_global_set		(guint parameter, gpointer data);
 
 static gboolean	ug_plugin_aria2_init		(UgPluginAria2* plugin, UgDataset* dataset);
 static void		ug_plugin_aria2_finalize	(UgPluginAria2* plugin);
@@ -115,6 +116,7 @@ enum Aria2ErrorCode
 // static data for UgPluginClass
 static const char*	supported_schemes[]   = {"http", "https", "ftp", "ftps", NULL};
 static const char*	supported_filetypes[] = {"torrent", "metalink", "meta4", NULL};
+static char*		xmlrpc_uri;
 
 static const	UgPluginClass	plugin_class_aria2 =
 {
@@ -126,6 +128,8 @@ static const	UgPluginClass	plugin_class_aria2 =
 
 	(UgGlobalInitFunc)		ug_plugin_aria2_global_init,		// global_init
 	(UgGlobalFinalizeFunc)	ug_plugin_aria2_global_finalize,	// global_finalize
+	(UgGlobalSetFunc)		ug_plugin_aria2_global_set,			// global_set
+	(UgGlobalGetFunc)		NULL,								// global_get
 
 	(UgPluginInitFunc)		ug_plugin_aria2_init,				// init
 	(UgFinalizeFunc)		ug_plugin_aria2_finalize,			// finalize
@@ -143,11 +147,24 @@ const UgPluginClass*	UgPluginAria2Class = &plugin_class_aria2;
 //
 static gboolean	ug_plugin_aria2_global_init (void)
 {
+	xmlrpc_uri = g_strdup (ARIA2_XMLRPC_URI);
+
 	return TRUE;
 }
 
 static void	ug_plugin_aria2_global_finalize (void)
 {
+	g_free (xmlrpc_uri);
+}
+
+static UgResult	ug_plugin_aria2_global_set (guint parameter, gpointer data)
+{
+	if (parameter != UG_DATA_TYPE_STRING)
+		return UG_RESULT_UNSUPPORT;
+
+	g_free (xmlrpc_uri);
+	xmlrpc_uri = g_strdup (data);
+	return UG_RESULT_OK;
 }
 
 static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
@@ -173,7 +190,7 @@ static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
 	plugin->ftp    = ug_data_list_copy (ug_dataset_get (dataset, UgDataFtpClass, 0));
 	// xmlrpc
 	ug_xmlrpc_init (&plugin->xmlrpc);
-	ug_xmlrpc_use_client (&plugin->xmlrpc, ARIA2_XMLRPC_URI, NULL);
+	ug_xmlrpc_use_client (&plugin->xmlrpc, xmlrpc_uri, NULL);
 	// others
 	plugin->string = g_string_sized_new (128);
 	plugin->chunk  = g_string_chunk_new (512);

@@ -112,6 +112,8 @@ static const	UgPluginClass	plugin_class_curl =
 
 	(UgGlobalInitFunc)		ug_plugin_curl_global_init,			// global_init
 	(UgGlobalFinalizeFunc)	ug_plugin_curl_global_finalize,		// global_finalize
+	(UgGlobalSetFunc)		NULL,								// global_set
+	(UgGlobalGetFunc)		NULL,								// global_get
 
 	(UgPluginInitFunc)		ug_plugin_curl_init,				// init
 	(UgFinalizeFunc)		ug_plugin_curl_finalize,			// finalize

@@ -64,11 +64,13 @@ typedef struct	UgPluginClass_		UgPluginClass;
 typedef enum	UgResult_			UgResult;
 typedef	enum	UgState_			UgState;
 
-typedef gboolean (*UgPluginInitFunc)		(UgPlugin* plugin, UgDataset* dataset);
 typedef gboolean (*UgGlobalInitFunc)		(void);
 typedef void     (*UgGlobalFinalizeFunc)	(void);
-typedef void     (*UgPluginCallback)		(UgPlugin* plugin, const UgMessage* message, gpointer user_data);
+typedef UgResult (*UgGlobalSetFunc)			(guint parameter, gpointer data);
+typedef UgResult (*UgGlobalGetFunc)			(guint parameter, gpointer data);
 
+typedef gboolean (*UgPluginInitFunc)		(UgPlugin* plugin, UgDataset* dataset);
+typedef void     (*UgPluginCallback)		(UgPlugin* plugin, const UgMessage* message, gpointer user_data);
 typedef UgResult (*UgSetStateFunc)	(gpointer instance, UgState  state);
 typedef UgResult (*UgGetStateFunc)	(gpointer instance, UgState* state);
 typedef UgResult (*UgSetFunc)		(gpointer instance, guint parameter, gpointer data);
@@ -107,6 +109,8 @@ struct UgPluginClass_
 
 	UgGlobalInitFunc		global_init;
 	UgGlobalFinalizeFunc	global_finalize;
+	UgGlobalSetFunc			global_set;
+	UgGlobalGetFunc			global_get;
 
 	UgPluginInitFunc		init;
 	UgFinalizeFunc			finalize;
@@ -206,6 +210,8 @@ gchar*		ug_plugin_create_and_hide (UgPlugin* plugin, const gchar* folder, const 
 gboolean	ug_plugin_rename_and_unhide (UgPlugin* plugin, const gchar* old_utf8, const gchar* new_utf8);
 
 // --- virtual functions ---
+UgResult	ug_plugin_global_set (const UgPluginClass* plugin_class, guint parameter, gpointer data);
+UgResult	ug_plugin_global_get (const UgPluginClass* plugin_class, guint parameter, gpointer data);
 UgResult	ug_plugin_set_state	(UgPlugin* plugin, UgState  state);
 UgResult	ug_plugin_get_state	(UgPlugin* plugin, UgState* state);
 UgResult	ug_plugin_set (UgPlugin* plugin, guint parameter, gpointer data);
