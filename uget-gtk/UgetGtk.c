@@ -85,6 +85,7 @@ void	uget_gtk_init (UgetGtk* ugtk)
 	uget_gtk_init_gui (ugtk);
 	// initialize settings
 	uget_gtk_setting_init (&ugtk->setting);
+	uget_gtk_setting_reset (&ugtk->setting);	// reset to default
 	// load settings & data
 	ug_attachment_init (ug_get_attachment_dir ());
 	uget_gtk_load (ugtk);
@@ -170,8 +171,7 @@ void	uget_gtk_load (UgetGtk* ugtk)
 	// load setting
 	file = g_build_filename (g_get_user_config_dir (),
 			UGET_GTK_DIR, UGET_GTK_SETTING_FILE, NULL);
-	if (uget_gtk_setting_load (&ugtk->setting, file) == FALSE)
-		uget_gtk_setting_reset (&ugtk->setting);
+	uget_gtk_setting_load (&ugtk->setting, file);
 	g_free (file);
 	// load all jobs from file
 	file = g_build_filename (g_get_user_config_dir (),
