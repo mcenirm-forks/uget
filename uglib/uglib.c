@@ -65,10 +65,13 @@ gboolean ug_class_init (void)
 	ug_data_class_register (UgMessageClass);
 	// plug-ins
 #ifdef HAVE_PLUGIN_ARIA2
-	ug_plugin_class_register (UgPluginAria2Class);
+	// If plug-in failed to initialize, don't register it.
+	if (UgPluginAria2Class->global_init ())
+		ug_plugin_class_register (UgPluginAria2Class);
 #endif
 #ifdef HAVE_PLUGIN_CURL
-	ug_plugin_class_register (UgPluginCurlClass);
+	if (UgPluginCurlClass->global_init ())
+		ug_plugin_class_register (UgPluginCurlClass);
 #endif
 
 	return TRUE;
@@ -91,9 +94,11 @@ void ug_class_finalize (void)
 	// plug-ins
 #ifdef HAVE_PLUGIN_ARIA2
 	ug_plugin_class_unregister (UgPluginAria2Class);
+	UgPluginAria2Class->global_finalize ();
 #endif
 #ifdef HAVE_PLUGIN_CURL
 	ug_plugin_class_unregister (UgPluginCurlClass);
+	UgPluginCurlClass->global_finalize ();
 #endif
 }
 

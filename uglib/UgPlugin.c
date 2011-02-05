@@ -52,14 +52,10 @@
 // ---------------------------------------------------------------------------
 // UgPluginClass
 //
-gboolean	ug_plugin_class_register (const UgPluginClass* plugin_class)
+void	ug_plugin_class_register (const UgPluginClass* plugin_class)
 {
 	const gchar**	string;
 	GList*			list;
-
-	// If plug-in failed to initialize, don't register it.
-	if (plugin_class->global_init () == FALSE)
-		return FALSE;
 
 	ug_registry_insert (plugin_class->name, UG_REG_PLUGIN_CLASS, (gpointer) plugin_class);
 
@@ -78,8 +74,6 @@ gboolean	ug_plugin_class_register (const UgPluginClass* plugin_class)
 			ug_registry_insert (*string, UG_REG_PLUGIN_FILE_TYPE, list);
 		}
 	}
-
-	return TRUE;
 }
 
 void	ug_plugin_class_unregister (const UgPluginClass* plugin_class)
@@ -114,8 +108,6 @@ void	ug_plugin_class_unregister (const UgPluginClass* plugin_class)
 				ug_registry_remove (*string, UG_REG_PLUGIN_FILE_TYPE);
 		}
 	}
-
-	plugin_class->global_finalize ();
 }
 
 const UgPluginClass*	ug_plugin_class_find (const gchar* name, enum UgRegistryType type)
