@@ -100,6 +100,7 @@ static const gchar*	http_error[] =
 {
 	NULL,														// UG_MESSAGE_ERROR_HTTP_MEMBER_CUSTOM
 	N_("Too many redirections."),								// UG_MESSAGE_ERROR_HTTP_MEMBER_TOO_MANY_REDIRECTIONS
+	N_("Failed to open posted file."),							// UG_MESSAGE_ERROR_HTTP_MEMBER_OPEN_POSTED_FILE_FAILED
 };
 static const guint	http_error_count = sizeof (http_error) / sizeof (gchar*);
 

@@ -382,6 +382,11 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 				curl_easy_setopt (curl, CURLOPT_READFUNCTION , fread);
 #endif
 			}
+			else {
+				ug_plugin_post ((UgPlugin*) plugin,
+						ug_message_new_error (UG_MESSAGE_ERROR_HTTP_OPEN_POSTED_FILE_FAILED, NULL));
+				goto exit;
+			}
 		}
 	}
 
