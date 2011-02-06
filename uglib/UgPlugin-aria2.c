@@ -40,6 +40,7 @@
 
 #ifdef HAVE_PLUGIN_ARIA2
 
+#include <string.h>
 #include <stdlib.h>
 // uglib
 #include <UgStdio.h>
@@ -75,7 +76,7 @@ static gboolean	ug_plugin_aria2_remove		(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_get_servers	(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_tell_status	(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_change_option(UgPluginAria2* plugin, UgXmlrpcValue* options);
-static gboolean	ug_plugin_aria2_response	(UgPluginAria2* plugin, const gchar* method);
+static gboolean	ug_plugin_aria2_response	(UgPluginAria2* plugin, UgXmlrpcResponse response, const gchar* method);
 
 // setup functions
 static void		ug_plugin_aria2_set_scheme	(UgPluginAria2* plugin, UgXmlrpcValue* options);
@@ -401,7 +402,7 @@ static gboolean	ug_plugin_aria2_add_uri	(UgPluginAria2* plugin)
 	UgXmlrpcValue*		options;	// UG_XMLRPC_STRUCT
 	UgXmlrpcValue*		value;
 	UgDataCommon*		common;
-	gboolean			result;
+	UgXmlrpcResponse	response;
 
 	common = plugin->common;
 	// URIs array
@@ -417,7 +418,7 @@ static gboolean	ug_plugin_aria2_add_uri	(UgPluginAria2* plugin)
 	ug_plugin_aria2_set_http (plugin, options);
 
 	// aria2.addUri
-	result = ug_xmlrpc_call (&plugin->xmlrpc,
+	response = ug_xmlrpc_call (&plugin->xmlrpc,
 			"aria2.addUri",
 			UG_XMLRPC_ARRAY,  uris,
 			UG_XMLRPC_STRUCT, options,
@@ -427,29 +428,21 @@ static gboolean	ug_plugin_aria2_add_uri	(UgPluginAria2* plugin)
 	ug_xmlrpc_value_free (options);
 	g_string_chunk_clear (plugin->chunk);
 	// message
-	if (result == FALSE) {
-		ug_plugin_post ((UgPlugin*)plugin,
-				ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM,
-					"An error occurred during aria2.addUri"));
-		return FALSE;
-	}
-	if (ug_plugin_aria2_response (plugin, "aria2.addUri") == FALSE)
+	if (ug_plugin_aria2_response (plugin, response, "aria2.addUri") == FALSE)
 		return FALSE;
 
 	// get gid
-	value = ug_xmlrpc_value_new ();
-	ug_xmlrpc_get_value (&plugin->xmlrpc, value);
+	value = ug_xmlrpc_get_value (&plugin->xmlrpc);
 	plugin->gid = g_string_chunk_insert (plugin->chunk, value->c.string);
-	ug_xmlrpc_value_free (value);
 
 	return TRUE;
 }
 
 static gboolean	ug_plugin_aria2_add_torrent (UgPluginAria2* plugin)
 {
-	UgXmlrpcValue*	torrent;
-	UgXmlrpcValue*	options;
-	gboolean		result;
+	UgXmlrpcValue*		torrent;
+	UgXmlrpcValue*		options;
+	UgXmlrpcResponse	response;
 
 	// options struct
 	options = ug_xmlrpc_value_new_struct (16);
@@ -461,9 +454,9 @@ static gboolean	ug_plugin_aria2_add_torrent (UgPluginAria2* plugin)
 	torrent->c.binary = ug_load_binary (plugin->common->file, &torrent->len);
 
 	if (torrent->c.binary == NULL)
-		result = FALSE;
+		response = UG_XMLRPC_ERROR;
 	else {
-		result = ug_xmlrpc_call (&plugin->xmlrpc,
+		response = ug_xmlrpc_call (&plugin->xmlrpc,
 				"aria2.addTorrent",
 				UG_XMLRPC_BINARY, torrent,
 				UG_XMLRPC_NIL,    NULL,
@@ -472,30 +465,23 @@ static gboolean	ug_plugin_aria2_add_torrent (UgPluginAria2* plugin)
 	}
 	// free resource
 	g_free (torrent->c.binary);
-	ug_xmlrpc_value_clear (torrent);
+	ug_xmlrpc_value_free (torrent);
 	ug_xmlrpc_value_free (options);
 	// message
-	if (result == FALSE) {
-		ug_plugin_post ((UgPlugin*)plugin,
-				ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM,
-					"An error occurred during aria2.addTorrent"));
-		return FALSE;
-	}
-	if (ug_plugin_aria2_response (plugin, "aria2.addTorrent") == FALSE)
+	if (ug_plugin_aria2_response (plugin, response, "aria2.addTorrent") == FALSE)
 		return FALSE;
 
 	// get gid
-	ug_xmlrpc_get_value (&plugin->xmlrpc, torrent);
+	torrent = ug_xmlrpc_get_value (&plugin->xmlrpc);
 	plugin->gid = g_string_chunk_insert (plugin->chunk, torrent->c.string);
-	ug_xmlrpc_value_free (torrent);
 	return TRUE;
 }
 
 static gboolean	ug_plugin_aria2_add_metalink (UgPluginAria2* plugin)
 {
-	UgXmlrpcValue*	meta;
-	UgXmlrpcValue*	options;
-	gboolean		result;
+	UgXmlrpcValue*		meta;
+	UgXmlrpcValue*		options;
+	UgXmlrpcResponse	response;
 
 	// options struct
 	options = ug_xmlrpc_value_new_struct (16);
@@ -509,9 +495,9 @@ static gboolean	ug_plugin_aria2_add_metalink (UgPluginAria2* plugin)
 	meta->c.binary = ug_load_binary (plugin->common->file, &meta->len);
 
 	if (meta->c.binary == NULL)
-		result = FALSE;
+		response = UG_XMLRPC_ERROR;
 	else {
-		result = ug_xmlrpc_call (&plugin->xmlrpc,
+		response = ug_xmlrpc_call (&plugin->xmlrpc,
 				"aria2.addMetalink",
 				UG_XMLRPC_BINARY, meta,
 				UG_XMLRPC_STRUCT, options,
@@ -519,40 +505,27 @@ static gboolean	ug_plugin_aria2_add_metalink (UgPluginAria2* plugin)
 	}
 	// free resource
 	g_free (meta->c.binary);
-	ug_xmlrpc_value_clear (meta);
+	ug_xmlrpc_value_free (meta);
 	ug_xmlrpc_value_free (options);
 	// message
-	if (result == FALSE) {
-		ug_plugin_post ((UgPlugin*)plugin,
-				ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM,
-					"An error occurred during aria2.addMetalink"));
-		return FALSE;
-	}
-	if (ug_plugin_aria2_response (plugin, "aria2.addMetalink") == FALSE)
+	if (ug_plugin_aria2_response (plugin, response, "aria2.addMetalink") == FALSE)
 		return FALSE;
 
 	// get gid
-	ug_xmlrpc_get_value (&plugin->xmlrpc, meta);
+	meta = ug_xmlrpc_get_value (&plugin->xmlrpc);
 	plugin->gid = g_string_chunk_insert (plugin->chunk, meta->c.string);
-	ug_xmlrpc_value_free (meta);
 	return TRUE;
 }
 
 static gboolean	ug_plugin_aria2_remove (UgPluginAria2* plugin)
 {
-	gboolean			result;
+	UgXmlrpcResponse	response;
 
-	result = ug_xmlrpc_call (&plugin->xmlrpc, "aria2.remove",
+	response = ug_xmlrpc_call (&plugin->xmlrpc, "aria2.remove",
 			UG_XMLRPC_STRING, plugin->gid,
 			UG_XMLRPC_NONE);
 	// message
-	if (result == FALSE) {
-		ug_plugin_post ((UgPlugin*)plugin,
-				ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM,
-					"An error occurred during aria2.remove"));
-		return FALSE;
-	}
-	if (ug_plugin_aria2_response (plugin, "aria2.remove") == FALSE)
+	if (ug_plugin_aria2_response (plugin, response, "aria2.remove") == FALSE)
 		return FALSE;
 	return TRUE;
 }
@@ -562,24 +535,17 @@ static gboolean	ug_plugin_aria2_get_servers (UgPluginAria2* plugin)
 	UgXmlrpcValue*		array;		// UG_XMLRPC_ARRAY
 	UgXmlrpcValue*		servers;	// UG_XMLRPC_STRUCT
 	UgXmlrpcValue*		member;
-	gboolean			result;
+	UgXmlrpcResponse	response;
 
-	result = ug_xmlrpc_call (&plugin->xmlrpc, "aria2.getServers",
+	response = ug_xmlrpc_call (&plugin->xmlrpc, "aria2.getServers",
 			UG_XMLRPC_STRING, plugin->gid,
 			UG_XMLRPC_NONE);
 	// message
-	if (result == FALSE) {
-		ug_plugin_post ((UgPlugin*)plugin,
-				ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM,
-					"An error occurred during aria2.getServers"));
-		return FALSE;
-	}
-	if (ug_plugin_aria2_response (plugin, "aria2.getServers") == FALSE)
+	if (ug_plugin_aria2_response (plugin, response, "aria2.getServers") == FALSE)
 		return FALSE;
 
 	// get servers
-	array = ug_xmlrpc_value_new ();
-	ug_xmlrpc_get_value (&plugin->xmlrpc, array);
+	array = ug_xmlrpc_get_value (&plugin->xmlrpc);
 	if (array->type == UG_XMLRPC_ARRAY && array->len) {
 		servers = ug_xmlrpc_value_at (array, 0);
 		member = ug_xmlrpc_value_find (servers, "currentUri");
@@ -591,8 +557,6 @@ static gboolean	ug_plugin_aria2_get_servers (UgPluginAria2* plugin)
 						member->c.string));
 		}
 	}
-	// clear
-	ug_xmlrpc_value_free (array);
 
 	return TRUE;
 }
@@ -602,7 +566,7 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	UgXmlrpcValue*		keys;		// UG_XMLRPC_ARRAY
 	UgXmlrpcValue*		progress;	// UG_XMLRPC_STRUCT
 	UgXmlrpcValue*		value;
-	gboolean			result;
+	UgXmlrpcResponse	response;
 
 	// set keys array
 	keys = ug_xmlrpc_value_new_array (5);
@@ -622,7 +586,7 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	value->type = UG_XMLRPC_STRING;
 	value->c.string = "errorCode";
 
-	result = ug_xmlrpc_call (&plugin->xmlrpc,
+	response = ug_xmlrpc_call (&plugin->xmlrpc,
 			"aria2.tellStatus",
 			UG_XMLRPC_STRING, plugin->gid,
 			UG_XMLRPC_ARRAY,  keys,
@@ -630,22 +594,13 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	// clear keys array
 	ug_xmlrpc_value_free (keys);
 	// message
-	if (result == FALSE) {
-		ug_plugin_post ((UgPlugin*)plugin,
-				ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM,
-					"An error occurred during aria2.tellStatus"));
-		return FALSE;
-	}
-	if (ug_plugin_aria2_response (plugin, "aria2.tellStatus") == FALSE)
+	if (ug_plugin_aria2_response (plugin, response, "aria2.tellStatus") == FALSE)
 		return FALSE;
 
 	// get progress struct
-	progress = ug_xmlrpc_value_new_struct (5);
-	ug_xmlrpc_get_value (&plugin->xmlrpc, progress);
-	if (progress->type != UG_XMLRPC_STRUCT) {
-		ug_xmlrpc_value_free (progress);
+	progress = ug_xmlrpc_get_value (&plugin->xmlrpc);
+	if (progress->type != UG_XMLRPC_STRUCT)
 		return FALSE;
-	}
 	// status
 	value = ug_xmlrpc_value_find (progress, "status");
 	if (value && value->c.string) {
@@ -689,44 +644,33 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	value = ug_xmlrpc_value_find (progress, "downloadSpeed");
 	plugin->downloadSpeed = ug_xmlrpc_value_get_int (value);
 
-	// clear progress struct
-	ug_xmlrpc_value_free (progress);
-
 	return TRUE;
 }
 
 static gboolean	ug_plugin_aria2_change_option (UgPluginAria2* plugin, UgXmlrpcValue* options)
 {
-	gboolean	result;
+	UgXmlrpcResponse	response;
 
-	result = ug_xmlrpc_call (&plugin->xmlrpc,
+	response = ug_xmlrpc_call (&plugin->xmlrpc,
 			"aria2.changeOption",
 			UG_XMLRPC_STRING, plugin->gid,
 			UG_XMLRPC_STRUCT, options,
 			UG_XMLRPC_NONE);
 	// message
-	if (result == FALSE) {
-		ug_plugin_post ((UgPlugin*)plugin,
-				ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM,
-					"An error occurred during aria2.changeOption"));
-		return FALSE;
-	}
-	if (ug_plugin_aria2_response (plugin, "aria2.changeOption") == FALSE)
+	if (ug_plugin_aria2_response (plugin, response, "aria2.changeOption") == FALSE)
 		return FALSE;
 
 	return TRUE;
 }
 
-static gboolean	ug_plugin_aria2_response (UgPluginAria2* plugin, const gchar* method)
+static gboolean	ug_plugin_aria2_response (UgPluginAria2* plugin, UgXmlrpcResponse response, const gchar* method)
 {
-	UgXmlrpcResponse	response;
 	UgMessage*			message;
 	gchar*				temp;
 
-	response = ug_xmlrpc_response (&plugin->xmlrpc);
 	switch (response) {
 	case UG_XMLRPC_ERROR:
-		temp = g_strconcat (method, " response error", NULL);
+		temp = g_strconcat (method, " result error", NULL);
 		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, temp);
 		g_free (temp);
 		ug_plugin_post ((UgPlugin*)plugin, message);

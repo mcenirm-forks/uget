@@ -40,140 +40,88 @@
 
 #ifdef HAVE_PLUGIN_ARIA2
 
-#ifndef _WIN32
-#include <netdb.h>		// gethostbyname ()
-#include <arpa/inet.h>	// inet_addr ()
-#endif
-
 #include <stdlib.h>
 #include <string.h>
+
 #include <UgUri.h>
 #include <UgXmlrpc.h>
+#include <curl/curl.h>
 
 
 // ----------------------------------------------------------------------------
 // UgXmlrpc: XML-RPC
 //
-static void	ug_xmlrpc_add_value  (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
-static void	ug_xmlrpc_add_array  (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
-static void	ug_xmlrpc_add_struct (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
-static void	ug_str_unescape_text (gchar* text);
+static void		ug_xmlrpc_add_value  (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
+static void		ug_xmlrpc_add_array  (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
+static void		ug_xmlrpc_add_struct (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
+static size_t	ug_xmlrpc_curl_write (char* buffer, size_t size, size_t nmemb, UgXmlrpc* xmlrpc);
+static void		ug_str_unescape_text (gchar* text);
+// parser
+static void		ug_xmltag_parse_unknown (UgXmltag* xmltag, gpointer data);
+static void		ug_xmltag_parse_response (UgXmltag* xmltag, UgXmlrpc* xmlrpc);
+static void		ug_xmltag_parse_param_top (UgXmltag* xmltag, UgXmlrpcValue* value);
+static void		ug_xmltag_parse_value (UgXmltag* xmltag, UgXmlrpcValue* value);
+static void		ug_xmltag_parse_value_top (UgXmltag* xmltag, UgXmlrpcValue* value);
+static void		ug_xmltag_parse_array (UgXmltag* xmltag, UgXmlrpcValue* value);
+static void		ug_xmltag_parse_array_data (UgXmltag* xmltag, UgXmlrpcValue* value);
+static void		ug_xmltag_parse_struct (UgXmltag* xmltag, UgXmlrpcValue* value);
+static void		ug_xmltag_parse_struct_member (UgXmltag* xmltag, UgXmlrpcValue* value);
+
 
 void	ug_xmlrpc_init (UgXmlrpc* xmlrpc)
 {
-	xmlrpc->host = NULL;
-	xmlrpc->port = 80;
+	xmlrpc->curl = curl_easy_init ();
+	xmlrpc->uri        = NULL;
+	xmlrpc->user_agent = NULL;
 
-	xmlrpc->fd = INVALID_SOCKET;
-	xmlrpc->header = g_string_sized_new (128);
 	xmlrpc->buffer = g_string_sized_new (1024);
+	xmlrpc->chunk  = g_string_chunk_new (4096);
 
-	ug_xmltag_init (&xmlrpc->tag);
+	ug_xmltag_init (&xmlrpc->xmltag);
+	ug_xmlrpc_value_init (&xmlrpc->value);
 }
 
 void	ug_xmlrpc_finalize (UgXmlrpc* xmlrpc)
 {
-	g_free (xmlrpc->host);
-	g_string_free (xmlrpc->header, TRUE);
+	curl_easy_cleanup (xmlrpc->curl);
+	g_free (xmlrpc->uri);
+	g_free (xmlrpc->user_agent);
+
 	g_string_free (xmlrpc->buffer, TRUE);
+	g_string_chunk_free (xmlrpc->chunk);
 
-	if (xmlrpc->fd != INVALID_SOCKET)
-		closesocket (xmlrpc->fd);
-
-	ug_xmltag_finalize (&xmlrpc->tag);
+	ug_xmltag_finalize (&xmlrpc->xmltag);
+	ug_xmlrpc_value_clear (&xmlrpc->value);
 }
 
-static gboolean	ug_xmlrpc_open_socket (UgXmlrpc* xmlrpc)
+void	ug_xmlrpc_use_client (UgXmlrpc* xmlrpc, const gchar* uri, const gchar* user_agent)
 {
-	SOCKET				fd;
-	struct sockaddr_in	saddr;
-	struct hostent*		hostentry;
+	xmlrpc->uri = g_strdup (uri);
+	xmlrpc->user_agent = g_strdup (user_agent ? user_agent : "uGet/1.7");
 
-	fd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (fd == INVALID_SOCKET)
-		return FALSE;
-
-	saddr.sin_family = AF_INET;
-	saddr.sin_port = htons (xmlrpc->port);
-//	saddr.sin_addr.s_addr = inet_addr ("127.0.0.1");
-
-	if (xmlrpc->host) {
-		hostentry = gethostbyname (xmlrpc->host);
-		if (hostentry)
-			saddr.sin_addr = *(struct in_addr*) hostentry->h_addr_list[0];
-//			saddr.sin_addr = *(struct in_addr*) hostentry->h_addr;
-	}
-
-	if (connect (fd, (struct sockaddr *) &saddr, sizeof(saddr)) == SOCKET_ERROR) {
-		closesocket (fd);
-		return FALSE;
-	}
-
-	if (xmlrpc->fd != INVALID_SOCKET)
-		closesocket (xmlrpc->fd);
-	xmlrpc->fd = fd;
-
-	return TRUE;
+	curl_easy_setopt (xmlrpc->curl, CURLOPT_URL, xmlrpc->uri);
+	curl_easy_setopt (xmlrpc->curl, CURLOPT_USERAGENT, xmlrpc->user_agent);
 }
 
-void	ug_xmlrpc_use_client (UgXmlrpc* xmlrpc, const gchar* url, const gchar* user_agent)
+static size_t	ug_xmlrpc_curl_write (char* buffer, size_t size, size_t nmemb, UgXmlrpc* xmlrpc)
 {
-	UgUriFull	urifull;
-	gchar*		string;
-	guint		len;
-
-	if (ug_uri_full_init (&urifull, url) == 0)
-		return;
-
-	if ((len = ug_uri_full_host (&urifull, NULL))) {
-		g_free (xmlrpc->host);
-		xmlrpc->host = g_strndup (urifull.host, len);
-	}
-	if (urifull.port)
-		xmlrpc->port = atoi (urifull.port);
-
-	g_string_printf (xmlrpc->header,
-			"POST %s HTTP/1.0\r\n"
-			"Host: %s:%d\r\n"
-			"User-Agent: %s\r\n"
-			"Content-Type: text/xml\r\n",
-			urifull.path,
-			xmlrpc->host,
-			xmlrpc->port ? xmlrpc->port : 80,
-			user_agent ? user_agent : "uGet/1.7");
-
-	// http header "Authorization: "
-	// base64 encoding - "user:password"
-	if (urifull.authority != urifull.host) {
-		string = g_base64_encode ((const guchar*)urifull.authority,
-				urifull.host - urifull.authority);
-		g_string_append_printf (xmlrpc->header,
-				"Authorization: %s\r\n",
-				string);
-		g_free (string);
-	}
-
-	g_string_append (xmlrpc->header,
-			"Content-length: ");
-	xmlrpc->header_pos = xmlrpc->header->len;
+	size = size * nmemb;
+	ug_xmltag_parse (&xmlrpc->xmltag, buffer, size);
+	return size;
 }
 
 // ----------------------------------------------------------------------------
 // functions used to write UgXmlrpc.buffer
 //
-gboolean	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...)
+UgXmlrpcResponse	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...)
 {
 	GString*	buffer;
 	va_list		args;
-	gboolean	result = FALSE;
 	union {
-		int				len;
+		long			response;
 		gchar*			str;
 		UgXmlrpcValue*	value;
 	} temp;
-
-	if (ug_xmlrpc_open_socket (xmlrpc) == FALSE)
-		return FALSE;
 
 	buffer = xmlrpc->buffer;
 	g_string_assign (buffer,
@@ -261,45 +209,29 @@ break_for_loop:
 					"</params>"
 					"</methodCall>");
 
-	// complete HTTP header "Content-length: "
-	xmlrpc->header->len = xmlrpc->header_pos;
-	g_string_append_printf (xmlrpc->header,
-							"%u" "\r\n"
-							"\r\n", (guint) buffer->len);
-	// send header + content
-	if (send (xmlrpc->fd, xmlrpc->header->str, xmlrpc->header->len, 0) == xmlrpc->header->len &&
-		send (xmlrpc->fd, buffer->str, buffer->len, 0) == buffer->len)
-	{
-		// recv to buffer
-		buffer->len = 0;
-		for (;;) {
-			temp.len = buffer->allocated_len - buffer->len;
-			temp.len = recv (xmlrpc->fd, buffer->str + buffer->len, temp.len, 0);
-			if (temp.len < 1) {
-				if (temp.len == 0)
-					result = TRUE;
-				// buffer is null-terminated
-				g_string_set_size (buffer, buffer->len);
-				break;
-			}
-			buffer->len += temp.len;
-			if (buffer->len == buffer->allocated_len) {
-				temp.len = buffer->len;
-				g_string_set_size (buffer, buffer->allocated_len * 2);
-				buffer->len = temp.len;
-			}
-			// check buffer size
-			if (buffer->len > 1024 * 32) {
-				g_string_set_size (buffer, buffer->len);
-				break;
-			}
-		}
-	}
+	temp.response = 0;
+	xmlrpc->index = 0;
+	xmlrpc->response = UG_XMLRPC_OK;
+	xmlrpc->xmltag.user.storage = xmlrpc->chunk;
+	g_string_chunk_clear (xmlrpc->chunk);
+	ug_xmlrpc_value_clear (&xmlrpc->value);
+	ug_xmltag_push (&xmlrpc->xmltag, (UgXmltagFunc) ug_xmltag_parse_response, xmlrpc);
 
-	closesocket (xmlrpc->fd);
-	xmlrpc->fd = INVALID_SOCKET;
+	curl_easy_setopt  (xmlrpc->curl, CURLOPT_POST, TRUE);
+	curl_easy_setopt  (xmlrpc->curl, CURLOPT_POSTFIELDS, buffer->str);
+	curl_easy_setopt  (xmlrpc->curl, CURLOPT_POSTFIELDSIZE, buffer->len);
+	curl_easy_setopt  (xmlrpc->curl, CURLOPT_WRITEFUNCTION,
+			(curl_write_callback) ug_xmlrpc_curl_write);
+	curl_easy_setopt  (xmlrpc->curl, CURLOPT_WRITEDATA, xmlrpc);
+	curl_easy_perform (xmlrpc->curl);
 
-	return result;
+	curl_easy_getinfo (xmlrpc->curl, CURLINFO_RESPONSE_CODE, &temp.response);
+	if (temp.response != 200)
+		return UG_XMLRPC_ERROR;
+	if (ug_xmltag_clear (&xmlrpc->xmltag) == FALSE)
+		return UG_XMLRPC_ERROR;
+
+	return xmlrpc->response;
 }
 
 static void	ug_xmlrpc_add_value (UgXmlrpc* xmlrpc, UgXmlrpcValue* value)
@@ -416,104 +348,72 @@ static void	ug_xmlrpc_add_struct (UgXmlrpc* xmlrpc, UgXmlrpcValue*  value)
 // ----------------------------------------------------------------------------
 // functions used to parse UgXmlrpc.buffer
 //
-static void	ug_xmltag_parse_unknow (UgXmltag* xmltag, gpointer data);
-static void	ug_xmltag_parse_param_top (UgXmltag* xmltag, UgXmlrpcValue* value);
-static void	ug_xmltag_parse_value (UgXmltag* xmltag, UgXmlrpcValue* value);
-static void	ug_xmltag_parse_value_top (UgXmltag* xmltag, UgXmlrpcValue* value);
-
-static void	ug_xmltag_parse_array (UgXmltag* xmltag, UgXmlrpcValue* value);
-static void	ug_xmltag_parse_array_data (UgXmltag* xmltag, UgXmlrpcValue* value);
-static void	ug_xmltag_parse_struct (UgXmltag* xmltag, UgXmlrpcValue* value);
-static void	ug_xmltag_parse_struct_member (UgXmltag* xmltag, UgXmlrpcValue* value);
-
-
-UgXmlrpcResponse	ug_xmlrpc_response (UgXmlrpc* xmlrpc)
+UgXmlrpcValue*	ug_xmlrpc_get_value (UgXmlrpc* xmlrpc)
 {
-	gchar*		string;
-	gchar*		tag;
+	switch (xmlrpc->response) {
+	case UG_XMLRPC_OK:
+		if (xmlrpc->index < xmlrpc->value.len)
+			return xmlrpc->value.data + xmlrpc->index++;
+		else
+			return NULL;
 
-	string = xmlrpc->buffer->str;
+	case UG_XMLRPC_FAULT:
+		return &xmlrpc->value;
 
-	// ----------------------------------------------------
-	// HTTP header
-	//
-	if ((string = strstr (string, "200 OK")) == NULL)
-		return UG_XMLRPC_ERROR;
-	string += 6;	// strlen ("200 OK");
-
-//	if ((string = strstr (string, "Content-Type: ")) == NULL)
-//		return UG_XMLRPC_ERROR;
-//	string += 14;	// strlen ("Content-Type: ");
-
-	//  strncmp (string, "text/xml", strlen ("text/xml")
-//	if (strncmp (string, "text/xml", 8) != 0)
-//		return UG_XMLRPC_ERROR;
-//	string += 8;	// strlen ("text/xml"), "\r\n\r\n");
-
-	if ((string = strstr (string, "\r\n\r\n")) == NULL)
-		return UG_XMLRPC_ERROR;
-	string += 4;	// strlen ("\r\n\r\n");
-
-	// ----------------------------------------------------
-	// XML content
-	//
-//	if ((string = strstr (string, "<?xml")) == NULL)
-//		return FALSE;
-//	string += 5;	// strlen ("<?xml");
-
-	if ((string = strstr (string, "<methodResponse>")) == NULL)
-		return UG_XMLRPC_ERROR;
-
-	// get next tag after <methodResponse>
-	//            strchr (string + strlen ("<methodResponse>"), '<')
-	if ((string = strchr (string + 16, '<')) == NULL)
-		return UG_XMLRPC_ERROR;
-
-	// get next 2 tag after <methodResponse>
-	if ((tag = strchr (string + 1, '<')) != NULL)
-		xmlrpc->tag.beg = tag;
-
-	//  strncmp (string, "<fault>", strlen ("<fault>"))
-	if (strncmp (string, "<fault>", 7) == 0)
-		return UG_XMLRPC_FAULT;
-
-	return UG_XMLRPC_OK;
-}
-
-gboolean	ug_xmlrpc_get_value  (UgXmlrpc* xmlrpc, UgXmlrpcValue* value)
-{
-	// param or value
-	if (xmlrpc->tag.beg[1] == 'p')
-		ug_xmltag_push (&xmlrpc->tag, (UgXmltagFunc) ug_xmltag_parse_param_top, value);
-	else
-		ug_xmltag_push (&xmlrpc->tag, (UgXmltagFunc) ug_xmltag_parse_value_top, value);
-
-	if (ug_xmltag_parse (&xmlrpc->tag, xmlrpc->tag.beg) == FALSE) {
-		ug_xmlrpc_value_clear (value);
-		return FALSE;
+	default:
+//	case UG_XMLRPC_ERROR:
+		break;
 	}
-	return TRUE;
+
+	return NULL;
 }
 
 // parser ---------
-static void	ug_xmltag_parse_unknow (UgXmltag* xmltag, gpointer data)
+static void	ug_xmltag_parse_unknown (UgXmltag* xmltag, gpointer data)
 {
-	ug_xmltag_push (xmltag, ug_xmltag_parse_unknow, NULL);
+	ug_xmltag_push (xmltag, ug_xmltag_parse_unknown, NULL);
+}
+
+static void	ug_xmltag_parse_response (UgXmltag* xmltag, UgXmlrpc* xmlrpc)
+{
+	switch (xmltag->beg[0]) {
+	// methodResponse
+	case 'm':
+		ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_response, xmlrpc);
+		break;
+
+	// params
+	case 'p':
+		xmlrpc->response = UG_XMLRPC_OK;
+		xmlrpc->value.type = UG_XMLRPC_PARAMS;
+		ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_param_top,
+				ug_xmlrpc_value_alloc (&xmlrpc->value));
+		break;
+
+	// fault
+	case 'f':
+		xmlrpc->response = UG_XMLRPC_FAULT;
+		ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_value_top, &xmlrpc->value);
+		break;
+
+	default:
+		ug_xmltag_push (xmltag, ug_xmltag_parse_unknown, NULL);
+	}
 }
 
 static void	ug_xmltag_parse_param_top (UgXmltag* xmltag, UgXmlrpcValue* value)
 {
-	if (strncmp (xmltag->beg, "param", xmltag->end - xmltag->beg) == 0)
+	if (memcmp (xmltag->beg, "param", xmltag->end - xmltag->beg) == 0)
 		ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_value_top, value);
 	else
-		ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_unknow, value);
+		ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_unknown, value);
 }
 
 static void	ug_xmltag_parse_value (UgXmltag* xmltag, UgXmlrpcValue* value)
 {
-	gchar*	tag  = xmltag->beg;
-	gchar*	text = xmltag->end + 1;
-	gsize	temp;
+	const char*	tag  = xmltag->beg;
+	const char*	text = xmltag->end + 1;
+	gsize		temp;
 
 	if (xmltag->next == NULL)
 		return;
@@ -535,16 +435,15 @@ static void	ug_xmltag_parse_value (UgXmltag* xmltag, UgXmlrpcValue* value)
 		break;
 
 	case 's':	// string or struct
-		if (strncmp (tag, "struct", xmltag->end - xmltag->beg) == 0) {
+		if (memcmp (tag, "struct", xmltag->end - xmltag->beg) == 0) {
 			value->type = UG_XMLRPC_STRUCT;
 			ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_struct, value);
 			return;
 		}
 		else {
 			value->type = UG_XMLRPC_STRING;
-			value->c.string = text;
-			xmltag->next[0] = 0;	// null-terminated
-			ug_str_unescape_text (text);
+			value->c.string = g_string_chunk_insert_len (xmltag->user.storage, text, xmltag->next - text);
+			ug_str_unescape_text (value->c.string);
 		}
 		break;
 
@@ -555,8 +454,8 @@ static void	ug_xmltag_parse_value (UgXmltag* xmltag, UgXmlrpcValue* value)
 		}
 		else {
 			value->type = UG_XMLRPC_BINARY;
-			xmltag->next[0] = 0;	// null-terminated
-			value->c.binary = g_base64_decode_inplace (text, &temp);
+			value->c.string = g_string_chunk_insert_len (xmltag->user.storage, text, xmltag->next - text);
+			value->c.binary = g_base64_decode_inplace (value->c.string, &temp);
 			value->len = temp;
 		}
 		break;
@@ -564,10 +463,8 @@ static void	ug_xmltag_parse_value (UgXmltag* xmltag, UgXmlrpcValue* value)
 	case 'd':	// double  or dateTime.iso8601
 		if (tag[1] == 'o')
 			value->c.double_ = atof (text);
-		else {
-			value->c.datetime = text;
-			xmltag->next[0] = 0;	// null-terminated
-		}
+		else
+			value->c.datetime = g_string_chunk_insert_len (xmltag->user.storage, text, xmltag->next - text);
 		break;
 
 	case 'a':	// array
@@ -584,25 +481,25 @@ static void	ug_xmltag_parse_value (UgXmltag* xmltag, UgXmlrpcValue* value)
 		break;
 	}
 
-	ug_xmltag_push (xmltag, ug_xmltag_parse_unknow, NULL);
+	ug_xmltag_push (xmltag, ug_xmltag_parse_unknown, NULL);
 }
 
 static void	ug_xmltag_parse_value_top (UgXmltag* xmltag, UgXmlrpcValue* value)
 {
-	if (xmltag->next && xmltag->next[1] == '/') {
-		value->type = UG_XMLRPC_STRING;
-		value->c.string = xmltag->end + 1;
-		xmltag->next[0] = 0;	// null-terminated
-	}
+//	if (xmltag->next && xmltag->next[1] == '/') {
+//		value->type = UG_XMLRPC_STRING;
+//		value->c.string = g_string_chunk_insert_len (xmltag->user.storage,
+//				xmltag->end+1, xmltag->next - (xmltag->end+1));
+//	}
 	ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_value, value);
 }
 
 static void	ug_xmltag_parse_array (UgXmltag* xmltag, UgXmlrpcValue* value)
 {
-	if (strncmp (xmltag->beg, "data", xmltag->end - xmltag->beg) == 0)
+	if (memcmp (xmltag->beg, "data", xmltag->end - xmltag->beg) == 0)
 		ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_array_data, value);
 	else
-		ug_xmltag_push (xmltag, ug_xmltag_parse_unknow, NULL);
+		ug_xmltag_push (xmltag, ug_xmltag_parse_unknown, NULL);
 }
 
 static void	ug_xmltag_parse_array_data (UgXmltag* xmltag, UgXmlrpcValue* value)
@@ -612,12 +509,12 @@ static void	ug_xmltag_parse_array_data (UgXmltag* xmltag, UgXmlrpcValue* value)
 
 static void	ug_xmltag_parse_struct (UgXmltag* xmltag, UgXmlrpcValue* value)
 {
-	if (strncmp (xmltag->beg, "member", xmltag->end - xmltag->beg) == 0) {
+	if (memcmp (xmltag->beg, "member", xmltag->end - xmltag->beg) == 0) {
 		ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_struct_member,
 				ug_xmlrpc_value_alloc (value));
 	}
 	else
-		ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_unknow, NULL);
+		ug_xmltag_push (xmltag, (UgXmltagFunc) ug_xmltag_parse_unknown, NULL);
 }
 
 static void	ug_xmltag_parse_struct_member (UgXmltag* xmltag, UgXmlrpcValue* value)
@@ -625,11 +522,11 @@ static void	ug_xmltag_parse_struct_member (UgXmltag* xmltag, UgXmlrpcValue* valu
 	switch (xmltag->beg[0]) {
 	// name
 	case 'n':
-		if (xmltag->next && xmltag->next[1] == '/') {
-			value->name = xmltag->end + 1;
-			xmltag->next[0] = 0;	// null-terminated
+		if (xmltag->next) {
+			value->name = g_string_chunk_insert_len (xmltag->user.storage,
+					xmltag->end+1, xmltag->next - (xmltag->end+1));
 		}
-		ug_xmltag_push (xmltag, ug_xmltag_parse_unknow, NULL);
+		ug_xmltag_push (xmltag, ug_xmltag_parse_unknown, NULL);
 		break;
 
 	// value
@@ -648,45 +545,103 @@ void	ug_xmltag_init (UgXmltag* xmltag)
 	xmltag->parser.data = NULL;
 	xmltag->parser.allocated = 0;
 	xmltag->parser.len = 0;
+
+	xmltag->buffer = g_string_sized_new (2048);
 }
 
 void	ug_xmltag_finalize (UgXmltag* xmltag)
 {
+	g_string_free (xmltag->buffer, TRUE);
 	g_free (xmltag->parser.data);
 }
 
-gboolean	ug_xmltag_parse  (UgXmltag* xmltag, gchar* string)
+static void	ug_xmltag_parse_in (UgXmltag* xmltag, const char* string, int len, gboolean terminate)
 {
 	gpointer*		parser;
 	UgXmltagFunc	func;
 	gpointer		data;
 
-	if (string [0] != '<')
-		return FALSE;
-	for (xmltag->beg = string + 1;  ;  ) {
-		if (xmltag->parser.len == 0)
-			return TRUE;
-		if ((xmltag->end = strchr (xmltag->beg, '>')) == NULL)
-			break;
-		xmltag->next = strchr (xmltag->end + 1, '<');
+	xmltag->beg = string;	// the next character of '<'
+	string = string + len;	// point to end
 
-		if (xmltag->beg[0] == '/')
+	for (;;) {
+		if (xmltag->parser.len == 0)
+			return;
+		if ((xmltag->end = memchr (xmltag->beg, '>', string - xmltag->beg)) == NULL)
+			break;
+		if ((xmltag->next = memchr (xmltag->end+1, '<', string - xmltag->end -1)) == NULL && terminate == FALSE)
+			break;
+
+		switch (xmltag->beg[0]) {
+		case '/':
 			ug_xmltag_pop (xmltag);
-		else {
+			break;
+
+		case '?':
+			break;
+
+		default:
 			parser = xmltag->parser.data + xmltag->parser.len;
 			func = *(parser-2);
 			data = *(parser-1);
 			func (xmltag, data);
 			if (xmltag->end[-1] == '/')
 				ug_xmltag_pop (xmltag);
+			break;
 		}
 
 		if (xmltag->next == NULL)
 			break;
 		xmltag->beg = xmltag->next + 1;
 	}
+}
+
+gboolean	ug_xmltag_parse (UgXmltag* xmltag, const gchar* string, int len)
+{
+	GString*		buffer;
+	const gchar*	temp;
+
+	buffer = xmltag->buffer;
+	temp = memchr (string, '<', len);
+
+	if (buffer->len) {
+		if (temp == NULL) {
+			g_string_append_len (buffer, string, len);
+			return TRUE;
+		}
+		else {
+			g_string_append_len (buffer, string, temp +1 -string);
+			ug_xmltag_parse_in (xmltag, buffer->str, buffer->len, FALSE);
+			buffer->len = 0;
+		}
+	}
+
+	if (temp) {
+		temp++;					// the next character of '<'
+		string = string + len;	// point to end
+		ug_xmltag_parse_in (xmltag, temp, string -temp, FALSE);
+		g_string_overwrite_len (buffer, 0, xmltag->beg, string - xmltag->beg);
+	}
+
+	return TRUE;
+}
+
+gboolean	ug_xmltag_clear	(UgXmltag* xmltag)
+{
+	gboolean	result;
+
+	ug_xmltag_parse_in (xmltag, xmltag->buffer->str, xmltag->buffer->len, TRUE);
+	xmltag->buffer->len = 0;
+
+	// Because user push parser and data before running ug_xmltag_parse(),
+	// xmltag->parser.len must be 2
+	if (xmltag->parser.len == 2)
+		result = TRUE;
+	else
+		result = FALSE;
+
 	xmltag->parser.len = 0;
-	return FALSE;
+	return result;
 }
 
 void	ug_xmltag_push (UgXmltag* xmltag, UgXmltagFunc func, gpointer data)

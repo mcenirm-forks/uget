@@ -37,21 +37,21 @@
 /*
  *	XML-RPC for C Language, it base on GLib.
  *
- *	UgXmlrpc		xmlrpc;
- *	UgXmlrpcValue*	value;
+ *	UgXmlrpc			xmlrpc;
+ *	UgXmlrpcValue*		value;
+ *	UgXmlrpcResponse	response;
  *
  *	ug_xmlrpc_init (&xmlrpc);
- *	value = ug_xmlrpc_value_new ();
  *
  *	ug_xmlrpc_use_client (&xmlrpc, "http://localhost:8080/RPC", "Agent/1.0");
  *
- *	ug_xmlrpc_call (&xmlrpc,  "methodName"
+ *	response = ug_xmlrpc_call (&xmlrpc,  "methodName"
  *			UG_XMLRPC_INT,    5678,
  *			UG_XMLRPC_STRING, "sample",
  *			UG_XMLRPC_NONE);
  *
- *	if (ug_xmlrpc_response (&xmlrpc) != UG_XMLRPC_ERROR)
- *		ug_xmlrpc_get_value (&xmlrpc, value);
+ *	if (response != UG_XMLRPC_ERROR)
+ *		value = ug_xmlrpc_get_value (&xmlrpc);
  *
  *	ug_xmlrpc_finalize (&xmlrpc);
  *
@@ -63,22 +63,6 @@
 #include <stdarg.h>
 #include <memory.h>
 #include <glib.h>
-
-#ifdef _WIN32
-#include <winsock.h>
-#else
-// UNIX
-#include <netinet/in.h>		// struct sockaddr_in
-#include <sys/socket.h>		// socket api
-#include <unistd.h>			// uid_t and others
-#include <errno.h>
-// define Winsock types and functions for UNIX
-#define SOCKET			int
-#define INVALID_SOCKET  (-1)
-#define SOCKET_ERROR    (-1)
-#define closesocket		close
-#endif
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -112,6 +96,7 @@ enum UgXmlrpcType
 
 	UG_XMLRPC_ARRAY,		// <array>				// UgXmlrpcValue*
 	UG_XMLRPC_STRUCT,		// <struct>				// UgXmlrpcValue*
+	UG_XMLRPC_PARAMS,		// <params>				// UgXmlrpcValue*
 };
 
 enum UgXmlrpcResponse
@@ -133,9 +118,11 @@ struct UgXmltag
 	// beg        end  next
 	//  v          v    v
 	// <elementName>text<nextElement>
-	gchar*			beg;
-	gchar*			end;
-	gchar*			next;
+	const char*		beg;
+	const char*		end;
+	const char*		next;
+
+	GString*		buffer;
 
 	struct
 	{
@@ -143,71 +130,26 @@ struct UgXmltag
 		guint			len;
 		guint			allocated;
 	} parser;
+
+	struct
+	{
+		gpointer	storage;
+		gpointer	position;
+	} user;
 };
 
-void	ug_xmltag_init     (UgXmltag* xmltag);
-void	ug_xmltag_finalize (UgXmltag* xmltag);
+void	ug_xmltag_init		(UgXmltag* xmltag);
+void	ug_xmltag_finalize	(UgXmltag* xmltag);
 
-#define		ug_xmltag_len(xmltag)		((xmltag)->end - (xmltag)->beg)
+gboolean	ug_xmltag_parse (UgXmltag* xmltag, const gchar* string, int len);
+gboolean	ug_xmltag_clear	(UgXmltag* xmltag);
 
-gboolean	ug_xmltag_parse (UgXmltag* xmltag, gchar* string);
 void		ug_xmltag_push  (UgXmltag* xmltag, UgXmltagFunc func, gpointer data);
 void		ug_xmltag_pop   (UgXmltag* xmltag);
 
-
-// ----------------------------------------------------------------------------
-// UgXmlrpc: XML-RPC
-//
-struct UgXmlrpc
-{
-	gchar*			host;
-	guint			port;
-
-	SOCKET			fd;
-	GString*		header;
-	GString*		buffer;
-
-	UgXmltag		tag;
-
-	// position after "Content-length: " in packet
-	guint			header_pos;
-};
-
-void	ug_xmlrpc_init     (UgXmlrpc* xmlrpc);
-void	ug_xmlrpc_finalize (UgXmlrpc* xmlrpc);
-
-void	ug_xmlrpc_use_client (UgXmlrpc* xmlrpc, const gchar* url, const gchar* user_agent);
-
-// ----------------------------------------------------------------------------
-// functions used to write UgXmlrpc.buffer
-//
-//
-//	UgXmlrpcValue*	xrArray  = ug_xmlrpc_value_new_array (0);
-//	UgXmlrpcValue*	xrStruct = ug_xmlrpc_value_new_struct (0);
-//	UgXmlrpcValue*	xrBinary = ug_xmlrpc_value_new ();
-//
-//	xrBinary->type     = UG_XMLRPC_BINARY;
-//	xrBinary->c.binary = binary;
-//	xrBinary->len      = binary_length;
-//
-//	ug_xmlrpc_call (xmlrpc,   "methodName",
-//			UG_XMLRPC_INT,    9876,
-//			UG_XMLRPC_DOUBLE, 0.65,
-//			UG_XMLRPC_STRING, "sample",
-//			UG_XMLRPC_BINARY, xrBinary,
-//			UG_XMLRPC_ARRAY,  xrArray,
-//			UG_XMLRPC_STRUCT, xrStruct,
-//			UG_XMLRPC_NIL,    NULL,
-//			UG_XMLRPC_NONE);
-//
-gboolean	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...);
-
-// ----------------------------------------------------------------------------
-// functions used to parse UgXmlrpc.buffer
-//
-UgXmlrpcResponse	ug_xmlrpc_response (UgXmlrpc* xmlrpc);
-
-gboolean	ug_xmlrpc_get_value (UgXmlrpc* xmlrpc, UgXmlrpcValue* value);
+#define		ug_xmltag_text(xmltag)		((xmltag)->end+1)
+#define		ug_xmltag_text_len(xmltag)	((xmltag)->next - ((xmltag)->end+1) )
+#define		ug_xmltag_len(xmltag)		((xmltag)->end  -  (xmltag)->beg )
 
 
 // ----------------------------------------------------------------------------
@@ -263,7 +205,61 @@ UgXmlrpcValue*	ug_xmlrpc_value_find  (UgXmlrpcValue* value, const gchar* name);
 UgXmlrpcValue*	ug_xmlrpc_value_new_data (UgXmlrpcType type, guint preallocated_size);
 #define			ug_xmlrpc_value_new_array(size)		ug_xmlrpc_value_new_data (UG_XMLRPC_ARRAY,  size)
 #define			ug_xmlrpc_value_new_struct(size)	ug_xmlrpc_value_new_data (UG_XMLRPC_STRUCT, size)
+#define			ug_xmlrpc_value_new_params(size)	ug_xmlrpc_value_new_data (UG_XMLRPC_PARAMS, size)
 #define			ug_xmlrpc_value_at(value, index)	(&(value)->data[index])
+
+
+// ----------------------------------------------------------------------------
+// UgXmlrpc: XML-RPC
+//
+struct UgXmlrpc
+{
+//	CURL*			curl;
+	gpointer		curl;
+	char*			uri;
+	char*			user_agent;
+
+	GString*			buffer;
+	GStringChunk*		chunk;
+	UgXmltag			xmltag;
+	UgXmlrpcValue		value;
+	guint				index;
+	UgXmlrpcResponse	response;
+};
+
+void	ug_xmlrpc_init     (UgXmlrpc* xmlrpc);
+void	ug_xmlrpc_finalize (UgXmlrpc* xmlrpc);
+
+void	ug_xmlrpc_use_client (UgXmlrpc* xmlrpc, const gchar* uri, const gchar* user_agent);
+
+// ----------------------------------------------------------------------------
+// functions used to write UgXmlrpc.buffer
+//
+//
+//	UgXmlrpcValue*	xrArray  = ug_xmlrpc_value_new_array (0);
+//	UgXmlrpcValue*	xrStruct = ug_xmlrpc_value_new_struct (0);
+//	UgXmlrpcValue*	xrBinary = ug_xmlrpc_value_new ();
+//
+//	xrBinary->type     = UG_XMLRPC_BINARY;
+//	xrBinary->c.binary = binary;
+//	xrBinary->len      = binary_length;
+//
+//	ug_xmlrpc_call (xmlrpc,   "methodName",
+//			UG_XMLRPC_INT,    9876,
+//			UG_XMLRPC_DOUBLE, 0.65,
+//			UG_XMLRPC_STRING, "sample",
+//			UG_XMLRPC_BINARY, xrBinary,
+//			UG_XMLRPC_ARRAY,  xrArray,
+//			UG_XMLRPC_STRUCT, xrStruct,
+//			UG_XMLRPC_NIL,    NULL,
+//			UG_XMLRPC_NONE);
+//
+UgXmlrpcResponse	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...);
+
+// ----------------------------------------------------------------------------
+// functions used to parse UgXmlrpc.buffer
+//
+UgXmlrpcValue*		ug_xmlrpc_get_value (UgXmlrpc* xmlrpc);
 
 
 #ifdef __cplusplus

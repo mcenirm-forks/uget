@@ -89,6 +89,22 @@ AC_SUBST(LFS_LDFLAGS)
 
 ## ----------------
 ## cURL
+AC_PATH_PROG(CURL_CONFIG, curl-config)
+if test "x$CURL_CONFIG" = "x" ; then
+	AC_MSG_ERROR(Unable to find curl-config, please install libcurl)
+fi
+CURL_CFLAGS=`$CURL_CONFIG --cflags`
+CURL_LIBS=`$CURL_CONFIG --libs`
+let CURL_VERNUM=0x0`$CURL_CONFIG --vernum`
+let CURL_VERMIN=0x071301		# 7.19.1
+if test $CURL_VERNUM -lt $CURL_VERMIN; then
+	AC_MSG_ERROR(Requires libcurl version >= 7.19.1)
+fi
+AC_SUBST(CURL_CFLAGS)
+AC_SUBST(CURL_LIBS)
+
+## ----------------
+## cURL plug-in
 AC_ARG_ENABLE(
 	[plugin-curl],
 	AC_HELP_STRING([--disable-plugin-curl], [Disable cURL plug-in.]),
@@ -97,24 +113,11 @@ AC_ARG_ENABLE(
 )
 
 if test "x$plugin_curl" = "xyes"; then
-	AC_PATH_PROG(CURL_CONFIG, curl-config)
-	if test "x$CURL_CONFIG" = "x" ; then
-		AC_MSG_ERROR(Unable to find curl-config, please install libcurl)
-	fi
-	CURL_CFLAGS=`$CURL_CONFIG --cflags`
-	CURL_LIBS=`$CURL_CONFIG --libs`
-	let CURL_VERNUM=0x0`$CURL_CONFIG --vernum`
-	let CURL_VERMIN=0x071301		# 7.19.1
-	if test $CURL_VERNUM -lt $CURL_VERMIN; then
-		AC_MSG_ERROR(Requires libcurl version >= 7.19.1)
-	fi
-	AC_SUBST(CURL_CFLAGS)
-	AC_SUBST(CURL_LIBS)
     AC_DEFINE(HAVE_PLUGIN_CURL, 1, [Define to 1 to enable cURL plug-in.])
 fi
 
 ## -----------------
-## aria2
+## aria2 plug-in
 AC_ARG_ENABLE(
 	[plugin-aria2],
 	AC_HELP_STRING([--enable-plugin-aria2], [Enable aria2 plug-in.]),

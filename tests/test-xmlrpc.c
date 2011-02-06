@@ -87,30 +87,25 @@ void test_xmlrpc (void)
 
 	ug_xmlrpc_init (&xmlrpc);
 	ug_xmlrpc_use_client (&xmlrpc, "http://localhost:6800/rpc", NULL);
-	value = ug_xmlrpc_value_new ();
 
 	g_print ("aria2.getVersion\n");
-	ug_xmlrpc_call (&xmlrpc, "aria2.getVersion", UG_XMLRPC_NONE);
-	response = ug_xmlrpc_response (&xmlrpc);
+	response = ug_xmlrpc_call (&xmlrpc, "aria2.getVersion", UG_XMLRPC_NONE);
 	if (response != UG_XMLRPC_ERROR) {
-		ug_xmlrpc_get_value (&xmlrpc, value);
+		value = ug_xmlrpc_get_value (&xmlrpc);
 		ug_xmlrpc_value_dump (value);
 	}
-	ug_xmlrpc_value_clear (value);
 
 	g_print ("------\n");
 
 	g_print ("aria2.tellStatus\n");
-	ug_xmlrpc_call (&xmlrpc, "aria2.tellStatus",
+	response = ug_xmlrpc_call (&xmlrpc, "aria2.tellStatus",
 			UG_XMLRPC_STRING, "1",
 			UG_XMLRPC_NONE);
-	response = ug_xmlrpc_response (&xmlrpc);
 	if (response != UG_XMLRPC_ERROR) {
-		ug_xmlrpc_get_value (&xmlrpc, value);
+		value = ug_xmlrpc_get_value (&xmlrpc);
 		ug_xmlrpc_value_dump (value);
 	}
 
-	ug_xmlrpc_value_free (value);
 	ug_xmlrpc_finalize (&xmlrpc);
 }
 
