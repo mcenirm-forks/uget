@@ -541,7 +541,7 @@ static gboolean	ug_plugin_aria2_get_servers (UgPluginAria2* plugin)
 			UG_XMLRPC_STRING, plugin->gid,
 			UG_XMLRPC_NONE);
 	// message
-	if (ug_plugin_aria2_response (plugin, response, "aria2.getServers") == FALSE)
+	if (response == UG_XMLRPC_FAULT)
 		return FALSE;
 
 	// get servers
