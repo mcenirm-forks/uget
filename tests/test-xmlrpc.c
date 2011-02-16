@@ -35,7 +35,7 @@ void ug_xmlrpc_value_dump (UgXmlrpcValue* value)
 		break;
 
 	case UG_XMLRPC_INT64:
-		g_print ("int64 = %lld\n", value->c.int64);
+		g_print ("int64 = %lld\n", (long long) value->c.int64);
 		break;
 
 	case UG_XMLRPC_BOOLEAN:

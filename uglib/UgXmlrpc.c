@@ -147,7 +147,7 @@ UgXmlrpcResponse	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...)
 
 		case UG_XMLRPC_INT64:
 			g_string_append_printf (buffer,
-					"<i8>%lld</i8>", va_arg (args, gint64));
+					"<i8>%lld</i8>", (long long) va_arg (args, gint64));
 			break;
 
 		case UG_XMLRPC_BOOLEAN:
@@ -249,7 +249,7 @@ static void	ug_xmlrpc_add_value (UgXmlrpc* xmlrpc, UgXmlrpcValue* value)
 
 	case UG_XMLRPC_INT64:
 		g_string_append_printf (buffer,
-				"<i8>%lld</i8>", value->c.int64);
+				"<i8>%lld</i8>", (long long) value->c.int64);
 		break;
 
 	case UG_XMLRPC_BOOLEAN:

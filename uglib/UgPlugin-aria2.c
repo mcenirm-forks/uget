@@ -352,14 +352,13 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 			ug_plugin_aria2_remove (plugin);
 			break;
 		}
-		ug_plugin_delay ((UgPlugin*) plugin, 500);
 
 		plugin->consumeTime = (double) (time(NULL) - startingTime);
 		ug_plugin_aria2_tell_status (plugin);
 
-		if (plugin->completedLength > 0)
+		if (plugin->totalLength > 0)
 			ug_plugin_post ((UgPlugin*)plugin, ug_message_new_progress ());
-		if (redirection) {
+		if (redirection && plugin->followedBy == NULL) {
 			if (plugin->completedLength)
 				redirection = FALSE;
 			ug_plugin_aria2_get_servers (plugin);
@@ -367,6 +366,10 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 
 		switch (plugin->aria2Status) {
 		case ARIA2_COMPLETE:
+			if (plugin->followedBy) {
+				plugin->gid = plugin->followedBy;
+				break;
+			}
 			ug_plugin_post ((UgPlugin*) plugin,
 					ug_message_new_info (UG_MESSAGE_INFO_COMPLETE, NULL));
 			ug_plugin_post ((UgPlugin*) plugin,
@@ -381,6 +384,9 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 			ug_plugin_post ((UgPlugin*) plugin, message);
 			goto break_while;
 		}
+
+		// delay 0.5 seconds
+		ug_plugin_delay ((UgPlugin*) plugin, 500);
 	}
 break_while:
 
@@ -567,6 +573,7 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	UgXmlrpcValue*		progress;	// UG_XMLRPC_STRUCT
 	UgXmlrpcValue*		value;
 	UgXmlrpcResponse	response;
+	gchar*				string;
 
 	// set keys array
 	keys = ug_xmlrpc_value_new_array (5);
@@ -585,6 +592,12 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	value = ug_xmlrpc_value_alloc (keys);
 	value->type = UG_XMLRPC_STRING;
 	value->c.string = "errorCode";
+	value = ug_xmlrpc_value_alloc (keys);
+	value->type = UG_XMLRPC_STRING;
+	value->c.string = "files";
+	value = ug_xmlrpc_value_alloc (keys);
+	value->type = UG_XMLRPC_STRING;
+	value->c.string = "followedBy";
 
 	response = ug_xmlrpc_call (&plugin->xmlrpc,
 			"aria2.tellStatus",
@@ -643,6 +656,25 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	// downloadSpeed
 	value = ug_xmlrpc_value_find (progress, "downloadSpeed");
 	plugin->downloadSpeed = ug_xmlrpc_value_get_int (value);
+	// files
+	value = ug_xmlrpc_value_find (progress, "files");
+	if (value  &&  value->len == 1) {
+		keys = ug_xmlrpc_value_at (value, 0);
+		keys = ug_xmlrpc_value_find (keys, "path");		// UG_XMLRPC_STRUCT
+		if (keys  &&  g_strcmp0 (keys->c.string, plugin->path)) {
+			plugin->path = g_string_chunk_insert (plugin->chunk, keys->c.string);
+			string = strrchr (plugin->path, '/');
+			string = string ? string+1 : plugin->path;
+			ug_plugin_post ((UgPlugin*) plugin,
+					ug_message_new_data (UG_MESSAGE_DATA_FILE_CHANGED, string));
+		}
+	}
+	// followedBy
+	value = ug_xmlrpc_value_find (progress, "followedBy");
+	if (value  &&  value->len > 0) {
+		keys = ug_xmlrpc_value_at (value, 0);
+		plugin->followedBy = g_string_chunk_insert (plugin->chunk, keys->c.string);
+	}
 
 	return TRUE;
 }
