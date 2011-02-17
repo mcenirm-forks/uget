@@ -366,10 +366,12 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 
 		switch (plugin->aria2Status) {
 		case ARIA2_COMPLETE:
-			if (plugin->followedBy) {
+			// if current download is metalink or torrent file
+			if (plugin->gid != plugin->followedBy  &&  plugin->followedBy) {
 				plugin->gid = plugin->followedBy;
 				break;
 			}
+			// post completed message
 			ug_plugin_post ((UgPlugin*) plugin,
 					ug_message_new_info (UG_MESSAGE_INFO_COMPLETE, NULL));
 			ug_plugin_post ((UgPlugin*) plugin,
@@ -547,7 +549,7 @@ static gboolean	ug_plugin_aria2_get_servers (UgPluginAria2* plugin)
 			UG_XMLRPC_STRING, plugin->gid,
 			UG_XMLRPC_NONE);
 	// message
-	if (response == UG_XMLRPC_FAULT)
+	if (response != UG_XMLRPC_OK)
 		return FALSE;
 
 	// get servers
@@ -658,7 +660,7 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	plugin->downloadSpeed = ug_xmlrpc_value_get_int (value);
 	// files
 	value = ug_xmlrpc_value_find (progress, "files");
-	if (value  &&  value->len == 1) {
+	if (value  &&  value->len == 1  &&  plugin->followedBy == NULL) {
 		keys = ug_xmlrpc_value_at (value, 0);
 		keys = ug_xmlrpc_value_find (keys, "path");		// UG_XMLRPC_STRUCT
 		if (keys  &&  g_strcmp0 (keys->c.string, plugin->path)) {
