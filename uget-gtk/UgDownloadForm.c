@@ -597,11 +597,11 @@ void	ug_download_form_set_folder_list (UgDownloadForm* dform, GList* folder_list
 {
 	GtkComboBox*	combo;
 
+	dform->changed.enable = FALSE;
 	combo = GTK_COMBO_BOX (dform->folder_combo);
 	for (;  folder_list;  folder_list = folder_list->next)
 		gtk_combo_box_append_text (combo, folder_list->data);
 	// set default folder
-	dform->changed.enable = FALSE;
 	gtk_combo_box_set_active (combo, 0);
 	dform->changed.enable = TRUE;
 }

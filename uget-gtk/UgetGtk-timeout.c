@@ -170,9 +170,9 @@ static void	uget_add_uris_selected (UgetGtk* ugtk, GList* list)
 	}
 	g_list_free (list);
 
-	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
 	ug_download_form_set_folder_list (&ddialog->download,
 			ugtk->setting.folder_list);
+	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
 	// connect signal and set data in download dialog
 	ddialog->user.app = ugtk;
 	g_signal_connect (ddialog->self, "response",
@@ -274,10 +274,10 @@ static void	uget_add_download_selected (UgetGtk* ugtk, GList* list, gint categor
 		ug_dataset_ref (list->data);
 	}
 
-	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
-	ug_category_view_set_cursor (ddialog->category_view, category_index, -1);
 	ug_download_form_set_folder_list (&ddialog->download,
 			ugtk->setting.folder_list);
+	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
+	ug_category_view_set_cursor (ddialog->category_view, category_index, -1);
 	// connect signal and set data in download dialog
 	ddialog->user.app = ugtk;
 	g_signal_connect (ddialog->self, "response",

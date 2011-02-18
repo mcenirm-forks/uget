@@ -120,9 +120,9 @@ static void	on_create_category (GtkWidget* widget, UgetGtk* ugtk)
 	title = g_strconcat (UGET_GTK_NAME " - ", _("New Category"), NULL);
 	cdialog = ug_category_dialog_new (title, ugtk->window.self);
 	g_free (title);
-	ug_category_dialog_set (cdialog, &ugtk->setting.category);
 	ug_download_form_set_folder_list (&cdialog->download,
 			ugtk->setting.folder_list);
+	ug_category_dialog_set (cdialog, &ugtk->setting.category);
 	// show category dialog
 	cdialog->user.app = ugtk;
 	g_signal_connect (cdialog->self, "response",
@@ -173,9 +173,9 @@ static void	on_config_category (GtkWidget* widget, UgetGtk* ugtk)
 	title = g_strconcat (UGET_GTK_NAME " - ", _("Category Properties"), NULL);
 	cdialog = ug_category_dialog_new (title, ugtk->window.self);
 	g_free (title);
-	ug_category_dialog_set (cdialog, ugtk->cwidget.current.category);
 	ug_download_form_set_folder_list (&cdialog->download,
 			ugtk->setting.folder_list);
+	ug_category_dialog_set (cdialog, ugtk->cwidget.current.category);
 	// show category dialog
 	cdialog->user.app = ugtk;
 	g_signal_connect (cdialog->self, "response",
@@ -205,10 +205,10 @@ static void	on_config_category_default (GtkWidget* widget, UgetGtk* ugtk)
 	title = g_strconcat (UGET_GTK_NAME " - ", _("Default for new Category"), NULL);
 	cdialog = ug_category_dialog_new (title, ugtk->window.self);
 	g_free (title);
-	ug_category_dialog_set (cdialog, &ugtk->setting.category);
-	ug_category_form_set_multiple (&cdialog->category, TRUE);
 	ug_download_form_set_folder_list (&cdialog->download,
 			ugtk->setting.folder_list);
+	ug_category_form_set_multiple (&cdialog->category, TRUE);
+	ug_category_dialog_set (cdialog, &ugtk->setting.category);
 	// show category dialog
 	cdialog->user.app = ugtk;
 	g_signal_connect (cdialog->self, "response",
@@ -254,9 +254,9 @@ static void	on_create_download (GtkWidget* widget, UgetGtk* ugtk)
 	g_free (title);
 	if (gtk_widget_get_visible ((GtkWidget*) ugtk->window.self) == FALSE)
 		gtk_window_set_transient_for ((GtkWindow*) ddialog->self, NULL);
-	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
 	ug_download_form_set_folder_list (&ddialog->download,
 			ugtk->setting.folder_list);
+	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
 	list = uget_gtk_clipboard_get_uris (&ugtk->clipboard);
 	if (list) {
 		gtk_entry_set_text ((GtkEntry*) ddialog->download.url_entry, list->data);
@@ -278,10 +278,10 @@ static void	on_create_batch (GtkWidget* widget, UgetGtk* ugtk)
 	title = g_strconcat (UGET_GTK_NAME " - ", _("New Batch Download"), NULL);
 	ddialog = ug_download_dialog_new (title, ugtk->window.self);
 	g_free (title);
-	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
-	ug_download_dialog_use_batch (ddialog);
 	ug_download_form_set_folder_list (&ddialog->download,
 			ugtk->setting.folder_list);
+	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
+	ug_download_dialog_use_batch (ddialog);
 	// connect signal and set data in download dialog
 	ddialog->user.app = ugtk;
 	g_signal_connect (ddialog->self, "response",
@@ -733,10 +733,10 @@ static void	on_import_html_file_response (GtkWidget* dialog, gint response, Uget
 	// UgDownloadDialog
 	ddialog = ug_download_dialog_new (
 			gtk_window_get_title ((GtkWindow*) dialog), ugtk->window.self);
-	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
-	ug_download_dialog_use_selector (ddialog);
 	ug_download_form_set_folder_list (&ddialog->download,
 			ugtk->setting.folder_list);
+	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
+	ug_download_dialog_use_selector (ddialog);
 	// set <base href>
 	gtk_entry_set_text (ddialog->selector.href_entry, string);
 	g_free (string);
@@ -799,10 +799,10 @@ static void	on_import_text_file_response (GtkWidget* dialog, gint response, Uget
 	// UgDownloadDialog
 	ddialog = ug_download_dialog_new (
 			gtk_window_get_title ((GtkWindow*) dialog), ugtk->window.self);
-	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
-	ug_download_dialog_use_selector (ddialog);
 	ug_download_form_set_folder_list (&ddialog->download,
 			ugtk->setting.folder_list);
+	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
+	ug_download_dialog_use_selector (ddialog);
 	page = ug_selector_add_page (&ddialog->selector, _("Text File"));
 	ug_selector_hide_href (&ddialog->selector);
 	ug_selector_page_add_uris (page, list);
