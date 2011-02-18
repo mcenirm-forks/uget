@@ -122,6 +122,13 @@ void	ug_category_free (UgCategory* category)
 // add dataset to category and increase reference count of dataset.
 void	ug_category_add (UgCategory* category, UgDataset* dataset)
 {
+	UgDataLog*			datalog;
+
+	// added on
+	datalog = ug_dataset_realloc (dataset, UgDataLogClass, 0);
+	if (datalog->added_on == NULL)
+		datalog->added_on = ug_str_from_time (time (NULL), FALSE);
+
 	category->funcs->add (category, dataset);
 }
 

@@ -251,6 +251,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 		UgDataCommon*	common;
 		UgProgress*		progress;
 		UgDataHttp*		http;
+		UgDataLog*		log;
 	} temp;
 
 
@@ -299,6 +300,10 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 
 			case UG_MESSAGE_INFO_COMPLETE:
 				relation->hints |= UG_HINT_COMPLETED;
+				// data log
+				temp.log = ug_dataset_realloc (dataset, UgDataLogClass, 0);
+				g_free (temp.log->completed_on);
+				temp.log->completed_on = ug_str_from_time (time (NULL), FALSE);
 				break;
 
 			case UG_MESSAGE_INFO_FINISH:
@@ -317,7 +322,6 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 			}
 			// End of switch (msg->code)
 			break;
-		// End of UG_MESSAGE_INFO
 
 		case UG_MESSAGE_DATA:
 			switch (msg->code) {
@@ -344,7 +348,6 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 			}
 			// End of switch (msg->code)
 			break;
-		// End of UG_MESSAGE_DATA
 
 		default:
 			// if category == NULL, it will not notify category that dataset was changed.

@@ -215,7 +215,6 @@ void	ug_category_gtk_add (UgCategory* category, UgDataset* dataset)
 	UgCategoryGtk*		cgtk;
 	UgCategoryGtk*		primary;
 	UgRelation*			relation;
-	UgDataLog*			datalog;
 	GtkTreeModel*		model;
 	GtkTreePath*		path;
 
@@ -258,10 +257,7 @@ void	ug_category_gtk_add (UgCategory* category, UgDataset* dataset)
 		gtk_list_store_append (relation->user.storage, relation->user.position);
 		gtk_list_store_set (relation->user.storage, relation->user.position,
 							0, dataset, -1);
-		// added on
-		datalog = ug_dataset_realloc (dataset, UgDataLogClass, 0);
-		if (datalog->added_on == NULL)
-			datalog->added_on = ug_str_from_time (time (NULL), FALSE);
+		// reference count
 		ug_dataset_ref (dataset);
 	}
 }

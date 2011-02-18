@@ -133,7 +133,7 @@ static void	on_add_download_response (GtkDialog *dialog, gint response, UgDownlo
 		if (category) {
 			list = ug_download_dialog_get_downloads (ddialog);
 			for (link = list;  link;  link = link->next)
-				ug_category_gtk_add (category, link->data);
+				ug_category_add (category, link->data);
 			g_list_foreach (list, (GFunc) ug_dataset_unref, NULL);
 			g_list_free (list);
 			gtk_widget_queue_draw ((GtkWidget*) ugtk->cwidget.self);
@@ -211,7 +211,7 @@ static void	uget_add_uris_quietly (UgetGtk* ugtk, GList* list)
 		g_free (common->url);
 		common->url = link->data;
 		ug_download_complete_data (dataset);
-		ug_category_gtk_add (category, dataset);
+		ug_category_add (category, dataset);
 	}
 	g_list_free (list);
 }
@@ -307,7 +307,7 @@ static void	uget_add_download_quietly (UgetGtk* ugtk, GList* list, gint category
 		dataset = link->data;
 		ug_data_assign (dataset, category->defaults);
 		ug_download_complete_data (dataset);
-		ug_category_gtk_add (category, dataset);
+		ug_category_add (category, dataset);
 	}
 }
 
@@ -440,15 +440,6 @@ static gboolean	uget_gtk_decide_schedule_state (UgetGtk* ugtk)
 	return changed;
 }
 
-static void uget_gtk_set_completed_on (UgDataset* dataset)
-{
-	UgDataLog* log;
-
-	log = ug_dataset_realloc (dataset, UgDataLogClass, 0);
-	g_free (log->completed_on);
-	log->completed_on = ug_str_from_time (time (NULL), FALSE);
-}
-
 // start, stop jobs and refresh information.
 static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 {
@@ -475,10 +466,8 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 		if (temp.relation->hints & UG_HINT_ERROR)
 			ugtk->tray_icon.error_occurred = TRUE;
 		// launch default application
-		if ((temp.relation->hints & UG_HINT_COMPLETED) && ugtk->setting.launch.active) {
-			uget_gtk_set_completed_on ((UgDataset*) link->data);
+		if ((temp.relation->hints & UG_HINT_COMPLETED) && ugtk->setting.launch.active)
 			uget_gtk_launch_default_app (link->data, ugtk->launch_regex);
-		}
 		// remove inactive jobs from group
 		ug_running_remove (ugtk->running, link->data);
 		changed = TRUE;

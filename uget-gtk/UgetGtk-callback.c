@@ -234,7 +234,7 @@ static void	on_create_download_response (GtkDialog *dialog, gint response_id, Ug
 		if (category) {
 			list = ug_download_dialog_get_downloads (ddialog);
 			for (link = list;  link;  link = link->next)
-				ug_category_gtk_add (category, link->data);
+				ug_category_add (category, link->data);
 			g_list_foreach (list, (GFunc) ug_dataset_unref, NULL);
 			g_list_free (list);
 			gtk_widget_queue_draw ((GtkWidget*) ugtk->cwidget.self);

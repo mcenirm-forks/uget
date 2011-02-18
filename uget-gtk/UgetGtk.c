@@ -188,7 +188,7 @@ void	uget_gtk_load (UgetGtk* ugtk)
 		ug_category_use_gtk (link->data, ugtk->cwidget.primary.category);
 	// add jobs to primary category
 	for (link = download_list;  link;  link = link->next)
-		ug_category_gtk_add (ugtk->cwidget.primary.category, link->data);
+		ug_category_add (ugtk->cwidget.primary.category, link->data);
 	// link and add jobs to categories
 	ug_category_list_link (category_list, download_list);
 	ug_category_widget_add_list (&ugtk->cwidget, category_list);
