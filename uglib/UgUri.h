@@ -63,8 +63,8 @@ extern "C" {
 // |
 // +- UgUriFull
 //
-typedef struct UgUriPart_		UgUriPart;
-typedef struct UgUriFull_		UgUriFull;
+typedef struct UgUriPart		UgUriPart;
+typedef struct UgUriFull		UgUriFull;
 
 #define	UG_URI_PART_MEMBERS		\
 	const char*		authority;	\
@@ -76,7 +76,7 @@ typedef struct UgUriFull_		UgUriFull;
 // UgUriPart: UgUriPart use smaller stack size than UgUriFull.
 //            It can NOT parse user, password, host, and port in authority.
 //
-struct UgUriPart_
+struct UgUriPart
 {
 	UG_URI_PART_MEMBERS;
 //	const char*		authority;
@@ -96,7 +96,7 @@ int		ug_uri_part_referrer (UgUriPart* upart, const char*  uri);
 // ----------------------------------------------------------------------------
 // UgUriFull: UgUriFull is based on UgUriPart. It can parse authority.
 //
-struct UgUriFull_
+struct UgUriFull
 {
 	UG_URI_PART_MEMBERS;
 //	const char*		authority;

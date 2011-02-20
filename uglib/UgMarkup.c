@@ -53,7 +53,7 @@ static gboolean  ug_markup_close_element (UgMarkup* markup, gboolean element_end
 // ----------------------------------------------------------------------------
 // UgMarkup : write markup to file, parse markup file by GMarkupParseContext
 //
-struct UgMarkup_
+struct UgMarkup
 {
 	guint		output_state;	// UgMarkupState
 

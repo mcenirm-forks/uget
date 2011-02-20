@@ -62,7 +62,7 @@ extern "C" {
 #define	UGET_GTK_ACCEL_PATH_CTRL_N		"<uGet>/New/Download"
 #define	UGET_GTK_CATEGORY_STOCK			GTK_STOCK_DND_MULTIPLE
 
-typedef struct	UgetGtk_				UgetGtk;
+typedef struct	UgetGtk					UgetGtk;
 
 // implemented in uget-gtk/main.c
 const gchar*	ug_get_data_dir (void);
@@ -72,7 +72,7 @@ const gchar*	ug_get_attachment_dir (void);
 // ----------------------------------------------------------------------------
 // UgetGtk: Uget GTK+ version
 //
-struct UgetGtk_
+struct UgetGtk
 {
 	// command argument, IPC, UgRunning
 	UgOption		option;			// initialize in uget-gtk/main.c

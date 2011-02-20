@@ -56,12 +56,12 @@ extern "C" {
 #endif
 
 
-typedef	struct	UgPluginCurl_	UgPluginCurl;
+typedef	struct	UgPluginCurl	UgPluginCurl;
 
 extern	const	UgPluginClass*	UgPluginCurlClass;
 
 
-struct UgPluginCurl_
+struct UgPluginCurl
 {
 	UG_PLUGIN_MEMBERS;
 //	const UgPluginClass*	plugin_class;

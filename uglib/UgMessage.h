@@ -50,8 +50,8 @@ extern "C" {
 #define UG_MESSAGE_CODE_MEMBER(code)			( ((guint32)(code) & 0x0000FFFF) )
 #define	UG_MESSAGE_CODE_MAKE(domain, member)	( ((guint32)(domain) << 16) | (guint32)(member) )
 
-typedef struct	UgMessage_				UgMessage;
-typedef enum	UgMessageType_			UgMessageType;
+typedef struct	UgMessage				UgMessage;
+typedef enum	UgMessageType			UgMessageType;
 
 extern	const	UgDataClass*			UgMessageClass;
 
@@ -156,7 +156,7 @@ enum UgMessageErrorHttpCodeMember
 //     |
 //     `- UgMessage
 //
-struct UgMessage_
+struct UgMessage
 {
 	UG_DATA_LIST_MEMBERS (UgMessage);
 //	const UgDataClass*	data_class;

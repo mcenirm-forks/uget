@@ -47,7 +47,7 @@
 extern "C" {
 #endif
 
-typedef struct	UgRunning_		UgRunning;
+typedef struct	UgRunning		UgRunning;
 
 typedef gboolean (*UgWatchFunc)	(gpointer instance, UgMessage* message, UgDataset* dataset, gpointer data);
 
@@ -55,7 +55,7 @@ typedef gboolean (*UgWatchFunc)	(gpointer instance, UgMessage* message, UgDatase
 // ----------------------------------------------------------------------------
 // UgRunning: a group for active jobs (UgDataset)
 //
-struct UgRunning_
+struct UgRunning
 {
 	GQueue		group;
 
@@ -98,6 +98,10 @@ void		ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset);
 //void		ug_running_foreach(UgRunning* running, GFunc func, gpointer data);
 #define		ug_running_foreach(running, gfunc, data)		g_queue_foreach (&running->group, gfunc, data)
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif	// UG_RUNNING_H
 

@@ -57,13 +57,13 @@ extern "C" {
 #define	UG_DATASET_PROGRESS(dataset)		( (UgProgress*)  ((dataset)->data[4]) )
 #define	UG_DATASET_RELATION(dataset)		( (UgRelation*)  ((dataset)->data[6]) )
 
-typedef struct	UgDataset_			UgDataset;		// collection of all UgDataList-based instance
+typedef struct	UgDataset			UgDataset;		// collection of all UgDataList-based instance
 
 
 // ----------------------------------------------------------------------------
 // UgDataset : collection of all UgDataList-based instance.
 //
-struct UgDataset_
+struct UgDataset
 {
 	UG_DATA_MEMBERS;
 //	const UgDataClass*	data_class;		// for UgMarkup parse/write

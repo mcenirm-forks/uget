@@ -47,9 +47,9 @@ extern "C" {
 #endif
 
 
-typedef struct	UgOption_			UgOption;
-typedef struct	UgOptionEntry_		UgOptionEntry;
-typedef struct	UgOptionMainData_	UgOptionMainData;
+typedef struct	UgOption			UgOption;
+typedef struct	UgOptionEntry		UgOptionEntry;
+typedef struct	UgOptionMainData	UgOptionMainData;
 
 typedef gboolean	(*UgOptionEntryGet)	(const UgOptionEntry* oentry, UgDataset* dataset);
 
@@ -57,7 +57,7 @@ typedef gboolean	(*UgOptionEntryGet)	(const UgOptionEntry* oentry, UgDataset* da
 // ----------------------------------------------------------------------------
 // UgOption: integrate GOptionContext, GOptionGroup, and UgOptionEntry
 //
-struct	UgOption_
+struct	UgOption
 {
 	GOptionContext*		context;
 	GOptionGroup*		group;		// main group
@@ -85,7 +85,7 @@ const UgOptionEntry*	ug_option_get_main_entry (void);
 // ----------------------------------------------------------------------------
 // UgOptionEntry
 //
-struct UgOptionEntry_
+struct UgOptionEntry
 {
 	const gchar*		name;
 	gpointer			reserve;			// reserve for GModule-related code
@@ -108,7 +108,7 @@ void	ug_option_entry_clear (const UgOptionEntry* oentry);
 // ---------------------------------------------------------------------------
 // UgOptionMainData: main argument data
 //
-struct UgOptionMainData_
+struct UgOptionMainData
 {
 	// option_entry->arg_data place below
 	gboolean	version;

@@ -57,9 +57,9 @@ extern "C" {
 // ----------------------------------------------------------------------------
 // UgCategoryGtk: additional data for UgCategory and GTK+
 //
-typedef struct	UgCategoryGtk_			UgCategoryGtk;
+typedef struct	UgCategoryGtk			UgCategoryGtk;
 
-struct UgCategoryGtk_
+struct UgCategoryGtk
 {
 	UgCategoryGtk*		primary;	// if it is NULL, this category is primary.
 	GtkListStore*		store;		// Only primary category has this.

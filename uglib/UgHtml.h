@@ -44,15 +44,15 @@ extern "C" {
 #endif
 
 
-typedef	struct	UgHtmlContext_			UgHtmlContext;
-typedef	struct	UgHtmlParser_			UgHtmlParser;
-typedef	struct	UgHtmlFilter_			UgHtmlFilter;
+typedef	struct	UgHtmlContext			UgHtmlContext;
+typedef	struct	UgHtmlParser			UgHtmlParser;
+typedef	struct	UgHtmlFilter			UgHtmlFilter;
 
 typedef void	(*UgHtmlFilterFunc)	(UgHtmlFilter* filter, const char* value, gpointer user_data);
 
 // ----------------------------------------------------------------------------
 // UgHtmlContext : simple and uncompleted parser.
-struct	UgHtmlContext_
+struct	UgHtmlContext
 {
 	char*	base_href;
 	char*	charset;
@@ -75,7 +75,7 @@ gboolean	ug_html_context_parse_file	(UgHtmlContext* context, const char* file);
 // UgHtmlParser
 
 // This one is similar to GMarkupParser
-struct UgHtmlParser_
+struct UgHtmlParser
 {
 	/* Called for open tags <foo bar="baz"> */
 	void	(*start_element) (UgHtmlContext* context,
@@ -101,7 +101,7 @@ struct UgHtmlParser_
 // ----------------------------------------------------------------------------
 // UgHtmlFilter
 
-struct UgHtmlFilter_
+struct UgHtmlFilter
 {
 	int		ref_count;
 

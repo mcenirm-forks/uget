@@ -128,7 +128,7 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 	table = (GtkTable*) sgrid->table;
 	// time tips
 	widget = gtk_label_new ("");
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.4, 0.5);	// left, center
+	gtk_misc_set_alignment (GTK_MISC (widget), (gfloat)0.4, (gfloat)0.5);	// left, center
 	gtk_table_attach (table, widget, 0, 5, 0, 1,
 			GTK_FILL, GTK_FILL, 5, 5);
 	sgrid->time_tips = GTK_LABEL (widget);

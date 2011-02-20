@@ -46,7 +46,7 @@ extern "C" {
 #endif
 
 
-typedef struct	UgSettingDialog_		UgSettingDialog;
+typedef struct	UgSettingDialog			UgSettingDialog;
 
 // ----------------------------------------------------------------------------
 // UgSettingDialog
@@ -57,7 +57,7 @@ enum UgSettingDialogPage
 	UG_SETTING_PAGE_OTHERS,
 };
 
-struct UgSettingDialog_
+struct UgSettingDialog
 {
 	GtkDialog*		self;
 

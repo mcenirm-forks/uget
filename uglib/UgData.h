@@ -50,12 +50,12 @@ extern "C" {
 #endif
 
 
-typedef struct	UgDataEntry_	UgDataEntry;
-typedef struct	UgDataClass_	UgDataClass;
-typedef struct	UgData_			UgData;
-typedef struct	UgDataList_		UgDataList;
+typedef struct	UgDataEntry		UgDataEntry;
+typedef struct	UgDataClass		UgDataClass;
+typedef struct	UgData			UgData;
+typedef struct	UgDataList		UgDataList;
 
-typedef enum	UgDataType_		UgDataType;
+typedef enum	UgDataType		UgDataType;
 
 // UgDataClass
 typedef void	(*UgInitFunc)		(gpointer instance);
@@ -68,7 +68,7 @@ typedef void	(*UgNotifyFunc)		(gpointer user_data);
 typedef void	(*UgInMarkupFunc)	(gpointer data, GMarkupParseContext* context);
 typedef void	(*UgToMarkupFunc)	(gpointer data, UgMarkup* markup);
 
-enum	UgDataType_
+enum	UgDataType
 {
 	UG_DATA_TYPE_NONE,
 	UG_DATA_TYPE_STRING,
@@ -104,7 +104,7 @@ enum	UgDataType_
 //	<user value='guest3' />
 //	<pass value='unknown' />
 //
-struct UgDataEntry_
+struct UgDataEntry
 {
 	gchar*			name;			// tag name
 	gint			offset;
@@ -119,7 +119,7 @@ struct UgDataEntry_
 // UgDataClass : Information for UgData.
 //               All UgData-based structure must use UgDataClass.
 //
-struct UgDataClass_
+struct UgDataClass
 {
 	const gchar*		name;
 	gpointer			reserve;	// reserve for GModule-related code
@@ -147,7 +147,7 @@ const UgDataClass*	ug_data_class_find	(const gchar*	name);
 #define UG_DATA_MEMBERS				\
 	const UgDataClass*	data_class
 
-struct UgData_
+struct UgData
 {
 	UG_DATA_MEMBERS;
 //	const UgDataClass*	data_class;
@@ -186,7 +186,7 @@ void		ug_data_to_markup	(UgData* data, UgMarkup* markup);
 	Type*				next;		\
 	Type*				prev
 
-struct UgDataList_
+struct UgDataList
 {
 	UG_DATA_LIST_MEMBERS (UgDataList);
 //	const UgDataClass*	data_class;

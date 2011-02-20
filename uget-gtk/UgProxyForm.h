@@ -50,9 +50,9 @@ extern "C" {
 #endif
 
 
-typedef struct	UgProxyForm_		UgProxyForm;
+typedef struct	UgProxyForm			UgProxyForm;
 
-struct UgProxyForm_
+struct UgProxyForm
 {
 	GtkWidget*		self;		// top level widget
 

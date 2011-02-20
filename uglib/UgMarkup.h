@@ -47,7 +47,7 @@ extern "C" {
 #endif
 
 
-typedef	struct	UgMarkup_				UgMarkup;
+typedef	struct	UgMarkup				UgMarkup;
 
 //	If you want to skip next element_start()
 //	g_markup_parse_context_push (context, &ug_markup_skip_parser, NULL);

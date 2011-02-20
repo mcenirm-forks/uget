@@ -43,10 +43,11 @@
 extern "C" {
 #endif
 
-typedef struct	UgBatchForm_		UgBatchForm;
+typedef struct	UgBatchForm			UgBatchForm;
 typedef	void	(*UgBatchFormNotify) (gpointer user_data, gboolean completed);
 
-struct UgBatchForm_ {
+struct UgBatchForm
+{
 	GtkWidget*	self;		// GtkTable
 
 	GtkEntry*	entry;		// URL, wildcard

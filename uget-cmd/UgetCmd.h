@@ -54,13 +54,13 @@ extern "C" {
 #define UGET_CMD_CATEGORY_FILE		"CategoryList-cmd.xml"
 #define UGET_CMD_DOWNLOAD_FILE		"DownloadList-cmd.xml"
 
-typedef struct	UgetCmd_			UgetCmd;
+typedef struct	UgetCmd				UgetCmd;
 
 
 // ----------------------------------------------------------------------------
 // UgetCmd: uGet command-line version
 //
-struct UgetCmd_
+struct UgetCmd
 {
 	UgOption		option;
 	UgIpc			ipc;

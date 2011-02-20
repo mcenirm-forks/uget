@@ -67,14 +67,14 @@
 extern "C" {
 #endif
 
-typedef struct	UgDataCommon_		UgDataCommon;
-typedef struct	UgDataProxy_		UgDataProxy;
-typedef struct	UgProgress_			UgProgress;
-typedef struct	UgDataHttp_			UgDataHttp;
-typedef struct	UgDataFtp_			UgDataFtp;
-typedef struct	UgDataLog_			UgDataLog;
+typedef struct	UgDataCommon		UgDataCommon;
+typedef struct	UgDataProxy			UgDataProxy;
+typedef struct	UgProgress			UgProgress;
+typedef struct	UgDataHttp			UgDataHttp;
+typedef struct	UgDataFtp			UgDataFtp;
+typedef struct	UgDataLog			UgDataLog;
 
-typedef enum	UgDataProxyType_	UgDataProxyType;
+typedef enum	UgDataProxyType		UgDataProxyType;
 
 extern	const	UgDataClass*		UgDataCommonClass;
 extern	const	UgDataClass*		UgDataProxyClass;
@@ -92,7 +92,7 @@ extern	const	UgDataClass*		UgDataLogClass;
 //     |
 //     `- UgDataCommon
 //
-struct UgDataCommon_
+struct UgDataCommon
 {
 	UG_DATA_LIST_MEMBERS (UgDataCommon);
 //	const UgDataClass*	data_class;
@@ -160,7 +160,7 @@ struct UgDataCommon_
 //     |
 //     `- UgDataProxy
 //
-enum UgDataProxyType_
+enum UgDataProxyType
 {
 	UG_DATA_PROXY_NONE,
 	UG_DATA_PROXY_DEFAULT,			// Decided by plug-ins
@@ -174,7 +174,7 @@ enum UgDataProxyType_
 	UG_DATA_PROXY_N_TYPE,
 };
 
-struct UgDataProxy_
+struct UgDataProxy
 {
 	UG_DATA_LIST_MEMBERS (UgDataProxy);
 //	const UgDataClass*	data_class;
@@ -225,7 +225,7 @@ struct UgDataProxy_
 //     |
 //     `- UgProgress
 //
-struct UgProgress_
+struct UgProgress
 {
 	UG_DATA_LIST_MEMBERS (UgProgress);
 //	const UgDataClass*	data_class;
@@ -254,7 +254,7 @@ struct UgProgress_
 //     |
 //     `- UgDataHttp
 //
-struct UgDataHttp_
+struct UgDataHttp
 {
 	UG_DATA_LIST_MEMBERS (UgDataHttp);
 //	const UgDataClass*	data_class;
@@ -299,7 +299,7 @@ struct UgDataHttp_
 //     |
 //     `- UgDataFtp
 //
-struct UgDataFtp_
+struct UgDataFtp
 {
 	UG_DATA_LIST_MEMBERS (UgDataFtp);
 //	const UgDataClass*	data_class;
@@ -329,7 +329,7 @@ struct UgDataFtp_
 //     |
 //     `- UgDataLog
 //
-struct UgDataLog_
+struct UgDataLog
 {
 	UG_DATA_LIST_MEMBERS (UgDataLog);
 //	const UgDataClass*	data_class;

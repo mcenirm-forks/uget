@@ -48,10 +48,10 @@
 extern "C" {
 #endif
 
-typedef struct	UgIpc_			UgIpc;
-typedef enum	UgIpcCode_		UgIpcCode;
+typedef struct	UgIpc			UgIpc;
+typedef enum	UgIpcCode		UgIpcCode;
 
-struct UgIpc_
+struct UgIpc
 {
 	GIOChannel*		channel;
 	gboolean		server_inited;
@@ -64,7 +64,7 @@ struct UgIpc_
 	gchar*			file;
 };
 
-enum UgIpcCode_
+enum UgIpcCode
 {
 	UG_IPC_ERROR,
 	UG_IPC_OK,
@@ -95,6 +95,10 @@ gboolean	ug_ipc_send (UgIpc* ipc, int argc, char** argv);
 GPtrArray*	ug_ipc_peek (UgIpc* ipc);
 GPtrArray*	ug_ipc_pop  (UgIpc* ipc);
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif	// UG_IPC_H
 

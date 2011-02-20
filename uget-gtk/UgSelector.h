@@ -44,14 +44,14 @@ extern "C" {
 #endif
 
 
-typedef struct	UgSelector_			UgSelector;
-typedef struct	UgSelectorPage_		UgSelectorPage;
+typedef struct	UgSelector			UgSelector;
+typedef struct	UgSelectorPage		UgSelectorPage;
 typedef	void	(*UgSelectorNotify) (gpointer user_data, gboolean completed);
 
 // ----------------------------------------------------------------------------
 // UgSelector
 //
-struct UgSelector_
+struct UgSelector
 {
 	GtkWidget*		self;		// GtkVBox
 	GtkWindow*		parent;		// parent window of UgSelector.self
@@ -107,7 +107,7 @@ UgSelectorPage*	ug_selector_get_page (UgSelector* selector, gint nth_page);
 // ----------------------------------------------------------------------------
 // UgSelectorPage
 //
-struct UgSelectorPage_
+struct UgSelectorPage
 {
 	GtkWidget*		self;	// GtkScrolledWindow
 

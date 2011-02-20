@@ -59,10 +59,10 @@ extern "C" {
 	UgState					state
 
 
-typedef struct	UgPlugin_			UgPlugin;
-typedef struct	UgPluginClass_		UgPluginClass;
-typedef enum	UgResult_			UgResult;
-typedef	enum	UgState_			UgState;
+typedef struct	UgPlugin			UgPlugin;
+typedef struct	UgPluginClass		UgPluginClass;
+typedef enum	UgResult			UgResult;
+typedef	enum	UgState				UgState;
 
 typedef gboolean (*UgGlobalInitFunc)		(void);
 typedef void     (*UgGlobalFinalizeFunc)	(void);
@@ -77,7 +77,7 @@ typedef UgResult (*UgSetFunc)		(gpointer instance, guint parameter, gpointer dat
 typedef UgResult (*UgGetFunc)		(gpointer instance, guint parameter, gpointer data);
 typedef void     (*UgOutputFunc)	(gpointer instance, const char* buffer, gint length, gint64 offset);
 
-enum UgResult_
+enum UgResult
 {
 	UG_RESULT_ERROR,
 	UG_RESULT_REFUSED,
@@ -86,7 +86,7 @@ enum UgResult_
 	UG_RESULT_UNSUPPORT,
 };
 
-enum	UgState_
+enum UgState
 {
 	UG_STATE_NULL,			// file and memory resource is NULL
 	UG_STATE_READY,			// file and memory resource ready, but stop.
@@ -97,7 +97,7 @@ enum	UgState_
 // ---------------------------------------------------------------------------
 // UgPluginClass
 //
-struct UgPluginClass_
+struct UgPluginClass
 {
 	// This structure base on UgClass
 	const gchar*			name;
@@ -131,7 +131,7 @@ const UgPluginClass*	ug_plugin_class_find	(const gchar* name,	enum UgRegistryTyp
 // ---------------------------------------------------------------------------
 // UgPlugin : UgPlugin is a base structure for downloading.
 //
-struct UgPlugin_
+struct UgPlugin
 {
 	UG_PLUGIN_MEMBERS;
 //	const UgPluginClass*	plugin_class;

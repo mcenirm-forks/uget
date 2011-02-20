@@ -44,9 +44,9 @@
 extern "C" {
 #endif
 
-typedef	struct	UgSummary_					UgSummary;
+typedef	struct	UgSummary					UgSummary;
 
-struct UgSummary_
+struct UgSummary
 {
 	GtkWidget*		self;		// (GtkScrolledWindow) container for view
 	GtkTreeView*	view;

@@ -46,10 +46,10 @@ extern "C" {
 #endif
 
 
-typedef struct	UgCategory_			UgCategory;
-typedef struct	UgCategoryFuncs_	UgCategoryFuncs;
-typedef enum	UgCategoryHints_	UgCategoryHints;
-typedef struct	UgRelation_			UgRelation;
+typedef struct	UgCategory			UgCategory;
+typedef struct	UgCategoryFuncs		UgCategoryFuncs;
+typedef enum	UgCategoryHints		UgCategoryHints;
+typedef struct	UgRelation			UgRelation;
 
 typedef void	(*UgCategoryAddFunc)	(UgCategory* category, UgDataset* dataset);
 typedef GList*	(*UgCategoryGetAllFunc)	(UgCategory* category);
@@ -66,7 +66,7 @@ extern const	UgDataClass*		UgRelationClass;
 // |
 // `- UgCategory
 //
-struct UgCategory_
+struct UgCategory
 {
 	UG_DATA_MEMBERS;
 //	const UgDataClass*	data_class;
@@ -103,7 +103,7 @@ struct UgCategory_
 	} user;
 };
 
-struct UgCategoryFuncs_
+struct UgCategoryFuncs
 {
 	UgCategoryAddFunc		add;		// used by ug_category_list_link()
 	UgCategoryGetAllFunc	get_all;	// used by ug_category_list_save()
@@ -138,7 +138,7 @@ void	ug_category_changed (UgCategory* category, UgDataset* dataset);
 // ------------------------------------
 // UgCategoryHints
 //
-enum	UgCategoryHints_
+enum	UgCategoryHints
 {
 //	UG_HINT_QUEUING				= 1 << 0,
 	UG_HINT_PAUSED				= 1 << 1,
@@ -190,7 +190,7 @@ void		ug_download_delete_temp (UgDataset* dataset);
 //    |
 //    `- UgRelation
 //
-struct UgRelation_
+struct UgRelation
 {
 	UG_DATA_LIST_MEMBERS (UgRelation);
 //	const UgDataClass*	data_class;
