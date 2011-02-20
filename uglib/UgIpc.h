@@ -82,15 +82,15 @@ void	ug_ipc_finalize (UgIpc* ipc);
 gint	ug_ipc_init_with_args (UgIpc* ipc, int argc, char** argv);
 
 // client or server
-gboolean	ug_ipc_server_start   (UgIpc* ipc);
-gboolean	ug_ipc_client_connect (UgIpc* ipc);
+gboolean	ug_ipc_use_server (UgIpc* ipc);
+gboolean	ug_ipc_use_client (UgIpc* ipc);
 
-// use with ug_ipc_client_connect()
+// use with ug_ipc_use_client()
 // client functions, ping server or send arguments to server.
 gboolean	ug_ipc_ping (UgIpc* ipc);
 gboolean	ug_ipc_send (UgIpc* ipc, int argc, char** argv);
 
-// use with ug_ipc_server_start()
+// use with ug_ipc_use_server()
 // server functions, get arguments from queue.
 GPtrArray*	ug_ipc_peek (UgIpc* ipc);
 GPtrArray*	ug_ipc_pop  (UgIpc* ipc);

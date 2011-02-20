@@ -28,7 +28,7 @@ static gboolean server_timer (gpointer data)
 		inited = TRUE;
 		g_print ("Startup uGet IPC server...\n");
 		ug_ipc_init (&ipc, NULL);
-		ug_ipc_server_start (&ipc);
+		ug_ipc_use_server (&ipc);
 	}
 
 	if (count < COUNT_LIMIT) {
@@ -58,7 +58,7 @@ static gpointer client_thread (gpointer data)
 
 	g_print ("Connect to uGet IPC server...\n");
 	ug_ipc_init (&ipc, NULL);
-	ug_ipc_client_connect (&ipc);
+	ug_ipc_use_client (&ipc);
 
 	for (count=0;  count < COUNT_LIMIT;  count++) {
 		// sleep 500,000 microseconds (0.5 seconds)

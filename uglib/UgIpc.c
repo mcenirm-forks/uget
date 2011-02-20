@@ -50,7 +50,7 @@ static gboolean server_connect (GIOChannel *source, GIOCondition condition, UgIp
 #include <winsock.h>
 //#include <ws2tcpip.h>	// ADDRINFO
 
-gboolean	ug_ipc_server_start (UgIpc* ipc)
+gboolean	ug_ipc_use_server (UgIpc* ipc)
 {
 	SOCKET		fd;
 	struct sockaddr_in	saddr;
@@ -108,7 +108,7 @@ gboolean	ug_ipc_server_start (UgIpc* ipc)
 	return TRUE;
 }
 
-gboolean	ug_ipc_client_connect (UgIpc* ipc)
+gboolean	ug_ipc_use_client (UgIpc* ipc)
 {
 	SOCKET	fd;
 	struct sockaddr_in	saddr;
@@ -149,7 +149,7 @@ gboolean	ug_ipc_client_connect (UgIpc* ipc)
 #define INVALID_SOCKET	(-1)
 #define closesocket		close
 
-gboolean	ug_ipc_server_start (UgIpc* ipc)
+gboolean	ug_ipc_use_server (UgIpc* ipc)
 {
 	int		fd;
 	struct sockaddr_un	saddr;
@@ -193,7 +193,7 @@ gboolean	ug_ipc_server_start (UgIpc* ipc)
 	return TRUE;
 }
 
-gboolean	ug_ipc_client_connect (UgIpc* ipc)
+gboolean	ug_ipc_use_client (UgIpc* ipc)
 {
 	int		fd;
 	struct sockaddr_un	saddr;
@@ -289,19 +289,19 @@ gint	ug_ipc_init_with_args (UgIpc* ipc, int argc, char** argv)
 
 	ug_ipc_init (ipc, NULL);
 	// try to start server.
-	if (ug_ipc_server_start (ipc)) {
+	if (ug_ipc_use_server (ipc)) {
 		if (argc > 1)
 			g_queue_push_tail (&ipc->queue, ug_arg_new (argc, argv, TRUE));
 		return 1;
 	}
 	else {
 		// connecting to server if server already exist.
-		workable = ug_ipc_client_connect (ipc);
+		workable = ug_ipc_use_client (ipc);
 		// try to send command-line options
 		for (count=0;  count<3;  count++) {
 			if (workable == FALSE) {
 				g_usleep (500 * 1000);
-				workable = ug_ipc_client_connect (ipc);
+				workable = ug_ipc_use_client (ipc);
 				continue;
 			}
 			if (ug_ipc_ping (ipc) == FALSE) {
