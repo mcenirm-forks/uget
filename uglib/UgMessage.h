@@ -55,7 +55,7 @@ typedef enum	UgMessageType			UgMessageType;
 
 extern	const	UgDataClass*			UgMessageClass;
 
-enum UgMessageType_
+enum UgMessageType
 {
 	UG_MESSAGE_NONE,
 	UG_MESSAGE_STATE,		// v_int (UgState)

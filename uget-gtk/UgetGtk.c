@@ -471,7 +471,7 @@ void	uget_gtk_confirm_to_quit (UgetGtk* ugtk)
 	// create confirmation dialog
 	title = g_strconcat (UGET_GTK_NAME " - ", _("Really Quit?"), NULL);
 	dialog = gtk_dialog_new_with_buttons (title, ugtk->window.self,
-			(GTK_DIALOG_NO_SEPARATOR | GTK_DIALOG_DESTROY_WITH_PARENT),
+			GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_STOCK_NO,  GTK_RESPONSE_NO,
 			GTK_STOCK_YES, GTK_RESPONSE_YES,
 			NULL);
@@ -555,7 +555,7 @@ void	uget_gtk_confirm_to_delete (UgetGtk* ugtk, GCallback response, gpointer res
 	// create confirmation dialog
 	title = g_strconcat (UGET_GTK_NAME " - ", _("Really delete files?"), NULL);
 	dialog = gtk_dialog_new_with_buttons (title, ugtk->window.self,
-			(GTK_DIALOG_NO_SEPARATOR | GTK_DIALOG_DESTROY_WITH_PARENT),
+			GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_STOCK_NO,  GTK_RESPONSE_NO,
 			GTK_STOCK_YES, GTK_RESPONSE_YES,
 			NULL);

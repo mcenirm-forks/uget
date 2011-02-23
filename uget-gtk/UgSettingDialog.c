@@ -48,10 +48,10 @@ UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent)
 
 	dialog = g_malloc0 (sizeof (UgSettingDialog));
 	dialog->self = (GtkDialog*) gtk_dialog_new_with_buttons (title, parent,
-	         (GTK_DIALOG_NO_SEPARATOR | GTK_DIALOG_DESTROY_WITH_PARENT),
-	                  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	                  GTK_STOCK_OK,     GTK_RESPONSE_OK,
-	                  NULL);
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			GTK_STOCK_OK,     GTK_RESPONSE_OK,
+			NULL);
 	gtk_dialog_set_default_response (dialog->self, GTK_RESPONSE_OK);
 	widget = gtk_notebook_new ();
 	gtk_widget_set_size_request (widget, 410, 300);

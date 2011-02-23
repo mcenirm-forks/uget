@@ -57,7 +57,7 @@ UgDownloadDialog*	ug_download_dialog_new (const gchar* title, GtkWindow* parent)
 
 	ddialog = g_malloc0 (sizeof (UgDownloadDialog));
 	ddialog->self = (GtkDialog*) gtk_dialog_new_with_buttons (title, parent,
-			GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR, NULL);
+			GTK_DIALOG_DESTROY_WITH_PARENT, NULL);
 	box = (GtkBox*) gtk_dialog_get_content_area (ddialog->self);
 	widget = gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
