@@ -159,6 +159,11 @@ static UgDataEntry	proxy_data_entry[] =
 	{"user",		G_STRUCT_OFFSET (UgDataProxy, user),		UG_DATA_TYPE_STRING,	NULL,	NULL},
 	{"password",	G_STRUCT_OFFSET (UgDataProxy, password),	UG_DATA_TYPE_STRING,	NULL,	NULL},
 #ifdef HAVE_LIBPWMD
+	{"pwmd-socket",		G_STRUCT_OFFSET (UgDataProxy, pwmd.socket),	UG_DATA_TYPE_STRING,	NULL,	NULL},
+	{"pwmd-file",		G_STRUCT_OFFSET (UgDataProxy, pwmd.file),	UG_DATA_TYPE_STRING,	NULL,	NULL},
+	{"pwmd-element",	G_STRUCT_OFFSET (UgDataProxy, pwmd.element),UG_DATA_TYPE_STRING,	NULL,	NULL},
+
+	// deparecated
 	{"pwmd.socket",		G_STRUCT_OFFSET (UgDataProxy, pwmd.socket),	UG_DATA_TYPE_STRING,	NULL,	NULL},
 	{"pwmd.file",		G_STRUCT_OFFSET (UgDataProxy, pwmd.file),	UG_DATA_TYPE_STRING,	NULL,	NULL},
 	{"pwmd.element",	G_STRUCT_OFFSET (UgDataProxy, pwmd.element),UG_DATA_TYPE_STRING,	NULL,	NULL},
