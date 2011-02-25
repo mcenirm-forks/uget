@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\uglib;&quot;..\..\uget-gtk&quot;;D:\devpack\gtk2\include;&quot;D:\devpack\gtk2\lib\glib-2.0\include&quot;;&quot;D:\devpack\gtk2\include\glib-2.0&quot;;&quot;D:\devpack\gtk2\lib\gtk-2.0\include&quot;;&quot;D:\devpack\gtk2\include\gtk-2.0&quot;;&quot;D:\devpack\gtk2\include\gdk-pixbuf-2.0&quot;;&quot;D:\devpack\gtk2\include\pango-1.0&quot;;&quot;D:\devpack\gtk2\include\atk-1.0&quot;;D:\devpack\gtk2\include\cairo"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;HAVE_PLUGIN_ARIA2"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -118,7 +118,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..\..\uglib;&quot;..\..\uget-gtk&quot;;D:\devpack\gtk2\include;&quot;D:\devpack\gtk2\lib\glib-2.0\include&quot;;&quot;D:\devpack\gtk2\include\glib-2.0&quot;;&quot;D:\devpack\gtk2\lib\gtk-2.0\include&quot;;&quot;D:\devpack\gtk2\include\gtk-2.0&quot;;&quot;D:\devpack\gtk2\include\gdk-pixbuf-2.0&quot;;&quot;D:\devpack\gtk2\include\pango-1.0&quot;;&quot;D:\devpack\gtk2\include\atk-1.0&quot;;D:\devpack\gtk2\include\cairo"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;HAVE_PLUGIN_ARIA2"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -213,6 +213,30 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\uget-gtk\UgetGtk-aria2.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgetGtk-callback.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgetGtk-gui.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgetGtk-setting.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgetGtk-timeout.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgetGtk.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\uget-gtk\UgProxyForm.c"
 				>
 			</File>
@@ -234,26 +258,6 @@
 			</File>
 			<File
 				RelativePath="..\..\uget-gtk\UgSummary.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk-callback.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk-gui.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk-setting.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk-timeout.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk.c"
 				>
 			</File>
 		</Filter>
@@ -295,6 +299,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\uget-gtk\UgetGtk-setting.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgetGtk.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\uget-gtk\UgProxyForm.h"
 				>
 			</File>
@@ -316,14 +328,6 @@
 			</File>
 			<File
 				RelativePath="..\..\uget-gtk\UgSummary.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk-setting.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk.h"
 				>
 			</File>
 		</Filter>

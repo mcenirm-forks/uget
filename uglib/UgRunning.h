@@ -81,7 +81,7 @@ GList*		ug_running_get_inactive (UgRunning* running);
 
 guint		ug_running_get_n_jobs (UgRunning* running);
 
-gdouble		ug_running_get_speed (UgRunning* running);
+gint64		ug_running_get_speed (UgRunning* running);
 void		ug_running_set_speed (UgRunning* running, guint64 speed_limit);
 
 // This is a GSourceFunc, you can use it with GSource.

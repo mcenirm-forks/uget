@@ -90,6 +90,7 @@ struct UgetGtkSetting_
 		gboolean	elapsed;		// consuming time
 		gboolean	left;			// remaining time
 		gboolean	speed;
+		gboolean	up_speed;
 		gboolean	retry;
 		gboolean	category;
 		gboolean	url;
@@ -171,6 +172,23 @@ struct UgetGtkSetting_
 		guint			state[7][24];	// 1 week, 7 days, 24 hours
 		gint64			speed_limit;
 	} scheduler;
+
+	// "PluginSetting"
+	struct UgPluginSetting
+	{
+		UG_DATA_MEMBERS;
+//		UgDataClass*	data_class;		// for UgMarkup parse/write
+
+		struct
+		{
+			gboolean	enable;
+			gboolean	launch;
+			gboolean	shutdown;
+			gchar*		path;
+			gchar*		args;
+			gchar*		uri;
+		} aria2;
+	} plugin;
 
 	gboolean		offline_mode;
 	guint			shutdown;			// shutdown when downloads complete

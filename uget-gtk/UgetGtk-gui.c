@@ -535,6 +535,11 @@ static void uget_gtk_menubar_init (struct UgetGtkMenubar* menubar, GtkAccelGroup
 	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.speed = menu_item;
+	// Download Columns - Up Speed
+	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Up Speed"));
+	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
+	menubar->view.columns.up_speed = menu_item;
 	// Download Columns - Retry
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Retry"));
 	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);

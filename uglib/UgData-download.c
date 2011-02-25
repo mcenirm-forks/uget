@@ -62,9 +62,9 @@ static UgDataEntry	common_data_entry[] =
 	{"TransmitTimeout",		G_STRUCT_OFFSET (UgDataCommon, transmit_timeout),	UG_DATA_TYPE_UINT,	NULL,	NULL},
 	{"RetryDelay",			G_STRUCT_OFFSET (UgDataCommon, retry_delay),		UG_DATA_TYPE_UINT,	NULL,	NULL},
 	{"RetryLimit",			G_STRUCT_OFFSET (UgDataCommon, retry_limit),		UG_DATA_TYPE_UINT,	NULL,	NULL},
+	{"MaxConnections",		G_STRUCT_OFFSET (UgDataCommon, max_connections),	UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"MaxUploadSpeed",		G_STRUCT_OFFSET (UgDataCommon, max_upload_speed),	UG_DATA_TYPE_INT64,	NULL,	NULL},
 	{"MaxDownloadSpeed",	G_STRUCT_OFFSET (UgDataCommon, max_download_speed),	UG_DATA_TYPE_INT64,	NULL,	NULL},
-	{"SegmentsPerDownload",	G_STRUCT_OFFSET (UgDataCommon, segments_per_download),UG_DATA_TYPE_INT,	NULL,	NULL},
 
 	// deprecate
 	{"AttachedFolder",		G_STRUCT_OFFSET (UgDataCommon, attached.folder),	UG_DATA_TYPE_STRING,NULL,	NULL},
@@ -93,6 +93,7 @@ static void ug_data_common_init (UgDataCommon* common)
 	common->transmit_timeout = 30;
 	common->retry_delay = 6;
 	common->retry_limit = 99;
+	common->max_connections = 1;
 }
 
 static void ug_data_common_finalize (UgDataCommon* common)
@@ -129,14 +130,14 @@ static void ug_data_common_assign (UgDataCommon* common, UgDataCommon* src)
 		common->retry_delay = src->retry_delay;
 	if (common->keeping.retry_limit == FALSE)
 		common->retry_limit = src->retry_limit;
+	// max connections
+	if (common->keeping.max_connections == FALSE)
+		common->max_connections = src->max_connections;
 	// speed
 	if (common->keeping.max_upload_speed == FALSE)
 		common->max_upload_speed = src->max_upload_speed;
 	if (common->keeping.max_download_speed == FALSE)
 		common->max_download_speed = src->max_download_speed;
-	// segments
-	if (common->keeping.segments_per_download == FALSE)
-		common->segments_per_download = src->segments_per_download;
 
 	if (common->keeping.debug_level == FALSE)
 		common->debug_level = src->debug_level;

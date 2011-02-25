@@ -575,15 +575,23 @@ void	ug_download_delete_temp (UgDataset* dataset)
 {
 	UgDataCommon*	common;
 	gchar*			file;
+	gchar*			file_aria2;
 	gchar*			path;
 
 	common = UG_DATASET_COMMON (dataset);
 	if (common && common->file) {
 		file = g_strconcat (common->file, ".ug_", NULL);
-		if (common->folder == NULL)
+		file_aria2 = g_strconcat (common->file, ".aria2", NULL);
+		if (common->folder == NULL) {
 			ug_delete_file (file);
+			ug_delete_file (file_aria2);
+		}
 		else {
 			path = g_build_filename (common->folder, file, NULL);
+			ug_delete_file (path);
+			g_free (path);
+			// aria2 control file
+			path = g_build_filename (common->folder, file_aria2, NULL);
 			ug_delete_file (path);
 			g_free (path);
 		}

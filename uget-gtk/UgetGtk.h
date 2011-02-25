@@ -41,6 +41,7 @@
 // uglib
 #include <UgIpc.h>
 #include <UgOption.h>
+#include <UgXmlrpc.h>
 #include <UgRunning.h>
 #include <UgetGtk-setting.h>
 #include <UgSummary.h>
@@ -78,6 +79,10 @@ struct UgetGtk
 	UgOption		option;			// initialize in uget-gtk/main.c
 	UgIpc			ipc;			// initialize in uget-gtk/main.c
 	UgRunning*		running;
+
+	// aria2
+	UgXmlrpc		xmlrpc;
+	gboolean		aria2_launched;
 
 	UgetGtkSetting	setting;		// uget-gtk-setting.h
 	gboolean		user_action;	// some job stop by user
@@ -240,6 +245,7 @@ struct UgetGtk
 				GtkWidget*	elapsed;	// consuming time
 				GtkWidget*	left;		// remaining time
 				GtkWidget*	speed;
+				GtkWidget*	up_speed;
 				GtkWidget*	retry;
 				GtkWidget*	category;
 				GtkWidget*	url;
@@ -335,6 +341,20 @@ void	uget_gtk_statusbar_refresh_speed (struct UgetGtkStatusbar* statusbar, gdoub
 void	uget_gtk_refresh_download_column (UgetGtk* ugtk);
 void	uget_gtk_refresh_download_sensitive (UgetGtk* ugtk);
 void	uget_gtk_refresh_category_sensitive (UgetGtk* ugtk);
+
+// ------------------------------------------------------
+// aria2
+#ifdef HAVE_PLUGIN_ARIA2
+void		uget_gtk_aria2_init (UgetGtk* ugtk);
+gboolean	uget_gtk_aria2_setup (UgetGtk* ugtk);
+gboolean	uget_gtk_aria2_launch (UgetGtk* ugtk);
+void		uget_gtk_aria2_shutdown (UgetGtk* ugtk);
+#else
+#define		uget_gtk_aria2_init(ugtk);
+#define		uget_gtk_aria2_setup(ugtk);
+#define		uget_gtk_aria2_launch(ugtk);
+#define		uget_gtk_aria2_shutdown(ugtk);
+#endif	// HAVE_PLUGIN_ARIA2
 
 
 #ifdef __cplusplus

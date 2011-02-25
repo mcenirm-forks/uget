@@ -88,6 +88,7 @@ struct UgPluginAria2
 	gint64			totalLength;
 	gint64			completedLength;
 	gint			downloadSpeed;
+	gint			uploadSpeed;
 	gdouble			consumeTime;
 
 	UgXmlrpc		xmlrpc;

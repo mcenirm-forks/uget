@@ -107,6 +107,9 @@ void	uget_gtk_init (UgetGtk* ugtk)
 	uget_gtk_init_callback (ugtk);
 	// initialize timeout in UgetGtk-timeout.c
 	uget_gtk_init_timeout (ugtk);
+	// aria2
+	uget_gtk_aria2_init (ugtk);
+	uget_gtk_aria2_setup (ugtk);
 
 	uget_gtk_move_menu_refresh (&ugtk->menubar, ugtk, TRUE);
 	ug_category_view_set_cursor (ugtk->cwidget.primary.view, 0, -1);
@@ -131,6 +134,8 @@ void	uget_gtk_quit (UgetGtk* ugtk)
 	gtk_status_icon_set_visible (ugtk->tray_icon.self, FALSE);
 	// hide window
 	gtk_widget_hide (GTK_WIDGET (ugtk->window.self));
+	// aria2
+	uget_gtk_aria2_shutdown (ugtk);
 	// This will quit  gtk_main()  to  main()  in  main-gtk.c
 	gtk_main_quit ();
 }
@@ -281,6 +286,9 @@ void	uget_gtk_set_setting (UgetGtk* ugtk, UgetGtkSetting* setting)
 	gtk_check_menu_item_set_active (
 			(GtkCheckMenuItem*) ugtk->menubar.view.columns.speed,
 			setting->download_column.speed);
+	gtk_check_menu_item_set_active (
+			(GtkCheckMenuItem*) ugtk->menubar.view.columns.up_speed,
+			setting->download_column.up_speed);
 	gtk_check_menu_item_set_active (
 			(GtkCheckMenuItem*) ugtk->menubar.view.columns.retry,
 			setting->download_column.retry);
@@ -815,6 +823,7 @@ void	uget_gtk_refresh_download_column (UgetGtk* ugtk)
 		sensitive = TRUE;
 	gtk_widget_set_sensitive (ugtk->menubar.view.columns.left, sensitive);
 	gtk_widget_set_sensitive (ugtk->menubar.view.columns.speed, sensitive);
+	gtk_widget_set_sensitive (ugtk->menubar.view.columns.up_speed, sensitive);
 
 	// ----------------------------------------------------
 	// set download column visible
@@ -837,6 +846,8 @@ void	uget_gtk_refresh_download_column (UgetGtk* ugtk)
 			gtk_tree_view_column_set_visible (column, setting->left);
 			column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_SPEED);
 			gtk_tree_view_column_set_visible (column, setting->speed);
+			column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_UPLOAD_SPEED);
+			gtk_tree_view_column_set_visible (column, setting->up_speed);
 		}
 		column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_SIZE);
 		gtk_tree_view_column_set_visible (column, setting->total);

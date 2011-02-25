@@ -62,6 +62,7 @@ static UgDataEntry	uget_setting_data_entry[] =
 	{"UserInterface",	G_STRUCT_OFFSET (UgetGtkSetting, ui),				UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
 	{"Clipboard",		G_STRUCT_OFFSET (UgetGtkSetting, clipboard),		UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
 	{"Scheduler",		G_STRUCT_OFFSET (UgetGtkSetting, scheduler),		UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
+	{"Plug-in",			G_STRUCT_OFFSET (UgetGtkSetting, plugin),			UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
 //	{"OfflineMode",		G_STRUCT_OFFSET (UgetGtkSetting, offline_mode),		UG_DATA_TYPE_INT,		NULL,		NULL},
 //	{"Shutdown",		G_STRUCT_OFFSET (UgetGtkSetting, shutdown),			UG_DATA_TYPE_INT,		NULL,		NULL},
 	{"CategoryDefault",	G_STRUCT_OFFSET (UgetGtkSetting, category),			UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
@@ -77,6 +78,7 @@ static UgDataEntry	download_column_data_entry[] =
 	{"elapsed",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, elapsed),		UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"left",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, left),			UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"speed",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, speed),		UG_DATA_TYPE_INT,	NULL,	NULL},
+	{"UpSpeed",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, up_speed),		UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"retry",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, retry),		UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"category",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, category),		UG_DATA_TYPE_INT,	NULL,	NULL},
 	{"URL",			G_STRUCT_OFFSET (struct UgDownloadColumnSetting, url),			UG_DATA_TYPE_INT,	NULL,	NULL},
@@ -136,6 +138,17 @@ static UgDataEntry	scheduler_setting_data_entry[] =
 	{"enable",		G_STRUCT_OFFSET (struct UgSchedulerSetting, enable),	UG_DATA_TYPE_INT,		NULL,	NULL},
 	{"state",		G_STRUCT_OFFSET (struct UgSchedulerSetting, state),		UG_DATA_TYPE_CUSTOM,	(UgInMarkupFunc) ug_schedule_state_in_markup,	(UgToMarkupFunc) ug_schedule_state_to_markup},
 //	{"SpeedLimit",	G_STRUCT_OFFSET (struct UgSchedulerSetting, speed_limit),	UG_DATA_TYPE_INT64,	NULL,	NULL},
+	{NULL},			// null-terminated
+};
+// PluginSetting
+static UgDataEntry	plugin_setting_data_entry[] =
+{
+	{"aria2-enable",	G_STRUCT_OFFSET (struct UgPluginSetting, aria2.enable),		UG_DATA_TYPE_INT,	NULL,	NULL},
+	{"aria2-launch",	G_STRUCT_OFFSET (struct UgPluginSetting, aria2.launch),		UG_DATA_TYPE_INT,	NULL,	NULL},
+	{"aria2-shutdown",	G_STRUCT_OFFSET (struct UgPluginSetting, aria2.shutdown),	UG_DATA_TYPE_INT,	NULL,	NULL},
+	{"aria2-path",		G_STRUCT_OFFSET (struct UgPluginSetting, aria2.path),		UG_DATA_TYPE_STRING,NULL,	NULL},
+	{"aria2-args",		G_STRUCT_OFFSET (struct UgPluginSetting, aria2.args),		UG_DATA_TYPE_STRING,NULL,	NULL},
+	{"aria2-uri",		G_STRUCT_OFFSET (struct UgPluginSetting, aria2.uri),		UG_DATA_TYPE_STRING,NULL,	NULL},
 	{NULL},			// null-terminated
 };
 
@@ -204,6 +217,15 @@ static UgDataClass	scheduler_setting_data_class =
 	NULL,
 	sizeof (struct UgSchedulerSetting),
 	scheduler_setting_data_entry,
+	NULL, NULL, NULL,
+};
+// PluginSetting
+static UgDataClass	plugin_setting_data_class =
+{
+	"PluginSetting",
+	NULL,
+	sizeof (struct UgPluginSetting),
+	plugin_setting_data_entry,
 	NULL, NULL, NULL,
 };
 
@@ -364,6 +386,8 @@ void	uget_gtk_setting_init (UgetGtkSetting* setting)
 	setting->clipboard.data_class = &clipboard_setting_data_class;
 	// "SchedulerSetting"
 	setting->scheduler.data_class = &scheduler_setting_data_class;
+	// "PluginSetting"
+	setting->plugin.data_class = &plugin_setting_data_class;
 	// "CategoryDefault"
 	setting->category.data_class = UgCategoryClass;
 	ug_category_init (&setting->category);
@@ -373,7 +397,7 @@ void	uget_gtk_setting_init (UgetGtkSetting* setting)
 
 void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 {
-	UgDataCommon*	common;
+//	UgDataCommon*	common;
 	guint			weekdays, dayhours;
 
 	// "SummarySetting"
@@ -390,6 +414,7 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->download_column.elapsed      = TRUE;
 	setting->download_column.left         = TRUE;
 	setting->download_column.speed        = TRUE;
+	setting->download_column.up_speed     = TRUE;
 	setting->download_column.retry        = TRUE;
 	setting->download_column.category     = TRUE;
 	setting->download_column.url          = FALSE;
@@ -432,14 +457,22 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	}
 	setting->scheduler.speed_limit = 5;
 
+	// "PluginSetting"
+	setting->plugin.aria2.enable = FALSE;
+	setting->plugin.aria2.launch = TRUE;
+	setting->plugin.aria2.shutdown = TRUE;
+	setting->plugin.aria2.path = g_strdup ("aria2c");
+	setting->plugin.aria2.args = g_strdup ("--enable-xml-rpc");
+	setting->plugin.aria2.uri  = g_strdup ("http://localhost:6800/rpc");
+
 	setting->offline_mode = FALSE;
 	setting->shutdown = 0;
 
 	// "CategoryDefault"
-	common = ug_dataset_realloc (setting->category.defaults,
-			UgDataCommonClass, 0);
-	g_free (common->folder);
-	common->folder = g_strdup (g_get_home_dir ());
+//	common = ug_dataset_realloc (setting->category.defaults,
+//			UgDataCommonClass, 0);
+//	g_free (common->folder);
+//	common->folder = g_strdup (g_get_home_dir ());
 
 	// "FolderList"
 	g_list_foreach (setting->folder_list, (GFunc) g_free, NULL);

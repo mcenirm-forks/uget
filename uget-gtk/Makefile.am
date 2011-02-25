@@ -13,7 +13,7 @@ uget_gtk_SOURCES  = \
 	UgDownloadForm.c    UgCategoryForm.c    UgProxyForm.c  UgBatchForm.c \
 	UgDownloadWidget.c  UgCategoryWidget.c  UgCategory-gtk.c \
 	UgDownloadDialog.c  UgCategoryDialog.c  UgSettingDialog.c \
-	UgetGtk.c  UgetGtk-setting.c  UgetGtk-gui.c \
+	UgetGtk.c  UgetGtk-setting.c  UgetGtk-gui.c  UgetGtk-aria2.c \
 	UgetGtk-callback.c  UgetGtk-timeout.c \
 	main-gtk.c
 

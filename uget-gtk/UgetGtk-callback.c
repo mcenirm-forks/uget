@@ -936,6 +936,8 @@ static void	on_config_settings_response (GtkDialog *dialog, gint response, UgSet
 		// ui
 		gtk_status_icon_set_visible (ugtk->tray_icon.self,
 				ugtk->setting.ui.show_tray_icon);
+		// aria2
+		uget_gtk_aria2_setup (ugtk);
 	}
 	ug_setting_dialog_free (sdialog);
 	// refresh
@@ -1098,6 +1100,10 @@ void	on_change_visible_column (GtkWidget* widget, UgetGtk* ugtk)
 	else if (widget == ugtk->menubar.view.columns.speed) {
 		column_index = UG_DOWNLOAD_COLUMN_SPEED;
 		setting->speed = visible;
+	}
+	else if (widget == ugtk->menubar.view.columns.up_speed) {
+		column_index = UG_DOWNLOAD_COLUMN_UPLOAD_SPEED;
+		setting->up_speed = visible;
 	}
 	else if (widget == ugtk->menubar.view.columns.retry) {
 		column_index = UG_DOWNLOAD_COLUMN_RETRY;
@@ -1615,6 +1621,8 @@ static void uget_gtk_menubar_init_callback (struct UgetGtkMenubar* menubar, Uget
 	g_signal_connect (menubar->view.columns.left, "toggled",
 			G_CALLBACK (on_change_visible_column), ugtk);
 	g_signal_connect (menubar->view.columns.speed, "toggled",
+			G_CALLBACK (on_change_visible_column), ugtk);
+	g_signal_connect (menubar->view.columns.up_speed, "toggled",
 			G_CALLBACK (on_change_visible_column), ugtk);
 	g_signal_connect (menubar->view.columns.retry, "toggled",
 			G_CALLBACK (on_change_visible_column), ugtk);

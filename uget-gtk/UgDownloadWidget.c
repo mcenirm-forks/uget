@@ -55,6 +55,7 @@ static void	on_percent_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeVie
 static void	on_elapsed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
 static void	on_left_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
 static void	on_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
+static void	on_upload_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
 static void	on_retry_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
 static void	on_category_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
 static void	on_url_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
@@ -152,6 +153,11 @@ void	ug_download_widget_use_sortable (UgDownloadWidget* dwidget, GtkTreeModel* m
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
 			G_CALLBACK (on_speed_column_clicked), dwidget->view);
+	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_UPLOAD_SPEED
+	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_UPLOAD_SPEED);
+	gtk_tree_view_column_set_clickable (column, TRUE);
+	g_signal_connect (column, "clicked",
+			G_CALLBACK (on_upload_speed_column_clicked), dwidget->view);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_RETRY
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_RETRY);
 	gtk_tree_view_column_set_clickable (column, TRUE);
@@ -477,6 +483,30 @@ static void col_set_speed (GtkTreeViewColumn *tree_column,
 	g_free (string);
 }
 
+static void col_set_upload_speed (GtkTreeViewColumn *tree_column,
+                           GtkCellRenderer   *cell,
+                           GtkTreeModel      *model,
+                           GtkTreeIter       *iter,
+                           gpointer           data)
+{
+	UgDataset*	dataset;
+	UgRelation*	relation;
+	UgProgress*	progress;
+	gchar*		string;
+
+	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	progress = UG_DATASET_PROGRESS (dataset);
+	relation = UG_DATASET_RELATION (dataset);
+
+	if (progress && relation && relation->plugin && progress->upload_speed)
+		string = ug_str_dtoa_unit (progress->upload_speed, 1, "/s");
+	else
+		string = NULL;
+
+	g_object_set (cell, "text", string, NULL);
+	g_free (string);
+}
+
 static void col_set_retry (GtkTreeViewColumn *tree_column,
                            GtkCellRenderer   *cell,
                            GtkTreeModel      *model,
@@ -682,6 +712,20 @@ GtkTreeView*	ug_download_view_new (void)
 	gtk_tree_view_column_set_cell_data_func (column,
 	                                         renderer,
 	                                         col_set_speed,
+	                                         NULL, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
+	gtk_tree_view_column_set_min_width (column, 90);
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_alignment (column, 1.0);
+	gtk_tree_view_append_column (tview, column);
+
+	// columns upload speed
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_title (column, _("Up Speed"));
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_column_set_cell_data_func (column,
+	                                         renderer,
+	                                         col_set_upload_speed,
 	                                         NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_column_set_min_width (column, 90);
@@ -1016,6 +1060,35 @@ static gint	ug_download_model_cmp_speed (GtkTreeModel* model, GtkTreeIter* a, Gt
 		return (gint) (speed2 - speed1);
 }
 
+static gint	ug_download_model_cmp_upload_speed (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
+{
+	UgDataset*	dataset;
+	UgProgress*	progress;
+	gdouble		speed1;
+	gdouble		speed2;
+
+	speed1 = 0;
+	gtk_tree_model_get (model, a, 0, &dataset, -1);
+	if (dataset) {
+		progress = UG_DATASET_PROGRESS (dataset);
+		if (progress)
+			speed1 = progress->upload_speed;
+	}
+
+	speed2 = 0;
+	gtk_tree_model_get (model, b, 0, &dataset, -1);
+	if (dataset) {
+		progress = UG_DATASET_PROGRESS (dataset);
+		if (progress)
+			speed2 = progress->upload_speed;
+	}
+
+	if (user_data == NULL)
+		return (gint) (speed1 - speed2);
+	else
+		return (gint) (speed2 - speed1);
+}
+
 static gint	ug_download_model_cmp_retry (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*		dataset;
@@ -1221,6 +1294,11 @@ static void	on_left_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* 
 static void	on_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
 {
 	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_speed);
+}
+
+static void	on_upload_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+{
+	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_upload_speed);
 }
 
 static void	on_retry_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)

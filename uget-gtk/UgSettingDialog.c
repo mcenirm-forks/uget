@@ -34,6 +34,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <UgSettingDialog.h>
 #include <UgUtils.h>
 
@@ -82,6 +86,15 @@ UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent)
 	gtk_notebook_append_page (dialog->notebook, dialog->scheduler.self,
 			gtk_label_new (_("Scheduler")));
 
+#ifdef HAVE_PLUGIN_ARIA2
+	// ------------------------------------------------------------------------
+	// Plugin settings page
+	ug_plugin_setting_form_init (&dialog->plugin);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog->plugin.self), 2);
+	gtk_notebook_append_page (dialog->notebook, dialog->plugin.self,
+			gtk_label_new (_("Plug-in")));
+#endif	// HAVE_PLUGIN_ARIA2
+
 	// ------------------------------------------------------------------------
 	// Others settings page
 	vbox = (GtkBox*) gtk_vbox_new (FALSE, 2);
@@ -114,6 +127,9 @@ void	ug_setting_dialog_set (UgSettingDialog* dialog, UgetGtkSetting* setting)
 	ug_user_interface_form_set (&dialog->ui, setting);
 	ug_launch_setting_form_set (&dialog->launch, setting);
 	ug_auto_save_form_set (&dialog->auto_save, setting);
+#ifdef HAVE_PLUGIN_ARIA2
+	ug_plugin_setting_form_set (&dialog->plugin, setting);
+#endif
 }
 
 void	ug_setting_dialog_get (UgSettingDialog* dialog, UgetGtkSetting* setting)
@@ -123,5 +139,8 @@ void	ug_setting_dialog_get (UgSettingDialog* dialog, UgetGtkSetting* setting)
 	ug_user_interface_form_get (&dialog->ui, setting);
 	ug_launch_setting_form_get (&dialog->launch, setting);
 	ug_auto_save_form_get (&dialog->auto_save, setting);
+#ifdef HAVE_PLUGIN_ARIA2
+	ug_plugin_setting_form_get (&dialog->plugin, setting);
+#endif
 }
 

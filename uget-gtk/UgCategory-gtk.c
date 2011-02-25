@@ -97,6 +97,8 @@ static UgCategoryGtk*	ug_category_gtk_new  (void)
 	gtk_tree_view_column_set_visible (column, FALSE);
 	column = gtk_tree_view_get_column (view, UG_DOWNLOAD_COLUMN_SPEED);
 	gtk_tree_view_column_set_visible (column, FALSE);
+	column = gtk_tree_view_get_column (view, UG_DOWNLOAD_COLUMN_UPLOAD_SPEED);
+	gtk_tree_view_column_set_visible (column, FALSE);
 	// Recycled column
 	view = cgtk->recycled.view;
 	column = gtk_tree_view_get_column (view, UG_DOWNLOAD_COLUMN_ELAPSED);
@@ -104,6 +106,8 @@ static UgCategoryGtk*	ug_category_gtk_new  (void)
 	column = gtk_tree_view_get_column (view, UG_DOWNLOAD_COLUMN_LEFT);
 	gtk_tree_view_column_set_visible (column, FALSE);
 	column = gtk_tree_view_get_column (view, UG_DOWNLOAD_COLUMN_SPEED);
+	gtk_tree_view_column_set_visible (column, FALSE);
+	column = gtk_tree_view_get_column (view, UG_DOWNLOAD_COLUMN_UPLOAD_SPEED);
 	gtk_tree_view_column_set_visible (column, FALSE);
 
 	return cgtk;

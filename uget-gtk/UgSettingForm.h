@@ -114,6 +114,26 @@ void	ug_auto_save_form_set (struct UgAutoSaveForm* asform, UgetGtkSetting* setti
 void	ug_auto_save_form_get (struct UgAutoSaveForm* asform, UgetGtkSetting* setting);
 
 
+// ----------------------------------------------------------------------------
+// UgPluginSettingForm
+struct UgPluginSettingForm
+{
+	GtkWidget*	self;
+
+	// auto save and interval
+	GtkToggleButton*	enable;
+	GtkToggleButton*	launch;
+	GtkToggleButton*	shutdown;
+	GtkEntry*			path;
+	GtkEntry*			args;
+	GtkEntry*			uri;
+};
+
+void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform);
+void	ug_plugin_setting_form_set (struct UgPluginSettingForm* psform, UgetGtkSetting* setting);
+void	ug_plugin_setting_form_get (struct UgPluginSettingForm* psform, UgetGtkSetting* setting);
+
+
 #ifdef __cplusplus
 }
 #endif

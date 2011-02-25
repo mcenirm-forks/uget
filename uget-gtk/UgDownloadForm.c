@@ -276,34 +276,26 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	gtk_table_attach (table, widget, 2, 3, 1, 2,
 			GTK_FILL, GTK_SHRINK, 2, 1);
 
-	// Multi-segment download
+	// connections per server
 	// separator
 	gtk_table_attach (table, gtk_vseparator_new (), 3, 4, 0, 2,
 			GTK_FILL | GTK_EXPAND, GTK_FILL, 2, 1);
-	// "Multi-segment download" - label
-	widget = gtk_label_new ("Multi-segment download");
+	// "connections per server" - label
+	widget = gtk_label_new ("connections per server");
 	gtk_table_attach (table, widget, 4, 7, 0, 1,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
-	dform->label_multi = widget;
-	// split - spin button
-	widget = gtk_spin_button_new_with_range (0.0, 9.0, 1.0);
+	// connections - spin button
+	widget = gtk_spin_button_new_with_range (1.0, 20.0, 1.0);
 	gtk_entry_set_width_chars (GTK_ENTRY (widget), 3);
 	gtk_table_attach (table, widget, 5, 6, 1, 2,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
-	dform->spin_split = widget;
-	// split - label
-	widget = gtk_label_new (_("Split:"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_table_attach (table, widget, 4, 5, 1, 2,
-			GTK_FILL, GTK_SHRINK, 2, 1);
-	dform->label_split = widget;
-	// parts - label
-	widget = gtk_label_new (_("parts"));
+	dform->spin_connections = widget;
+	// connections - label
+	widget = gtk_label_new (_("connections"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_table_attach (table, widget, 6, 7, 1, 2,
 			GTK_FILL, GTK_SHRINK, 2, 1);
-	dform->label_parts = widget;
-	ug_download_form_set_segments (dform, FALSE);
+	dform->label_connections = widget;
 
 	// ----------------------------------------------------
 	// proxy
@@ -397,7 +389,7 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	common->retry_delay = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_delay);
 	common->max_download_speed = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_speed) * 1024;
 	common->max_upload_speed = common->max_download_speed;
-	common->segments_per_download = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_split);
+	common->max_connections = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_connections);
 
 	if (gtk_widget_is_sensitive (dform->url_entry) == TRUE) {
 		ug_str_set (&common->url,  gtk_entry_get_text ((GtkEntry*)dform->url_entry),  -1);
@@ -515,8 +507,8 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 				(gdouble) (common->max_download_speed / 1024));
 	}
 	if (keep_changed==FALSE || dform->changed.split==FALSE) {
-		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_split,
-				common->segments_per_download);
+		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_connections,
+			common->max_connections);
 	}
 
 	// UgDataHttp
@@ -583,14 +575,6 @@ void	ug_download_form_set_relation (UgDownloadForm* dform, gboolean relation_mod
 {
 	gtk_widget_set_sensitive (dform->radio_pause,    relation_mode);
 	gtk_widget_set_sensitive (dform->radio_runnable, relation_mode);
-}
-
-void	ug_download_form_set_segments (UgDownloadForm* dform, gboolean use_segments)
-{
-	gtk_widget_set_sensitive (dform->label_multi, use_segments);
-	gtk_widget_set_sensitive (dform->label_split, use_segments);
-	gtk_widget_set_sensitive (dform->label_parts, use_segments);
-	gtk_widget_set_sensitive (dform->spin_split,  use_segments);
 }
 
 void	ug_download_form_set_folder_list (UgDownloadForm* dform, GList* folder_list)

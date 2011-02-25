@@ -313,3 +313,118 @@ void	ug_auto_save_form_get (struct UgAutoSaveForm* asform, UgetGtkSetting* setti
 	setting->auto_save.interval = gtk_spin_button_get_value_as_int (asform->interval_spin);
 }
 
+// ----------------------------------------------------------------------------
+// UgPluginSettingForm
+//
+static void	on_plugin_aria2_toggled (GtkWidget* widget, struct UgPluginSettingForm* psform)
+{
+	gboolean	sensitive;
+
+	sensitive = gtk_toggle_button_get_active (psform->enable);
+	gtk_widget_set_sensitive ((GtkWidget*) psform->launch, sensitive);
+	gtk_widget_set_sensitive ((GtkWidget*) psform->shutdown, sensitive);
+	gtk_widget_set_sensitive ((GtkWidget*) psform->uri, sensitive);
+
+	if (sensitive)
+		sensitive = gtk_toggle_button_get_active (psform->launch);
+	gtk_widget_set_sensitive ((GtkWidget*) psform->path, sensitive);
+	gtk_widget_set_sensitive ((GtkWidget*) psform->args, sensitive);
+}
+
+static void	on_plugin_aria2_launch_toggled (GtkWidget* widget, struct UgPluginSettingForm* psform)
+{
+	gboolean	sensitive;
+
+	sensitive = gtk_toggle_button_get_active (psform->launch);
+	gtk_widget_set_sensitive ((GtkWidget*) psform->path, sensitive);
+	gtk_widget_set_sensitive ((GtkWidget*) psform->args, sensitive);
+}
+
+void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
+{
+	GtkBox*				vbox;
+	GtkBox*				hbox;
+	GtkWidget*			widget;
+
+	psform->self = gtk_vbox_new (FALSE, 0);
+	vbox = (GtkBox*) psform->self;
+
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
+
+	widget = gtk_check_button_new_with_mnemonic (_("_Enable aria2 plug-in"));
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	gtk_box_pack_start (hbox, gtk_hseparator_new (), TRUE, TRUE, 2);
+	g_signal_connect (widget, "toggled",
+			G_CALLBACK (on_plugin_aria2_toggled), psform);
+	psform->enable = (GtkToggleButton*) widget;
+
+	// hint
+	widget = gtk_label_new (_("Make sure that all of the downloads have been completed."));
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 6);
+
+	// URI entry
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
+	widget = gtk_label_new ("URI");
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	widget = gtk_entry_new ();
+	gtk_box_pack_start (hbox, widget, TRUE,  TRUE,  4);
+	psform->uri = (GtkEntry*) widget;
+
+	gtk_box_pack_start (vbox, gtk_hseparator_new (), FALSE, FALSE, 2);
+
+	widget = gtk_check_button_new_with_mnemonic (_("_Launch aria2 on startup"));
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 2);
+	g_signal_connect (widget, "toggled",
+			G_CALLBACK (on_plugin_aria2_launch_toggled), psform);
+	psform->launch = (GtkToggleButton*) widget;
+
+	widget = gtk_check_button_new_with_mnemonic (_("_Shutdown aria2 on exit"));
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 2);
+	psform->shutdown = (GtkToggleButton*) widget;
+
+	// path
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
+	widget = gtk_label_new (_("Path"));
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	widget = gtk_entry_new ();
+	gtk_box_pack_start (hbox, widget, TRUE,  TRUE,  4);
+	psform->path = (GtkEntry*) widget;
+	// argument
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
+	widget = gtk_label_new (_("Arguments"));
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	widget = gtk_entry_new ();
+	gtk_box_pack_start (hbox, widget, TRUE,  TRUE,  4);
+	psform->args = (GtkEntry*) widget;
+
+	gtk_widget_show (psform->self);
+}
+
+void	ug_plugin_setting_form_set (struct UgPluginSettingForm* psform, UgetGtkSetting* setting)
+{
+	gtk_toggle_button_set_active (psform->enable, setting->plugin.aria2.enable);
+	gtk_toggle_button_set_active (psform->launch, setting->plugin.aria2.launch);
+	gtk_toggle_button_set_active (psform->shutdown, setting->plugin.aria2.shutdown);
+
+	gtk_entry_set_text (psform->uri,  setting->plugin.aria2.uri);
+	gtk_entry_set_text (psform->path, setting->plugin.aria2.path);
+	gtk_entry_set_text (psform->args, setting->plugin.aria2.args);
+
+	on_plugin_aria2_toggled ((GtkWidget*) psform->enable, psform);
+}
+
+void	ug_plugin_setting_form_get (struct UgPluginSettingForm* psform, UgetGtkSetting* setting)
+{
+	setting->plugin.aria2.enable = gtk_toggle_button_get_active (psform->enable);
+	setting->plugin.aria2.launch = gtk_toggle_button_get_active (psform->launch);
+	setting->plugin.aria2.shutdown = gtk_toggle_button_get_active (psform->shutdown);
+
+	setting->plugin.aria2.uri  = g_strdup (gtk_entry_get_text (psform->uri));
+	setting->plugin.aria2.path = g_strdup (gtk_entry_get_text (psform->path));
+	setting->plugin.aria2.args = g_strdup (gtk_entry_get_text (psform->args));
+}
+

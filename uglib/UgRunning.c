@@ -184,7 +184,7 @@ guint	ug_running_get_n_jobs (UgRunning* running)
 	return running->group.length;
 }
 
-gdouble		ug_running_get_speed (UgRunning* running)
+gint64		ug_running_get_speed (UgRunning* running)
 {
 	UgProgress*		progress;
 	GList*			link;
@@ -196,7 +196,7 @@ gdouble		ug_running_get_speed (UgRunning* running)
 			continue;
 		speed += progress->download_speed;
 	}
-	return speed;
+	return (gint64) speed;
 }
 
 void	ug_running_set_speed (UgRunning* running, guint64 speed_limit)
@@ -299,6 +299,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 				break;
 
 			case UG_MESSAGE_INFO_COMPLETE:
+				relation->hints &= ~UG_HINT_ERROR;
 				relation->hints |= UG_HINT_COMPLETED;
 				// data log
 				temp.log = ug_dataset_realloc (dataset, UgDataLogClass, 0);

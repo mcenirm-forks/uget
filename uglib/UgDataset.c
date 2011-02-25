@@ -334,7 +334,8 @@ static void ug_dataset_parser_start_element (GMarkupParseContext*	context,
 		data_class = ug_data_class_find (attr_values[index]);
 		if (data_class) {
 			// Create new instance by UgDataClass and prepend it to list.
-			datalist = ug_dataset_alloc_front (dataset, data_class);
+//			datalist = ug_dataset_alloc_front (dataset, data_class);
+			datalist = ug_dataset_realloc (dataset, data_class, 0);
 			g_markup_parse_context_push (context, &ug_data_parser, datalist);
 		}
 		else {

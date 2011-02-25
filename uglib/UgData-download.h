@@ -114,9 +114,9 @@ struct UgDataCommon
 	guint		retry_limit;		// limit of retry_count
 	guint		retry_count;		// count of UG_MESSAGE_INFO_RETRY
 
+	guint		max_connections;	// max connections per server
 	gint64		max_upload_speed;	// bytes per seconds
 	gint64		max_download_speed;	// bytes per seconds
-	guint		segments_per_download;	// number of segments per download
 
 	guint		debug_level;
 
@@ -135,9 +135,9 @@ struct UgDataCommon
 		gboolean	retry_delay:1;
 		gboolean	retry_limit:1;
 
+		gboolean	max_connections:1;
 		gboolean	max_upload_speed:1;
 		gboolean	max_download_speed:1;
-		gboolean	segments_per_download:1;
 
 		gboolean	debug_level:1;
 	} keeping;

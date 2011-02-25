@@ -30,6 +30,7 @@ uget-gtk/UgSettingDialog.c
 uget-gtk/UgSettingForm.c
 uget-gtk/UgSummary.c
 uget-gtk/UgetGtk.c
+uget-gtk/UgetGtk-aria2.c
 uget-gtk/UgetGtk-callback.c
 uget-gtk/UgetGtk-gui.c
 uget-gtk/UgetGtk-setting.c

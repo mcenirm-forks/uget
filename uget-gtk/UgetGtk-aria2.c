@@ -34,55 +34,68 @@
  *
  */
 
-#ifndef UG_SETTING_DIALOG_H
-#define UG_SETTING_DIALOG_H
+#include <UgetGtk.h>
+#include <UgPlugin-aria2.h>
 
-#include <gtk/gtk.h>
-#include <UgSettingForm.h>
-#include <UgScheduleGrid.h>
+#include <glib/gi18n.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+// ------------------------------------------------------
+// aria2
+//
+#ifdef HAVE_PLUGIN_ARIA2
 
-
-typedef struct	UgSettingDialog			UgSettingDialog;
-
-// ----------------------------------------------------------------------------
-// UgSettingDialog
-enum UgSettingDialogPage
+void	uget_gtk_aria2_init (UgetGtk* ugtk)
 {
-	UG_SETTING_PAGE_UI,
-	UG_SETTING_PAGE_CLIPBOARD,
-	UG_SETTING_PAGE_OTHERS,
-};
-
-struct UgSettingDialog
-{
-	GtkDialog*		self;
-
-	GtkNotebook*	notebook;
-
-	struct UgClipboardSettingForm	clipboard;
-	struct UgUserInterfaceForm		ui;
-	struct UgLaunchSettingForm		launch;
-	struct UgAutoSaveForm			auto_save;
-	struct UgScheduleGrid			scheduler;
-	struct UgPluginSettingForm		plugin;
-
-	gpointer		user_data;
-};
-
-UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent);
-void				ug_setting_dialog_free (UgSettingDialog* dialog);
-
-void	ug_setting_dialog_get (UgSettingDialog* dialog, UgetGtkSetting* setting);
-void	ug_setting_dialog_set (UgSettingDialog* dialog, UgetGtkSetting* setting);
-
-
-#ifdef __cplusplus
+	ug_xmlrpc_init (&ugtk->xmlrpc);
 }
-#endif
 
-#endif  // End of UG_SETTING_DIALOG_H
+gboolean	uget_gtk_aria2_setup (UgetGtk* ugtk)
+{
+	const UgPluginClass*	pclass;
+
+	ug_xmlrpc_use_client (&ugtk->xmlrpc, ugtk->setting.plugin.aria2.uri, NULL);
+	ug_plugin_global_set (UgPluginAria2Class,
+			UG_DATA_TYPE_STRING, ugtk->setting.plugin.aria2.uri);
+
+	pclass = ug_plugin_class_find ("aria2", 0);
+	if (pclass)
+		ug_plugin_class_unregister (pclass);
+	if (ugtk->setting.plugin.aria2.enable) {
+		ug_plugin_class_register (UgPluginAria2Class);
+		if (ugtk->setting.plugin.aria2.launch)
+			uget_gtk_aria2_launch (ugtk);
+	}
+
+	return TRUE;
+}
+
+gboolean	uget_gtk_aria2_launch (UgetGtk* ugtk)
+{
+	gboolean	result;
+	gchar*		string;
+
+	if (ugtk->aria2_launched == TRUE)
+		return TRUE;
+
+	string = g_strconcat (ugtk->setting.plugin.aria2.path, " ",
+			ugtk->setting.plugin.aria2.args, NULL);
+	result = g_spawn_command_line_async (string, NULL);
+	g_free (string);
+
+	if (result == TRUE)
+		ugtk->aria2_launched = TRUE;
+	else
+		uget_gtk_show_message (ugtk, GTK_MESSAGE_ERROR, _("failed to launch aria2."));
+	return result;
+}
+
+void	uget_gtk_aria2_shutdown (UgetGtk* ugtk)
+{
+	if (ugtk->setting.plugin.aria2.shutdown) {
+		ug_xmlrpc_call (&ugtk->xmlrpc, "aria2.shutdown", NULL);
+		ugtk->aria2_launched = FALSE;
+	}
+}
+
+#endif	// HAVE_PLUGIN_ARIA2
 

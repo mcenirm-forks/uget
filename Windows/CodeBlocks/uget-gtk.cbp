@@ -39,6 +39,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-mms-bitfields" />
+			<Add option="-DHAVE_PLUGIN_ARIA2" />
 			<Add option="-DGTK_DISABLE_SINGLE_INCLUDES" />
 			<Add option="-DGDK_DISABLE_DEPRECATED" />
 			<Add option="-DGTK_DISABLE_DEPRECATED" />
@@ -132,6 +133,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\uget-gtk\UgSummary.h" />
+		<Unit filename="..\..\uget-gtk\UgetGtk-aria2.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="..\..\uget-gtk\UgetGtk-callback.c">
 			<Option compilerVar="CC" />
 		</Unit>

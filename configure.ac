@@ -120,9 +120,9 @@ fi
 ## aria2 plug-in
 AC_ARG_ENABLE(
 	[plugin-aria2],
-	AC_HELP_STRING([--enable-plugin-aria2], [Enable aria2 plug-in.]),
+	AC_HELP_STRING([--disable-plugin-aria2], [Disable aria2 plug-in.]),
 	[plugin_aria2="$enableval"],
-	[plugin_aria2="no"]
+	[plugin_aria2="yes"]
 )
 if test "x$plugin_aria2" = "xyes"; then
     AC_DEFINE(HAVE_PLUGIN_ARIA2, 1, [Define to 1 to enable aria2 plug-in.])

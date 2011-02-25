@@ -285,6 +285,7 @@ static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpo
 
 	progress = data;
 	progress->download_speed = (gdouble) plugin->downloadSpeed;
+	progress->upload_speed = (gdouble) plugin->uploadSpeed;
 	progress->complete = plugin->completedLength;
 	progress->total = plugin->totalLength;
 	progress->consume_time = plugin->consumeTime;
@@ -593,6 +594,9 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	value->c.string = "downloadSpeed";
 	value = ug_xmlrpc_value_alloc (keys);
 	value->type = UG_XMLRPC_STRING;
+	value->c.string = "uploadSpeed";
+	value = ug_xmlrpc_value_alloc (keys);
+	value->type = UG_XMLRPC_STRING;
 	value->c.string = "errorCode";
 	value = ug_xmlrpc_value_alloc (keys);
 	value->type = UG_XMLRPC_STRING;
@@ -658,6 +662,9 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	// downloadSpeed
 	value = ug_xmlrpc_value_find (progress, "downloadSpeed");
 	plugin->downloadSpeed = ug_xmlrpc_value_get_int (value);
+	// uploadSpeed
+	value = ug_xmlrpc_value_find (progress, "uploadSpeed");
+	plugin->uploadSpeed = ug_xmlrpc_value_get_int (value);
 	// files
 	value = ug_xmlrpc_value_find (progress, "files");
 	if (value  &&  value->len == 1  &&  plugin->followedBy == NULL) {
@@ -843,6 +850,18 @@ static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* op
 	value->name = "lowest-speed-limit";
 	value->type = UG_XMLRPC_STRING;
 	g_string_printf (string, "%u", 512);
+	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
+	// max-concurrent-downloads
+//	value = ug_xmlrpc_value_alloc (options);
+//	value->name = "max-concurrent-downloads";
+//	value->type = UG_XMLRPC_STRING;
+//	g_string_printf (string, "%u", common->segments_per_download);
+//	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
+	// max-connection-per-server
+	value = ug_xmlrpc_value_alloc (options);
+	value->name = "max-connection-per-server";
+	value->type = UG_XMLRPC_STRING;
+	g_string_printf (string, "%u", common->max_connections);
 	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
 }
 
