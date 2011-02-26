@@ -50,6 +50,13 @@ static void	ug_proxy_form_pwmd_init (struct UgProxyFormPwmd* pfp, UgProxyForm* p
 static void on_entry_pwmd_changed (GtkEditable* editable, UgProxyForm* pform);
 #endif
 
+// for GTK+ 2.18
+#ifndef GTK_COMBO_BOX_TEXT
+#define	GTK_COMBO_BOX_TEXT					GTK_COMBO_BOX
+#define	gtk_combo_box_text_new				gtk_combo_box_new_text
+#define	gtk_combo_box_text_insert_text		gtk_combo_box_insert_text
+#endif	// GTK_COMBO_BOX_TEXT
+
 
 void	ug_proxy_form_init (UgProxyForm* pform, gboolean integrated)
 {
@@ -62,16 +69,16 @@ void	ug_proxy_form_init (UgProxyForm* pform, gboolean integrated)
 
 	// proxy type label & combo box
 	widget = gtk_label_new (_("Proxy:"));
-	pform->type = gtk_combo_box_new_text ();
-	gtk_combo_box_insert_text (GTK_COMBO_BOX (pform->type),
+	pform->type = gtk_combo_box_text_new ();
+	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
 			UG_DATA_PROXY_NONE, _("Don't use"));
-	gtk_combo_box_insert_text (GTK_COMBO_BOX (pform->type),
+	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
 			UG_DATA_PROXY_DEFAULT, _("Default"));
-	gtk_combo_box_insert_text (GTK_COMBO_BOX (pform->type),
+	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
 			UG_DATA_PROXY_HTTP, "HTTP");
-	gtk_combo_box_insert_text (GTK_COMBO_BOX (pform->type),
+	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
 			UG_DATA_PROXY_SOCKS4, "SOCKS v4");
-	gtk_combo_box_insert_text (GTK_COMBO_BOX (pform->type),
+	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
 			UG_DATA_PROXY_SOCKS5, "SOCKS v5");
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 1);

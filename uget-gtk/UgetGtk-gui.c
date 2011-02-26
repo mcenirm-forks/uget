@@ -188,7 +188,6 @@ static void uget_gtk_window_init  (struct UgetGtkWindow* window, UgetGtk* ugtk)
 static void uget_gtk_statusbar_init (struct UgetGtkStatusbar* sbar)
 {
 	sbar->self = (GtkStatusbar*) gtk_statusbar_new ();
-	gtk_statusbar_set_has_resize_grip (sbar->self, FALSE);
 
 	sbar->speed = (GtkLabel*) gtk_label_new ("");
 //	gtk_label_set_width_chars (sbar->speed, 15);

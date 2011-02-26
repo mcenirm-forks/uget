@@ -1,6 +1,9 @@
-﻿uGet 1.7.2 (developing)
+﻿uGet 1.7.2a (developing)
 
 This version requires GTK+ version 2.18+
+
+What's new since 1.7.2:
+1. add configure option "--with-gtk3" to enable GTK+3 support.
 
 What's new since 1.7.1:
 1. add setting - "Always show tray icon".

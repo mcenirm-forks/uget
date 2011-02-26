@@ -44,6 +44,15 @@
 
 #include <glib/gi18n.h>
 
+// for GTK+ 2.18
+#ifndef GTK_COMBO_BOX_TEXT
+#define	GTK_COMBO_BOX_TEXT					GTK_COMBO_BOX
+#define	GtkComboBoxText						GtkComboBox
+#define	gtk_combo_box_text_new				gtk_combo_box_new_text
+#define	gtk_combo_box_text_new_with_entry	gtk_combo_box_entry_new_text
+#define	gtk_combo_box_text_append_text		gtk_combo_box_append_text
+#endif	// GTK_COMBO_BOX_TEXT
+
 
 static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* proxy);
 static void	ug_download_form_init_page2 (UgDownloadForm* dform);
@@ -143,7 +152,7 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	dform->file_label = widget;
 
 	// Folder - combo entry + icon
-	dform->folder_combo = gtk_combo_box_entry_new_text ();
+	dform->folder_combo = gtk_combo_box_text_new_with_entry ();
 	dform->folder_entry = gtk_bin_get_child (GTK_BIN (dform->folder_combo));
 	widget = dform->folder_entry;
 	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
@@ -506,7 +515,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_speed,
 				(gdouble) (common->max_download_speed / 1024));
 	}
-	if (keep_changed==FALSE || dform->changed.split==FALSE) {
+	if (keep_changed==FALSE || dform->changed.connections==FALSE) {
 		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_connections,
 			common->max_connections);
 	}
@@ -579,14 +588,14 @@ void	ug_download_form_set_relation (UgDownloadForm* dform, gboolean relation_mod
 
 void	ug_download_form_set_folder_list (UgDownloadForm* dform, GList* folder_list)
 {
-	GtkComboBox*	combo;
+	GtkComboBoxText*	combo;
 
 	dform->changed.enable = FALSE;
-	combo = GTK_COMBO_BOX (dform->folder_combo);
+	combo = GTK_COMBO_BOX_TEXT (dform->folder_combo);
 	for (;  folder_list;  folder_list = folder_list->next)
-		gtk_combo_box_append_text (combo, folder_list->data);
+		gtk_combo_box_text_append_text (combo, folder_list->data);
 	// set default folder
-	gtk_combo_box_set_active (combo, 0);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
 	dform->changed.enable = TRUE;
 }
 
