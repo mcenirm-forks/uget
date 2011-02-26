@@ -336,6 +336,7 @@ void	uget_gtk_show_message (UgetGtk* ugtk, GtkMessageType type, const gchar* mes
 // Functions are used to refresh status and data.
 void	uget_gtk_move_menu_refresh (struct UgetGtkMenubar* menubar, UgetGtk* ugtk, gboolean reset);
 void	uget_gtk_tray_icon_refresh (struct UgetGtkTrayIcon* icon, guint n_active, gdouble speed);
+void	uget_gtk_tray_icon_decide_visible (UgetGtk* ugtk);
 void	uget_gtk_statusbar_refresh (struct UgetGtkStatusbar* statusbar, UgDownloadWidget* dwidget);
 void	uget_gtk_statusbar_refresh_speed (struct UgetGtkStatusbar* statusbar, gdouble speed);
 void	uget_gtk_refresh_download_column (UgetGtk* ugtk);

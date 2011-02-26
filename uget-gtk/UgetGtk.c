@@ -116,10 +116,12 @@ void	uget_gtk_init (UgetGtk* ugtk)
 	gtk_window_set_focus (ugtk->window.self,
 			(GtkWidget*) ugtk->cwidget.primary.view);
 
+	// set user interface
 	if (ugtk->setting.ui.start_in_offline_mode)
 	    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (ugtk->tray_icon.menu.offline_mode), TRUE);
 	if (ugtk->setting.ui.start_in_tray == FALSE)
 		gtk_widget_show ((GtkWidget*) ugtk->window.self);
+	uget_gtk_tray_icon_decide_visible (ugtk);
 }
 
 void	uget_gtk_quit (UgetGtk* ugtk)
@@ -229,9 +231,6 @@ void	uget_gtk_set_setting (UgetGtk* ugtk, UgetGtkSetting* setting)
 			setting->window.category);
 	gtk_widget_set_visible (ugtk->summary.self,
 			setting->window.summary);
-	// set user interface
-	gtk_status_icon_set_visible (ugtk->tray_icon.self,
-			setting->ui.show_tray_icon);
 	// ----------------------------------------------------
 	// UgetGtkEditMenu
 	gtk_check_menu_item_set_active (
@@ -422,6 +421,7 @@ void	uget_gtk_close_window (UgetGtk* ugtk)
 	case 1:		// Minimize to tray.
 		gtk_window_iconify (ugtk->window.self);
 		gtk_widget_hide ((GtkWidget*) ugtk->window.self);
+		uget_gtk_tray_icon_decide_visible (ugtk);
 		break;
 
 	case 2:		// Exit.
@@ -762,6 +762,22 @@ void	uget_gtk_tray_icon_refresh (struct UgetGtkTrayIcon* icon, guint n_active, g
 	gtk_status_icon_set_tooltip_text (icon->self, string);
 	g_free (string_speed);
 	g_free (string);
+}
+
+void	uget_gtk_tray_icon_decide_visible (UgetGtk* ugtk)
+{
+	gboolean	visible;
+
+	if (ugtk->setting.ui.show_tray_icon)
+		visible = TRUE;
+	else {
+		if (gtk_widget_get_visible ((GtkWidget*) ugtk->window.self))
+			visible = FALSE;
+		else
+			visible = TRUE;
+	}
+
+	gtk_status_icon_set_visible (ugtk->tray_icon.self, visible);
 }
 
 void	uget_gtk_statusbar_refresh (struct UgetGtkStatusbar* statusbar, UgDownloadWidget* dwidget)

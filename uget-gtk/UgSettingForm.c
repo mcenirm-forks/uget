@@ -150,7 +150,7 @@ void	ug_user_interface_form_init (struct UgUserInterfaceForm* uiform)
 	widget = gtk_check_button_new_with_label (_("Confirm when deleting files"));
 	uiform->confirm_delete = (GtkToggleButton*) widget;
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 1);
-	widget = gtk_check_button_new_with_label (_("Show tray icon"));
+	widget = gtk_check_button_new_with_label (_("Always show tray icon"));
 	uiform->show_tray_icon = (GtkToggleButton*) widget;
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 1);
 	widget = gtk_check_button_new_with_label (_("Minimize to tray on startup"));
@@ -361,7 +361,9 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 
 	// hint
 	widget = gtk_label_new (_("Make sure that all of the downloads have been completed."));
-	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 6);
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 3);
+	widget = gtk_label_new ("");
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 3);
 
 	// URI entry
 	hbox = (GtkBox*) gtk_hbox_new (FALSE, 0);
@@ -372,7 +374,7 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	gtk_box_pack_start (hbox, widget, TRUE,  TRUE,  4);
 	psform->uri = (GtkEntry*) widget;
 
-	gtk_box_pack_start (vbox, gtk_hseparator_new (), FALSE, FALSE, 2);
+	gtk_box_pack_start (vbox, gtk_hseparator_new (), FALSE, FALSE, 6);
 
 	widget = gtk_check_button_new_with_mnemonic (_("_Launch aria2 on startup"));
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 2);

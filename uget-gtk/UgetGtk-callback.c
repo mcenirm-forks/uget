@@ -934,8 +934,7 @@ static void	on_config_settings_response (GtkDialog *dialog, gint response, UgSet
 		ugtk->launch_regex = g_regex_new (ugtk->setting.launch.types,
 				G_REGEX_CASELESS, 0, NULL);
 		// ui
-		gtk_status_icon_set_visible (ugtk->tray_icon.self,
-				ugtk->setting.ui.show_tray_icon);
+		uget_gtk_tray_icon_decide_visible (&ugtk->tray_icon, ugtk);
 		// aria2
 		uget_gtk_aria2_setup (ugtk);
 	}
@@ -1182,6 +1181,7 @@ static void	on_tray_icon_activate (GtkStatusIcon* status_icon, UgetGtk* ugtk)
 		gtk_widget_show ((GtkWidget*) ugtk->window.self);
 		gtk_window_deiconify (ugtk->window.self);
 		gtk_window_present (ugtk->window.self);
+		uget_gtk_tray_icon_decide_visible (ugtk);
 	}
 	// clear error status
 	if (ugtk->tray_icon.error_occurred) {
