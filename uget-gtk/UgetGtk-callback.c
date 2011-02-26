@@ -934,7 +934,7 @@ static void	on_config_settings_response (GtkDialog *dialog, gint response, UgSet
 		ugtk->launch_regex = g_regex_new (ugtk->setting.launch.types,
 				G_REGEX_CASELESS, 0, NULL);
 		// ui
-		uget_gtk_tray_icon_decide_visible (&ugtk->tray_icon, ugtk);
+		uget_gtk_tray_icon_decide_visible (ugtk);
 		// aria2
 		uget_gtk_aria2_setup (ugtk);
 	}
