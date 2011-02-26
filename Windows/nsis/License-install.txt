@@ -32,7 +32,8 @@ files in the program, then also delete it here.
 
 ---
 
-This package contain cURL libcurl and OpenSSL library.
+This package contain aria2, cURL libcurl, and OpenSSL library.
 
+aria2 license : GNU General Public License
 cURL license : http://curl.haxx.se/docs/copyright.html
 OpenSSL license : http://www.openssl.org/source/license.html
