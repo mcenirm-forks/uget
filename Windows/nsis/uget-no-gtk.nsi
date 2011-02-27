@@ -219,6 +219,6 @@ Function DetectAndSetupGTK
   DoReg:
   ReadRegStr $2 HKLM "Software\GTK\2.0" DllPath
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\App Paths\uget.exe" "" "$INSTDIR\uget.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\App Paths\uget.exe" "Path" $2
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\App Paths\uget.exe" "Path" "$INSTDIR;$2"
 
 FunctionEnd

@@ -8,7 +8,7 @@ What's new since 1.7.2:
 What's new since 1.7.1:
 1. add setting - "Always show tray icon".
 2. add more setting, column, and view for aria2.
-3. enable aria2 plugin by default. (remove --enable-plugin-aria2)
+3. enable aria2 plug-in by default. (remove --enable-plugin-aria2)
 4. fix minor bugs.
 
 What's new since 1.7.0:
