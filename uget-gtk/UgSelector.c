@@ -204,7 +204,7 @@ GList*	ug_selector_get_selected_downloads (UgSelector* selector)
 		else
 			gstr = g_string_new (item->uri);
 		dataset = ug_dataset_new ();
-		common = ug_dataset_realloc (dataset, UgDataCommonClass, 0);
+		common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
 		common->url = g_string_free (gstr, FALSE);
 		common->keeping.url = TRUE;
 		link->data = dataset;

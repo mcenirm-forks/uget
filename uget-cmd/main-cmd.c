@@ -123,8 +123,8 @@ int main (int argc, char** argv)
 		ug_ipc_finalize (&ugcmd->ipc);
 		goto exit;
 	}
-	// register uget classes
-	ug_class_init ();
+	// register uget interfaces
+	uglib_init ();
 
 	// main program
 	signal (SIGTERM, term_signal_handler);

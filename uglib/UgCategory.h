@@ -56,8 +56,8 @@ typedef GList*	(*UgCategoryGetAllFunc)	(UgCategory* category);
 typedef GList*	(*UgCategoryGetJobsFunc)(UgCategory* category);
 typedef void	(*UgCategoryChangedFunc)(UgCategory* category, UgDataset* dataset);
 
-extern const	UgDataClass*		UgCategoryClass;
-extern const	UgDataClass*		UgRelationClass;
+extern const	UgDataInterface*		UgCategoryIface;
+extern const	UgDataInterface*		UgRelationIface;
 
 // ----------------------------------------------------------------------------
 // UgCategory
@@ -69,9 +69,9 @@ extern const	UgDataClass*		UgRelationClass;
 struct UgCategory
 {
 	UG_DATA_MEMBERS;
-//	const UgDataClass*	data_class;
-	// functions
-	const UgCategoryFuncs*	funcs;
+//	const UgDataInterface*	iface;
+
+	const UgCategoryFuncs*	funcs;			// functions
 
 	gchar*				name;
 
@@ -159,7 +159,7 @@ enum	UgCategoryHints
 // ----------------------------------------------------------------------------
 // CategoryList
 //
-// Before calling ug_category_list_load(), user must register data class of UgCategory.
+// Before calling ug_category_list_load(), user must register data interface of UgCategory.
 // Before calling ug_category_list_save(), user must call ug_download_list_save() to save all download in all category.
 GList*		ug_category_list_load (const gchar* filename);
 gboolean	ug_category_list_save (GList* category_list, const gchar* filename);
@@ -171,7 +171,7 @@ void		ug_category_list_link (GList* category_list, GList* download_list);
 // To free the return value, use:
 //	g_list_foreach (list, (GFunc) ug_dataset_unref, NULL);
 //	g_list_free (list);
-// Before calling ug_download_list_load(), user must register data class of UgRelation.
+// Before calling ug_download_list_load(), user must register data interface of UgRelation.
 GList*		ug_download_list_load (const gchar* filename);
 gboolean	ug_download_list_save (GList* download_list, const gchar* filename);
 // Below utility functions can be used by g_list_foreach()
@@ -193,9 +193,9 @@ void		ug_download_delete_temp (UgDataset* dataset);
 struct UgRelation
 {
 	UG_DATA_LIST_MEMBERS (UgRelation);
-//	const UgDataClass*	data_class;
-//	UgRelation*			next;
-//	UgRelation*			prev;
+//	const UgDataInterface*	iface;
+//	UgRelation*				next;
+//	UgRelation*				prev;
 
 	// category
 	UgCategoryHints		hints;

@@ -53,7 +53,7 @@ extern "C" {
 typedef struct	UgMessage				UgMessage;
 typedef enum	UgMessageType			UgMessageType;
 
-extern	const	UgDataClass*			UgMessageClass;
+extern	const	UgDataInterface*		UgMessageIface;
 
 enum UgMessageType
 {
@@ -149,19 +149,19 @@ enum UgMessageErrorHttpCodeMember
 
 // ---------------------------------------------------------------------------
 // UgMessage: message from plug-in
-//
+
 //  UgData
 //  |
 //  `- UgDataList
 //     |
 //     `- UgMessage
-//
+
 struct UgMessage
 {
 	UG_DATA_LIST_MEMBERS (UgMessage);
-//	const UgDataClass*	data_class;
-//	UgMessage*			next;
-//	UgMessage*			prev;
+//	const UgDataInterface*	iface;
+//	UgMessage*				next;
+//	UgMessage*				prev;
 
 	UgMessageType		type;
 
@@ -176,12 +176,12 @@ struct UgMessage
 	UgDataType			data_type;
 	union
 	{
-		gchar*			v_string;	// data_type == UG_DATA_TYPE_STRING
-		gint			v_int;		// data_type == UG_DATA_TYPE_INT
-		guint			v_uint;		// data_type == UG_DATA_TYPE_UINT
-		gint64			v_int64;	// data_type == UG_DATA_TYPE_INT64
-		gdouble			v_double;	// data_type == UG_DATA_TYPE_DOUBLE
-		UgData*			v_instance;	// data_type == UG_DATA_TYPE_INSTANCE
+		gchar*			v_string;	// data_type == UG_DATA_STRING
+		gint			v_int;		// data_type == UG_DATA_INT
+		guint			v_uint;		// data_type == UG_DATA_UINT
+		gint64			v_int64;	// data_type == UG_DATA_INT64
+		gdouble			v_double;	// data_type == UG_DATA_DOUBLE
+		UgData*			v_instance;	// data_type == UG_DATA_INSTANCE
 	} data;
 };
 

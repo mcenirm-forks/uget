@@ -50,105 +50,100 @@
 #endif
 
 // ---------------------------------------------------------------------------
-// UgPluginClass
+// UgPluginInterface
 //
-void	ug_plugin_class_register (const UgPluginClass* plugin_class)
+void	ug_plugin_interface_register (const UgPluginInterface* iface)
 {
-	const gchar**	string;
-	GList*			list;
+	const char**	strings;
+	char*			key;
 
-	ug_registry_insert (plugin_class->name, UG_REG_PLUGIN_CLASS, (gpointer) plugin_class);
+	key = g_strconcat ("plugin.", iface->name, NULL);
+	ug_registry_insert (key, iface);
+	g_free (key);
 
-	if (plugin_class->schemes) {
-		for (string = plugin_class->schemes;  *string;  string++) {
-			list = ug_registry_search (*string, UG_REG_PLUGIN_SCHEME);
-			list = g_list_prepend (list, (gpointer) plugin_class);
-			ug_registry_insert (*string, UG_REG_PLUGIN_SCHEME, list);
+	if (iface->schemes) {
+		for (strings = iface->schemes;  *strings;  strings++) {
+			key = g_strconcat ("scheme.", *strings, NULL);
+			ug_registry_insert (key, iface);
+			g_free (key);
 		}
 	}
 
-	if (plugin_class->file_types) {
-		for (string = plugin_class->file_types;  *string;  string++) {
-			list = ug_registry_search (*string, UG_REG_PLUGIN_FILE_TYPE);
-			list = g_list_prepend (list, (gpointer)plugin_class);
-			ug_registry_insert (*string, UG_REG_PLUGIN_FILE_TYPE, list);
+	if (iface->file_types) {
+		for (strings = iface->file_types;  *strings;  strings++) {
+			key = g_strconcat ("file.", *strings, NULL);
+			ug_registry_insert (key, iface);
+			g_free (key);
 		}
 	}
 }
 
-void	ug_plugin_class_unregister (const UgPluginClass* plugin_class)
+void	ug_plugin_interface_unregister (const UgPluginInterface* iface)
 {
-	const gchar**	string;
-	GList*			list;
+	const char**	strings;
+	char*			key;
 
-	// Don't unregister plug-in if it not found.
-	if (ug_registry_search (plugin_class->name, UG_REG_PLUGIN_CLASS) == NULL)
-		return;
+	key = g_strconcat ("plugin.", iface->name, NULL);
+	ug_registry_remove (key, iface);
+	g_free (key);
 
-	ug_registry_remove (plugin_class->name, UG_REG_PLUGIN_CLASS);
-
-	if (plugin_class->schemes) {
-		for (string = plugin_class->schemes;  *string;  string++) {
-			list = ug_registry_search (*string, UG_REG_PLUGIN_SCHEME);
-			list = g_list_remove (list, (gpointer) plugin_class);
-			if (list)
-				ug_registry_insert (*string, UG_REG_PLUGIN_SCHEME, list);
-			else
-				ug_registry_remove (*string, UG_REG_PLUGIN_SCHEME);
+	if (iface->schemes) {
+		for (strings = iface->schemes;  *strings;  strings++) {
+			key = g_strconcat ("scheme.", *strings, NULL);
+			ug_registry_remove (key, iface);
+			g_free (key);
 		}
 	}
 
-	if (plugin_class->file_types) {
-		for (string = plugin_class->file_types;  *string;  string++) {
-			list = ug_registry_search (*string, UG_REG_PLUGIN_FILE_TYPE);
-			list = g_list_remove (list, (gpointer) plugin_class);
-			if (list)
-				ug_registry_insert (*string, UG_REG_PLUGIN_FILE_TYPE, list);
-			else
-				ug_registry_remove (*string, UG_REG_PLUGIN_FILE_TYPE);
+	if (iface->file_types) {
+		for (strings = iface->file_types;  *strings;  strings++) {
+			key = g_strconcat ("file.", *strings, NULL);
+			ug_registry_remove (key, iface);
+			g_free (key);
 		}
 	}
 }
 
-const UgPluginClass*	ug_plugin_class_find (const gchar* name, enum UgRegistryType type)
+const UgPluginInterface*	ug_plugin_interface_find (const gchar* name, const gchar* type)
 {
-	gpointer	data;
+	char*		key;
+	void*		iface;
 
-	if (type < UG_REG_PLUGIN_CLASS || type > UG_REG_PLUGIN_TYPE_LAST)
-		type = UG_REG_PLUGIN_CLASS;
+	if (type == NULL)
+		type = "plugin.";
 
-	data = ug_registry_search (name, type);
-	if (type == UG_REG_PLUGIN_CLASS)
-		return (const UgPluginClass*) data;
-	else if (data)
-		return (const UgPluginClass*) ((GList*)data)->data;
-	return NULL;
+	key = g_strconcat (type, name, NULL);
+	iface = ug_registry_find (key);
+	g_free (key);
+
+	return iface;
 }
 
 
 // ---------------------------------------------------------------------------
 // UgPlugin : UgPlugin is a base structure for downloading.
 //
-UgPlugin*	ug_plugin_new	(const UgPluginClass* plugin_class, UgDataset* dataset)
+UgPlugin*	ug_plugin_new	(const UgPluginInterface* iface, UgDataset* dataset)
 {
 	UgPlugin*			plugin;
 	UgPluginInitFunc	init;
 
-	plugin = g_malloc0 (plugin_class->instance_size);
+//	plugin = g_malloc0 (iface->instance_size);
+	plugin = g_slice_alloc0 (iface->instance_size);
 
 	// initialize base data
-	plugin->plugin_class = plugin_class;
+	plugin->iface = iface;
 	plugin->lock = g_mutex_new ();
-//	plugin->queue = NULL;
-//	plugin->state = UG_STATE_STOP;
+//	plugin->state = UG_STATE_NULL;
 	plugin->ref_count = 1;
 
-	init = plugin_class->init;
+	init = iface->init;
 	if (init) {
 		// If plugin initial failed, free resource and return NULL.
 		if (init (plugin, dataset) == FALSE) {
 			g_mutex_free (plugin->lock);
-			g_free (plugin);
+//			g_free (plugin);
+			g_slice_free1 (iface->instance_size, plugin);
 			return NULL;
 		}
 	}
@@ -158,30 +153,29 @@ UgPlugin*	ug_plugin_new	(const UgPluginClass* plugin_class, UgDataset* dataset)
 
 UgPlugin*	ug_plugin_new_by_name	(const gchar* name, UgDataset* dataset)
 {
-	const UgPluginClass*	plugin_class;
+	const UgPluginInterface*	iface;
 
-	plugin_class = ug_plugin_class_find (name, UG_REG_PLUGIN_CLASS);
-	if (plugin_class == NULL)
+	iface = ug_plugin_interface_find (name, NULL);
+	if (iface == NULL)
 		return NULL;
-	return ug_plugin_new (plugin_class, dataset);
+	return ug_plugin_new (iface, dataset);
 }
 
 UgPlugin*	ug_plugin_new_by_data	(UgDataset* dataset)
 {
-	const UgPluginClass*	plugin_class;
-	UgDataCommon*			common;
-	gchar*					string;
+	const UgPluginInterface*	iface;
+	UgDataCommon*	common;
+	gchar*			string;
 
 	common = UG_DATASET_COMMON (dataset);
 	if (common == NULL)
 		return NULL;
-	plugin_class = NULL;
+	iface = NULL;
 
 	if (common->url) {
 		string = g_uri_parse_scheme (common->url);
 		if (string) {
-			plugin_class = ug_plugin_class_find (string,
-					UG_REG_PLUGIN_SCHEME);
+			iface = ug_plugin_interface_find (string, "scheme.");
 			g_free (string);
 		}
 	}
@@ -193,15 +187,14 @@ UgPlugin*	ug_plugin_new_by_data	(UgDataset* dataset)
 		// get filename extension
 		string = strrchr (string, '.');
 		if (string) {
-			plugin_class = ug_plugin_class_find (string+1,
-					UG_REG_PLUGIN_FILE_TYPE);
+			iface = ug_plugin_interface_find (string+1, "file.");
 		}
 	}
 	else
 		return NULL;
 
-	if (plugin_class)
-		return ug_plugin_new (plugin_class, dataset);
+	if (iface)
+		return ug_plugin_new (iface, dataset);
 	else
 		return NULL;
 }
@@ -217,14 +210,15 @@ void	ug_plugin_unref	(UgPlugin* plugin)
 
 	plugin->ref_count--;
 	if (plugin->ref_count == 0) {
-		finalize = plugin->plugin_class->finalize;
+		finalize = plugin->iface->finalize;
 		if (finalize)
 			finalize (plugin);
 
 		// finalize base data
 		g_mutex_free (plugin->lock);
 		ug_data_list_free (plugin->messages);
-		g_free (plugin);
+//		g_free (plugin);
+		g_slice_free1 (plugin->iface->instance_size, plugin);
 	}
 }
 
@@ -426,18 +420,18 @@ gboolean	ug_plugin_rename_and_unhide (UgPlugin* plugin, const gchar* old_utf8, c
 }
 
 // --- virtual functions ---
-UgResult	ug_plugin_global_set (const UgPluginClass* plugin_class, guint parameter, gpointer data)
+UgResult	ug_plugin_global_set (const UgPluginInterface* iface, guint parameter, gpointer data)
 {
-	UgGlobalSetFunc  global_set = plugin_class->global_set;
+	UgGlobalSetFunc  global_set = iface->global_set;
 
 	if (global_set)
 		return global_set (parameter, data);
 	return UG_RESULT_UNSUPPORT;
 }
 
-UgResult	ug_plugin_global_get (const UgPluginClass* plugin_class, guint parameter, gpointer data)
+UgResult	ug_plugin_global_get (const UgPluginInterface* iface, guint parameter, gpointer data)
 {
-	UgGlobalGetFunc  global_get = plugin_class->global_get;
+	UgGlobalGetFunc  global_get = iface->global_get;
 
 	if (global_get)
 		return global_get (parameter, data);
@@ -446,7 +440,7 @@ UgResult	ug_plugin_global_get (const UgPluginClass* plugin_class, guint paramete
 
 UgResult ug_plugin_set_state (UgPlugin* plugin, UgState  state)
 {
-	UgSetStateFunc  set_state = plugin->plugin_class->set_state;
+	UgSetStateFunc  set_state = plugin->iface->set_state;
 
 	if (set_state)
 		return set_state (plugin, state);
@@ -455,7 +449,7 @@ UgResult ug_plugin_set_state (UgPlugin* plugin, UgState  state)
 
 UgResult ug_plugin_get_state (UgPlugin* plugin, UgState* state)
 {
-	UgGetStateFunc  get_state = plugin->plugin_class->get_state;
+	UgGetStateFunc  get_state = plugin->iface->get_state;
 
 	if (get_state)
 		return get_state (plugin, state);
@@ -464,7 +458,7 @@ UgResult ug_plugin_get_state (UgPlugin* plugin, UgState* state)
 
 UgResult ug_plugin_set (UgPlugin* plugin, guint parameter, gpointer data)
 {
-	UgSetFunc  set = plugin->plugin_class->set;
+	UgSetFunc  set = plugin->iface->set;
 
 	if (set)
 		return set (plugin, parameter, data);
@@ -473,7 +467,7 @@ UgResult ug_plugin_set (UgPlugin* plugin, guint parameter, gpointer data)
 
 UgResult ug_plugin_get (UgPlugin* plugin, guint parameter, gpointer data)
 {
-	UgGetFunc  get = plugin->plugin_class->get;
+	UgGetFunc  get = plugin->iface->get;
 
 	if (get)
 		return get (plugin, parameter, data);

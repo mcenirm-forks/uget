@@ -51,17 +51,17 @@ void	uget_gtk_aria2_init (UgetGtk* ugtk)
 
 gboolean	uget_gtk_aria2_setup (UgetGtk* ugtk)
 {
-	const UgPluginClass*	pclass;
+	const UgPluginInterface*	iface;
 
 	ug_xmlrpc_use_client (&ugtk->xmlrpc, ugtk->setting.plugin.aria2.uri, NULL);
-	ug_plugin_global_set (UgPluginAria2Class,
-			UG_DATA_TYPE_STRING, ugtk->setting.plugin.aria2.uri);
+	ug_plugin_global_set (UgPluginAria2Iface,
+			UG_DATA_STRING, ugtk->setting.plugin.aria2.uri);
 
-	pclass = ug_plugin_class_find ("aria2", 0);
-	if (pclass)
-		ug_plugin_class_unregister (pclass);
+	iface = ug_plugin_interface_find ("aria2", 0);
+	if (iface)
+		ug_plugin_interface_unregister (iface);
 	if (ugtk->setting.plugin.aria2.enable) {
-		ug_plugin_class_register (UgPluginAria2Class);
+		ug_plugin_interface_register (UgPluginAria2Iface);
 		if (ugtk->setting.plugin.aria2.launch)
 			uget_gtk_aria2_launch (ugtk);
 	}

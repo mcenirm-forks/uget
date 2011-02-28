@@ -34,11 +34,6 @@
  *
  */
 
-
-// define base data structure : UgDataClass, UgDataEntry, and UgData.
-// All UgData-based structure that use UgDataClass can save and load from XML file.
-
-
 #ifndef UG_DATA_H
 #define UG_DATA_H
 
@@ -49,15 +44,14 @@
 extern "C" {
 #endif
 
+typedef struct	UgDataEntry			UgDataEntry;
+typedef struct	UgDataInterface		UgDataInterface;
+typedef struct	UgData				UgData;
+typedef struct	UgDataList			UgDataList;
 
-typedef struct	UgDataEntry		UgDataEntry;
-typedef struct	UgDataClass		UgDataClass;
-typedef struct	UgData			UgData;
-typedef struct	UgDataList		UgDataList;
+typedef enum	UgDataType			UgDataType;
 
-typedef enum	UgDataType		UgDataType;
-
-// UgDataClass
+// UgDataInterface
 typedef void	(*UgInitFunc)		(gpointer instance);
 typedef void	(*UgFinalizeFunc)	(gpointer instance);
 typedef void	(*UgAssignFunc)		(gpointer instance, gpointer src);	// UgOverwriteFunc
@@ -70,24 +64,24 @@ typedef void	(*UgToMarkupFunc)	(gpointer data, UgMarkup* markup);
 
 enum	UgDataType
 {
-	UG_DATA_TYPE_NONE,
-	UG_DATA_TYPE_STRING,
-	UG_DATA_TYPE_INT,
-	UG_DATA_TYPE_UINT,
-	UG_DATA_TYPE_INT64,
-	UG_DATA_TYPE_DOUBLE,
+	UG_DATA_NONE,
+	UG_DATA_STRING,
+	UG_DATA_INT,
+	UG_DATA_UINT,
+	UG_DATA_INT64,
+	UG_DATA_DOUBLE,
 
-	UG_DATA_TYPE_INSTANCE,	// UgData-based pointer
+	UG_DATA_INSTANCE,	// UgData-based pointer
 
 	// User defined type.    (e.g. UserType  user_struct)
 	// You must use it with UgInMarkupFunc & UgToMarkupFunc in UgDataEntry.
-	UG_DATA_TYPE_CUSTOM,
+	UG_DATA_CUSTOM,
 };
 
 
 // ----------------------------------------------------------------------------
-// UgDataEntry  : defines a single XML element and it's offset of data structure.
-//
+// UgDataEntry: defines a single XML element and it's offset of data structure.
+
 //	typedef struct
 //	{
 //		gchar*		user;
@@ -96,18 +90,18 @@ enum	UgDataType
 //
 //	static UgDataEntry foo_tags[] =
 //	{
-//		{ "user",	G_STRUCT_OFFSET (Foo, user),	UG_DATA_TYPE_STRING,	NULL,	NULL},
-//		{ "pass",	G_STRUCT_OFFSET (Foo, pass),	UG_DATA_TYPE_STRING,	NULL,	NULL},
+//		{ "user",	G_STRUCT_OFFSET (Foo, user),	UG_DATA_STRING,	NULL,	NULL},
+//		{ "pass",	G_STRUCT_OFFSET (Foo, pass),	UG_DATA_STRING,	NULL,	NULL},
 //		{ NULL }
 //	};
 //
 //	<user value='guest3' />
 //	<pass value='unknown' />
-//
+
 struct UgDataEntry
 {
-	gchar*			name;			// tag name
-	gint			offset;
+	char*			name;			// tag name
+	int				offset;
 	UgDataType		type;
 
 	UgInMarkupFunc	in_markup;		// how to parse  data in markup.
@@ -116,15 +110,13 @@ struct UgDataEntry
 
 
 // ----------------------------------------------------------------------------
-// UgDataClass : Information for UgData.
-//               All UgData-based structure must use UgDataClass.
-//
-struct UgDataClass
-{
-	const gchar*		name;
-	gpointer			reserve;	// reserve for GModule-related code
+// UgDataInterface: All UgData-based structure must use it to save and load from XML file.
 
-	guint				instance_size;
+struct UgDataInterface
+{
+	unsigned int		instance_size;
+	const char*			name;
+
 	const UgDataEntry*	entry;		// To disable file parse/write, set entry = NULL.
 
 	UgInitFunc			init;
@@ -133,30 +125,28 @@ struct UgDataClass
 	UgAssignFunc		assign;		// overwrite
 };
 
-void		ug_data_class_register		(const UgDataClass*	data_class);
-void		ug_data_class_unregister	(const UgDataClass*	data_class);
-const UgDataClass*	ug_data_class_find	(const gchar*	name);
+void		ug_data_interface_register	(const UgDataInterface*	iface);
+void		ug_data_interface_unregister(const UgDataInterface*	iface);
+const UgDataInterface*	ug_data_interface_find	(const gchar* name);
 
 
 // ----------------------------------------------------------------------------
 // UgData : UgData is a base structure.
-//          It can save and load from XML file by UgDataEntry in UgDataClass.
-//
-#define UG_DATA_CAST(instance)    ((UgData*)(instance))
+//          It can save and load from XML file by UgDataEntry in UgDataInterface.
 
 #define UG_DATA_MEMBERS				\
-	const UgDataClass*	data_class
+	const UgDataInterface*	iface
 
 struct UgData
 {
 	UG_DATA_MEMBERS;
-//	const UgDataClass*	data_class;
+//	const UgDataInterface*	iface;
 };
 
 // ------------------------------------
-// UgData*	ug_data_new		(const UgDataClass* data_class);
+// UgData*	ug_data_new		(const UgDataInterface* iface);
 // void		ug_data_free	(UgData*	data);
-gpointer	ug_data_new		(const UgDataClass* data_class);
+gpointer	ug_data_new		(const UgDataInterface* iface);
 void		ug_data_free	(gpointer	data);
 
 // UgData*	ug_data_copy	(UgData*	data);
@@ -174,24 +164,22 @@ void		ug_data_to_markup	(UgData* data, UgMarkup* markup);
 // ----------------------------------------------------------------------------
 // UgDataList : UgDataList is a UgData structure include Doubly-Linked Lists.
 //              All UgDataList-base structure can store in UgDataset.
-//
+
 //  UgData
 //  |
 //	`- UgDataList
-//
-#define UG_DATA_LIST_CAST(instance)    ((UgDataList*)(instance))
 
 #define UG_DATA_LIST_MEMBERS(Type)	\
-	const UgDataClass*	data_class;	\
-	Type*				next;		\
-	Type*				prev
+	const UgDataInterface*	iface;	\
+	Type*					next;	\
+	Type*					prev
 
 struct UgDataList
 {
 	UG_DATA_LIST_MEMBERS (UgDataList);
-//	const UgDataClass*	data_class;
-//	UgDataList*			next;
-//	UgDataList*			prev;
+//	const UgDataInterface*	iface;
+//	UgDataList*				next;
+//	UgDataList*				prev;
 };
 
 // --- UgDataList functions are similar to GList functions.
@@ -209,7 +197,7 @@ gpointer	ug_data_list_reverse	(gpointer datalist);
 
 void		ug_data_list_unlink		(gpointer datalink);
 
-// --- copy UgDataList to a new UgDataList if UgDataClass::assign exist.
+// --- copy UgDataList to a new UgDataList if UgDataInterface::assign exist.
 gpointer	ug_data_list_copy		(gpointer datalist);
 gpointer	ug_data_list_assign		(gpointer datalist, gpointer src);
 

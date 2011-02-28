@@ -99,7 +99,7 @@ void	uget_gtk_init (UgetGtk* ugtk)
 	if (ug_category_widget_n_category (&ugtk->cwidget) == 0) {
 		category = ug_category_new_with_gtk (ugtk->cwidget.primary.category);
 		category->name = g_strdup ("Home");
-		common = ug_dataset_alloc_front (category->defaults, UgDataCommonClass);
+		common = ug_dataset_alloc_front (category->defaults, UgDataCommonIface);
 		common->folder = g_strdup (g_get_home_dir ());
 		ug_category_widget_append (&ugtk->cwidget, category);
 	}

@@ -52,7 +52,7 @@
 
 #define ARIA2_XMLRPC_URI		"http://localhost:6800/rpc"
 
-// functions for UgPluginClass
+// functions for UgPluginInterface
 static gboolean	ug_plugin_aria2_global_init		(void);
 static void		ug_plugin_aria2_global_finalize	(void);
 static UgResult	ug_plugin_aria2_global_set		(guint parameter, gpointer data);
@@ -114,16 +114,16 @@ enum Aria2ErrorCode
 	ARIA2_ERROR_NETWORK,
 };
 
-// static data for UgPluginClass
+// static data for UgPluginInterface
 static const char*	supported_schemes[]   = {"http", "https", "ftp", "ftps", NULL};
 static const char*	supported_filetypes[] = {"torrent", "metalink", "meta4", NULL};
 static char*		xmlrpc_uri;
 
-static const	UgPluginClass	plugin_class_aria2 =
+static const	UgPluginInterface	plugin_interface =
 {
-	"aria2",													// name
-	NULL,														// reserve
 	sizeof (UgPluginAria2),										// instance_size
+	"aria2",													// name
+
 	supported_schemes,											// schemes
 	supported_filetypes,										// file_types
 
@@ -142,9 +142,9 @@ static const	UgPluginClass	plugin_class_aria2 =
 };
 
 // extern
-const UgPluginClass*	UgPluginAria2Class = &plugin_class_aria2;
+const UgPluginInterface*	UgPluginAria2Iface = &plugin_interface;
 // ----------------------------------------------------------------------------
-// functions for UgPluginClass
+// functions for UgPluginInterface
 //
 static gboolean	ug_plugin_aria2_global_init (void)
 {
@@ -160,7 +160,7 @@ static void	ug_plugin_aria2_global_finalize (void)
 
 static UgResult	ug_plugin_aria2_global_set (guint parameter, gpointer data)
 {
-	if (parameter != UG_DATA_TYPE_STRING)
+	if (parameter != UG_DATA_STRING)
 		return UG_RESULT_UNSUPPORT;
 
 	g_free (xmlrpc_uri);
@@ -174,8 +174,8 @@ static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
 	UgDataHttp*		http;
 
 	// get data
-	common = ug_dataset_get (dataset, UgDataCommonClass, 0);
-	http   = ug_dataset_get (dataset, UgDataHttpClass, 0);
+	common = ug_dataset_get (dataset, UgDataCommonIface, 0);
+	http   = ug_dataset_get (dataset, UgDataHttpIface, 0);
 	// check data
 	if (common == NULL)
 		return FALSE;
@@ -185,10 +185,10 @@ static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
 	if (http)
 		http->redirection_count = 0;
 	// copy supported data
-	plugin->common = ug_data_list_copy (ug_dataset_get (dataset, UgDataCommonClass, 0));
-	plugin->proxy  = ug_data_list_copy (ug_dataset_get (dataset, UgDataProxyClass, 0));
-	plugin->http   = ug_data_list_copy (ug_dataset_get (dataset, UgDataHttpClass, 0));
-	plugin->ftp    = ug_data_list_copy (ug_dataset_get (dataset, UgDataFtpClass, 0));
+	plugin->common = ug_data_list_copy (ug_dataset_get (dataset, UgDataCommonIface, 0));
+	plugin->proxy  = ug_data_list_copy (ug_dataset_get (dataset, UgDataProxyIface, 0));
+	plugin->http   = ug_data_list_copy (ug_dataset_get (dataset, UgDataHttpIface, 0));
+	plugin->ftp    = ug_data_list_copy (ug_dataset_get (dataset, UgDataFtpIface, 0));
 	// xmlrpc
 	ug_xmlrpc_init (&plugin->xmlrpc);
 	ug_xmlrpc_use_client (&plugin->xmlrpc, xmlrpc_uri, NULL);
@@ -249,7 +249,7 @@ UgResult	ug_plugin_aria2_set (UgPluginAria2* plugin, guint parameter, gpointer d
 	UgXmlrpcValue*	member;
 	gint64			speed_limit;
 
-	if (parameter != UG_DATA_TYPE_INT64)
+	if (parameter != UG_DATA_INT64)
 		return UG_RESULT_UNSUPPORT;
 
 	speed_limit = *(gint64*)data;
@@ -278,9 +278,9 @@ static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpo
 {
 	UgProgress*	progress;
 
-	if (parameter != UG_DATA_TYPE_INSTANCE)
+	if (parameter != UG_DATA_INSTANCE)
 		return UG_RESULT_UNSUPPORT;
-	if (data == NULL || ((UgData*)data)->data_class != UgProgressClass)
+	if (data == NULL || ((UgData*)data)->iface != UgProgressIface)
 		return UG_RESULT_UNSUPPORT;
 
 	progress = data;

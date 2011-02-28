@@ -222,10 +222,10 @@ void	ug_category_gtk_add (UgCategory* category, UgDataset* dataset)
 	GtkTreeModel*		model;
 	GtkTreePath*		path;
 
-	// add and set UgRelationClass to dataset
+	// add and set UgRelationIface to dataset
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation == NULL)
-		relation = ug_dataset_alloc_front (dataset, UgRelationClass);
+		relation = ug_dataset_alloc_front (dataset, UgRelationIface);
 	// GtkTreeIter in relation->user.position
 	if (relation->user.position == NULL) {
 		relation->user.position = g_slice_alloc (sizeof (GtkTreeIter));

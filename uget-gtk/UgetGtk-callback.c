@@ -415,7 +415,7 @@ static void	on_open_download_file (GtkWidget* widget, UgetGtk* ugtk)
 	dataset = ug_download_widget_get_cursor (dwidget);
 	if (dataset == NULL)
 		return;
-	common = ug_dataset_get (dataset, UgDataCommonClass, 0);
+	common = ug_dataset_get (dataset, UgDataCommonIface, 0);
 	if (common->folder == NULL || common->file == NULL)
 		return;
 
@@ -446,7 +446,7 @@ static void	on_open_download_folder (GtkWidget* widget, UgetGtk* ugtk)
 	dataset = ug_download_widget_get_cursor (dwidget);
 	if (dataset == NULL)
 		return;
-	common = ug_dataset_get (dataset, UgDataCommonClass, 0);
+	common = ug_dataset_get (dataset, UgDataCommonIface, 0);
 	if (common->folder == NULL)
 		return;
 

@@ -42,66 +42,125 @@
 #include <UgRegistry.h>
 #include <UgUtils.h>
 
-static GHashTable*	string_hash	= NULL;
-static const gchar*	type_string[UG_REG_N_TYPE] =
+static GHashTable*		registry_hash	= NULL;
+//static GStaticMutex	registry_mutex	= G_STATIC_MUTEX_INIT;
+
+void	ug_registry_insert (const char* key, const void* value)
 {
-	NULL,				// UG_REG_NONE
-	"Module",			// UG_REG_MODULE
-	"DataClass",		// UG_REG_DATA_CLASS
-	"OptionClass",		// UG_REG_OPTION_CLASS
-	"PluginClass",		// UG_REG_PLUGIN_CLASS
-	"PluginFileType",	// UG_REG_PLUGIN_FILE_TYPE
-	"PluginScheme",		// UG_REG_PLUGIN_SCHEME
-};
+	GList*	list;
 
-void	ug_registry_insert (const gchar* key_name, enum UgRegistryType key_type, gpointer value)
-{
-	gchar*		key;
+	if (registry_hash == NULL)
+		registry_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
-	if (key_type >= UG_REG_N_TYPE)
-		return;
-	if (string_hash == NULL)
-		string_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-
-	key = g_strconcat (key_name, "-", type_string [key_type], NULL);
-	g_hash_table_insert (string_hash, key, value);
-//	key will be freed by g_hash_table_insert() in this case.
+	list = g_hash_table_lookup (registry_hash, key);
+	// if key doesn't exist in registry_hash, duplicate it.
+	if (list == NULL)
+		key = g_strdup (key);
+	// add value to list and update list in registry_hash.
+	list = g_list_prepend (list, (gpointer) value);
+	g_hash_table_insert (registry_hash, (gpointer) key, list);
 }
 
-void	ug_registry_remove (const gchar* key_name, enum UgRegistryType key_type)
+void	ug_registry_remove (const char* key, const void* value)
 {
-	gchar*		key;
+	GList*		list;
+	gpointer	orig_key;
 
-	if (string_hash == NULL || key_type >= UG_REG_N_TYPE)
+	if (registry_hash == NULL)
 		return;
 
-	key = g_strconcat (key_name, "-", type_string [key_type], NULL);
-	g_hash_table_remove (string_hash, key);
-	g_free (key);
+	list = g_hash_table_lookup (registry_hash, key);
+	if (list) {
+		// remove specified value from list
+		list = g_list_remove (list, value);
+		// if list has data, use new list instead of old one.
+		// otherwise key and value must be removed.
+		if (list)
+			g_hash_table_insert (registry_hash, (gpointer) key, list);
+		else {
+			// the original key must be freed.
+			g_hash_table_lookup_extended (registry_hash, key, &orig_key, NULL);
+			g_hash_table_remove (registry_hash, key);
+			g_free (orig_key);
+		}
+	}
 }
 
-gpointer	ug_registry_search (const gchar* key_name, enum UgRegistryType key_type)
+int		ug_registry_exist  (const char* key, const void* value)
 {
-	gchar*		key;
-	gpointer	value;
+	GList*	list;
 
-	if (string_hash == NULL || key_type >= UG_REG_N_TYPE)
-		return NULL;
+	if (registry_hash) {
+		list = g_hash_table_lookup (registry_hash, key);
+		if (g_list_find (list, value))
+			return TRUE;
+	}
 
-	key = g_strconcat (key_name, "-", type_string [key_type], NULL);
-	value = g_hash_table_lookup (string_hash, key);
-	g_free (key);
+	return FALSE;
+}
+
+void*	ug_registry_find (const char* key)
+{
+	GList*	list;
+
+	if (registry_hash) {
+		list = g_hash_table_lookup (registry_hash, key);
+		if (list)
+			return list->data;
+	}
+
+	return NULL;
+}
+
+
+// ---------------------------------------------------------------------------
+// counting
+
+static GHashTable*	counting_hash	= NULL;
+
+unsigned int	ug_counting_current  (const void* key)
+{
+	if (counting_hash)
+		return GPOINTER_TO_UINT (g_hash_table_lookup (counting_hash, key));
+
+	return 0;
+}
+
+unsigned int	ug_counting_increase (const void* key)
+{
+	unsigned int	value;
+
+	if (counting_hash == NULL)
+		counting_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	value = GPOINTER_TO_UINT (g_hash_table_lookup (counting_hash, key)) + 1;
+	g_hash_table_insert (counting_hash, (gpointer) key, GUINT_TO_POINTER (value));
+
 	return value;
+}
+
+unsigned int	ug_counting_decrease (const void* key)
+{
+	unsigned int	value;
+
+	if (counting_hash) {
+		value = GPOINTER_TO_UINT (g_hash_table_lookup (counting_hash, key));
+		if (value) {
+			value-- ;
+			g_hash_table_insert (counting_hash, (gpointer) key, GUINT_TO_POINTER (value));
+		}
+		return value;
+	}
+	return 0;
 }
 
 
 // ---------------------------------------------------------------------------
 // attachment
-//
 static GHashTable*	attachment_hash	= NULL;
-static gchar*		attachment_dir  = NULL;
+static char*		attachment_dir  = NULL;
 
-gboolean	ug_attachment_init (const gchar* dir)
+int		ug_attachment_init (const char* dir)
 {
 	if (attachment_hash == NULL)
 		attachment_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
@@ -118,7 +177,7 @@ gboolean	ug_attachment_init (const gchar* dir)
 		return TRUE;
 }
 
-gchar*	ug_attachment_alloc (guint* stamp)
+char*	ug_attachment_alloc (unsigned int* stamp)
 {
 	GString*		gstr;
 	guint			length;
@@ -148,7 +207,7 @@ gchar*	ug_attachment_alloc (guint* stamp)
 	return NULL;
 }
 
-void	ug_attachment_destroy (guint stamp)
+void	ug_attachment_destroy (unsigned int stamp)
 {
 	gchar*	dir;
 
@@ -159,7 +218,7 @@ void	ug_attachment_destroy (guint stamp)
 	g_free (dir);
 }
 
-void	ug_attachment_ref (guint stamp)
+void	ug_attachment_ref (unsigned int stamp)
 {
 	guint			count;
 	gpointer		pointer;
@@ -175,7 +234,7 @@ void	ug_attachment_ref (guint stamp)
 			GUINT_TO_POINTER (count));
 }
 
-void	ug_attachment_unref (guint stamp)
+void	ug_attachment_unref (unsigned int stamp)
 {
 	guint			count;
 	gpointer		pointer;
@@ -240,77 +299,3 @@ void	ug_attachment_sync (void)
 	g_dir_close (dir);
 }
 
-
-// ---------------------------------------------------------------------------
-// register from file & folder
-/*
-
-#ifdef _WIN32
-#define FILE_EXT        ".dll"
-#define FILE_EXT_LEN    4
-#else
-#define FILE_EXT        ".so"
-#define FILE_EXT_LEN    3
-#endif
-
-gboolean	ug_module_register_file	(const gchar* file_path)
-{
-	UgDataClass*	data_class;
-	UgPluginClass*	plugin_class;
-	UgOption*		option;
-	GModule*		module;
-	UgModuleInfo*	module_info;
-	gboolean		result = FALSE;
-
-	module = g_module_open (file_path, G_MODULE_BIND_LAZY);
-	if (module == NULL) {
-		g_message ("g_module_open() fail : %s.\n", g_module_error ());
-		return FALSE;
-	}
-
-	if ( g_module_symbol (module, "ug_module_info", (gpointer)&module_info) ) {
-		for (; obj_class; obj_class++)
-			ug_class_register (obj_class);
-		result = TRUE;
-	}
-//	g_module_close (module);
-
-	return result;
-}
-
-guint	ug_module_register_folder	(const gchar* folder)
-{
-	const gchar*	filename;
-	gchar*			full_path;
-	guint			length;
-	guint			count = 0;
-	GDir*			dir;
-
-	dir = g_dir_open (folder, 0, NULL);
-
-	if (dir == NULL) {
-		g_message ("ug_module_register_folder () : %s open fail\n", folder);
-		return 0;
-	}
-
-	for (;;) {
-		filename = g_dir_read_name (dir);
-		if (filename == NULL)
-			break;
-
-		length = strlen (filename);
-		if (length < FILE_EXT_LEN)
-			continue;
-		if (strncmp (filename +length -FILE_EXT_LEN, FILE_EXT, FILE_EXT_LEN) != 0)
-			continue;
-
-		full_path = g_build_filename (folder, filename, NULL);
-		g_message ("ug_module_register_folder () : load %s\n", full_path);
-		if (ug_module_register_file (full_path))
-			count++;
-	}
-
-	return count;
-}
-
-*/

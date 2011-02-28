@@ -55,19 +55,19 @@ extern "C" {
 #endif
 
 
-typedef	struct	UgPluginAria2	UgPluginAria2;
+typedef	struct	UgPluginAria2		UgPluginAria2;
 
-extern	const	UgPluginClass*	UgPluginAria2Class;
+extern	const	UgPluginInterface*	UgPluginAria2Iface;
 
 
 struct UgPluginAria2
 {
 	UG_PLUGIN_MEMBERS;
-//	const UgPluginClass*	plugin_class;
-//	guint					ref_count;
-//	GMutex*					lock;
-//	UgMessage*				messages;
-//	UgState					state;
+//	const UgPluginInterface*	iface;
+//	unsigned int				ref_count;
+//	UgMessage*					messages;
+//	UgState						state;
+//	GMutex*						lock;
 
 	// supported data
 	UgDataCommon*	common;

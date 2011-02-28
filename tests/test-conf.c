@@ -11,9 +11,9 @@ void test_conf ()
 
 	markup		= ug_markup_new ();
 	dataset		= ug_dataset_new ();
-	progress	= ug_dataset_realloc (dataset, UgProgressClass, 0);
-	http		= ug_dataset_realloc (dataset, UgDataHttpClass, 0);
-	ftp			= ug_dataset_realloc (dataset, UgDataFtpClass, 0);
+	progress	= ug_dataset_realloc (dataset, UgProgressIface, 0);
+	http		= ug_dataset_realloc (dataset, UgDataHttpIface, 0);
+	ftp			= ug_dataset_realloc (dataset, UgDataFtpIface, 0);
 
 	progress->total = 1484889;
 	http->redirection_limit = 10;
@@ -29,9 +29,9 @@ void test_conf ()
 
 	dataset = ug_dataset_new ();
 	if (ug_markup_parse ("test.ug.xml", &ug_data_parser, dataset)) {
-		progress	= ug_dataset_realloc (dataset, UgProgressClass, 0);
-		http		= ug_dataset_realloc (dataset, UgDataHttpClass, 0);
-		ftp			= ug_dataset_realloc (dataset, UgDataFtpClass, 0);
+		progress	= ug_dataset_realloc (dataset, UgProgressIface, 0);
+		http		= ug_dataset_realloc (dataset, UgDataHttpIface, 0);
+		ftp			= ug_dataset_realloc (dataset, UgDataFtpIface, 0);
 	}
 
 	ug_dataset_unref (dataset);
@@ -40,11 +40,11 @@ void test_conf ()
 
 int main (int argc, char* argv[])
 {
-	ug_class_init ();
+	uglib_init ();
 
 	test_conf ();
 
-	ug_class_finalize ();
+	uglib_finalize ();
 
 	return 0;
 }

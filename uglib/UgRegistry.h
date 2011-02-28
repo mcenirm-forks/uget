@@ -34,7 +34,6 @@
  *
  */
 
-
 #ifndef UG_REGISTRY_H
 #define UG_REGISTRY_H
 
@@ -45,56 +44,26 @@ extern "C" {
 #endif
 
 
-enum UgRegistryType
-{
-	UG_REG_NONE,
-	UG_REG_MODULE,
-	UG_REG_DATA_CLASS,
-	UG_REG_OPTION_CLASS,
-	UG_REG_PLUGIN_CLASS,
-	UG_REG_PLUGIN_FILE_TYPE,
-	UG_REG_PLUGIN_SCHEME,
-	UG_REG_PLUGIN_TYPE_LAST = UG_REG_PLUGIN_SCHEME,
+// This registry can store a key with multiple value
+// Program will use last added one by default.
+void	ug_registry_insert (const char* key, const void* value);
+void	ug_registry_remove (const char* key, const void* value);
+int		ug_registry_exist  (const char* key, const void* value);
+void*	ug_registry_find   (const char* key);
 
-	UG_REG_N_TYPE,
-};
-
-
-void		ug_registry_insert (const gchar* key_name, enum UgRegistryType key_type, gpointer value);
-void		ug_registry_remove (const gchar* key_name, enum UgRegistryType key_type);
-gpointer	ug_registry_search (const gchar* key_name, enum UgRegistryType key_type);
+// counting
+unsigned int	ug_counting_current  (const void* key);
+unsigned int	ug_counting_increase (const void* key);
+unsigned int	ug_counting_decrease (const void* key);
 
 // attachment
-gboolean	ug_attachment_init (const gchar* dir);
-gchar*		ug_attachment_alloc (guint* stamp);
-void		ug_attachment_destroy (guint stamp);
-void		ug_attachment_ref (guint stamp);
-void		ug_attachment_unref (guint stamp);
-void		ug_attachment_sync (void);
+int			ug_attachment_init    (const char* dir);
+char*		ug_attachment_alloc   (unsigned int* stamp);
+void		ug_attachment_destroy (unsigned int  stamp);
+void		ug_attachment_ref     (unsigned int  stamp);
+void		ug_attachment_unref   (unsigned int  stamp);
+void		ug_attachment_sync    (void);
 
-// ---------------------------------------------------------------------------
-/*
-typedef	struct	UgModule_				UgModule;
-
-struct UgModule_
-{
-	// This structure base on UgClass
-	const gchar*	name;
-	gpointer		reserve;	// reserve for GModule-related code
-
-	gchar*			folder;
-	guint			ref_count;
-
-	// null-terminated
-	gpointer*		data_class;		// UgDataClass**
-	gpointer*		plugin_class;	// UgPluginClass**
-	gpointer*		option;			// UgOption**
-};
-
-void		ug_module_register        (UgModule* module);
-void		ug_module_register_file   (const gchar* folder, const gchar* file);
-void		ug_module_register_folder (const gchar* folder);
-*/
 
 #ifdef __cplusplus
 }

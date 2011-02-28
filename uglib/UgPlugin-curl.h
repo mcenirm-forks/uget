@@ -56,19 +56,19 @@ extern "C" {
 #endif
 
 
-typedef	struct	UgPluginCurl	UgPluginCurl;
+typedef	struct	UgPluginCurl		UgPluginCurl;
 
-extern	const	UgPluginClass*	UgPluginCurlClass;
+extern	const	UgPluginInterface*	UgPluginCurlIface;
 
 
 struct UgPluginCurl
 {
 	UG_PLUGIN_MEMBERS;
-//	const UgPluginClass*	plugin_class;
-//	guint					ref_count;
-//	GMutex*					lock;
-//	UgMessage*				messages;
-//	UgState					state;
+//	const UgPluginInterface*	iface;
+//	unsigned int				ref_count;
+//	UgMessage*					messages;
+//	UgState						state;
+//	GMutex*						lock;
 
 	// supported data
 	UgDataCommon*	common;

@@ -276,7 +276,7 @@ GList*	ug_download_dialog_get_downloads (UgDownloadDialog* ddialog)
 		for (link = list;  link;  link = link->next) {
 			dataset = ug_dataset_new ();
 			ug_download_dialog_get (ddialog, dataset);
-			common = ug_dataset_realloc (dataset, UgDataCommonClass, 0);
+			common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
 			g_free (common->url);
 			common->url = link->data;
 			ug_download_complete_data (dataset);

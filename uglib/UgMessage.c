@@ -88,8 +88,8 @@ static const guint	common_error_count = sizeof (common_error) / sizeof (gchar*);
 // UG_MESSAGE_DATA
 static guint	common_data[] =
 {
-	UG_DATA_TYPE_STRING,	// UG_MESSAGE_DATA_FILE_CHANGED		// filename
-	UG_DATA_TYPE_STRING,	// UG_MESSAGE_DATA_URL_CHANGED		// URL
+	UG_DATA_STRING,	// UG_MESSAGE_DATA_FILE_CHANGED		// filename
+	UG_DATA_STRING,	// UG_MESSAGE_DATA_URL_CHANGED		// URL
 };
 static guint	common_data_count = sizeof (common_data) / sizeof (guint);
 
@@ -107,9 +107,9 @@ static const guint	http_error_count = sizeof (http_error) / sizeof (gchar*);
 // UG_MESSAGE_DATA
 static guint	http_data[] =
 {
-	UG_DATA_TYPE_STRING,	// UG_MESSAGE_DATA_HTTP_MEMBER_LOCATION == UG_MESSAGE_DATA_HTTP_MEMBER_REDIRECTION
-	UG_DATA_TYPE_STRING,	// UG_MESSAGE_DATA_HTTP_MEMBER_CONTENT_LOCATION
-	UG_DATA_TYPE_STRING,	// UG_MESSAGE_DATA_HTTP_MEMBER_CONTENT_DISPOSITION
+	UG_DATA_STRING,	// UG_MESSAGE_DATA_HTTP_MEMBER_LOCATION == UG_MESSAGE_DATA_HTTP_MEMBER_REDIRECTION
+	UG_DATA_STRING,	// UG_MESSAGE_DATA_HTTP_MEMBER_CONTENT_LOCATION
+	UG_DATA_STRING,	// UG_MESSAGE_DATA_HTTP_MEMBER_CONTENT_DISPOSITION
 };
 static guint	http_data_count = sizeof (http_data) / sizeof (guint);
 
@@ -122,17 +122,16 @@ static void	ug_message_assign	(UgMessage* message, UgMessage* src);
 
 static UgDataEntry	message_data_entry[] =
 {
-	{"type",		G_STRUCT_OFFSET (UgMessage, type),		UG_DATA_TYPE_UINT,		NULL,	NULL},
-	{"code",		G_STRUCT_OFFSET (UgMessage, code),		UG_DATA_TYPE_UINT,		NULL,	NULL},
-	{"string",		G_STRUCT_OFFSET (UgMessage, string),	UG_DATA_TYPE_STRING,	NULL,	NULL},
+	{"type",		G_STRUCT_OFFSET (UgMessage, type),		UG_DATA_UINT,		NULL,	NULL},
+	{"code",		G_STRUCT_OFFSET (UgMessage, code),		UG_DATA_UINT,		NULL,	NULL},
+	{"string",		G_STRUCT_OFFSET (UgMessage, string),	UG_DATA_STRING,		NULL,	NULL},
 	{NULL},		// null-terminated
 };
 
-static UgDataClass message_data_class =
+static UgDataInterface message_data_interface =
 {
-	"message",				// name
-	NULL,
 	sizeof (UgMessage),		// instance_size
+	"message",				// name
 	message_data_entry,		// entry
 
 	(UgInitFunc)		NULL,
@@ -140,15 +139,15 @@ static UgDataClass message_data_class =
 	(UgAssignFunc)		ug_message_assign,
 };
 // extern
-const	UgDataClass*	UgMessageClass = &message_data_class;
+const	UgDataInterface*	UgMessageIface = &message_data_interface;
 
 static void	ug_message_finalize	(UgMessage* message)
 {
 	g_free (message->string);
 
-	if (message->data_type == UG_DATA_TYPE_STRING)
+	if (message->data_type == UG_DATA_STRING)
 		g_free (message->data.v_string);
-	else if (message->data_type == UG_DATA_TYPE_INSTANCE)
+	else if (message->data_type == UG_DATA_INSTANCE)
 		ug_data_free (message->data.v_instance);
 }
 
@@ -162,9 +161,9 @@ static void	ug_message_assign (UgMessage* message, UgMessage* src)
 		message->string = NULL;
 
 	message->data_type = src->data_type;
-	if (src->data_type == UG_DATA_TYPE_STRING)
+	if (src->data_type == UG_DATA_STRING)
 		message->data.v_string = g_strdup (src->data.v_string);
-	else if (src->data_type == UG_DATA_TYPE_INSTANCE)
+	else if (src->data_type == UG_DATA_INSTANCE)
 		message->data.v_instance = ug_data_copy (src->data.v_instance);
 	else
 		message->data = src->data;
@@ -174,7 +173,7 @@ UgMessage*	ug_message_new	(UgMessageType type)
 {
 	UgMessage*	message;
 
-	message = ug_data_new (&message_data_class);
+	message = ug_data_new (&message_data_interface);
 	message->type = type;
 	return message;
 }
@@ -184,7 +183,7 @@ UgMessage*	ug_message_new_state (gint state)
 	UgMessage*	message;
 
 	message = ug_message_new (UG_MESSAGE_STATE);
-	message->data_type = UG_DATA_TYPE_INT;
+	message->data_type = UG_DATA_INT;
 	message->data.v_int = state;
 	return message;
 }
@@ -201,7 +200,7 @@ UgMessage*	ug_message_new_info (guint info_code, const gchar* string)
 	guint			message_member;
 	const gchar*	native_string;
 
-	message = ug_data_new (&message_data_class);
+	message = ug_data_new (&message_data_interface);
 	message->type = UG_MESSAGE_INFO;
 	message->code = info_code;
 
@@ -237,7 +236,7 @@ UgMessage*	ug_message_new_warning (guint warning_code, const gchar* string)
 	guint			message_member;
 	const gchar*	native_string;
 
-	message = ug_data_new (&message_data_class);
+	message = ug_data_new (&message_data_interface);
 	message->type = UG_MESSAGE_WARNING;
 	message->code = warning_code;
 
@@ -273,7 +272,7 @@ UgMessage*	ug_message_new_error (guint error_code, const gchar* string)
 	guint			message_member;
 	const gchar*	native_string;
 
-	message = ug_data_new (&message_data_class);
+	message = ug_data_new (&message_data_interface);
 	message->type = UG_MESSAGE_ERROR;
 	message->code = error_code;
 
@@ -315,13 +314,13 @@ UgMessage*	ug_message_new_data	(guint data_code, ...)
 	UgDataType		data_type;
 	va_list			args;
 
-	message = ug_data_new (&message_data_class);
+	message = ug_data_new (&message_data_interface);
 	message->type = UG_MESSAGE_DATA;
 	message->code = data_code;
 
 	message_domain = UG_MESSAGE_CODE_DOMAIN (data_code);
 	message_member = UG_MESSAGE_CODE_MEMBER (data_code);
-	data_type      = UG_DATA_TYPE_NONE;
+	data_type      = UG_DATA_NONE;
 	switch (message_domain) {
 	case UG_MESSAGE_DOMAIN_COMMON:
 		if (message_member < common_data_count)
@@ -356,27 +355,27 @@ void	ug_message_set_data   (UgMessage* message, UgDataType data_type, ...)
 void	ug_message_set_data_v  (UgMessage* message, UgDataType data_type, va_list args)
 {
 	switch (data_type) {
-	case UG_DATA_TYPE_STRING:
+	case UG_DATA_STRING:
 		message->data.v_string = g_strdup (va_arg (args, gchar*));
 		break;
 
-	case UG_DATA_TYPE_INT:
+	case UG_DATA_INT:
 		message->data.v_int  = va_arg (args, gint);
 		break;
 
-	case UG_DATA_TYPE_UINT:
+	case UG_DATA_UINT:
 		message->data.v_uint  = va_arg (args, guint);
 		break;
 
-	case UG_DATA_TYPE_INT64:
+	case UG_DATA_INT64:
 		message->data.v_int64  = va_arg (args, gint64);
 		break;
 
-	case UG_DATA_TYPE_DOUBLE:
+	case UG_DATA_DOUBLE:
 		message->data.v_double = va_arg (args, gdouble);
 		break;
 
-	case UG_DATA_TYPE_INSTANCE:
+	case UG_DATA_INSTANCE:
 		message->data.v_instance = ug_data_copy (va_arg (args, UgData*));
 		break;
 

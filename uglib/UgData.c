@@ -42,36 +42,52 @@
 
 
 // ----------------------------------------------------------------------------
-// UgDataClass
-void	ug_data_class_register (const UgDataClass* data_class)
+// UgDataInterface
+void	ug_data_interface_register (const UgDataInterface* iface)
 {
-	ug_registry_insert (data_class->name, UG_REG_DATA_CLASS, (gpointer) data_class);
+	gchar*	key;
+
+	key = g_strconcat ("data.", iface->name, NULL);
+	ug_registry_insert (key, iface);
+	g_free (key);
 }
 
-void	ug_data_class_unregister (const UgDataClass* data_class)
+void	ug_data_interface_unregister (const UgDataInterface* iface)
 {
-	ug_registry_remove (data_class->name, UG_REG_DATA_CLASS);
+	gchar*	key;
+
+	key = g_strconcat ("data.", iface->name, NULL);
+	ug_registry_remove (key, iface);
+	g_free (key);
 }
 
-const UgDataClass*	ug_data_class_find (const gchar* name)
+const UgDataInterface*	ug_data_interface_find (const gchar* name)
 {
-	return (const UgDataClass*) ug_registry_search (name, UG_REG_DATA_CLASS);
+	gpointer	iface;
+	gchar*		key;
+
+	key = g_strconcat ("data.", name, NULL);
+	iface = ug_registry_find (key);
+	g_free (key);
+
+	return iface;
 }
 
 
 // -----------------------------------------------------------------------------
 // UgData : UgData is a base structure.
 
-// UgData*	ug_data_new	(const UgDataClass* data_class)
-gpointer	ug_data_new (const UgDataClass* data_class)
+// UgData*	ug_data_new	(const UgDataInterface* iface)
+gpointer	ug_data_new (const UgDataInterface* iface)
 {
 	UgInitFunc	init;
 	UgData*		data;
 
-	data = g_malloc0 (data_class->instance_size);
-	data->data_class = data_class;
+//	data = g_malloc0 (iface->instance_size);
+	data = g_slice_alloc0 (iface->instance_size);
+	data->iface = iface;
 
-	init = data_class->init;
+	init = iface->init;
 	if (init)
 		init (data);
 	return data;
@@ -82,25 +98,26 @@ void	ug_data_free (gpointer data)
 {
 	UgFinalizeFunc	finalize;
 
-	finalize = UG_DATA_CAST (data)->data_class->finalize;
+	finalize = ((UgData*)data)->iface->finalize;
 	if (finalize)
 		finalize (data);
-	g_free (data);
+//	g_free (data);
+	g_slice_free1 (((UgData*)data)->iface->instance_size, data);
 }
 
 // UgData*	ug_data_copy (UgData*  data)
 gpointer	ug_data_copy (gpointer data)
 {
-	const UgDataClass*	data_class;
+	const UgDataInterface*	iface;
 	UgAssignFunc		assign;
 	gpointer			new_data;
 
 	if (data) {
-		data_class = UG_DATA_CAST (data)->data_class;
-		assign = data_class->assign;
+		iface = ((UgData*)data)->iface;
+		assign = iface->assign;
 		if (assign) {
-			new_data = g_malloc0 (data_class->instance_size);
-			UG_DATA_CAST (new_data)->data_class = data_class;
+			new_data = g_malloc0 (iface->instance_size);
+			((UgData*)new_data)->iface = iface;
 			assign (new_data, data);
 			return new_data;
 		}
@@ -114,7 +131,7 @@ void	ug_data_assign (gpointer data, gpointer src)
 	UgAssignFunc	assign;
 
 	if (data) {
-		assign = UG_DATA_CAST (data)->data_class->assign;
+		assign = ((UgData*)data)->iface->assign;
 		if (assign)
 			assign (data, src);
 	}
@@ -139,7 +156,7 @@ GMarkupParser	ug_data_parser =
 
 void	ug_data_in_markup (UgData* data, GMarkupParseContext* context)
 {
-	if (data == NULL || data->data_class->entry == NULL)
+	if (data == NULL || data->iface->entry == NULL)
 		g_markup_parse_context_push (context, &ug_markup_skip_parser, NULL);
 	else
 		g_markup_parse_context_push (context, &ug_data_parser, data);
@@ -157,7 +174,7 @@ void	ug_data_to_markup (UgData* data, UgMarkup* markup)
 		gdouble		v_double;
 	} value;
 
-	entry = data->data_class->entry;
+	entry = data->iface->entry;
 	if (entry == NULL)
 		return;
 
@@ -165,7 +182,7 @@ void	ug_data_to_markup (UgData* data, UgMarkup* markup)
 		value.src = ((guint8*) data) + entry->offset;
 
 		switch (entry->type) {
-		case UG_DATA_TYPE_STRING:
+		case UG_DATA_STRING:
 			value.v_string = *(gchar**)value.src;
 			if (value.v_string) {
 				// ug_markup_write_element_start() must use with ug_markup_write_element_end()
@@ -174,7 +191,7 @@ void	ug_data_to_markup (UgData* data, UgMarkup* markup)
 			}
 			break;
 
-		case UG_DATA_TYPE_INT:
+		case UG_DATA_INT:
 			value.v_int = *(gint*)value.src;
 //			if (value.v_int) {
 				// ug_markup_write_element_start() must use with ug_markup_write_element_end()
@@ -183,7 +200,7 @@ void	ug_data_to_markup (UgData* data, UgMarkup* markup)
 //			}
 			break;
 
-		case UG_DATA_TYPE_UINT:
+		case UG_DATA_UINT:
 			value.v_uint = *(guint*)value.src;
 //			if (value.v_int) {
 				// ug_markup_write_element_start() must use with ug_markup_write_element_end()
@@ -192,7 +209,7 @@ void	ug_data_to_markup (UgData* data, UgMarkup* markup)
 //			}
 			break;
 
-		case UG_DATA_TYPE_INT64:
+		case UG_DATA_INT64:
 			value.v_int64 = *(gint64*)value.src;
 //			if (value.v_int64) {
 				// ug_markup_write_element_start() must use with ug_markup_write_element_end()
@@ -205,7 +222,7 @@ void	ug_data_to_markup (UgData* data, UgMarkup* markup)
 //			}
 			break;
 
-		case UG_DATA_TYPE_DOUBLE:
+		case UG_DATA_DOUBLE:
 			value.v_double = *(gdouble*)value.src;
 //			if (value.v_double) {
 				// ug_markup_write_element_start() must use with ug_markup_write_element_end()
@@ -214,16 +231,16 @@ void	ug_data_to_markup (UgData* data, UgMarkup* markup)
 //			}
 			break;
 
-		case UG_DATA_TYPE_INSTANCE:
+		case UG_DATA_INSTANCE:
 			value.src = *(gpointer*) value.src;
-			if (value.src == NULL || ((UgData*) value.src)->data_class->entry == NULL)
+			if (value.src == NULL || ((UgData*) value.src)->iface->entry == NULL)
 				break;
 			ug_markup_write_element_start (markup, entry->name);
 			ug_data_to_markup (value.src, markup);
 			ug_markup_write_element_end   (markup, entry->name);
 			break;
 
-		case UG_DATA_TYPE_CUSTOM:
+		case UG_DATA_CUSTOM:
 			// ug_markup_write_element_start() must use with ug_markup_write_element_end()
 			if (entry->to_markup) {
 				ug_markup_write_element_start (markup, entry->name);
@@ -252,7 +269,7 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 	gpointer			dest;
 	guint				index;
 
-	entry = data->data_class->entry;
+	entry = data->iface->entry;
 	if (entry == NULL) {
 		// don't parse anything.
 		g_markup_parse_context_push (context, &ug_markup_skip_parser, NULL);
@@ -274,22 +291,22 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 		dest = ((guint8*) data) + entry->offset;
 
 		switch (entry->type) {
-		case UG_DATA_TYPE_STRING:
+		case UG_DATA_STRING:
 			if (src)
 				*(gchar**) dest = g_strdup (src);
 			break;
 
-		case UG_DATA_TYPE_INT:
+		case UG_DATA_INT:
 			if (src)
 				*(gint*) dest = atoi (src);
 			break;
 
-		case UG_DATA_TYPE_UINT:
+		case UG_DATA_UINT:
 			if (src)
 				*(guint*) dest = (guint) strtoul (src, NULL, 10);
 			break;
 
-		case UG_DATA_TYPE_INT64:
+		case UG_DATA_INT64:
 			if (src) {
 #if  defined (_MSC_VER)  ||  defined (__MINGW32__)
 				*(gint64*) dest = _atoi64 (src);
@@ -299,12 +316,12 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 			}
 			break;
 
-		case UG_DATA_TYPE_DOUBLE:
+		case UG_DATA_DOUBLE:
 			if (src)
 				*(gdouble*) dest = atof (src);
 			break;
 
-		case UG_DATA_TYPE_INSTANCE:
+		case UG_DATA_INSTANCE:
 			dest = *(gpointer*) dest;
 			if (dest) {
 				ug_data_in_markup (dest, context);
@@ -313,7 +330,7 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 //			g_set_error (error, G_MARKUP_ERROR, G_MARKUP_ERROR_UNKNOWN_ELEMENT, "Unknow element");
 			break;
 
-		case UG_DATA_TYPE_CUSTOM:
+		case UG_DATA_CUSTOM:
 			if (entry->in_markup) {
 				entry->in_markup (dest, context);
 				return;
@@ -335,6 +352,9 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 
 // -----------------------------------------------------------------------------
 // UgDataList functions
+
+#define UG_DATA_LIST_CAST(instance)    ((UgDataList*)(instance))
+
 void	ug_data_list_free (gpointer datalist)
 {
 	UgDataList*		next;
@@ -441,7 +461,7 @@ gpointer	ug_data_list_copy (gpointer datalist)
 
 	newlist = NULL;
 	for (src = ug_data_list_last (datalist);  src;  src = src->prev) {
-		if (src->data_class->assign) {
+		if (src->iface->assign) {
 			newdata = ug_data_copy (src);
 			newlist = ug_data_list_prepend (newlist, newdata);
 		}

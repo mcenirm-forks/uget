@@ -77,7 +77,7 @@ typedef size_t (*curl_read_callback)(char *buffer,
                                      void *instream);
 */
 
-// functions for UgPluginClass
+// functions for UgPluginInterface
 static gboolean	ug_plugin_curl_global_init		(void);
 static void		ug_plugin_curl_global_finalize	(void);
 
@@ -99,14 +99,14 @@ static void		ug_plugin_curl_set_proxy	(UgPluginCurl* plugin, CURL* curl);
 static int		ug_plugin_curl_progress		(UgPluginCurl* plugin, double  dltotal, double  dlnow, double  ultotal, double  ulnow);
 static size_t	ug_plugin_curl_header_http	(char *buffer, size_t size, size_t nmemb, UgPluginCurl *plugin);
 
-// static data for UgPluginClass
+// static data for UgPluginInterface
 static const char*	supported_schemes[] = {"http", "https", "ftp", "ftps", NULL};
 
-static const	UgPluginClass	plugin_class_curl =
+static const	UgPluginInterface	plugin_interface =
 {
-	"curl",														// name
-	NULL,														// reserve
 	sizeof (UgPluginCurl),										// instance_size
+	"curl",														// name
+
 	supported_schemes,											// schemes
 	NULL,														// file_types
 
@@ -125,10 +125,10 @@ static const	UgPluginClass	plugin_class_curl =
 };
 
 // extern
-const UgPluginClass*	UgPluginCurlClass = &plugin_class_curl;
+const UgPluginInterface*	UgPluginCurlIface = &plugin_interface;
 
 // ----------------------------------------------------------------------------
-// functions for UgPluginClass
+// functions for UgPluginInterface
 static gboolean	ug_plugin_curl_global_init (void)
 {
 	curl_global_init (CURL_GLOBAL_ALL);
@@ -145,8 +145,8 @@ static gboolean	ug_plugin_curl_init (UgPluginCurl* plugin, UgDataset* dataset)
 	UgDataCommon*	common;
 	UgDataHttp*		http;
 
-	common = ug_dataset_get (dataset, UgDataCommonClass, 0);
-	http   = ug_dataset_get (dataset, UgDataHttpClass, 0);
+	common = ug_dataset_get (dataset, UgDataCommonIface, 0);
+	http   = ug_dataset_get (dataset, UgDataHttpIface, 0);
 	// check data
 	if (common == NULL  ||  common->url == NULL)
 		return FALSE;
@@ -156,14 +156,10 @@ static gboolean	ug_plugin_curl_init (UgPluginCurl* plugin, UgDataset* dataset)
 	if (http)
 		http->redirection_count = 0;
 	// copy supported data
-	plugin->common = ug_data_list_copy (ug_dataset_get (dataset, UgDataCommonClass, 0));
-	plugin->proxy  = ug_data_list_copy (ug_dataset_get (dataset, UgDataProxyClass, 0));
-	plugin->http   = ug_data_list_copy (ug_dataset_get (dataset, UgDataHttpClass, 0));
-	plugin->ftp    = ug_data_list_copy (ug_dataset_get (dataset, UgDataFtpClass, 0));
-
-	// initialize this struct/class
-//	plugin->output_func = dataset->output_func;
-//	plugin->output_data = dataset->output_data;
+	plugin->common = ug_data_list_copy (ug_dataset_get (dataset, UgDataCommonIface, 0));
+	plugin->proxy  = ug_data_list_copy (ug_dataset_get (dataset, UgDataProxyIface, 0));
+	plugin->http   = ug_data_list_copy (ug_dataset_get (dataset, UgDataHttpIface, 0));
+	plugin->ftp    = ug_data_list_copy (ug_dataset_get (dataset, UgDataFtpIface, 0));
 
 	// default values
 	plugin->resumable = TRUE;
@@ -217,7 +213,7 @@ static UgResult	ug_plugin_curl_set (UgPluginCurl* plugin, guint parameter, gpoin
 {
 	gint64	speed_limit;
 
-	if (parameter != UG_DATA_TYPE_INT64)
+	if (parameter != UG_DATA_INT64)
 		return UG_RESULT_UNSUPPORT;
 
 	speed_limit = *(gint64*)data;
@@ -233,9 +229,9 @@ static UgResult	ug_plugin_curl_get (UgPluginCurl* plugin, guint parameter, gpoin
 	gdouble		complete;
 	gdouble		total;
 
-	if (parameter != UG_DATA_TYPE_INSTANCE)
+	if (parameter != UG_DATA_INSTANCE)
 		return UG_RESULT_UNSUPPORT;
-	if (data == NULL || UG_DATA_CAST (data)->data_class != UgProgressClass)
+	if (data == NULL || ((UgData*)data)->iface != UgProgressIface)
 		return UG_RESULT_UNSUPPORT;
 
 	progress = data;

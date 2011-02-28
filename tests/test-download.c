@@ -44,8 +44,8 @@ static void plugin_callback (UgPlugin* plugin, const UgMessage* msg, gpointer us
 
 	case UG_MESSAGE_PROGRESS:
 		g_print ("--- Message Progress :\n");
-		progress = ug_data_new (UgProgressClass);
-		if (ug_plugin_get (plugin, UG_DATA_TYPE_INSTANCE, progress) == UG_RESULT_OK)
+		progress = ug_data_new (UgProgressIface);
+		if (ug_plugin_get (plugin, UG_DATA_INSTANCE, progress) == UG_RESULT_OK)
 			dump_progress (progress);
 		ug_data_free (progress);
 		break;
@@ -108,7 +108,7 @@ int main (int argc, char* argv[])
 	// GLib: GThread
 	if (g_thread_supported () == FALSE)
 		g_thread_init (NULL);
-	ug_class_init ();
+	uglib_init ();
 
 	// parse command-line options
 	context = g_option_context_new ("[URL]");
@@ -128,7 +128,7 @@ int main (int argc, char* argv[])
 	}
 	dataset = ug_dataset_new ();
 	ug_option_entry_get (uoentry, dataset);
-	common = ug_dataset_realloc (dataset, UgDataCommonClass, 0);
+	common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
 	common->url = g_strdup (argv[1]);
 
 	plugin = ug_plugin_new_by_data (dataset);
@@ -140,7 +140,7 @@ int main (int argc, char* argv[])
 		ug_plugin_unref (plugin);
 	}
 
-	ug_class_finalize ();
+	uglib_finalize ();
 #ifdef _WIN32
 	WSACleanup ();
 #endif

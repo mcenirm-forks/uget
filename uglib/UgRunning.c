@@ -218,7 +218,7 @@ gboolean	ug_running_do_speed_limit (UgRunning* running)
 	average = running->speed_limit / running->group.length;
 	for (link = running->group.head;  link;  link = link->next) {
 		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
-		ug_plugin_set (relation->plugin, UG_DATA_TYPE_INT64, &average);
+		ug_plugin_set (relation->plugin, UG_DATA_INT64, &average);
 	}
 
 	// return FALSE if the source should be removed.
@@ -280,8 +280,8 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 		case UG_MESSAGE_PROGRESS:
 			temp.progress = UG_DATASET_PROGRESS (dataset);
 			if (temp.progress == NULL)
-				temp.progress = ug_dataset_alloc_front (dataset, UgProgressClass);
-			ug_plugin_get (relation->plugin, UG_DATA_TYPE_INSTANCE, temp.progress);
+				temp.progress = ug_dataset_alloc_front (dataset, UgProgressIface);
+			ug_plugin_get (relation->plugin, UG_DATA_INSTANCE, temp.progress);
 			break;
 
 		case UG_MESSAGE_ERROR:
@@ -302,7 +302,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 				relation->hints &= ~UG_HINT_ERROR;
 				relation->hints |= UG_HINT_COMPLETED;
 				// data log
-				temp.log = ug_dataset_realloc (dataset, UgDataLogClass, 0);
+				temp.log = ug_dataset_realloc (dataset, UgDataLogIface, 0);
 				g_free (temp.log->completed_on);
 				temp.log->completed_on = ug_str_from_time (time (NULL), FALSE);
 				break;
@@ -339,7 +339,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 				if (msg->data.v_string) {
 					temp.common = UG_DATASET_COMMON (dataset);
 					ug_str_set (&temp.common->url, msg->data.v_string, -1);
-					temp.http = ug_dataset_realloc (dataset, UgDataHttpClass, 0);
+					temp.http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
 					temp.http->redirection_count++;
 				}
 				break;

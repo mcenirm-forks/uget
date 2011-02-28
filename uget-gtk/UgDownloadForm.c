@@ -390,7 +390,7 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	const gchar*	text;
 
 	// UgDataCommon
-	common = ug_dataset_realloc (dataset, UgDataCommonClass, 0);
+	common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
 	ug_str_set (&common->folder,   gtk_entry_get_text ((GtkEntry*)dform->folder_entry),   -1);
 	ug_str_set (&common->user,     gtk_entry_get_text ((GtkEntry*)dform->username_entry), -1);
 	ug_str_set (&common->password, gtk_entry_get_text ((GtkEntry*)dform->password_entry), -1);
@@ -428,23 +428,23 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	// UgDataHttp
 	text = gtk_entry_get_text ((GtkEntry*) dform->referrer_entry);
 	if (*text) {
-		http = ug_dataset_realloc (dataset, UgDataHttpClass, 0);
+		http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
 		ug_str_set (&http->referrer, text, -1);
 	}
 	text = gtk_entry_get_text ((GtkEntry*) dform->cookie_entry);
 	if (*text) {
-		http = ug_dataset_realloc (dataset, UgDataHttpClass, 0);
+		http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
 		ug_str_set (&http->cookie_file, text, -1);
 	}
 	text = gtk_entry_get_text ((GtkEntry*) dform->post_entry);
 	if (*text) {
-		http = ug_dataset_realloc (dataset, UgDataHttpClass, 0);
+		http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
 		ug_str_set (&http->post_file, text, -1);
 	}
 
 	// UgRelation
 	if (gtk_widget_get_sensitive (dform->radio_pause)) {
-		relation = ug_dataset_realloc (dataset, UgRelationClass, 0);
+		relation = ug_dataset_realloc (dataset, UgRelationIface, 0);
 		if (gtk_toggle_button_get_active ((GtkToggleButton*) dform->radio_pause))
 			relation->hints |=  UG_HINT_PAUSED;
 		else
@@ -458,8 +458,8 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 	UgDataHttp*		http;
 	UgRelation*		relation;
 
-	common = ug_dataset_get (dataset, UgDataCommonClass, 0);
-	http   = ug_dataset_get (dataset, UgDataHttpClass, 0);
+	common = ug_dataset_get (dataset, UgDataCommonIface, 0);
+	http   = ug_dataset_get (dataset, UgDataHttpIface, 0);
 
 	// disable changed flags
 	dform->changed.enable = FALSE;
@@ -543,7 +543,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 
 	// UgRelation
 	if (gtk_widget_get_sensitive (dform->radio_pause)) {
-		relation = ug_dataset_realloc (dataset, UgRelationClass, 0);
+		relation = ug_dataset_realloc (dataset, UgRelationIface, 0);
 		if (relation->hints & UG_HINT_PAUSED)
 			gtk_toggle_button_set_active ((GtkToggleButton*) dform->radio_pause, TRUE);
 		else

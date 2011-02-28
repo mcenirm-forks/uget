@@ -111,11 +111,11 @@ void	ug_category_cmd_add (UgCategory* category, UgDataset* dataset)
 	UgCategoryCmd*		ccmd;
 
 	ccmd = category->user.category;
-	// add and set UgRelationClass to dataset
+	// add and set UgRelationIface to dataset
 	ug_dataset_ref (dataset);
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation == NULL)
-		relation = ug_dataset_alloc_front (dataset, UgRelationClass);
+		relation = ug_dataset_alloc_front (dataset, UgRelationIface);
 	relation->category = category;
 	relation->user.category = ccmd;
 

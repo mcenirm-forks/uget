@@ -36,7 +36,6 @@
 
 // define plug-ins struct and interface
 
-
 #ifndef UG_PLUGIN_H
 #define UG_PLUGIN_H
 
@@ -49,20 +48,10 @@
 extern "C" {
 #endif
 
-#define UG_PLUGIN_CAST(instance)			((UgPlugin*)(instance))
-
-#define UG_PLUGIN_MEMBERS					\
-	const UgPluginClass*	plugin_class;	\
-	guint					ref_count;		\
-	GMutex*					lock;			\
-	UgMessage*				messages;		\
-	UgState					state
-
-
-typedef struct	UgPlugin			UgPlugin;
-typedef struct	UgPluginClass		UgPluginClass;
-typedef enum	UgResult			UgResult;
-typedef	enum	UgState				UgState;
+typedef struct	UgPlugin				UgPlugin;
+typedef struct	UgPluginInterface		UgPluginInterface;
+typedef enum	UgResult				UgResult;
+typedef	enum	UgState					UgState;
 
 typedef gboolean (*UgGlobalInitFunc)		(void);
 typedef void     (*UgGlobalFinalizeFunc)	(void);
@@ -95,15 +84,13 @@ enum UgState
 };
 
 // ---------------------------------------------------------------------------
-// UgPluginClass
-//
-struct UgPluginClass
-{
-	// This structure base on UgClass
-	const gchar*			name;
-	gpointer				reserve;	// reserve for GModule-related code
+// UgPluginInterface
 
-	guint					instance_size;
+struct UgPluginInterface
+{
+	unsigned int			instance_size;
+	const char*				name;
+
 	const char**			schemes;
 	const char**			file_types;
 
@@ -121,27 +108,38 @@ struct UgPluginClass
 	UgGetFunc				get;
 };
 
-void	ug_plugin_class_register	(const UgPluginClass* plugin_class);
-void	ug_plugin_class_unregister	(const UgPluginClass* plugin_class);
+void	ug_plugin_interface_register	(const UgPluginInterface* iface);
+void	ug_plugin_interface_unregister	(const UgPluginInterface* iface);
 
-// if type==NULL, type will be UG_REG_PLUGIN_CLASS.
-const UgPluginClass*	ug_plugin_class_find	(const gchar* name,	enum UgRegistryType type);
+// if type is NULL,      find plug-in by name.
+// if type is "scheme.", find plug-in by schemes.
+// if type is "file.",   find plug-in by file_types.
+const UgPluginInterface*	ug_plugin_interface_find	(const gchar* name,	const gchar* type);
 
 
 // ---------------------------------------------------------------------------
 // UgPlugin : UgPlugin is a base structure for downloading.
-//
+
+#define UG_PLUGIN_CAST(instance)			((UgPlugin*)(instance))
+
+#define UG_PLUGIN_MEMBERS					\
+	const UgPluginInterface*	iface;		\
+	unsigned int				ref_count;	\
+	UgMessage*					messages;	\
+	UgState						state;		\
+	GMutex*						lock
+
 struct UgPlugin
 {
 	UG_PLUGIN_MEMBERS;
-//	const UgPluginClass*	plugin_class;
-//	guint					ref_count;
-//	GMutex*					lock;
-//	UgMessage*				messages;
-//	UgState					state;
+//	const UgPluginInterface*	iface;
+//	unsigned int				ref_count;
+//	UgMessage*					messages;
+//	UgState						state;
+//	GMutex*						lock;
 };
 
-UgPlugin*	ug_plugin_new			(const UgPluginClass* plugin_class, UgDataset* dataset);
+UgPlugin*	ug_plugin_new			(const UgPluginInterface* iface, UgDataset* dataset);
 UgPlugin*	ug_plugin_new_by_name	(const gchar* name, UgDataset* dataset);
 UgPlugin*	ug_plugin_new_by_data	(UgDataset* dataset);
 
@@ -210,8 +208,8 @@ gchar*		ug_plugin_create_and_hide (UgPlugin* plugin, const gchar* folder, const 
 gboolean	ug_plugin_rename_and_unhide (UgPlugin* plugin, const gchar* old_utf8, const gchar* new_utf8);
 
 // --- virtual functions ---
-UgResult	ug_plugin_global_set (const UgPluginClass* plugin_class, guint parameter, gpointer data);
-UgResult	ug_plugin_global_get (const UgPluginClass* plugin_class, guint parameter, gpointer data);
+UgResult	ug_plugin_global_set (const UgPluginInterface* iface, guint parameter, gpointer data);
+UgResult	ug_plugin_global_get (const UgPluginInterface* iface, guint parameter, gpointer data);
 UgResult	ug_plugin_set_state	(UgPlugin* plugin, UgState  state);
 UgResult	ug_plugin_get_state	(UgPlugin* plugin, UgState* state);
 UgResult	ug_plugin_set (UgPlugin* plugin, guint parameter, gpointer data);

@@ -58,9 +58,9 @@ extern "C" {
 
 
 // ------------------------------------------------------------------
-// register/unregister classes
-gboolean	ug_class_init		(void);
-void		ug_class_finalize	(void);
+// register/unregister interfaces
+gboolean	uglib_init		(void);
+void		uglib_finalize	(void);
 
 
 #ifdef __cplusplus

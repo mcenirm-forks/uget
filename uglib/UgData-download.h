@@ -34,12 +34,11 @@
  *
  */
 
-
 // define UgDataList-based structure for downloading.
-//
+
 // UgData
 // |
-// +- UgDataList
+// `- UgDataList
 //    |
 //    +- UgDataCommon
 //    |
@@ -50,8 +49,8 @@
 //    +- UgDataHttp
 //    |
 //    +- UgDataFtp
-//
-
+//    |
+//    `- UgDataLog
 
 #ifndef UG_DATA_DOWNLOAD_H
 #define UG_DATA_DOWNLOAD_H
@@ -76,28 +75,28 @@ typedef struct	UgDataLog			UgDataLog;
 
 typedef enum	UgDataProxyType		UgDataProxyType;
 
-extern	const	UgDataClass*		UgDataCommonClass;
-extern	const	UgDataClass*		UgDataProxyClass;
-extern	const	UgDataClass*		UgProgressClass;
-extern	const	UgDataClass*		UgDataHttpClass;
-extern	const	UgDataClass*		UgDataFtpClass;
-extern	const	UgDataClass*		UgDataLogClass;
+extern	const	UgDataInterface*	UgDataCommonIface;
+extern	const	UgDataInterface*	UgDataProxyIface;
+extern	const	UgDataInterface*	UgProgressIface;
+extern	const	UgDataInterface*	UgDataHttpIface;
+extern	const	UgDataInterface*	UgDataFtpIface;
+extern	const	UgDataInterface*	UgDataLogIface;
 
 // ----------------------------------------------------------------------------
 // UgDataCommon
-//
+
 //  UgData
 //  |
 //  `- UgDataList
 //     |
 //     `- UgDataCommon
-//
+
 struct UgDataCommon
 {
 	UG_DATA_LIST_MEMBERS (UgDataCommon);
-//	const UgDataClass*	data_class;
-//	UgDataCommon*		next;
-//	UgDataCommon*		prev;
+//	const UgDataInterface*	iface;
+//	UgDataCommon*			next;
+//	UgDataCommon*			prev;
 
 	// common data
 	gchar*		name;
@@ -153,13 +152,13 @@ struct UgDataCommon
 
 // ---------------------------------------------------------------------------
 // UgDataProxy
-//
+
 //  UgData
 //  |
 //  `- UgDataList
 //     |
 //     `- UgDataProxy
-//
+
 enum UgDataProxyType
 {
 	UG_DATA_PROXY_NONE,
@@ -177,9 +176,9 @@ enum UgDataProxyType
 struct UgDataProxy
 {
 	UG_DATA_LIST_MEMBERS (UgDataProxy);
-//	const UgDataClass*	data_class;
-//	UgDataProxy*		next;
-//	UgDataProxy*		prev;
+//	const UgDataInterface*	iface;
+//	UgDataProxy*			next;
+//	UgDataProxy*			prev;
 
 	gchar*				host;
 	guint				port;
@@ -218,19 +217,19 @@ struct UgDataProxy
 
 // ---------------------------------------------------------------------------
 // UgProgress
-//
+
 //  UgData
 //  |
 //  `- UgDataList
 //     |
 //     `- UgProgress
-//
+
 struct UgProgress
 {
 	UG_DATA_LIST_MEMBERS (UgProgress);
-//	const UgDataClass*	data_class;
-//	UgDataProgress*		next;
-//	UgDataProgress*		prev;
+//	const UgDataInterface*	iface;
+//	UgProgress*				next;
+//	UgProgress*				prev;
 
 	gint64		complete;
 	gint64		total;
@@ -247,19 +246,19 @@ struct UgProgress
 
 // ---------------------------------------------------------------------------
 // UgDataHttp
-//
+
 //  UgData
 //  |
 //  `- UgDataList
 //     |
 //     `- UgDataHttp
-//
+
 struct UgDataHttp
 {
 	UG_DATA_LIST_MEMBERS (UgDataHttp);
-//	const UgDataClass*	data_class;
-//	UgDataHttp*			next;
-//	UgDataHttp*			prev;
+//	const UgDataInterface*	iface;
+//	UgDataHttp*				next;
+//	UgDataHttp*				prev;
 
 	gchar*		user;
 	gchar*		password;
@@ -292,19 +291,19 @@ struct UgDataHttp
 
 // ---------------------------------------------------------------------------
 // UgDataFtp
-//
+
 //  UgData
 //  |
 //  `- UgDataList
 //     |
 //     `- UgDataFtp
-//
+
 struct UgDataFtp
 {
 	UG_DATA_LIST_MEMBERS (UgDataFtp);
-//	const UgDataClass*	data_class;
-//	UgDataFtp*			next;
-//	UgDataFtp*			prev;
+//	const UgDataInterface*	iface;
+//	UgDataFtp*				next;
+//	UgDataFtp*				prev;
 
 	gchar*		user;
 	gchar*		password;
@@ -322,19 +321,19 @@ struct UgDataFtp
 
 // ---------------------------------------------------------------------------
 // UgDataLog
-//
+
 //  UgData
 //  |
 //  `- UgDataList
 //     |
 //     `- UgDataLog
-//
+
 struct UgDataLog
 {
 	UG_DATA_LIST_MEMBERS (UgDataLog);
-//	const UgDataClass*	data_class;
-//	UgDataLog*			next;
-//	UgDataLog*			prev;
+//	const UgDataInterface*	iface;
+//	UgDataLog*				next;
+//	UgDataLog*				prev;
 
 	gchar*		added_on;		// "date time" string, e.g. "1990-01-01 23:00"
 	gchar*		completed_on;	// "date time" string

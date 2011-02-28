@@ -49,56 +49,56 @@
 #endif
 
 // ------------------------------------------------------------------
-gboolean ug_class_init (void)
+gboolean uglib_init (void)
 {
 	// data
-	ug_data_class_register (UgDataCommonClass);
-	ug_data_class_register (UgDataProxyClass);
-	ug_data_class_register (UgProgressClass);
-	ug_data_class_register (UgDataHttpClass);
-	ug_data_class_register (UgDataFtpClass);
-	ug_data_class_register (UgDataLogClass);
+	ug_data_interface_register (UgDataCommonIface);
+	ug_data_interface_register (UgDataProxyIface);
+	ug_data_interface_register (UgProgressIface);
+	ug_data_interface_register (UgDataHttpIface);
+	ug_data_interface_register (UgDataFtpIface);
+	ug_data_interface_register (UgDataLogIface);
 	// category
-	ug_data_class_register (UgCategoryClass);
-	ug_data_class_register (UgRelationClass);
+	ug_data_interface_register (UgCategoryIface);
+	ug_data_interface_register (UgRelationIface);
 	// message
-	ug_data_class_register (UgMessageClass);
+	ug_data_interface_register (UgMessageIface);
 	// plug-ins
 #ifdef HAVE_PLUGIN_ARIA2
 	// If plug-in failed to initialize, don't register it.
-	if (UgPluginAria2Class->global_init ())
-		ug_plugin_class_register (UgPluginAria2Class);
+	if (UgPluginAria2Iface->global_init ())
+		ug_plugin_interface_register (UgPluginAria2Iface);
 #endif
 #ifdef HAVE_PLUGIN_CURL
-	if (UgPluginCurlClass->global_init ())
-		ug_plugin_class_register (UgPluginCurlClass);
+	if (UgPluginCurlIface->global_init ())
+		ug_plugin_interface_register (UgPluginCurlIface);
 #endif
 
 	return TRUE;
 }
 
-void ug_class_finalize (void)
+void uglib_finalize (void)
 {
 	// data
-	ug_data_class_unregister (UgDataCommonClass);
-	ug_data_class_unregister (UgDataProxyClass);
-	ug_data_class_unregister (UgProgressClass);
-	ug_data_class_unregister (UgDataHttpClass);
-	ug_data_class_unregister (UgDataFtpClass);
-	ug_data_class_unregister (UgDataLogClass);
+	ug_data_interface_unregister (UgDataCommonIface);
+	ug_data_interface_unregister (UgDataProxyIface);
+	ug_data_interface_unregister (UgProgressIface);
+	ug_data_interface_unregister (UgDataHttpIface);
+	ug_data_interface_unregister (UgDataFtpIface);
+	ug_data_interface_unregister (UgDataLogIface);
 	// category
-	ug_data_class_unregister (UgCategoryClass);
-	ug_data_class_unregister (UgRelationClass);
+	ug_data_interface_unregister (UgCategoryIface);
+	ug_data_interface_unregister (UgRelationIface);
 	// message
-	ug_data_class_unregister (UgMessageClass);
+	ug_data_interface_unregister (UgMessageIface);
 	// plug-ins
 #ifdef HAVE_PLUGIN_ARIA2
-	ug_plugin_class_unregister (UgPluginAria2Class);
-	UgPluginAria2Class->global_finalize ();
+	ug_plugin_interface_unregister (UgPluginAria2Iface);
+	UgPluginAria2Iface->global_finalize ();
 #endif
 #ifdef HAVE_PLUGIN_CURL
-	ug_plugin_class_unregister (UgPluginCurlClass);
-	UgPluginCurlClass->global_finalize ();
+	ug_plugin_interface_unregister (UgPluginCurlIface);
+	UgPluginCurlIface->global_finalize ();
 #endif
 }
 

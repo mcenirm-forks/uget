@@ -35,11 +35,11 @@
  */
 
 // UgDataset		collection of all UgDataList-based instance
-//
+
 // UgData
 // |
 // `- UgDataset
-//
+
 #ifndef UG_DATASET_H
 #define UG_DATASET_H
 
@@ -51,7 +51,7 @@ extern "C" {
 #endif
 
 // These macro is for internal use only.
-// use ug_dataset_get(dataset, UgDataCommonClass, 0) to instead UG_DATASET_COMMON(dataset)
+// use ug_dataset_get(dataset, UgDataCommonIface, 0) to instead UG_DATASET_COMMON(dataset)
 #define	UG_DATASET_COMMON(dataset)			( (UgDataCommon*)((dataset)->data[0]) )
 #define	UG_DATASET_PROXY(dataset)			( (UgDataProxy*) ((dataset)->data[2]) )
 #define	UG_DATASET_PROGRESS(dataset)		( (UgProgress*)  ((dataset)->data[4]) )
@@ -62,16 +62,16 @@ typedef struct	UgDataset			UgDataset;		// collection of all UgDataList-based ins
 
 // ----------------------------------------------------------------------------
 // UgDataset : collection of all UgDataList-based instance.
-//
+
 struct UgDataset
 {
 	UG_DATA_MEMBERS;
-//	const UgDataClass*	data_class;		// for UgMarkup parse/write
+//	const UgDataInterface*	iface;		// for UgMarkup parse/write
 
-	UgDataList**		data;
-	const UgDataClass**	key;
-	guint				data_len;
-	guint				alloc_len;
+	UgDataList**			data;
+	const UgDataInterface**	key;
+	guint					data_len;
+	guint					alloc_len;
 
 	guint				ref_count;
 
@@ -94,32 +94,32 @@ void		ug_dataset_ref   (UgDataset* dataset);
 void		ug_dataset_unref (UgDataset* dataset);
 
 // Gets the element at the given position in a list.
-gpointer	ug_dataset_get (UgDataset* dataset, const UgDataClass* data_class, guint nth);
+gpointer	ug_dataset_get (UgDataset* dataset, const UgDataInterface* iface, guint nth);
 
 // Removes the element at the given position in a list.
-void		ug_dataset_remove (UgDataset* dataset, const UgDataClass* data_class, guint nth);
+void		ug_dataset_remove (UgDataset* dataset, const UgDataInterface* iface, guint nth);
 
-// If nth instance of data_class exist, return nth instance.
-// If nth instance of data_class not exist, alloc new instance in tail and return it.
-gpointer	ug_dataset_realloc (UgDataset* dataset, const UgDataClass* data_class, guint nth);
+// If nth instance of data_interface exist, return nth instance.
+// If nth instance of data_interface not exist, alloc new instance in tail and return it.
+gpointer	ug_dataset_realloc (UgDataset* dataset, const UgDataInterface* iface, guint nth);
 
-gpointer	ug_dataset_alloc_front (UgDataset* dataset, const UgDataClass* data_class);
-gpointer	ug_dataset_alloc_back  (UgDataset* dataset, const UgDataClass* data_class);
+gpointer	ug_dataset_alloc_front (UgDataset* dataset, const UgDataInterface* iface);
+gpointer	ug_dataset_alloc_back  (UgDataset* dataset, const UgDataInterface* iface);
 
 // ------------------------------------
 // UgDataset list functions
-guint			ug_dataset_list_length (UgDataset* dataset, const UgDataClass* data_class);
+guint			ug_dataset_list_length (UgDataset* dataset, const UgDataInterface* iface);
 
-UgDataList**	ug_dataset_alloc_list (UgDataset* dataset, const UgDataClass* data_class);
+UgDataList**	ug_dataset_alloc_list (UgDataset* dataset, const UgDataInterface* iface);
 
-UgDataList**	ug_dataset_get_list (UgDataset* dataset, const UgDataClass* data_class);
+UgDataList**	ug_dataset_get_list (UgDataset* dataset, const UgDataInterface* iface);
 
 // free old list in dataset and set list with new_list.
-void			ug_dataset_set_list (UgDataset* dataset, const UgDataClass* data_class, gpointer new_list);
+void			ug_dataset_set_list (UgDataset* dataset, const UgDataInterface* iface, gpointer new_list);
 
 // Cuts the element at the given position in a list.
-//UgDataList*	ug_dataset_cut_list (UgDataset* dataset, const UgDataClass* data_class, guint nth);
-gpointer		ug_dataset_cut_list (UgDataset* dataset, const UgDataClass* data_class, guint nth);
+//UgDataList*	ug_dataset_cut_list (UgDataset* dataset, const UgDataInterface* iface, guint nth);
+gpointer		ug_dataset_cut_list (UgDataset* dataset, const UgDataInterface* iface, guint nth);
 
 
 #ifdef __cplusplus

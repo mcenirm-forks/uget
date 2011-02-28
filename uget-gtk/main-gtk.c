@@ -242,8 +242,8 @@ int main (int argc, char** argv)
 	notify_init ("uGet");
 #endif
 
-	// register uget classes
-	ug_class_init ();
+	// register uget interfaces
+	uglib_init ();
 
 	// main program
 	uget_gtk_init (ugtk);

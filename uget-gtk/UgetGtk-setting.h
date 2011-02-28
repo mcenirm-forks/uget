@@ -74,13 +74,13 @@ enum UgScheduleState_
 struct UgetGtkSetting_
 {
 	UG_DATA_MEMBERS;
-//	UgDataClass*	data_class;		// for UgMarkup parse/write
+//	UgDataInterface*	iface;		// for UgMarkup parse/write
 
 	// "DownloadColumnSetting"
 	struct UgDownloadColumnSetting
 	{
 		UG_DATA_MEMBERS;
-//		UgDataClass*	data_class;		// for UgMarkup parse/write
+//		UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		guint		changed_count;	// sync with UgDownloadWidget.changed_count
 
@@ -102,7 +102,7 @@ struct UgetGtkSetting_
 	struct UgSummarySetting
 	{
 		UG_DATA_MEMBERS;
-//		UgDataClass*	data_class;		// for UgMarkup parse/write
+//		UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		gboolean	name;
 		gboolean	folder;
@@ -115,7 +115,7 @@ struct UgetGtkSetting_
 	struct UgWindowSetting
 	{
 		UG_DATA_MEMBERS;
-//		UgDataClass*	data_class;		// for UgMarkup parse/write
+//		UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		// visible
 		gboolean	toolbar;
@@ -123,17 +123,17 @@ struct UgetGtkSetting_
 		gboolean	category;
 		gboolean	summary;
 
-		gint			x;		// window position
-		gint			y;
-		gint			width;
-		gint			height;
-		gboolean		maximized;
+		gint		x;		// window position
+		gint		y;
+		gint		width;
+		gint		height;
+		gboolean	maximized;
 	} window;
 
 	struct UgUserInterfaceSetting
 	{
 		UG_DATA_MEMBERS;
-//		UgDataClass*	data_class;		// for UgMarkup parse/write
+//		UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		// close_action == 0, Let user decide.
 		// close_action == 1, Minimize to tray.
@@ -154,7 +154,7 @@ struct UgetGtkSetting_
 	struct UgClipboardSetting
 	{
 		UG_DATA_MEMBERS;
-//		UgDataClass*	data_class;		// for UgMarkup parse/write
+//		UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		gchar*			pattern;
 		gboolean		monitor;
@@ -166,7 +166,7 @@ struct UgetGtkSetting_
 	struct UgSchedulerSetting
 	{
 		UG_DATA_MEMBERS;
-//		UgDataClass*	data_class;		// for UgMarkup parse/write
+//		UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		gboolean		enable;
 		guint			state[7][24];	// 1 week, 7 days, 24 hours
@@ -177,7 +177,7 @@ struct UgetGtkSetting_
 	struct UgPluginSetting
 	{
 		UG_DATA_MEMBERS;
-//		UgDataClass*	data_class;		// for UgMarkup parse/write
+//		UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		struct
 		{
