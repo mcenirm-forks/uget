@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -47,10 +47,10 @@ extern "C" {
 #endif
 
 
-typedef struct	UgDownloadForm_		UgDownloadForm;
+typedef struct	UgDownloadForm		UgDownloadForm;
 typedef	void	(*UgDownloadFormNotify) (gpointer user_data, gboolean completed);
 
-struct UgDownloadForm_
+struct UgDownloadForm
 {
 	GtkWindow*	parent;			// parent window of UgDownloadForm.self
 

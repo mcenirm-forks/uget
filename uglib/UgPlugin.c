@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -216,7 +216,7 @@ void	ug_plugin_unref	(UgPlugin* plugin)
 
 		// finalize base data
 		g_mutex_free (plugin->lock);
-		ug_data_list_free (plugin->messages);
+		ug_datalist_free (plugin->messages);
 //		g_free (plugin);
 		g_slice_free1 (plugin->iface->instance_size, plugin);
 	}
@@ -260,7 +260,7 @@ void	ug_plugin_post (UgPlugin* plugin, UgMessage* message)
 	else
 		link = NULL;
 	// prepend new message
-	plugin->messages = ug_data_list_prepend (plugin->messages, message);
+	plugin->messages = ug_datalist_prepend (plugin->messages, message);
 	g_mutex_unlock (plugin->lock);
 
 	// free repeated progress message here to reduce lock time
@@ -277,7 +277,7 @@ UgMessage*	ug_plugin_pop_all (UgPlugin* plugin)
 	plugin->messages = NULL;
 	g_mutex_unlock (plugin->lock);
 
-	return ug_data_list_reverse (messages);
+	return ug_datalist_reverse (messages);
 }
 
 gboolean	ug_plugin_dispatch (UgPlugin* plugin, UgPluginCallback callback, gpointer user_data)
@@ -292,7 +292,7 @@ gboolean	ug_plugin_dispatch (UgPlugin* plugin, UgPluginCallback callback, gpoint
 			callback (plugin, cur, user_data);
 	}
 	// free messages
-	ug_data_list_free (messages);
+	ug_datalist_free (messages);
 	// return TRUE if plug-in active.
 	return (plugin->state == UG_STATE_ACTIVE);
 }

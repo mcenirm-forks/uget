@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -45,12 +45,12 @@
 extern "C" {
 #endif
 
-typedef struct	UgCategoryWidget_			UgCategoryWidget;
+typedef struct	UgCategoryWidget			UgCategoryWidget;
 
 // ----------------------------------------------------------------------------
 // UgCategoryWidget
 //
-struct UgCategoryWidget_
+struct UgCategoryWidget
 {
 	GtkWidget*		self;		// GtkVBox
 

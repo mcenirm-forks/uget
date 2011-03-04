@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -47,30 +47,9 @@ static void	ug_schedule_state_to_markup (guint (*state)[7][24], UgMarkup* markup
 
 
 // ----------------------------------------------------------------------------
-// UgDataEntry
-//
-// UgetGtkSetting
-static const UgDataEntry	uget_setting_data_entry[] =
-{
-	{"LaunchApp",		G_STRUCT_OFFSET (UgetGtkSetting, launch.active),	UG_DATA_INT,		NULL,		NULL},
-	{"LaunchAppTypes",	G_STRUCT_OFFSET (UgetGtkSetting, launch.types),		UG_DATA_STRING,		NULL,		NULL},
-	{"AutoSave",		G_STRUCT_OFFSET (UgetGtkSetting, auto_save.active),		UG_DATA_INT,	NULL,		NULL},
-	{"AutoSaveInterval",G_STRUCT_OFFSET (UgetGtkSetting, auto_save.interval),	UG_DATA_INT,	NULL,		NULL},
-	{"DownloadColumn",	G_STRUCT_OFFSET (UgetGtkSetting, download_column),	UG_DATA_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
-	{"Summary",			G_STRUCT_OFFSET (UgetGtkSetting, summary),			UG_DATA_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
-	{"Window",			G_STRUCT_OFFSET (UgetGtkSetting, window),			UG_DATA_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
-	{"UserInterface",	G_STRUCT_OFFSET (UgetGtkSetting, ui),				UG_DATA_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
-	{"Clipboard",		G_STRUCT_OFFSET (UgetGtkSetting, clipboard),		UG_DATA_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
-	{"Scheduler",		G_STRUCT_OFFSET (UgetGtkSetting, scheduler),		UG_DATA_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
-	{"Plug-in",			G_STRUCT_OFFSET (UgetGtkSetting, plugin),			UG_DATA_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
-//	{"OfflineMode",		G_STRUCT_OFFSET (UgetGtkSetting, offline_mode),		UG_DATA_INT,		NULL,		NULL},
-//	{"Shutdown",		G_STRUCT_OFFSET (UgetGtkSetting, shutdown),			UG_DATA_INT,		NULL,		NULL},
-	{"CategoryDefault",	G_STRUCT_OFFSET (UgetGtkSetting, category),			UG_DATA_CUSTOM,	(UgInMarkupFunc) ug_data_in_markup,	(UgToMarkupFunc) ug_data_to_markup},
-	{"FolderList",		G_STRUCT_OFFSET (UgetGtkSetting, folder_list),		UG_DATA_CUSTOM,	(UgInMarkupFunc) ug_string_list_in_markup,	(UgToMarkupFunc) ug_string_list_to_markup},
-	{NULL},				// null-terminated
-};
 // UgDownloadColumnSetting
-static const UgDataEntry	download_column_data_entry[] =
+
+static const UgDataEntry	ug_download_column_setting_entry[] =
 {
 	{"completed",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, completed),	UG_DATA_INT,	NULL,	NULL},
 	{"total",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, total),		UG_DATA_INT,	NULL,	NULL},
@@ -86,8 +65,18 @@ static const UgDataEntry	download_column_data_entry[] =
 	{"CompletedOn",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, completed_on),	UG_DATA_INT,	NULL,	NULL},
 	{NULL}			// null-terminated
 };
+
+static const UgDataInterface	ug_download_column_setting_iface =
+{
+	sizeof (struct UgDownloadColumnSetting),
+	"DownloadColumnSetting",
+	ug_download_column_setting_entry,
+	NULL, NULL, NULL,
+};
+
+// ----------------------------------------------------------------------------
 // UgSummarySetting
-static const UgDataEntry	summary_setting_data_entry[] =
+static const UgDataEntry	ug_summary_setting_entry[] =
 {
 	{"name",		G_STRUCT_OFFSET (struct UgSummarySetting, name),			UG_DATA_INT,	NULL,	NULL},
 	{"folder",		G_STRUCT_OFFSET (struct UgSummarySetting, folder),			UG_DATA_INT,	NULL,	NULL},
@@ -96,8 +85,18 @@ static const UgDataEntry	summary_setting_data_entry[] =
 	{"message",		G_STRUCT_OFFSET (struct UgSummarySetting, message),			UG_DATA_INT,	NULL,	NULL},
 	{NULL}			// null-terminated
 };
+
+static const UgDataInterface	ug_summary_setting_iface =
+{
+	sizeof (struct UgSummarySetting),
+	"SummarySetting",
+	ug_summary_setting_entry,
+	NULL, NULL, NULL,
+};
+
+// ----------------------------------------------------------------------------
 // UgWindowSetting
-static const UgDataEntry	window_setting_data_entry[] =
+static const UgDataEntry	ug_window_setting_entry[] =
 {
 	{"Toolbar",		G_STRUCT_OFFSET (struct UgWindowSetting, toolbar),		UG_DATA_INT,	NULL,	NULL},
 	{"Statusbar",	G_STRUCT_OFFSET (struct UgWindowSetting, statusbar),	UG_DATA_INT,	NULL,	NULL},
@@ -110,8 +109,18 @@ static const UgDataEntry	window_setting_data_entry[] =
 	{"maximized",	G_STRUCT_OFFSET (struct UgWindowSetting, maximized),	UG_DATA_INT,	NULL,	NULL},
 	{NULL},			// null-terminated
 };
+
+static const UgDataInterface	ug_window_setting_iface =
+{
+	sizeof (struct UgWindowSetting),
+	"WindowSetting",
+	ug_window_setting_entry,
+	NULL, NULL, NULL,
+};
+
+// ----------------------------------------------------------------------------
 // UgUserInterfaceSetting
-static const UgDataEntry	ui_setting_data_entry[] =
+static const UgDataEntry	ug_user_interface_setting_entry[] =
 {
 	{"CloseConfirmation",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting, close_confirmation),	UG_DATA_INT,	NULL,	NULL},
 	{"CloseAction",			G_STRUCT_OFFSET (struct UgUserInterfaceSetting, close_action),			UG_DATA_INT,	NULL,	NULL},
@@ -123,8 +132,18 @@ static const UgDataEntry	ui_setting_data_entry[] =
 	{"SoundNotification",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	sound_notification),	UG_DATA_INT,	NULL,	NULL},
 	{NULL},			// null-terminated
 };
+
+static const UgDataInterface	ug_user_interface_setting_iface =
+{
+	sizeof (struct UgUserInterfaceSetting),
+	"UserInterfaceSetting",
+	ug_user_interface_setting_entry,
+	NULL, NULL, NULL,
+};
+
+// ----------------------------------------------------------------------------
 // UgClipboardSetting
-static const UgDataEntry	clipboard_setting_data_entry[] =
+static const UgDataEntry	ug_clipboard_setting_entry[] =
 {
 	{"pattern",		G_STRUCT_OFFSET (struct UgClipboardSetting, pattern),	UG_DATA_STRING,		NULL,	NULL},
 	{"monitor",		G_STRUCT_OFFSET (struct UgClipboardSetting, monitor),	UG_DATA_INT,		NULL,	NULL},
@@ -132,16 +151,36 @@ static const UgDataEntry	clipboard_setting_data_entry[] =
 	{"NthCategory",	G_STRUCT_OFFSET (struct UgClipboardSetting, nth_category),	UG_DATA_INT,	NULL,	NULL},
 	{NULL},			// null-terminated
 };
+
+static const UgDataInterface	ug_clipboard_setting_iface =
+{
+	sizeof (struct UgClipboardSetting),
+	"ClipboardSetting",
+	ug_clipboard_setting_entry,
+	NULL, NULL, NULL,
+};
+
+// ----------------------------------------------------------------------------
 // SchedulerSetting
-static const UgDataEntry	scheduler_setting_data_entry[] =
+static const UgDataEntry	ug_scheduler_setting_entry[] =
 {
 	{"enable",		G_STRUCT_OFFSET (struct UgSchedulerSetting, enable),	UG_DATA_INT,		NULL,	NULL},
-	{"state",		G_STRUCT_OFFSET (struct UgSchedulerSetting, state),		UG_DATA_CUSTOM,	(UgInMarkupFunc) ug_schedule_state_in_markup,	(UgToMarkupFunc) ug_schedule_state_to_markup},
+	{"state",		G_STRUCT_OFFSET (struct UgSchedulerSetting, state),		UG_DATA_CUSTOM,		ug_schedule_state_in_markup,	ug_schedule_state_to_markup},
 //	{"SpeedLimit",	G_STRUCT_OFFSET (struct UgSchedulerSetting, speed_limit),	UG_DATA_INT64,	NULL,	NULL},
 	{NULL},			// null-terminated
 };
+
+static const UgDataInterface	ug_scheduler_setting_iface =
+{
+	sizeof (struct UgSchedulerSetting),
+	"SchedulerSetting",
+	ug_scheduler_setting_entry,
+	NULL, NULL, NULL,
+};
+
+// ----------------------------------------------------------------------------
 // PluginSetting
-static const UgDataEntry	plugin_setting_data_entry[] =
+static const UgDataEntry	ug_plugin_setting_entry[] =
 {
 	{"aria2-enable",	G_STRUCT_OFFSET (struct UgPluginSetting, aria2.enable),		UG_DATA_INT,	NULL,	NULL},
 	{"aria2-launch",	G_STRUCT_OFFSET (struct UgPluginSetting, aria2.launch),		UG_DATA_INT,	NULL,	NULL},
@@ -152,72 +191,40 @@ static const UgDataEntry	plugin_setting_data_entry[] =
 	{NULL},			// null-terminated
 };
 
+static const UgDataInterface	ug_plugin_setting_iface =
+{
+	sizeof (struct UgPluginSetting),
+	"PluginSetting",
+	ug_plugin_setting_entry,
+	NULL, NULL, NULL,
+};
 
 // ----------------------------------------------------------------------------
-// UgDataInterface
-//
 // UgetGtkSetting
+static const UgDataEntry	uget_setting_data_entry[] =
+{
+	{"LaunchApp",		G_STRUCT_OFFSET (UgetGtkSetting, launch.active),	UG_DATA_INT,		NULL,	NULL},
+	{"LaunchAppTypes",	G_STRUCT_OFFSET (UgetGtkSetting, launch.types),		UG_DATA_STRING,		NULL,	NULL},
+	{"AutoSave",		G_STRUCT_OFFSET (UgetGtkSetting, auto_save.active),		UG_DATA_INT,	NULL,	NULL},
+	{"AutoSaveInterval",G_STRUCT_OFFSET (UgetGtkSetting, auto_save.interval),	UG_DATA_INT,	NULL,	NULL},
+	{"DownloadColumn",	G_STRUCT_OFFSET (UgetGtkSetting, download_column),	UG_DATA_STATIC,		NULL,	NULL},
+	{"Summary",			G_STRUCT_OFFSET (UgetGtkSetting, summary),			UG_DATA_STATIC,		NULL,	NULL},
+	{"Window",			G_STRUCT_OFFSET (UgetGtkSetting, window),			UG_DATA_STATIC,		NULL,	NULL},
+	{"UserInterface",	G_STRUCT_OFFSET (UgetGtkSetting, ui),				UG_DATA_STATIC,		NULL,	NULL},
+	{"Clipboard",		G_STRUCT_OFFSET (UgetGtkSetting, clipboard),		UG_DATA_STATIC,		NULL,	NULL},
+	{"Scheduler",		G_STRUCT_OFFSET (UgetGtkSetting, scheduler),		UG_DATA_STATIC,		NULL,	NULL},
+	{"Plug-in",			G_STRUCT_OFFSET (UgetGtkSetting, plugin),			UG_DATA_STATIC,		NULL,	NULL},
+//	{"OfflineMode",		G_STRUCT_OFFSET (UgetGtkSetting, offline_mode),		UG_DATA_INT,		NULL,	NULL},
+//	{"Shutdown",		G_STRUCT_OFFSET (UgetGtkSetting, shutdown),			UG_DATA_INT,		NULL,	NULL},
+	{"FolderList",		G_STRUCT_OFFSET (UgetGtkSetting, folder_list),		UG_DATA_CUSTOM,		ug_string_list_in_markup,	ug_string_list_to_markup},
+	{NULL},				// null-terminated
+};
+
 static const UgDataInterface	uget_setting_iface =
 {
 	sizeof (UgetGtkSetting),	// instance_size
 	"UgetGtkSetting",			// name
 	uget_setting_data_entry,	// entry
-	NULL, NULL, NULL,
-};
-// UgDownloadColumnSetting
-static const UgDataInterface	download_column_iface =
-{
-	sizeof (struct UgDownloadColumnSetting),
-	"DownloadColumnSetting",
-	download_column_data_entry,
-	NULL, NULL, NULL,
-};
-// UgSummarySetting
-static const UgDataInterface	summary_setting_iface =
-{
-	sizeof (struct UgSummarySetting),
-	"SummarySetting",
-	summary_setting_data_entry,
-	NULL, NULL, NULL,
-};
-// UgWindowSetting
-static const UgDataInterface	window_setting_iface =
-{
-	sizeof (struct UgWindowSetting),
-	"WindowSetting",
-	window_setting_data_entry,
-	NULL, NULL, NULL,
-};
-// UgUserInterfaceSetting
-static const UgDataInterface	ui_setting_iface =
-{
-	sizeof (struct UgUserInterfaceSetting),
-	"UserInterfaceSetting",
-	ui_setting_data_entry,
-	NULL, NULL, NULL,
-};
-// UgClipboardSetting
-static const UgDataInterface	clipboard_setting_iface =
-{
-	sizeof (struct UgClipboardSetting),
-	"ClipboardSetting",
-	clipboard_setting_data_entry,
-	NULL, NULL, NULL,
-};
-// SchedulerSetting
-static const UgDataInterface	scheduler_setting_iface =
-{
-	sizeof (struct UgSchedulerSetting),
-	"SchedulerSetting",
-	scheduler_setting_data_entry,
-	NULL, NULL, NULL,
-};
-// PluginSetting
-static const UgDataInterface	plugin_setting_iface =
-{
-	sizeof (struct UgPluginSetting),
-	"PluginSetting",
-	plugin_setting_data_entry,
 	NULL, NULL, NULL,
 };
 
@@ -363,36 +370,12 @@ static GMarkupParser	uget_gtk_setting_parser =
 //
 void	uget_gtk_setting_init (UgetGtkSetting* setting)
 {
+	guint			weekdays, dayhours;
+
 	setting->iface = &uget_setting_iface;
 
 	// "SummarySetting"
-	setting->summary.iface = &summary_setting_iface;
-	// "DownloadColumnSetting"
-	setting->download_column.iface = &download_column_iface;
-	setting->download_column.changed_count = 1;
-	// "WindowSetting"
-	setting->window.iface = &window_setting_iface;
-	// "UserInterfaceSetting"
-	setting->ui.iface = &ui_setting_iface;
-	// "ClipboardSetting"
-	setting->clipboard.iface = &clipboard_setting_iface;
-	// "SchedulerSetting"
-	setting->scheduler.iface = &scheduler_setting_iface;
-	// "PluginSetting"
-	setting->plugin.iface = &plugin_setting_iface;
-	// "CategoryDefault"
-	setting->category.iface = UgCategoryIface;
-	ug_category_init (&setting->category);
-	// "FolderList"
-	setting->folder_list = NULL;
-}
-
-void	uget_gtk_setting_reset (UgetGtkSetting* setting)
-{
-//	UgDataCommon*	common;
-	guint			weekdays, dayhours;
-
-	// "SummarySetting"
+	setting->summary.iface = &ug_summary_setting_iface;
 	setting->summary.name     = TRUE;
 	setting->summary.folder   = TRUE;
 	setting->summary.category = FALSE;
@@ -400,6 +383,8 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->summary.message  = TRUE;
 
 	// "DownloadColumnSetting"
+	setting->download_column.iface = &ug_download_column_setting_iface;
+	setting->download_column.changed_count = 1;
 	setting->download_column.completed    = TRUE;
 	setting->download_column.total        = TRUE;
 	setting->download_column.percent      = TRUE;
@@ -414,6 +399,7 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->download_column.completed_on = FALSE;
 
 	// "WindowSetting"
+	setting->window.iface = &ug_window_setting_iface;
 	setting->window.toolbar   = TRUE;
 	setting->window.statusbar = TRUE;
 	setting->window.category  = TRUE;
@@ -425,6 +411,7 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->window.maximized = FALSE;
 
 	// "UserInterfaceSetting"
+	setting->ui.iface = &ug_user_interface_setting_iface;
 	setting->ui.close_confirmation = TRUE;
 	setting->ui.close_action = 0;
 	setting->ui.delete_confirmation = TRUE;
@@ -435,6 +422,7 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->ui.sound_notification = TRUE;
 
 	// "ClipboardSetting"
+	setting->clipboard.iface = &ug_clipboard_setting_iface;
 	g_free (setting->clipboard.pattern);
 	setting->clipboard.pattern = g_strdup (UGET_GTK_CLIPBOARD_PATTERN);
 	setting->clipboard.monitor = TRUE;
@@ -442,6 +430,7 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->clipboard.nth_category = 0;
 
 	// "SchedulerSetting"
+	setting->scheduler.iface = &ug_scheduler_setting_iface;
 	setting->scheduler.enable = FALSE;
 	for (weekdays = 0;  weekdays < 7;  weekdays++) {
 		for (dayhours = 0;  dayhours < 24;  dayhours++)
@@ -450,6 +439,7 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->scheduler.speed_limit = 5;
 
 	// "PluginSetting"
+	setting->plugin.iface = &ug_plugin_setting_iface;
 	setting->plugin.aria2.enable = FALSE;
 	setting->plugin.aria2.launch = TRUE;
 	setting->plugin.aria2.shutdown = TRUE;
@@ -457,21 +447,12 @@ void	uget_gtk_setting_reset (UgetGtkSetting* setting)
 	setting->plugin.aria2.args = g_strdup ("--enable-xml-rpc");
 	setting->plugin.aria2.uri  = g_strdup ("http://localhost:6800/rpc");
 
-	setting->offline_mode = FALSE;
-	setting->shutdown = 0;
-
-	// "CategoryDefault"
-//	common = ug_dataset_realloc (setting->category.defaults,
-//			UgDataCommonIface, 0);
-//	g_free (common->folder);
-//	common->folder = g_strdup (g_get_home_dir ());
-
 	// "FolderList"
-	g_list_foreach (setting->folder_list, (GFunc) g_free, NULL);
-	g_list_free (setting->folder_list);
 	setting->folder_list = NULL;
 
 	// Others
+	setting->offline_mode = FALSE;
+	setting->shutdown = 0;
 	setting->launch.active = TRUE;
 	setting->launch.types = g_strdup (UGET_GTK_LAUNCH_APP_TYPES);
 	setting->auto_save.active = TRUE;
@@ -485,7 +466,7 @@ gboolean	uget_gtk_setting_save (UgetGtkSetting* setting, const gchar* file)
 	markup = ug_markup_new ();
 	if (ug_markup_write_start (markup, file, TRUE)) {
 		ug_markup_write_element_start	(markup, "UgetGtkSetting version='1'");
-		ug_data_to_markup ((UgData*) setting, markup);
+		ug_data_write_markup ((UgData*) setting, markup);
 		ug_markup_write_element_end	(markup, "UgetGtkSetting");
 		ug_markup_write_end (markup);
 		return TRUE;

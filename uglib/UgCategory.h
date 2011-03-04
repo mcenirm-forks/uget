@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -45,6 +45,9 @@
 extern "C" {
 #endif
 
+// interface address
+#define	UG_CATEGORY_I		&ug_category_iface
+#define	UG_RELATION_I		&ug_relation_iface
 
 typedef struct	UgCategory			UgCategory;
 typedef struct	UgCategoryFuncs		UgCategoryFuncs;
@@ -56,20 +59,20 @@ typedef GList*	(*UgCategoryGetAllFunc)	(UgCategory* category);
 typedef GList*	(*UgCategoryGetJobsFunc)(UgCategory* category);
 typedef void	(*UgCategoryChangedFunc)(UgCategory* category, UgDataset* dataset);
 
-extern const	UgDataInterface*		UgCategoryIface;
-extern const	UgDataInterface*		UgRelationIface;
+extern const	UgDataInterface		ug_category_iface;
+extern const	UgDataInterface		ug_relation_iface;
+
 
 // ----------------------------------------------------------------------------
 // UgCategory
-//
+
 // UgData
 // |
 // `- UgCategory
-//
+
 struct UgCategory
 {
-	UG_DATA_MEMBERS;
-//	const UgDataInterface*	iface;
+	const UgDataInterface*	iface;			// for UgMarkup parse/write
 
 	const UgCategoryFuncs*	funcs;			// functions
 
@@ -137,7 +140,7 @@ void	ug_category_changed (UgCategory* category, UgDataset* dataset);
 
 // ------------------------------------
 // UgCategoryHints
-//
+
 enum	UgCategoryHints
 {
 //	UG_HINT_QUEUING				= 1 << 0,
@@ -158,7 +161,7 @@ enum	UgCategoryHints
 
 // ----------------------------------------------------------------------------
 // CategoryList
-//
+
 // Before calling ug_category_list_load(), user must register data interface of UgCategory.
 // Before calling ug_category_list_save(), user must call ug_download_list_save() to save all download in all category.
 GList*		ug_category_list_load (const gchar* filename);
@@ -183,16 +186,16 @@ void		ug_download_delete_temp (UgDataset* dataset);
 
 // ----------------------------------------------------------------------------
 // UgRelation : relation of UgCategory, UgDataset, and UgPlugin.
-//
+
 // UgData
 // |
-// `- UgDataList
+// `- UgDatalist
 //    |
 //    `- UgRelation
-//
+
 struct UgRelation
 {
-	UG_DATA_LIST_MEMBERS (UgRelation);
+	UG_DATALIST_MEMBERS (UgRelation);
 //	const UgDataInterface*	iface;
 //	UgRelation*				next;
 //	UgRelation*				prev;

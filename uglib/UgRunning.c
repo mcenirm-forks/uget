@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -280,7 +280,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 		case UG_MESSAGE_PROGRESS:
 			temp.progress = UG_DATASET_PROGRESS (dataset);
 			if (temp.progress == NULL)
-				temp.progress = ug_dataset_alloc_front (dataset, UgProgressIface);
+				temp.progress = ug_dataset_alloc_front (dataset, UG_PROGRESS_I);
 			ug_plugin_get (relation->plugin, UG_DATA_INSTANCE, temp.progress);
 			break;
 
@@ -302,7 +302,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 				relation->hints &= ~UG_HINT_ERROR;
 				relation->hints |= UG_HINT_COMPLETED;
 				// data log
-				temp.log = ug_dataset_realloc (dataset, UgDataLogIface, 0);
+				temp.log = ug_dataset_realloc (dataset, UG_DATA_LOG_I, 0);
 				g_free (temp.log->completed_on);
 				temp.log->completed_on = ug_str_from_time (time (NULL), FALSE);
 				break;
@@ -339,7 +339,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 				if (msg->data.v_string) {
 					temp.common = UG_DATASET_COMMON (dataset);
 					ug_str_set (&temp.common->url, msg->data.v_string, -1);
-					temp.http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
+					temp.http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
 					temp.http->redirection_count++;
 				}
 				break;
@@ -358,7 +358,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 		// End of switch (msg->type)
 	}
 	// free message list
-	ug_data_list_free (msg_list);
+	ug_datalist_free (msg_list);
 
 	// if category == NULL, it will not notify category that dataset was changed.
 	if (category)

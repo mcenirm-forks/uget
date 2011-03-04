@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -34,11 +34,11 @@
  *
  */
 
-// define UgDataList-based structure for downloading.
+// define UgDatalist-based structure for downloading.
 
 // UgData
 // |
-// `- UgDataList
+// `- UgDatalist
 //    |
 //    +- UgDataCommon
 //    |
@@ -66,6 +66,14 @@
 extern "C" {
 #endif
 
+// interface address
+#define	UG_DATA_COMMON_I		&ug_data_common_iface
+#define	UG_DATA_PROXY_I			&ug_data_proxy_iface
+#define	UG_PROGRESS_I			&ug_progress_iface
+#define	UG_DATA_HTTP_I			&ug_data_http_iface
+#define	UG_DATA_FTP_I			&ug_data_ftp_iface
+#define	UG_DATA_LOG_I			&ug_data_log_iface
+
 typedef struct	UgDataCommon		UgDataCommon;
 typedef struct	UgDataProxy			UgDataProxy;
 typedef struct	UgProgress			UgProgress;
@@ -75,25 +83,25 @@ typedef struct	UgDataLog			UgDataLog;
 
 typedef enum	UgDataProxyType		UgDataProxyType;
 
-extern	const	UgDataInterface*	UgDataCommonIface;
-extern	const	UgDataInterface*	UgDataProxyIface;
-extern	const	UgDataInterface*	UgProgressIface;
-extern	const	UgDataInterface*	UgDataHttpIface;
-extern	const	UgDataInterface*	UgDataFtpIface;
-extern	const	UgDataInterface*	UgDataLogIface;
+extern	const	UgDataInterface		ug_data_common_iface;
+extern	const	UgDataInterface		ug_data_proxy_iface;
+extern	const	UgDataInterface		ug_progress_iface;
+extern	const	UgDataInterface		ug_data_http_iface;
+extern	const	UgDataInterface		ug_data_ftp_iface;
+extern	const	UgDataInterface		ug_data_log_iface;
 
 // ----------------------------------------------------------------------------
 // UgDataCommon
 
 //  UgData
 //  |
-//  `- UgDataList
+//  `- UgDatalist
 //     |
 //     `- UgDataCommon
 
 struct UgDataCommon
 {
-	UG_DATA_LIST_MEMBERS (UgDataCommon);
+	UG_DATALIST_MEMBERS (UgDataCommon);
 //	const UgDataInterface*	iface;
 //	UgDataCommon*			next;
 //	UgDataCommon*			prev;
@@ -155,7 +163,7 @@ struct UgDataCommon
 
 //  UgData
 //  |
-//  `- UgDataList
+//  `- UgDatalist
 //     |
 //     `- UgDataProxy
 
@@ -175,7 +183,7 @@ enum UgDataProxyType
 
 struct UgDataProxy
 {
-	UG_DATA_LIST_MEMBERS (UgDataProxy);
+	UG_DATALIST_MEMBERS (UgDataProxy);
 //	const UgDataInterface*	iface;
 //	UgDataProxy*			next;
 //	UgDataProxy*			prev;
@@ -220,13 +228,13 @@ struct UgDataProxy
 
 //  UgData
 //  |
-//  `- UgDataList
+//  `- UgDatalist
 //     |
 //     `- UgProgress
 
 struct UgProgress
 {
-	UG_DATA_LIST_MEMBERS (UgProgress);
+	UG_DATALIST_MEMBERS (UgProgress);
 //	const UgDataInterface*	iface;
 //	UgProgress*				next;
 //	UgProgress*				prev;
@@ -249,13 +257,13 @@ struct UgProgress
 
 //  UgData
 //  |
-//  `- UgDataList
+//  `- UgDatalist
 //     |
 //     `- UgDataHttp
 
 struct UgDataHttp
 {
-	UG_DATA_LIST_MEMBERS (UgDataHttp);
+	UG_DATALIST_MEMBERS (UgDataHttp);
 //	const UgDataInterface*	iface;
 //	UgDataHttp*				next;
 //	UgDataHttp*				prev;
@@ -294,13 +302,13 @@ struct UgDataHttp
 
 //  UgData
 //  |
-//  `- UgDataList
+//  `- UgDatalist
 //     |
 //     `- UgDataFtp
 
 struct UgDataFtp
 {
-	UG_DATA_LIST_MEMBERS (UgDataFtp);
+	UG_DATALIST_MEMBERS (UgDataFtp);
 //	const UgDataInterface*	iface;
 //	UgDataFtp*				next;
 //	UgDataFtp*				prev;
@@ -324,13 +332,13 @@ struct UgDataFtp
 
 //  UgData
 //  |
-//  `- UgDataList
+//  `- UgDatalist
 //     |
 //     `- UgDataLog
 
 struct UgDataLog
 {
-	UG_DATA_LIST_MEMBERS (UgDataLog);
+	UG_DATALIST_MEMBERS (UgDataLog);
 //	const UgDataInterface*	iface;
 //	UgDataLog*				next;
 //	UgDataLog*				prev;

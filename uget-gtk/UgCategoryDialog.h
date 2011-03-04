@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -48,9 +48,9 @@ extern "C" {
 #endif
 
 
-typedef struct	UgCategoryDialog_		UgCategoryDialog;
+typedef struct	UgCategoryDialog		UgCategoryDialog;
 
-struct UgCategoryDialog_
+struct UgCategoryDialog
 {
 	GtkDialog*		self;
 

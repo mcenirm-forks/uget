@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -119,7 +119,7 @@ GList*	ug_option_parse (UgOption* uopt, GPtrArray* args)
 	downloads = NULL;
 	for (strings = g_list_last (strings);  strings;  strings = strings->prev) {
 		dataset = ug_dataset_new ();
-		common = ug_dataset_alloc_front (dataset, UgDataCommonIface);
+		common = ug_dataset_alloc_front (dataset, UG_DATA_COMMON_I);
 		common->url = strings->data;
 		common->keeping.url = TRUE;		// keep common->url no change
 		g_list_foreach (uopt->list, (GFunc) ug_option_entry_get, dataset);
@@ -229,7 +229,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	option_data = oentry->data;
 	// common
 	if (option_data->folder) {
-		common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
+		common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
 		g_free (common->folder);
 		common->folder = g_strdup (option_data->folder);
 		common->keeping.folder = TRUE;
@@ -237,7 +237,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->file) {
-		common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
+		common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
 		g_free (common->file);
 		common->file = g_strdup (option_data->file);
 		common->keeping.file = TRUE;
@@ -245,7 +245,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->user) {
-		common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
+		common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
 		g_free (common->user);
 		common->user = g_strdup (option_data->user);
 		common->keeping.user = TRUE;
@@ -253,7 +253,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->password) {
-		common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
+		common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
 		g_free (common->password);
 		common->password = g_strdup (option_data->password);
 		common->keeping.password = TRUE;
@@ -262,14 +262,14 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 
 	// proxy
 	if (option_data->proxy.type) {
-		proxy = ug_dataset_realloc (dataset, UgDataProxyIface, 0);
+		proxy = ug_dataset_realloc (dataset, UG_DATA_PROXY_I, 0);
 		proxy->type = option_data->proxy.type;
 		proxy->keeping.type = TRUE;
 		result = TRUE;
 	}
 
 	if (option_data->proxy.host) {
-		proxy = ug_dataset_realloc (dataset, UgDataProxyIface, 0);
+		proxy = ug_dataset_realloc (dataset, UG_DATA_PROXY_I, 0);
 		g_free (proxy->host);
 		proxy->host = g_strdup (option_data->proxy.host);
 		proxy->keeping.host = TRUE;
@@ -277,14 +277,14 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->proxy.port) {
-		proxy = ug_dataset_realloc (dataset, UgDataProxyIface, 0);
+		proxy = ug_dataset_realloc (dataset, UG_DATA_PROXY_I, 0);
 		proxy->port = option_data->proxy.port;
 		proxy->keeping.port = TRUE;
 		result = TRUE;
 	}
 
 	if (option_data->proxy.user) {
-		proxy = ug_dataset_realloc (dataset, UgDataProxyIface, 0);
+		proxy = ug_dataset_realloc (dataset, UG_DATA_PROXY_I, 0);
 		g_free (proxy->user);
 		proxy->user = g_strdup (option_data->proxy.user);
 		proxy->keeping.user = TRUE;
@@ -292,7 +292,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->proxy.password) {
-		proxy = ug_dataset_realloc (dataset, UgDataProxyIface, 0);
+		proxy = ug_dataset_realloc (dataset, UG_DATA_PROXY_I, 0);
 		g_free (proxy->password);
 		proxy->password = g_strdup (option_data->proxy.password);
 		proxy->keeping.password = TRUE;
@@ -301,7 +301,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 
 	// http
 	if (option_data->http.user) {
-		http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
+		http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
 		g_free (http->user);
 		http->user = g_strdup (option_data->http.user);
 		http->keeping.user = TRUE;
@@ -309,7 +309,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->http.password) {
-		http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
+		http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
 		g_free (http->password);
 		http->password = g_strdup (option_data->http.password);
 		http->keeping.password = TRUE;
@@ -317,7 +317,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->http.referrer) {
-		http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
+		http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
 		g_free (http->referrer);
 		http->referrer = g_strdup (option_data->http.referrer);
 		http->keeping.referrer = TRUE;
@@ -325,7 +325,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->http.user_agent) {
-		http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
+		http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
 		g_free (http->user_agent);
 		http->user_agent = g_strdup (option_data->http.user_agent);
 		http->keeping.user_agent = TRUE;
@@ -333,7 +333,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->http.cookie_data) {
-		http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
+		http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
 		g_free (http->cookie_data);
 		http->cookie_data = g_strdup (option_data->http.cookie_data);
 		http->keeping.cookie_data = TRUE;
@@ -341,7 +341,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->http.cookie_file) {
-		http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
+		http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
 		g_free (http->cookie_file);
 		http->cookie_file = g_strdup (option_data->http.cookie_file);
 		http->keeping.cookie_file = TRUE;
@@ -349,7 +349,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->http.post_data) {
-		http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
+		http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
 		g_free (http->post_data);
 		http->post_data = g_strdup (option_data->http.post_data);
 		http->keeping.post_data = TRUE;
@@ -357,7 +357,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->http.post_file) {
-		http = ug_dataset_realloc (dataset, UgDataHttpIface, 0);
+		http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
 		g_free (http->post_file);
 		http->post_file = g_strdup (option_data->http.post_file);
 		http->keeping.post_file = TRUE;
@@ -366,7 +366,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 
 	// ftp
 	if (option_data->ftp.user) {
-		ftp = ug_dataset_realloc (dataset, UgDataFtpIface, 0);
+		ftp = ug_dataset_realloc (dataset, UG_DATA_FTP_I, 0);
 		g_free (ftp->user);
 		ftp->user = g_strdup (option_data->ftp.user);
 		ftp->keeping.user = TRUE;
@@ -374,7 +374,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 	}
 
 	if (option_data->ftp.password) {
-		ftp = ug_dataset_realloc (dataset, UgDataFtpIface, 0);
+		ftp = ug_dataset_realloc (dataset, UG_DATA_FTP_I, 0);
 		g_free (ftp->password);
 		ftp->password = g_strdup (option_data->ftp.password);
 		ftp->keeping.password = TRUE;

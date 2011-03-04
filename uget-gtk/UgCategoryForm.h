@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -46,9 +46,9 @@ extern "C" {
 #endif
 
 
-typedef struct	UgCategoryForm_		UgCategoryForm;
+typedef struct	UgCategoryForm		UgCategoryForm;
 
-struct UgCategoryForm_
+struct UgCategoryForm
 {
 	GtkWidget*	self;
 

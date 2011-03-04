@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -276,7 +276,7 @@ GList*	ug_download_dialog_get_downloads (UgDownloadDialog* ddialog)
 		for (link = list;  link;  link = link->next) {
 			dataset = ug_dataset_new ();
 			ug_download_dialog_get (ddialog, dataset);
-			common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
+			common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
 			g_free (common->url);
 			common->url = link->data;
 			ug_download_complete_data (dataset);

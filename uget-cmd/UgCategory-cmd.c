@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -111,11 +111,11 @@ void	ug_category_cmd_add (UgCategory* category, UgDataset* dataset)
 	UgCategoryCmd*		ccmd;
 
 	ccmd = category->user.category;
-	// add and set UgRelationIface to dataset
+	// add and set UgRelation to dataset
 	ug_dataset_ref (dataset);
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation == NULL)
-		relation = ug_dataset_alloc_front (dataset, UgRelationIface);
+		relation = ug_dataset_alloc_front (dataset, UG_RELATION_I);
 	relation->category = category;
 	relation->user.category = ccmd;
 

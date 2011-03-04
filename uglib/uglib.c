@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -52,26 +52,26 @@
 gboolean uglib_init (void)
 {
 	// data
-	ug_data_interface_register (UgDataCommonIface);
-	ug_data_interface_register (UgDataProxyIface);
-	ug_data_interface_register (UgProgressIface);
-	ug_data_interface_register (UgDataHttpIface);
-	ug_data_interface_register (UgDataFtpIface);
-	ug_data_interface_register (UgDataLogIface);
+	ug_data_interface_register (UG_DATA_COMMON_I);
+	ug_data_interface_register (UG_DATA_PROXY_I);
+	ug_data_interface_register (UG_PROGRESS_I);
+	ug_data_interface_register (UG_DATA_HTTP_I);
+	ug_data_interface_register (UG_DATA_FTP_I);
+	ug_data_interface_register (UG_DATA_LOG_I);
 	// category
-	ug_data_interface_register (UgCategoryIface);
-	ug_data_interface_register (UgRelationIface);
+	ug_data_interface_register (UG_CATEGORY_I);
+	ug_data_interface_register (UG_RELATION_I);
 	// message
-	ug_data_interface_register (UgMessageIface);
+	ug_data_interface_register (UG_MESSAGE_I);
 	// plug-ins
 #ifdef HAVE_PLUGIN_ARIA2
 	// If plug-in failed to initialize, don't register it.
-	if (UgPluginAria2Iface->global_init ())
-		ug_plugin_interface_register (UgPluginAria2Iface);
+	if (ug_plugin_aria2_iface.global_init ())
+		ug_plugin_interface_register (UG_PLUGIN_ARIA2_I);
 #endif
 #ifdef HAVE_PLUGIN_CURL
-	if (UgPluginCurlIface->global_init ())
-		ug_plugin_interface_register (UgPluginCurlIface);
+	if (ug_plugin_curl_iface.global_init ())
+		ug_plugin_interface_register (UG_PLUGIN_CURL_I);
 #endif
 
 	return TRUE;
@@ -80,25 +80,25 @@ gboolean uglib_init (void)
 void uglib_finalize (void)
 {
 	// data
-	ug_data_interface_unregister (UgDataCommonIface);
-	ug_data_interface_unregister (UgDataProxyIface);
-	ug_data_interface_unregister (UgProgressIface);
-	ug_data_interface_unregister (UgDataHttpIface);
-	ug_data_interface_unregister (UgDataFtpIface);
-	ug_data_interface_unregister (UgDataLogIface);
+	ug_data_interface_unregister (UG_DATA_COMMON_I);
+	ug_data_interface_unregister (UG_DATA_PROXY_I);
+	ug_data_interface_unregister (UG_PROGRESS_I);
+	ug_data_interface_unregister (UG_DATA_HTTP_I);
+	ug_data_interface_unregister (UG_DATA_FTP_I);
+	ug_data_interface_unregister (UG_DATA_LOG_I);
 	// category
-	ug_data_interface_unregister (UgCategoryIface);
-	ug_data_interface_unregister (UgRelationIface);
+	ug_data_interface_unregister (UG_CATEGORY_I);
+	ug_data_interface_unregister (UG_RELATION_I);
 	// message
-	ug_data_interface_unregister (UgMessageIface);
+	ug_data_interface_unregister (UG_MESSAGE_I);
 	// plug-ins
 #ifdef HAVE_PLUGIN_ARIA2
-	ug_plugin_interface_unregister (UgPluginAria2Iface);
-	UgPluginAria2Iface->global_finalize ();
+	ug_plugin_interface_unregister (UG_PLUGIN_ARIA2_I);
+	ug_plugin_aria2_iface.global_finalize ();
 #endif
 #ifdef HAVE_PLUGIN_CURL
-	ug_plugin_interface_unregister (UgPluginCurlIface);
-	UgPluginCurlIface->global_finalize ();
+	ug_plugin_interface_unregister (UG_PLUGIN_CURL_I);
+	ug_plugin_curl_iface.global_finalize ();
 #endif
 }
 

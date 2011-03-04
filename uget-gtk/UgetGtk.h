@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -261,7 +261,6 @@ struct UgetGtk
 			GtkWidget*	create;
 			GtkWidget*	delete;
 			GtkWidget*	properties;
-			GtkWidget*	default_for_new;
 		} category;
 
 		struct UgetGtkDownloadMenu
@@ -340,8 +339,8 @@ void	uget_gtk_tray_icon_decide_visible (UgetGtk* ugtk);
 void	uget_gtk_statusbar_refresh (struct UgetGtkStatusbar* statusbar, UgDownloadWidget* dwidget);
 void	uget_gtk_statusbar_refresh_speed (struct UgetGtkStatusbar* statusbar, gdouble speed);
 void	uget_gtk_refresh_download_column (UgetGtk* ugtk);
-void	uget_gtk_refresh_download_sensitive (UgetGtk* ugtk);
-void	uget_gtk_refresh_category_sensitive (UgetGtk* ugtk);
+void	uget_gtk_decide_download_sensitive (UgetGtk* ugtk);
+void	uget_gtk_decide_category_sensitive (UgetGtk* ugtk);
 
 // ------------------------------------------------------
 // aria2

@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -34,15 +34,6 @@
  *
  */
 
-/*
- *    uGet plug-ins for libcurl.
- *
- * UgPlugin
- * |
- * `--- UgPluginCurl
- *
- */
-
 #ifndef UG_PLUGIN_CURL_H
 #define UG_PLUGIN_CURL_H
 
@@ -55,11 +46,19 @@
 extern "C" {
 #endif
 
+#define	UG_PLUGIN_CURL_I		&ug_plugin_curl_iface
 
 typedef	struct	UgPluginCurl		UgPluginCurl;
 
-extern	const	UgPluginInterface*	UgPluginCurlIface;
+extern	const	UgPluginInterface	ug_plugin_curl_iface;
 
+
+// ----------------------------------------------------------------------------
+// uGet plug-ins for libcurl.
+
+// UgPlugin
+// |
+// `--- UgPluginCurl
 
 struct UgPluginCurl
 {

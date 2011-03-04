@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@
  *
  */
 
-// UgDataset		collection of all UgDataList-based instance
+// UgDataset		collection of all UgDatalist-based instance
 
 // UgData
 // |
@@ -51,29 +51,32 @@ extern "C" {
 #endif
 
 // These macro is for internal use only.
-// use ug_dataset_get(dataset, UgDataCommonIface, 0) to instead UG_DATASET_COMMON(dataset)
+// use ug_dataset_get(dataset, UG_DATA_COMMON_I, 0) to instead UG_DATASET_COMMON(dataset)
 #define	UG_DATASET_COMMON(dataset)			( (UgDataCommon*)((dataset)->data[0]) )
 #define	UG_DATASET_PROXY(dataset)			( (UgDataProxy*) ((dataset)->data[2]) )
 #define	UG_DATASET_PROGRESS(dataset)		( (UgProgress*)  ((dataset)->data[4]) )
 #define	UG_DATASET_RELATION(dataset)		( (UgRelation*)  ((dataset)->data[6]) )
+// interface address
+#define	UG_DATASET_I		&ug_dataset_iface
 
-typedef struct	UgDataset			UgDataset;		// collection of all UgDataList-based instance
+typedef struct	UgDataset			UgDataset;		// collection of all UgDatalist-based instance
+
+extern const	UgDataInterface		ug_dataset_iface;
 
 
 // ----------------------------------------------------------------------------
-// UgDataset : collection of all UgDataList-based instance.
+// UgDataset : collection of all UgDatalist-based instance.
 
 struct UgDataset
 {
-	UG_DATA_MEMBERS;
-//	const UgDataInterface*	iface;		// for UgMarkup parse/write
+	const UgDataInterface*	iface;		// for UgMarkup parse/write
 
-	UgDataList**			data;
+	UgDatalist**			data;
 	const UgDataInterface**	key;
-	guint					data_len;
-	guint					alloc_len;
+	unsigned int			data_len;
+	unsigned int			alloc_len;
 
-	guint				ref_count;
+	unsigned int			ref_count;
 
 	// call destroy.func(destroy.data) when destroying.
 	struct
@@ -110,15 +113,15 @@ gpointer	ug_dataset_alloc_back  (UgDataset* dataset, const UgDataInterface* ifac
 // UgDataset list functions
 guint			ug_dataset_list_length (UgDataset* dataset, const UgDataInterface* iface);
 
-UgDataList**	ug_dataset_alloc_list (UgDataset* dataset, const UgDataInterface* iface);
+UgDatalist**	ug_dataset_alloc_list (UgDataset* dataset, const UgDataInterface* iface);
 
-UgDataList**	ug_dataset_get_list (UgDataset* dataset, const UgDataInterface* iface);
+UgDatalist**	ug_dataset_get_list (UgDataset* dataset, const UgDataInterface* iface);
 
 // free old list in dataset and set list with new_list.
 void			ug_dataset_set_list (UgDataset* dataset, const UgDataInterface* iface, gpointer new_list);
 
 // Cuts the element at the given position in a list.
-//UgDataList*	ug_dataset_cut_list (UgDataset* dataset, const UgDataInterface* iface, guint nth);
+//UgDatalist*	ug_dataset_cut_list (UgDataset* dataset, const UgDataInterface* iface, guint nth);
 gpointer		ug_dataset_cut_list (UgDataset* dataset, const UgDataInterface* iface, guint nth);
 
 

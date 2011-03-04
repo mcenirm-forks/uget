@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -85,7 +85,6 @@ void	uget_gtk_init (UgetGtk* ugtk)
 	uget_gtk_init_gui (ugtk);
 	// initialize settings
 	uget_gtk_setting_init (&ugtk->setting);
-	uget_gtk_setting_reset (&ugtk->setting);	// reset to default
 	// load settings & data
 	ug_attachment_init (ug_get_attachment_dir ());
 	uget_gtk_load (ugtk);
@@ -99,7 +98,7 @@ void	uget_gtk_init (UgetGtk* ugtk)
 	if (ug_category_widget_n_category (&ugtk->cwidget) == 0) {
 		category = ug_category_new_with_gtk (ugtk->cwidget.primary.category);
 		category->name = g_strdup ("Home");
-		common = ug_dataset_alloc_front (category->defaults, UgDataCommonIface);
+		common = ug_dataset_alloc_front (category->defaults, UG_DATA_COMMON_I);
 		common->folder = g_strdup (g_get_home_dir ());
 		ug_category_widget_append (&ugtk->cwidget, category);
 	}
@@ -880,7 +879,7 @@ void	uget_gtk_refresh_download_column (UgetGtk* ugtk)
 	}
 }
 
-void	uget_gtk_refresh_download_sensitive (UgetGtk* ugtk)
+void	uget_gtk_decide_download_sensitive (UgetGtk* ugtk)
 {
 	UgDownloadWidget*	dwidget;
 	UgCategoryGtk*		cgtk;
@@ -922,7 +921,7 @@ void	uget_gtk_refresh_download_sensitive (UgetGtk* ugtk)
 	gtk_widget_set_sensitive (ugtk->menubar.download.move_bottom, sensitive);
 }
 
-void	uget_gtk_refresh_category_sensitive (UgetGtk* ugtk)
+void	uget_gtk_decide_category_sensitive (UgetGtk* ugtk)
 {
 	static gboolean		last_sensitive = TRUE;
 	gboolean			sensitive;
@@ -946,6 +945,6 @@ void	uget_gtk_refresh_category_sensitive (UgetGtk* ugtk)
 		gtk_widget_set_sensitive (ugtk->menubar.category.properties, sensitive);
 	}
 
-	uget_gtk_refresh_download_sensitive (ugtk);
+	uget_gtk_decide_download_sensitive (ugtk);
 }
 

@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -54,14 +54,14 @@ gboolean	uget_gtk_aria2_setup (UgetGtk* ugtk)
 	const UgPluginInterface*	iface;
 
 	ug_xmlrpc_use_client (&ugtk->xmlrpc, ugtk->setting.plugin.aria2.uri, NULL);
-	ug_plugin_global_set (UgPluginAria2Iface,
+	ug_plugin_global_set (UG_PLUGIN_ARIA2_I,
 			UG_DATA_STRING, ugtk->setting.plugin.aria2.uri);
 
 	iface = ug_plugin_interface_find ("aria2", 0);
 	if (iface)
 		ug_plugin_interface_unregister (iface);
 	if (ugtk->setting.plugin.aria2.enable) {
-		ug_plugin_interface_register (UgPluginAria2Iface);
+		ug_plugin_interface_register (UG_PLUGIN_ARIA2_I);
 		if (ugtk->setting.plugin.aria2.launch)
 			uget_gtk_aria2_launch (ugtk);
 	}

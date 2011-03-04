@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -49,11 +49,13 @@ extern "C" {
 #define UG_MESSAGE_CODE_DOMAIN(code)			( ((guint32)(code) & 0xFFFF0000) >> 16 )
 #define UG_MESSAGE_CODE_MEMBER(code)			( ((guint32)(code) & 0x0000FFFF) )
 #define	UG_MESSAGE_CODE_MAKE(domain, member)	( ((guint32)(domain) << 16) | (guint32)(member) )
+// interface address
+#define	UG_MESSAGE_I		&ug_message_iface
 
 typedef struct	UgMessage				UgMessage;
 typedef enum	UgMessageType			UgMessageType;
 
-extern	const	UgDataInterface*		UgMessageIface;
+extern	const	UgDataInterface			ug_message_iface;
 
 enum UgMessageType
 {
@@ -152,13 +154,13 @@ enum UgMessageErrorHttpCodeMember
 
 //  UgData
 //  |
-//  `- UgDataList
+//  `- UgDatalist
 //     |
 //     `- UgMessage
 
 struct UgMessage
 {
-	UG_DATA_LIST_MEMBERS (UgMessage);
+	UG_DATALIST_MEMBERS (UgMessage);
 //	const UgDataInterface*	iface;
 //	UgMessage*				next;
 //	UgMessage*				prev;

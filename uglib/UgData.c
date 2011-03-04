@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -154,15 +154,7 @@ GMarkupParser	ug_data_parser =
 	NULL, NULL, NULL
 };
 
-void	ug_data_in_markup (UgData* data, GMarkupParseContext* context)
-{
-	if (data == NULL || data->iface->entry == NULL)
-		g_markup_parse_context_push (context, &ug_markup_skip_parser, NULL);
-	else
-		g_markup_parse_context_push (context, &ug_data_parser, data);
-}
-
-void	ug_data_to_markup (UgData* data, UgMarkup* markup)
+void	ug_data_write_markup (UgData* data, UgMarkup* markup)
 {
 	const UgDataEntry*	entry;
 	union {
@@ -233,18 +225,19 @@ void	ug_data_to_markup (UgData* data, UgMarkup* markup)
 
 		case UG_DATA_INSTANCE:
 			value.src = *(gpointer*) value.src;
-			if (value.src == NULL || ((UgData*) value.src)->iface->entry == NULL)
+			if (value.src == NULL)
 				break;
+		case UG_DATA_STATIC:
 			ug_markup_write_element_start (markup, entry->name);
-			ug_data_to_markup (value.src, markup);
+			ug_data_write_markup (value.src, markup);
 			ug_markup_write_element_end   (markup, entry->name);
 			break;
 
 		case UG_DATA_CUSTOM:
 			// ug_markup_write_element_start() must use with ug_markup_write_element_end()
-			if (entry->to_markup) {
+			if (entry->writer) {
 				ug_markup_write_element_start (markup, entry->name);
-				entry->to_markup (value.src, markup);
+				((UgWriteFunc) entry->writer) (value.src, markup);
 				ug_markup_write_element_end   (markup, entry->name);
 			}
 			break;
@@ -292,8 +285,10 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 
 		switch (entry->type) {
 		case UG_DATA_STRING:
-			if (src)
+			if (src) {
+				g_free (*(gchar**) dest);
 				*(gchar**) dest = g_strdup (src);
+			}
 			break;
 
 		case UG_DATA_INT:
@@ -322,17 +317,18 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 			break;
 
 		case UG_DATA_INSTANCE:
+			if (entry->parser == NULL)
+				break;
+			if (*(gpointer*) dest == NULL)
+				*(gpointer*) dest = ug_data_new (entry->parser);
 			dest = *(gpointer*) dest;
-			if (dest) {
-				ug_data_in_markup (dest, context);
-				return;
-			}
-//			g_set_error (error, G_MARKUP_ERROR, G_MARKUP_ERROR_UNKNOWN_ELEMENT, "Unknow element");
-			break;
+		case UG_DATA_STATIC:
+			g_markup_parse_context_push (context, &ug_data_parser, dest);
+			return;
 
 		case UG_DATA_CUSTOM:
-			if (entry->in_markup) {
-				entry->in_markup (dest, context);
+			if (entry->parser) {
+				((UgParseFunc) entry->parser) (dest, context);
 				return;
 			}
 //			g_set_error (error, G_MARKUP_ERROR, G_MARKUP_ERROR_UNKNOWN_ELEMENT, "Unknow element");
@@ -351,133 +347,133 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 
 
 // -----------------------------------------------------------------------------
-// UgDataList functions
+// UgDatalist functions
 
-#define UG_DATA_LIST_CAST(instance)    ((UgDataList*)(instance))
+#define UG_DATALIST_CAST(instance)    ((UgDatalist*)(instance))
 
-void	ug_data_list_free (gpointer datalist)
+void	ug_datalist_free (gpointer datalist)
 {
-	UgDataList*		next;
+	UgDatalist*		next;
 
 	while (datalist) {
-		next = UG_DATA_LIST_CAST (datalist)->next;
+		next = UG_DATALIST_CAST (datalist)->next;
 		ug_data_free (datalist);
 		datalist = next;
 	}
 }
 
-guint	ug_data_list_length (gpointer datalist)
+guint	ug_datalist_length (gpointer datalist)
 {
 	guint	len = 0;
 
 	while (datalist) {
-		datalist = UG_DATA_LIST_CAST (datalist)->next;
+		datalist = UG_DATALIST_CAST (datalist)->next;
 		len++;
 	}
 	return len;
 }
 
-gpointer	ug_data_list_first   (gpointer datalist)
+gpointer	ug_datalist_first   (gpointer datalist)
 {
 	if (datalist) {
-		while (UG_DATA_LIST_CAST (datalist)->prev)
-			datalist = UG_DATA_LIST_CAST (datalist)->prev;
+		while (UG_DATALIST_CAST (datalist)->prev)
+			datalist = UG_DATALIST_CAST (datalist)->prev;
 	}
 	return datalist;
 }
 
-gpointer	ug_data_list_last (gpointer datalist)
+gpointer	ug_datalist_last (gpointer datalist)
 {
 	if (datalist) {
-		while (UG_DATA_LIST_CAST (datalist)->next)
-			datalist = UG_DATA_LIST_CAST (datalist)->next;
+		while (UG_DATALIST_CAST (datalist)->next)
+			datalist = UG_DATALIST_CAST (datalist)->next;
 	}
 	return datalist;
 }
 
-gpointer	ug_data_list_nth (gpointer datalist, guint nth)
+gpointer	ug_datalist_nth (gpointer datalist, guint nth)
 {
 	for (; datalist && nth; nth--)
-		datalist = UG_DATA_LIST_CAST (datalist)->next;
+		datalist = UG_DATALIST_CAST (datalist)->next;
 	return datalist;
 }
 
-gpointer	ug_data_list_prepend (gpointer datalist, gpointer link)
+gpointer	ug_datalist_prepend (gpointer datalist, gpointer link)
 {
 	if (link) {
 		if (datalist)
-			UG_DATA_LIST_CAST (datalist)->prev = link;
+			UG_DATALIST_CAST (datalist)->prev = link;
 
-		UG_DATA_LIST_CAST (link)->next = datalist;
+		UG_DATALIST_CAST (link)->next = datalist;
 		return link;
 	}
 
 	return datalist;
 }
 
-gpointer	ug_data_list_append (gpointer datalist, gpointer link)
+gpointer	ug_datalist_append (gpointer datalist, gpointer link)
 {
-	UgDataList*		last_link;
+	UgDatalist*		last_link;
 
 	if (datalist == NULL)
 		return link;
 
-	last_link = ug_data_list_last (datalist);
-	UG_DATA_LIST_CAST (last_link)->next = link;
-	UG_DATA_LIST_CAST (link)->prev = last_link;
+	last_link = ug_datalist_last (datalist);
+	UG_DATALIST_CAST (last_link)->next = link;
+	UG_DATALIST_CAST (link)->prev = last_link;
 	return datalist;
 }
 
-gpointer	ug_data_list_reverse (gpointer datalist)
+gpointer	ug_datalist_reverse (gpointer datalist)
 {
-	UgDataList*		temp;
+	UgDatalist*		temp;
 
 	for (temp = datalist;  temp;  ) {
 		datalist = temp;
-		temp = UG_DATA_LIST_CAST (datalist)->next;
-		UG_DATA_LIST_CAST (datalist)->next = UG_DATA_LIST_CAST (datalist)->prev;
-		UG_DATA_LIST_CAST (datalist)->prev = temp;
+		temp = UG_DATALIST_CAST (datalist)->next;
+		UG_DATALIST_CAST (datalist)->next = UG_DATALIST_CAST (datalist)->prev;
+		UG_DATALIST_CAST (datalist)->prev = temp;
 	}
 	return datalist;
 }
 
-void	ug_data_list_unlink (gpointer datalink)
+void	ug_datalist_unlink (gpointer datalink)
 {
 	if (datalink) {
-		if (UG_DATA_LIST_CAST (datalink)->next)
-			UG_DATA_LIST_CAST (datalink)->next->prev = UG_DATA_LIST_CAST (datalink)->prev;
-		if (UG_DATA_LIST_CAST (datalink)->prev)
-			UG_DATA_LIST_CAST (datalink)->prev->next = UG_DATA_LIST_CAST (datalink)->next;
-		UG_DATA_LIST_CAST (datalink)->next = NULL;
-		UG_DATA_LIST_CAST (datalink)->prev = NULL;
+		if (UG_DATALIST_CAST (datalink)->next)
+			UG_DATALIST_CAST (datalink)->next->prev = UG_DATALIST_CAST (datalink)->prev;
+		if (UG_DATALIST_CAST (datalink)->prev)
+			UG_DATALIST_CAST (datalink)->prev->next = UG_DATALIST_CAST (datalink)->next;
+		UG_DATALIST_CAST (datalink)->next = NULL;
+		UG_DATALIST_CAST (datalink)->prev = NULL;
 	}
 }
 
-gpointer	ug_data_list_copy (gpointer datalist)
+gpointer	ug_datalist_copy (gpointer datalist)
 {
-	UgDataList*		newlist;
-	UgDataList*		newdata;
-	UgDataList*		src;
+	UgDatalist*		newlist;
+	UgDatalist*		newdata;
+	UgDatalist*		src;
 
 	newlist = NULL;
-	for (src = ug_data_list_last (datalist);  src;  src = src->prev) {
+	for (src = ug_datalist_last (datalist);  src;  src = src->prev) {
 		if (src->iface->assign) {
 			newdata = ug_data_copy (src);
-			newlist = ug_data_list_prepend (newlist, newdata);
+			newlist = ug_datalist_prepend (newlist, newdata);
 		}
 	}
 	return newlist;
 }
 
-gpointer	ug_data_list_assign	(gpointer datalist, gpointer src)
+gpointer	ug_datalist_assign (gpointer datalist, gpointer src)
 {
-	UgDataList*		newlink;
-	UgDataList*		srclink;
+	UgDatalist*		newlink;
+	UgDatalist*		srclink;
 
 	for (newlink = datalist, srclink = src;  srclink;  srclink = srclink->next) {
 		if (newlink == NULL) {
 			newlink = ug_data_copy (srclink);
-			datalist = ug_data_list_append (datalist, newlink);
+			datalist = ug_datalist_append (datalist, newlink);
 		}
 		else
 			ug_data_assign (newlink, srclink);

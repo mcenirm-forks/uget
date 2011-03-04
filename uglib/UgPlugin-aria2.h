@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -34,15 +34,6 @@
  *
  */
 
-/*
- *	uGet plug-in for aria2.
- *
- * UgPlugin
- * |
- * `--- UgPluginAria2
- *
- */
-
 #ifndef UG_PLUGIN_ARIA2_H
 #define UG_PLUGIN_ARIA2_H
 
@@ -54,11 +45,19 @@
 extern "C" {
 #endif
 
+#define	UG_PLUGIN_ARIA2_I		&ug_plugin_aria2_iface
 
 typedef	struct	UgPluginAria2		UgPluginAria2;
 
-extern	const	UgPluginInterface*	UgPluginAria2Iface;
+extern	const	UgPluginInterface	ug_plugin_aria2_iface;
 
+
+// ----------------------------------------------------------------------------
+// uGet plug-in for aria2.
+
+// UgPlugin
+// |
+// `--- UgPluginAria2
 
 struct UgPluginAria2
 {

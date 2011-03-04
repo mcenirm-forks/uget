@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -47,20 +47,22 @@ extern "C" {
 typedef struct	UgDataEntry			UgDataEntry;
 typedef struct	UgDataInterface		UgDataInterface;
 typedef struct	UgData				UgData;
-typedef struct	UgDataList			UgDataList;
+typedef struct	UgDatalist			UgDatalist;
 
 typedef enum	UgDataType			UgDataType;
 
 // UgDataInterface
-typedef void	(*UgInitFunc)		(gpointer instance);
-typedef void	(*UgFinalizeFunc)	(gpointer instance);
-typedef void	(*UgAssignFunc)		(gpointer instance, gpointer src);	// UgOverwriteFunc
-typedef void	(*UgNotifyFunc)		(gpointer user_data);
-
-// UgInMarkupFunc : how to parse data in markup.
-// UgToMarkupFunc : how to write data to markup.
-typedef void	(*UgInMarkupFunc)	(gpointer data, GMarkupParseContext* context);
-typedef void	(*UgToMarkupFunc)	(gpointer data, UgMarkup* markup);
+typedef void	(*UgInitFunc)		(void* instance);
+typedef void	(*UgFinalizeFunc)	(void* instance);
+typedef void	(*UgAssignFunc)		(void* instance, void* src_instance);
+typedef void	(*UgParseFunc)		(void* instance, void* user_data);
+typedef void	(*UgWriteFunc)		(void* instance, void* user_data);
+// UgParseMarkup : how to parse data in markup.
+// UgWriteMarkup : how to write data to markup.
+typedef void	(*UgParseMarkup)	(void* instance, GMarkupParseContext* context);
+typedef void	(*UgWriteMarkup)	(void* instance, UgMarkup* markup);
+// notify callback
+typedef void	(*UgNotifyFunc)		(void* user_data);
 
 enum	UgDataType
 {
@@ -71,10 +73,16 @@ enum	UgDataType
 	UG_DATA_INT64,
 	UG_DATA_DOUBLE,
 
-	UG_DATA_INSTANCE,	// UgData-based pointer
+	// used by UgDataEntry
+	// UgData-based pointer. if pointer is NULL, it use UgDataInterface to create data.
+	UG_DATA_INSTANCE,		// UgDataEntry.parser set to UgDataInterface
+	// UgData-based data that must be initialized.
+	UG_DATA_STATIC,
 
-	// User defined type.    (e.g. UserType  user_struct)
-	// You must use it with UgInMarkupFunc & UgToMarkupFunc in UgDataEntry.
+	// User defined type.
+	// UgDataEntry.parser set to UgParseFunc (or UgParseMarkup)
+	// UgDataEntry.writer set to UgWriteFunc (or UgWriteMarkup)
+	// You must use it with UgParseMarkup & UgWriteMarkup in UgDataEntry.
 	UG_DATA_CUSTOM,
 };
 
@@ -104,8 +112,8 @@ struct UgDataEntry
 	int				offset;
 	UgDataType		type;
 
-	UgInMarkupFunc	in_markup;		// how to parse  data in markup.
-	UgToMarkupFunc	to_markup;		// how to output data to markup.
+	const void*		parser;			// How to parse data.
+	const void*		writer;			// How to write data.
 };
 
 
@@ -122,11 +130,11 @@ struct UgDataInterface
 	UgInitFunc			init;
 	UgFinalizeFunc		finalize;
 
-	UgAssignFunc		assign;		// overwrite
+	UgAssignFunc		assign;		// overwrite dest by src
 };
 
-void		ug_data_interface_register	(const UgDataInterface*	iface);
-void		ug_data_interface_unregister(const UgDataInterface*	iface);
+void	ug_data_interface_register	(const UgDataInterface*	iface);
+void	ug_data_interface_unregister(const UgDataInterface*	iface);
 const UgDataInterface*	ug_data_interface_find	(const gchar* name);
 
 
@@ -134,13 +142,9 @@ const UgDataInterface*	ug_data_interface_find	(const gchar* name);
 // UgData : UgData is a base structure.
 //          It can save and load from XML file by UgDataEntry in UgDataInterface.
 
-#define UG_DATA_MEMBERS				\
-	const UgDataInterface*	iface
-
 struct UgData
 {
-	UG_DATA_MEMBERS;
-//	const UgDataInterface*	iface;
+	const UgDataInterface*	iface;
 };
 
 // ------------------------------------
@@ -155,51 +159,50 @@ gpointer	ug_data_copy	(gpointer	data);
 void		ug_data_assign	(gpointer	data, gpointer	src);	// overwrite (or merge)
 
 // ------------------------------------
-// XML input and output
-extern		GMarkupParser		ug_data_parser;		// UgData*   user_data
-void		ug_data_in_markup	(UgData* data, GMarkupParseContext* context);
-void		ug_data_to_markup	(UgData* data, UgMarkup* markup);
+// XML parse and write
+extern	GMarkupParser		ug_data_parser;		// UgData*   user_data
+void	ug_data_write_markup	(UgData* data, UgMarkup* markup);
 
 
 // ----------------------------------------------------------------------------
-// UgDataList : UgDataList is a UgData structure include Doubly-Linked Lists.
-//              All UgDataList-base structure can store in UgDataset.
+// UgDatalist : UgDatalist is a UgData structure include Doubly-Linked Lists.
+//              All UgDatalist-base structure can store in UgDataset.
 
 //  UgData
 //  |
-//	`- UgDataList
+//	`- UgDatalist
 
-#define UG_DATA_LIST_MEMBERS(Type)	\
+#define UG_DATALIST_MEMBERS(Type)	\
 	const UgDataInterface*	iface;	\
 	Type*					next;	\
 	Type*					prev
 
-struct UgDataList
+struct UgDatalist
 {
-	UG_DATA_LIST_MEMBERS (UgDataList);
+	UG_DATALIST_MEMBERS (UgDatalist);
 //	const UgDataInterface*	iface;
-//	UgDataList*				next;
-//	UgDataList*				prev;
+//	UgDatalist*				next;
+//	UgDatalist*				prev;
 };
 
-// --- UgDataList functions are similar to GList functions.
-//void		ug_data_list_free		(UgDataList* datalist);
-void		ug_data_list_free		(gpointer datalist);
+// --- UgDatalist functions are similar to GList functions.
+//void		ug_datalist_free	(UgDatalist* datalist);
+void		ug_datalist_free	(gpointer datalist);
 
-guint		ug_data_list_length		(gpointer datalist);
-gpointer	ug_data_list_first		(gpointer datalist);
-gpointer	ug_data_list_last		(gpointer datalist);
-gpointer	ug_data_list_nth		(gpointer datalist, guint nth);
+guint		ug_datalist_length	(gpointer datalist);
+gpointer	ug_datalist_first	(gpointer datalist);
+gpointer	ug_datalist_last	(gpointer datalist);
+gpointer	ug_datalist_nth		(gpointer datalist, guint nth);
 
-gpointer	ug_data_list_prepend	(gpointer datalist, gpointer datalink);
-gpointer	ug_data_list_append		(gpointer datalist, gpointer datalink);
-gpointer	ug_data_list_reverse	(gpointer datalist);
+gpointer	ug_datalist_prepend	(gpointer datalist, gpointer datalink);
+gpointer	ug_datalist_append	(gpointer datalist, gpointer datalink);
+gpointer	ug_datalist_reverse	(gpointer datalist);
 
-void		ug_data_list_unlink		(gpointer datalink);
+void		ug_datalist_unlink	(gpointer datalink);
 
-// --- copy UgDataList to a new UgDataList if UgDataInterface::assign exist.
-gpointer	ug_data_list_copy		(gpointer datalist);
-gpointer	ug_data_list_assign		(gpointer datalist, gpointer src);
+// --- copy UgDatalist to a new UgDatalist if UgDataInterface::assign exist.
+gpointer	ug_datalist_copy	(gpointer datalist);
+gpointer	ug_datalist_assign	(gpointer datalist, gpointer src);
 
 
 #ifdef __cplusplus

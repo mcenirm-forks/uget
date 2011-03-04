@@ -1,6 +1,6 @@
 static const char	uget_license[] =
 {
-" Copyright (C) 2005-2011 by Raymond Huang"								"\n"
+" Copyright (C) 2005-2011 by plushuang"								"\n"
 " plushuang at users.sourceforge.net"									"\n"
 																		"\n"
 "This library is free software; you can redistribute it and/or"			"\n"
@@ -58,7 +58,7 @@ static const char	uget_license[] =
 #define	UGET_URL_WEBSITE	"http://urlget.sourceforge.net/"
 
 // static data
-static const gchar*	uget_authors[] = { "Raymond Huang  (\xE9\xBB\x83\xE6\xAD\xA3\xE9\x9B\x84)", NULL };
+static const gchar*	uget_authors[] = { "plushuang  (\xE9\xBB\x83\xE6\xAD\xA3\xE9\x9B\x84)", NULL };
 static const gchar*	uget_artists[] =
 {
 	"Logo designer: Michael Tunnell (visuex.com)",
@@ -68,7 +68,7 @@ static const gchar*	uget_artists[] =
 };
 static const gchar*	uget_version   = UGET_GTK_VERSION;
 static const gchar*	uget_comments  = N_("Download Manager");
-static const gchar*	uget_copyright = "Copyright (C) 2005-2011 Raymond Huang";
+static const gchar*	uget_copyright = "Copyright (C) 2005-2011 plushuang";
 static const gchar*	translator_credits = N_("translator-credits");
 
 // static functions
@@ -115,14 +115,24 @@ static void	on_create_category_response (GtkDialog *dialog, gint response_id, Ug
 static void	on_create_category (GtkWidget* widget, UgetGtk* ugtk)
 {
 	UgCategoryDialog*	cdialog;
-	gchar*				title;
+	gchar*				string;
 
-	title = g_strconcat (UGET_GTK_NAME " - ", _("New Category"), NULL);
-	cdialog = ug_category_dialog_new (title, ugtk->window.self);
-	g_free (title);
+	string = g_strconcat (UGET_GTK_NAME " - ", _("New Category"), NULL);
+	cdialog = ug_category_dialog_new (string, ugtk->window.self);
+	g_free (string);
 	ug_download_form_set_folder_list (&cdialog->download,
 			ugtk->setting.folder_list);
-	ug_category_dialog_set (cdialog, &ugtk->setting.category);
+	// copy setting from current category
+	if (ugtk->cwidget.current.category != ugtk->cwidget.primary.category) {
+		ug_category_dialog_set (cdialog, ugtk->cwidget.current.category);
+		string = g_strconcat (_("Copy - "), ugtk->cwidget.current.category->name, NULL);
+		gtk_entry_set_text (GTK_ENTRY (cdialog->category.name_entry), string);
+		g_free (string);
+	}
+	else {
+		string = _("New Category");
+		gtk_entry_set_text (GTK_ENTRY (cdialog->category.name_entry), string);
+	}
 	// show category dialog
 	cdialog->user.app = ugtk;
 	g_signal_connect (cdialog->self, "response",
@@ -181,38 +191,6 @@ static void	on_config_category (GtkWidget* widget, UgetGtk* ugtk)
 	g_signal_connect (cdialog->self, "response",
 			G_CALLBACK (on_config_category_response), cdialog);
 	gtk_widget_set_sensitive ((GtkWidget*)ugtk->window.self, FALSE);
-	gtk_widget_show ((GtkWidget*) cdialog->self);
-}
-
-static void	on_config_category_default_response (GtkDialog *dialog, gint response_id, UgCategoryDialog* cdialog)
-{
-	UgetGtk*		ugtk;
-
-	ugtk = cdialog->user.app;
-	if (response_id == GTK_RESPONSE_OK) {
-		ug_download_form_get_folder_list (&cdialog->download,
-				&ugtk->setting.folder_list);
-		ug_category_dialog_get (cdialog, &ugtk->setting.category);
-	}
-	ug_category_dialog_free (cdialog);
-}
-
-static void	on_config_category_default (GtkWidget* widget, UgetGtk* ugtk)
-{
-	UgCategoryDialog*	cdialog;
-	gchar*				title;
-
-	title = g_strconcat (UGET_GTK_NAME " - ", _("Default for new Category"), NULL);
-	cdialog = ug_category_dialog_new (title, ugtk->window.self);
-	g_free (title);
-	ug_download_form_set_folder_list (&cdialog->download,
-			ugtk->setting.folder_list);
-	ug_category_form_set_multiple (&cdialog->category, TRUE);
-	ug_category_dialog_set (cdialog, &ugtk->setting.category);
-	// show category dialog
-	cdialog->user.app = ugtk;
-	g_signal_connect (cdialog->self, "response",
-			G_CALLBACK (on_config_category_default_response), cdialog);
 	gtk_widget_show ((GtkWidget*) cdialog->self);
 }
 
@@ -415,7 +393,7 @@ static void	on_open_download_file (GtkWidget* widget, UgetGtk* ugtk)
 	dataset = ug_download_widget_get_cursor (dwidget);
 	if (dataset == NULL)
 		return;
-	common = ug_dataset_get (dataset, UgDataCommonIface, 0);
+	common = ug_dataset_get (dataset, UG_DATA_COMMON_I, 0);
 	if (common->folder == NULL || common->file == NULL)
 		return;
 
@@ -446,7 +424,7 @@ static void	on_open_download_folder (GtkWidget* widget, UgetGtk* ugtk)
 	dataset = ug_download_widget_get_cursor (dwidget);
 	if (dataset == NULL)
 		return;
-	common = ug_dataset_get (dataset, UgDataCommonIface, 0);
+	common = ug_dataset_get (dataset, UG_DATA_COMMON_I, 0);
 	if (common->folder == NULL)
 		return;
 
@@ -1344,7 +1322,7 @@ static void	on_download_selection_changed (GtkTreeSelection* selection, UgetGtk*
 
 	dwidget = ugtk->cwidget.current.widget;
 	uget_gtk_statusbar_refresh (&ugtk->statusbar, dwidget);
-	uget_gtk_refresh_download_sensitive (ugtk);
+	uget_gtk_decide_download_sensitive (ugtk);
 }
 
 // UgDownloadWidget.view "cursor-changed"
@@ -1400,7 +1378,7 @@ static void	on_category_cursor_changed (GtkTreeView* view, UgetGtk* ugtk)
 	uget_gtk_move_menu_refresh (&ugtk->menubar, ugtk, FALSE);
 	uget_gtk_statusbar_refresh (&ugtk->statusbar, dwidget);
 	uget_gtk_refresh_download_column (ugtk);
-	uget_gtk_refresh_category_sensitive (ugtk);
+	uget_gtk_decide_category_sensitive (ugtk);
 }
 
 // UgSummary.menu.copy signal handler
@@ -1434,8 +1412,8 @@ static void uget_gtk_window_init_callback (struct UgetGtkWindow* window, UgetGtk
 			G_CALLBACK (on_category_cursor_changed), ugtk);
 
 	// pop-up menu by mouse button
-	g_signal_connect (ugtk->cwidget.primary.view, "button-press-event",
-			G_CALLBACK (on_button_press_event), ugtk);
+//	g_signal_connect (ugtk->cwidget.primary.view, "button-press-event",
+//			G_CALLBACK (on_button_press_event), ugtk);
 	g_signal_connect (ugtk->cwidget.view, "button-press-event",
 			G_CALLBACK (on_button_press_event), ugtk);
 	g_signal_connect (ugtk->summary.view, "button-press-event",
@@ -1643,8 +1621,6 @@ static void uget_gtk_menubar_init_callback (struct UgetGtkMenubar* menubar, Uget
 			G_CALLBACK (on_delete_category), ugtk);
 	g_signal_connect (menubar->category.properties, "activate",
 			G_CALLBACK (on_config_category), ugtk);
-	g_signal_connect (menubar->category.default_for_new, "activate",
-			G_CALLBACK (on_config_category_default), ugtk);
 
 	// ----------------------------------------------------
 	// UgetGtkDownloadMenu

@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -204,7 +204,7 @@ GList*	ug_selector_get_selected_downloads (UgSelector* selector)
 		else
 			gstr = g_string_new (item->uri);
 		dataset = ug_dataset_new ();
-		common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
+		common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
 		common->url = g_string_free (gstr, FALSE);
 		common->keeping.url = TRUE;
 		link->data = dataset;

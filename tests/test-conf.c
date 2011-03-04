@@ -11,9 +11,9 @@ void test_conf ()
 
 	markup		= ug_markup_new ();
 	dataset		= ug_dataset_new ();
-	progress	= ug_dataset_realloc (dataset, UgProgressIface, 0);
-	http		= ug_dataset_realloc (dataset, UgDataHttpIface, 0);
-	ftp			= ug_dataset_realloc (dataset, UgDataFtpIface, 0);
+	progress	= ug_dataset_realloc (dataset, UG_PROGRESS_I, 0);
+	http		= ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
+	ftp			= ug_dataset_realloc (dataset, UG_DATA_FTP_I, 0);
 
 	progress->total = 1484889;
 	http->redirection_limit = 10;
@@ -22,16 +22,16 @@ void test_conf ()
 	ftp->password	= g_strdup ("ftppassword");
 
 	ug_markup_write_start (markup, "test.ug.xml", TRUE);
-	ug_data_to_markup ((UgData*) dataset, markup);
+	ug_data_write_markup ((UgData*) dataset, markup);
 	ug_markup_write_end (markup);
 
 	ug_dataset_unref (dataset);
 
 	dataset = ug_dataset_new ();
 	if (ug_markup_parse ("test.ug.xml", &ug_data_parser, dataset)) {
-		progress	= ug_dataset_realloc (dataset, UgProgressIface, 0);
-		http		= ug_dataset_realloc (dataset, UgDataHttpIface, 0);
-		ftp			= ug_dataset_realloc (dataset, UgDataFtpIface, 0);
+		progress	= ug_dataset_realloc (dataset, UG_PROGRESS_I, 0);
+		http		= ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
+		ftp			= ug_dataset_realloc (dataset, UG_DATA_FTP_I, 0);
 	}
 
 	ug_dataset_unref (dataset);

@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -43,12 +43,12 @@
 extern "C" {
 #endif
 
-typedef struct	UgDownloadWidget_			UgDownloadWidget;
+typedef struct	UgDownloadWidget			UgDownloadWidget;
 
 // ----------------------------------------------------------------------------
 // UgDownloadWidget
 //
-struct UgDownloadWidget_
+struct UgDownloadWidget
 {
 	GtkWidget*		self;			// (GtkScrolledWindow) container widget for view
 	GtkTreeView*	view;

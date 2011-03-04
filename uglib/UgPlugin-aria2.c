@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -118,8 +118,8 @@ enum Aria2ErrorCode
 static const char*	supported_schemes[]   = {"http", "https", "ftp", "ftps", NULL};
 static const char*	supported_filetypes[] = {"torrent", "metalink", "meta4", NULL};
 static char*		xmlrpc_uri;
-
-static const	UgPluginInterface	plugin_interface =
+// extern
+const	UgPluginInterface	ug_plugin_aria2_iface =
 {
 	sizeof (UgPluginAria2),										// instance_size
 	"aria2",													// name
@@ -141,11 +141,10 @@ static const	UgPluginInterface	plugin_interface =
 	(UgGetFunc)				ug_plugin_aria2_get,				// get
 };
 
-// extern
-const UgPluginInterface*	UgPluginAria2Iface = &plugin_interface;
+
 // ----------------------------------------------------------------------------
 // functions for UgPluginInterface
-//
+
 static gboolean	ug_plugin_aria2_global_init (void)
 {
 	xmlrpc_uri = g_strdup (ARIA2_XMLRPC_URI);
@@ -174,8 +173,8 @@ static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
 	UgDataHttp*		http;
 
 	// get data
-	common = ug_dataset_get (dataset, UgDataCommonIface, 0);
-	http   = ug_dataset_get (dataset, UgDataHttpIface, 0);
+	common = ug_dataset_get (dataset, UG_DATA_COMMON_I, 0);
+	http   = ug_dataset_get (dataset, UG_DATA_HTTP_I, 0);
 	// check data
 	if (common == NULL)
 		return FALSE;
@@ -185,10 +184,10 @@ static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
 	if (http)
 		http->redirection_count = 0;
 	// copy supported data
-	plugin->common = ug_data_list_copy (ug_dataset_get (dataset, UgDataCommonIface, 0));
-	plugin->proxy  = ug_data_list_copy (ug_dataset_get (dataset, UgDataProxyIface, 0));
-	plugin->http   = ug_data_list_copy (ug_dataset_get (dataset, UgDataHttpIface, 0));
-	plugin->ftp    = ug_data_list_copy (ug_dataset_get (dataset, UgDataFtpIface, 0));
+	plugin->common = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_COMMON_I, 0));
+	plugin->proxy  = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_PROXY_I, 0));
+	plugin->http   = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_HTTP_I, 0));
+	plugin->ftp    = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_FTP_I, 0));
 	// xmlrpc
 	ug_xmlrpc_init (&plugin->xmlrpc);
 	ug_xmlrpc_use_client (&plugin->xmlrpc, xmlrpc_uri, NULL);
@@ -202,10 +201,10 @@ static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
 static void	ug_plugin_aria2_finalize (UgPluginAria2* plugin)
 {
 	// free data
-	ug_data_list_free (plugin->common);
-	ug_data_list_free (plugin->proxy);
-	ug_data_list_free (plugin->http);
-	ug_data_list_free (plugin->ftp);
+	ug_datalist_free (plugin->common);
+	ug_datalist_free (plugin->proxy);
+	ug_datalist_free (plugin->http);
+	ug_datalist_free (plugin->ftp);
 	// xmlrpc
 	ug_xmlrpc_finalize (&plugin->xmlrpc);
 	// others
@@ -280,7 +279,7 @@ static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpo
 
 	if (parameter != UG_DATA_INSTANCE)
 		return UG_RESULT_UNSUPPORT;
-	if (data == NULL || ((UgData*)data)->iface != UgProgressIface)
+	if (data == NULL || ((UgData*)data)->iface != UG_PROGRESS_I)
 		return UG_RESULT_UNSUPPORT;
 
 	progress = data;

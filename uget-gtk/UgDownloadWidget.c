@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -574,7 +574,7 @@ static void col_set_added_on (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
-	datalog = ug_dataset_get (dataset, UgDataLogIface, 0);
+	datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
 	string = (datalog) ? datalog->added_on : NULL;
 
 	g_object_set (cell, "text", string, NULL);
@@ -591,7 +591,7 @@ static void col_set_completed_on (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
-	datalog = ug_dataset_get (dataset, UgDataLogIface, 0);
+	datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
 	string = (datalog) ? datalog->completed_on : NULL;
 
 	g_object_set (cell, "text", string, NULL);
@@ -1188,7 +1188,7 @@ static gint	ug_download_model_cmp_added_on (GtkTreeModel* model, GtkTreeIter* a,
 	log1 = NULL;
 	gtk_tree_model_get (model, a, 0, &dataset, -1);
 	if (dataset) {
-		datalog = ug_dataset_get (dataset, UgDataLogIface, 0);
+		datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
 		if (datalog)
 			log1 = datalog->added_on;
 	}
@@ -1196,7 +1196,7 @@ static gint	ug_download_model_cmp_added_on (GtkTreeModel* model, GtkTreeIter* a,
 	log2 = NULL;
 	gtk_tree_model_get (model, b, 0, &dataset, -1);
 	if (dataset) {
-		datalog = ug_dataset_get (dataset, UgDataLogIface, 0);
+		datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
 		if (datalog)
 			log2 = datalog->added_on;
 	}
@@ -1218,7 +1218,7 @@ static gint	ug_download_model_cmp_completed_on (GtkTreeModel* model, GtkTreeIter
 	log1 = NULL;
 	gtk_tree_model_get (model, a, 0, &dataset, -1);
 	if (dataset) {
-		datalog = ug_dataset_get (dataset, UgDataLogIface, 0);
+		datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
 		if (datalog)
 			log1 = datalog->completed_on;
 	}
@@ -1226,7 +1226,7 @@ static gint	ug_download_model_cmp_completed_on (GtkTreeModel* model, GtkTreeIter
 	log2 = NULL;
 	gtk_tree_model_get (model, b, 0, &dataset, -1);
 	if (dataset) {
-		datalog = ug_dataset_get (dataset, UgDataLogIface, 0);
+		datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
 		if (datalog)
 			log2 = datalog->completed_on;
 	}

@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -188,7 +188,7 @@ void	ug_proxy_form_get  (UgProxyForm* pform, UgDataset* dataset)
 	gint			index;
 
 	index = gtk_combo_box_get_active ((GtkComboBox*) pform->type);
-	proxy = ug_dataset_realloc (dataset, UgDataProxyIface, 0);
+	proxy = ug_dataset_realloc (dataset, UG_DATA_PROXY_I, 0);
 	proxy->type = index;
 
 	ug_str_set (&proxy->user,     gtk_entry_get_text ((GtkEntry*)pform->user), -1);
@@ -207,7 +207,7 @@ void	ug_proxy_form_set  (UgProxyForm* pform, UgDataset* dataset, gboolean keep_c
 {
 	UgDataProxy*	proxy;
 
-	proxy = ug_dataset_get (dataset, UgDataProxyIface, 0);
+	proxy = ug_dataset_get (dataset, UG_DATA_PROXY_I, 0);
 	// if no proxy data
 	if (proxy == NULL) {
 		pform->changed.enable = FALSE;	// disable changed flags

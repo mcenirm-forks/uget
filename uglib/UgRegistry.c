@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -116,7 +116,8 @@ void*	ug_registry_find (const char* key)
 // ---------------------------------------------------------------------------
 // counting
 
-static GHashTable*	counting_hash	= NULL;
+static GHashTable*		counting_hash	= NULL;
+//static GStaticMutex	counting_mutex	= G_STATIC_MUTEX_INIT;
 
 unsigned int	ug_counting_current  (const void* key)
 {

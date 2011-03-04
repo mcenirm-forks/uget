@@ -44,7 +44,7 @@ static void plugin_callback (UgPlugin* plugin, const UgMessage* msg, gpointer us
 
 	case UG_MESSAGE_PROGRESS:
 		g_print ("--- Message Progress :\n");
-		progress = ug_data_new (UgProgressIface);
+		progress = ug_data_new (UG_PROGRESS_I);
 		if (ug_plugin_get (plugin, UG_DATA_INSTANCE, progress) == UG_RESULT_OK)
 			dump_progress (progress);
 		ug_data_free (progress);
@@ -128,7 +128,7 @@ int main (int argc, char* argv[])
 	}
 	dataset = ug_dataset_new ();
 	ug_option_entry_get (uoentry, dataset);
-	common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
+	common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
 	common->url = g_strdup (argv[1]);
 
 	plugin = ug_plugin_new_by_data (dataset);

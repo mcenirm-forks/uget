@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -47,39 +47,38 @@
 
 // ----------------------------------------------------------------------------
 // UgCategory
-//
+
 static void	ug_category_assign   (UgCategory* category, UgCategory* src);
 // UgCategory.indices parse/write for UgMarkup
 static void	ug_int_list_in_markup (GList** list, GMarkupParseContext* context);
 static void	ug_int_list_to_markup (GList** list, UgMarkup* markup);
 
-static const UgDataEntry	category_data_entry[] =
+static const UgDataEntry	ug_category_entry[] =
 {
 	{"name",			G_STRUCT_OFFSET (UgCategory, name),				UG_DATA_STRING,		NULL,	NULL},
 	{"ActiveLimit",		G_STRUCT_OFFSET (UgCategory, active_limit),		UG_DATA_UINT,		NULL,	NULL},
 	{"FinishedLimit",	G_STRUCT_OFFSET (UgCategory, finished_limit),	UG_DATA_UINT,		NULL,	NULL},
 	{"RecycledLimit",	G_STRUCT_OFFSET (UgCategory, recycled_limit),	UG_DATA_UINT,		NULL,	NULL},
-	{"DownloadDefault",	G_STRUCT_OFFSET (UgCategory, defaults),			UG_DATA_INSTANCE,	NULL,	NULL},
-	{"DownloadIndices",	G_STRUCT_OFFSET (UgCategory, indices),			UG_DATA_CUSTOM,	(UgInMarkupFunc)ug_int_list_in_markup,	(UgToMarkupFunc)ug_int_list_to_markup},
+	{"DownloadDefault",	G_STRUCT_OFFSET (UgCategory, defaults),			UG_DATA_INSTANCE,	UG_DATASET_I,	NULL},
+	{"DownloadIndices",	G_STRUCT_OFFSET (UgCategory, indices),			UG_DATA_CUSTOM,		ug_int_list_in_markup,	ug_int_list_to_markup},
 	{NULL},			// null-terminated
 };
-
-static const UgDataInterface	category_iface =
+// extern
+const UgDataInterface	ug_category_iface =
 {
-	sizeof (UgCategory),		// instance_size
-	"category",					// name
-	category_data_entry,		// entry
+	sizeof (UgCategory),	// instance_size
+	"category",				// name
+	ug_category_entry,		// entry
 
 	(UgInitFunc)     ug_category_init,
 	(UgFinalizeFunc) ug_category_finalize,
 	(UgAssignFunc)   ug_category_assign,
 };
-// extern
-const	UgDataInterface*	UgCategoryIface = &category_iface;
+
 
 void	ug_category_init (UgCategory* category)
 {
-	category->iface = &category_iface;
+	category->iface = &ug_category_iface;
 
 	category->defaults = ug_dataset_new ();
 	category->active_limit   = 3;
@@ -110,7 +109,7 @@ static void	ug_category_assign (UgCategory* category, UgCategory* src)
 
 UgCategory*	ug_category_new (void)
 {
-	return ug_data_new (UgCategoryIface);
+	return ug_data_new (&ug_category_iface);
 }
 
 void	ug_category_free (UgCategory* category)
@@ -124,7 +123,7 @@ void	ug_category_add (UgCategory* category, UgDataset* dataset)
 	UgDataLog*			datalog;
 
 	// added on
-	datalog = ug_dataset_realloc (dataset, UgDataLogIface, 0);
+	datalog = ug_dataset_realloc (dataset, UG_DATA_LOG_I, 0);
 	if (datalog->added_on == NULL)
 		datalog->added_on = ug_str_from_time (time (NULL), FALSE);
 
@@ -223,7 +222,7 @@ static void ug_category_data_start_element (GMarkupParseContext*	context,
 	}
 
 	// user must register data interface of UgCategory.
-	category = ug_data_new (UgCategoryIface);
+	category = ug_data_new (&ug_category_iface);
 	*list = g_list_prepend (*list, category);
 	g_markup_parse_context_push (context, &ug_data_parser, category);
 }
@@ -306,7 +305,7 @@ gboolean	ug_category_list_save (GList* list, const gchar* file)
 		}
 		// output
 		ug_markup_write_element_start (markup, "category");
-		ug_data_to_markup ((UgData*) list->data, markup);
+		ug_data_write_markup ((UgData*) list->data, markup);
 		ug_markup_write_element_end (markup, "category");
 		// free UgCategory.indices
 		g_list_free (category->indices);
@@ -431,7 +430,7 @@ GList*	ug_download_list_load (const gchar* download_file)
 
 		// Compatibility code for old DownloadList.xml
 		if (relation == NULL)
-			relation = ug_dataset_alloc_front (link->data, UgRelationIface);
+			relation = ug_dataset_alloc_front (link->data, UG_RELATION_I);
 		common = UG_DATASET_COMMON ((UgDataset*) link->data);
 		if (relation->attached.stamp == 0 && common) {
 			relation->attached.stamp = common->attached.stamp;
@@ -470,7 +469,7 @@ gboolean	ug_download_list_save (GList* list, const gchar* download_file)
 	ug_markup_write_element_start (markup, "UgetDownloadList version='1'");
 	for (;  list;  list = list->prev) {
 		ug_markup_write_element_start (markup, "download");
-		ug_data_to_markup ((UgData*) list->data, markup);
+		ug_data_write_markup ((UgData*) list->data, markup);
 		ug_markup_write_element_end (markup, "download");
 	}
 	ug_markup_write_element_end (markup, "UgetDownloadList");
@@ -493,10 +492,10 @@ gboolean	ug_download_create_attachment (UgDataset* dataset, gboolean force)
 	// check
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation == NULL)
-		relation = ug_dataset_alloc_front (dataset, UgRelationIface);
+		relation = ug_dataset_alloc_front (dataset, UG_RELATION_I);
 	else if (relation->attached.stamp)
 		return FALSE;
-	http = ug_dataset_get (dataset, UgDataHttpIface, 0);
+	http = ug_dataset_get (dataset, UG_DATA_HTTP_I, 0);
 	if ( (http && (http->cookie_file || http->post_file)) == FALSE && force == FALSE)
 		return FALSE;
 
@@ -554,16 +553,16 @@ gboolean	ug_download_assign_attachment (UgDataset* dest_data, UgDataset* src_dat
 		return FALSE;
 	dest.relation = UG_DATASET_RELATION (dest_data);
 	if (dest.relation == NULL)
-		dest.relation = ug_dataset_alloc_front (src_data, UgRelationIface);
+		dest.relation = ug_dataset_alloc_front (src_data, UG_RELATION_I);
 	ug_attachment_ref (src.relation->attached.stamp);
 	ug_attachment_unref (dest.relation->attached.stamp);
 	dest.relation->attached.stamp = src.relation->attached.stamp;
 	ug_str_set (&dest.relation->attached.folder, src.relation->attached.folder, -1);
 
 	// http
-	src.http  = ug_dataset_get (src_data, UgDataHttpIface, 0);
+	src.http  = ug_dataset_get (src_data, UG_DATA_HTTP_I, 0);
 	if (src.http) {
-		dest.http = ug_dataset_realloc (dest_data, UgDataHttpIface, 0);
+		dest.http = ug_dataset_realloc (dest_data, UG_DATA_HTTP_I, 0);
 		ug_str_set (&dest.http->post_file,   src.http->post_file,   -1);
 		ug_str_set (&dest.http->cookie_file, src.http->cookie_file, -1);
 	}
@@ -644,7 +643,7 @@ void	ug_download_complete_data (UgDataset* dataset)
 static void	ug_relation_finalize (UgRelation* relation);
 static void	ug_relation_assign   (UgRelation* relation, UgRelation* src);
 
-static UgDataEntry	relation_data_entry[] =
+static const UgDataEntry	ug_relation_entry[] =
 {
 	{"hints",			G_STRUCT_OFFSET (UgRelation, hints),			UG_DATA_UINT,	NULL,	NULL},
 	{"AttachedFolder",	G_STRUCT_OFFSET (UgRelation, attached.folder),	UG_DATA_STRING,	NULL,	NULL},
@@ -653,19 +652,18 @@ static UgDataEntry	relation_data_entry[] =
 	{"MessageString",	G_STRUCT_OFFSET (UgRelation, message.string),	UG_DATA_STRING,	NULL,	NULL},
 	{NULL},			// null-terminated
 };
-
-static UgDataInterface	relation_iface =
+// extern
+const UgDataInterface	ug_relation_iface =
 {
-	sizeof (UgRelation),		// instance_size
-	"relation",					// name
-	relation_data_entry,		// entry
+	sizeof (UgRelation),	// instance_size
+	"relation",				// name
+	ug_relation_entry,		// entry
 
 	(UgInitFunc)     NULL,
 	(UgFinalizeFunc) ug_relation_finalize,
 	(UgAssignFunc)   ug_relation_assign,
 };
-// extern
-const	UgDataInterface*	UgRelationIface = &relation_iface;
+
 
 static void	ug_relation_finalize (UgRelation* relation)
 {

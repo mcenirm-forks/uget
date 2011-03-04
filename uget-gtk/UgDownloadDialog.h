@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -49,9 +49,9 @@ extern "C" {
 #endif
 
 
-typedef struct	UgDownloadDialog_			UgDownloadDialog;
+typedef struct	UgDownloadDialog			UgDownloadDialog;
 
-struct UgDownloadDialog_
+struct UgDownloadDialog
 {
 	GtkDialog*		self;
 

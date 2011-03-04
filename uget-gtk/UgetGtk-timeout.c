@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -207,7 +207,7 @@ static void	uget_add_uris_quietly (UgetGtk* ugtk, GList* list)
 	for (link = list;  link;  link = link->next) {
 		dataset = ug_dataset_new ();
 		ug_data_assign (dataset, category->defaults);
-		common = ug_dataset_realloc (dataset, UgDataCommonIface, 0);
+		common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
 		g_free (common->url);
 		common->url = link->data;
 		ug_download_complete_data (dataset);

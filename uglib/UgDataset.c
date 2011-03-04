@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -45,31 +45,29 @@
 
 // ----------------------------------------------------------------------------
 // UgDataset
-//
+
 static void	ug_dataset_init      (UgDataset* dataset);
 static void	ug_dataset_finalize  (UgDataset* dataset);
 static void	ug_dataset_assign    (UgDataset* dataset, UgDataset* src);
 static void	ug_dataset_in_markup (UgDataset* dataset, GMarkupParseContext* context);
 static void	ug_dataset_to_markup (UgDataset* dataset, UgMarkup* markup);
 
-static UgDataEntry	dataset_entry[] =
+static const UgDataEntry	ug_dataset_entry[] =
 {
-	{"DataList",	0,	UG_DATA_CUSTOM,	(UgInMarkupFunc) ug_dataset_in_markup,	(UgToMarkupFunc) ug_dataset_to_markup},
+	{"DataList",	0,	UG_DATA_CUSTOM,	ug_dataset_in_markup,	ug_dataset_to_markup},
 	{NULL}		// null-terminated
 };
 
-static UgDataInterface	dataset_interface =
+const UgDataInterface	ug_dataset_iface =
 {
 	sizeof (UgDataset),		// instance_size
 	"dataset",				// name
-	dataset_entry,			// entry
+	ug_dataset_entry,		// entry
 
 	(UgInitFunc)		ug_dataset_init,
 	(UgFinalizeFunc)	ug_dataset_finalize,
 	(UgAssignFunc)		ug_dataset_assign,
 };
-// extern
-//const	UgDataInterface*	UgDatasetIface = &dataset_interface;
 
 
 static void	ug_dataset_init	(UgDataset* dataset)
@@ -77,10 +75,10 @@ static void	ug_dataset_init	(UgDataset* dataset)
 	dataset->ref_count = 1;
 
 	// for macros
-	ug_dataset_alloc_list (dataset, UgDataCommonIface);	//UG_DATASET_COMMON   0
-	ug_dataset_alloc_list (dataset, UgDataProxyIface);	//UG_DATASET_PROXY    1
-	ug_dataset_alloc_list (dataset, UgProgressIface);	//UG_DATASET_PROGRESS 2
-	ug_dataset_alloc_list (dataset, UgRelationIface);	//UG_DATASET_RELATION 3
+	ug_dataset_alloc_list (dataset, UG_DATA_COMMON_I);	// UG_DATASET_COMMON   0
+	ug_dataset_alloc_list (dataset, UG_DATA_PROXY_I);	// UG_DATASET_PROXY    1
+	ug_dataset_alloc_list (dataset, UG_PROGRESS_I);		// UG_DATASET_PROGRESS 2
+	ug_dataset_alloc_list (dataset, UG_RELATION_I);		// UG_DATASET_RELATION 3
 }
 
 static void	ug_dataset_finalize (UgDataset* dataset)
@@ -91,14 +89,14 @@ static void	ug_dataset_finalize (UgDataset* dataset)
 		dataset->destroy.func (dataset->destroy.data);
 
 	for (index = 0;  index < dataset->data_len;  index += 2)
-		ug_data_list_free (dataset->data[index]);
+		ug_datalist_free (dataset->data[index]);
 	g_free (dataset->data);
 }
 
 static void	ug_dataset_assign (UgDataset* dataset, UgDataset* src)
 {
 	const UgDataInterface*	iface;
-	UgDataList**		data_list;
+	UgDatalist**		data_list;
 	guint				index;
 
 	for (index = 0;  index < src->data_len;  index += 2) {
@@ -109,13 +107,13 @@ static void	ug_dataset_assign (UgDataset* dataset, UgDataset* src)
 		data_list = ug_dataset_get_list (dataset, iface);
 		if (data_list == NULL)
 			data_list = ug_dataset_alloc_list (dataset, iface);
-		*data_list = ug_data_list_assign (*data_list, src->data[index]);
+		*data_list = ug_datalist_assign (*data_list, src->data[index]);
 	}
 }
 
 UgDataset*	ug_dataset_new (void)
 {
-	return ug_data_new (&dataset_interface);
+	return ug_data_new (UG_DATASET_I);
 }
 
 void	ug_dataset_ref   (UgDataset* dataset)
@@ -133,19 +131,19 @@ void	ug_dataset_unref (UgDataset* dataset)
 // Gets the element at the given position in a list.
 gpointer	ug_dataset_get	(UgDataset* dataset, const UgDataInterface* iface, guint nth)
 {
-	UgDataList**	list;
+	UgDatalist**	list;
 
 	list = ug_dataset_get_list (dataset, iface);
 	if (list == NULL)
 		return NULL;
 
-	return ug_data_list_nth (*list, nth);
+	return ug_datalist_nth (*list, nth);
 }
 
 void	ug_dataset_remove (UgDataset* dataset, const UgDataInterface* iface, guint nth)
 {
-	UgDataList**	list;
-	UgDataList*		link;
+	UgDatalist**	list;
+	UgDatalist*		link;
 
 	list = ug_dataset_get_list (dataset, iface);
 	if (list == NULL || *list == NULL)
@@ -156,10 +154,10 @@ void	ug_dataset_remove (UgDataset* dataset, const UgDataInterface* iface, guint 
 		*list = link->next;
 	}
 	else
-		link = ug_data_list_nth (*list, nth);
+		link = ug_datalist_nth (*list, nth);
 
 	if (link) {
-		ug_data_list_unlink (link);
+		ug_datalist_unlink (link);
 		ug_data_free (link);
 	}
 }
@@ -168,8 +166,8 @@ void	ug_dataset_remove (UgDataset* dataset, const UgDataInterface* iface, guint 
 // If nth instance of iface not exist, alloc new instance in tail and return it.
 gpointer	ug_dataset_realloc (UgDataset* dataset, const UgDataInterface* iface, guint nth)
 {
-	UgDataList**	list;
-	UgDataList*		link;
+	UgDatalist**	list;
+	UgDatalist*		link;
 
 //	assert (iface != NULL);
 
@@ -195,8 +193,8 @@ gpointer	ug_dataset_realloc (UgDataset* dataset, const UgDataInterface* iface, g
 
 gpointer	ug_dataset_alloc_front (UgDataset* dataset, const UgDataInterface* iface)
 {
-	UgDataList**	list;
-	UgDataList*		link;
+	UgDatalist**	list;
+	UgDatalist*		link;
 
 //	assert (iface != NULL);
 
@@ -205,15 +203,15 @@ gpointer	ug_dataset_alloc_front (UgDataset* dataset, const UgDataInterface* ifac
 		list = ug_dataset_alloc_list (dataset, iface);
 
 	link = ug_data_new (iface);
-	*list = ug_data_list_prepend (*list, link);
+	*list = ug_datalist_prepend (*list, link);
 
 	return link;
 }
 
 gpointer	ug_dataset_alloc_back  (UgDataset* dataset, const UgDataInterface* iface)
 {
-	UgDataList**	list;
-	UgDataList*		link;
+	UgDatalist**	list;
+	UgDatalist*		link;
 
 //	assert (iface != NULL);
 
@@ -222,7 +220,7 @@ gpointer	ug_dataset_alloc_back  (UgDataset* dataset, const UgDataInterface* ifac
 		list = ug_dataset_alloc_list (dataset, iface);
 
 	link  = ug_data_new (iface);
-	*list = ug_data_list_append (*list, link);
+	*list = ug_datalist_append (*list, link);
 
 	return link;
 }
@@ -232,13 +230,13 @@ gpointer	ug_dataset_alloc_back  (UgDataset* dataset, const UgDataInterface* ifac
 // UgDataset list functions
 guint	ug_dataset_list_length (UgDataset* dataset, const UgDataInterface* iface)
 {
-	UgDataList**	list;
+	UgDatalist**	list;
 
 	list = ug_dataset_get_list (dataset, iface);
-	return ug_data_list_length (*list);
+	return ug_datalist_length (*list);
 }
 
-UgDataList**	ug_dataset_alloc_list (UgDataset* dataset, const UgDataInterface* iface)
+UgDatalist**	ug_dataset_alloc_list (UgDataset* dataset, const UgDataInterface* iface)
 {
 	guint	data_len = dataset->data_len;
 
@@ -254,7 +252,7 @@ UgDataList**	ug_dataset_alloc_list (UgDataset* dataset, const UgDataInterface* i
 	return &dataset->data[data_len];
 }
 
-UgDataList**	ug_dataset_get_list (UgDataset* dataset, const UgDataInterface* iface)
+UgDatalist**	ug_dataset_get_list (UgDataset* dataset, const UgDataInterface* iface)
 {
 	guint	index;
 
@@ -269,8 +267,8 @@ UgDataList**	ug_dataset_get_list (UgDataset* dataset, const UgDataInterface* ifa
 // free old list in dataset and set list with new_list.
 void	ug_dataset_set_list (UgDataset* dataset, const UgDataInterface* iface, gpointer new_list)
 {
-	UgDataList**	list;
-	UgDataList*		old_list;
+	UgDatalist**	list;
+	UgDatalist*		old_list;
 
 	list = ug_dataset_get_list (dataset, iface);
 	if (list == NULL)
@@ -278,14 +276,14 @@ void	ug_dataset_set_list (UgDataset* dataset, const UgDataInterface* iface, gpoi
 
 	old_list = *list;
 	*list = new_list;
-	ug_data_list_free (old_list);
+	ug_datalist_free (old_list);
 }
 
 // Cuts the element at the given position in a list.
 gpointer	ug_dataset_cut_list (UgDataset* dataset, const UgDataInterface* iface, guint nth)
 {
-	UgDataList**	list;
-	UgDataList*		link;
+	UgDatalist**	list;
+	UgDatalist*		link;
 
 	list = ug_dataset_get_list (dataset, iface);
 	if (list == NULL)
@@ -297,10 +295,10 @@ gpointer	ug_dataset_cut_list (UgDataset* dataset, const UgDataInterface* iface, 
 	}
 	else {
 		// nth > 0
-		link = ug_data_list_nth (*list, nth);
+		link = ug_datalist_nth (*list, nth);
 		if (link) {
-			((UgDataList*)link)->prev->next = NULL;
-			((UgDataList*)link)->prev = NULL;
+			((UgDatalist*)link)->prev->next = NULL;
+			((UgDatalist*)link)->prev = NULL;
 		}
 	}
 
@@ -317,7 +315,7 @@ static void ug_dataset_parser_start_element (GMarkupParseContext*	context,
                                               GError**			error)
 {
 	const UgDataInterface*	iface;
-	UgDataList*			datalist;
+	UgDatalist*			datalist;
 	guint				index;
 
 	if (strcmp (element_name, "DataClass") != 0) {
@@ -362,18 +360,18 @@ static void	ug_dataset_in_markup (UgDataset* dataset, GMarkupParseContext* conte
 static void	ug_dataset_to_markup (UgDataset* dataset, UgMarkup* markup)
 {
 	const UgDataInterface*	iface;
-	UgDataList*			datalist;
+	UgDatalist*			datalist;
 	guint				index;
 
 	for (index = 0;  index < dataset->data_len;  index += 2) {
 		// output from tail to head
-		datalist = ug_data_list_last (dataset->data[index]);
+		datalist = ug_datalist_last (dataset->data[index]);
 		for (;  datalist;  datalist = datalist->prev) {
 			iface = datalist->iface;
 			if (iface->entry == NULL)
 				continue;
 			ug_markup_write_element_start (markup, "DataClass name='%s'", iface->name);
-			ug_data_to_markup ((UgData*)datalist, markup);
+			ug_data_write_markup ((UgData*)datalist, markup);
 			ug_markup_write_element_end   (markup, "DataClass");
 		}
 	}

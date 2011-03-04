@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -101,8 +101,8 @@ static size_t	ug_plugin_curl_header_http	(char *buffer, size_t size, size_t nmem
 
 // static data for UgPluginInterface
 static const char*	supported_schemes[] = {"http", "https", "ftp", "ftps", NULL};
-
-static const	UgPluginInterface	plugin_interface =
+// extern
+const	UgPluginInterface	ug_plugin_curl_iface =
 {
 	sizeof (UgPluginCurl),										// instance_size
 	"curl",														// name
@@ -124,8 +124,6 @@ static const	UgPluginInterface	plugin_interface =
 	(UgGetFunc)				ug_plugin_curl_get,					// get
 };
 
-// extern
-const UgPluginInterface*	UgPluginCurlIface = &plugin_interface;
 
 // ----------------------------------------------------------------------------
 // functions for UgPluginInterface
@@ -145,8 +143,8 @@ static gboolean	ug_plugin_curl_init (UgPluginCurl* plugin, UgDataset* dataset)
 	UgDataCommon*	common;
 	UgDataHttp*		http;
 
-	common = ug_dataset_get (dataset, UgDataCommonIface, 0);
-	http   = ug_dataset_get (dataset, UgDataHttpIface, 0);
+	common = ug_dataset_get (dataset, UG_DATA_COMMON_I, 0);
+	http   = ug_dataset_get (dataset, UG_DATA_HTTP_I, 0);
 	// check data
 	if (common == NULL  ||  common->url == NULL)
 		return FALSE;
@@ -156,10 +154,10 @@ static gboolean	ug_plugin_curl_init (UgPluginCurl* plugin, UgDataset* dataset)
 	if (http)
 		http->redirection_count = 0;
 	// copy supported data
-	plugin->common = ug_data_list_copy (ug_dataset_get (dataset, UgDataCommonIface, 0));
-	plugin->proxy  = ug_data_list_copy (ug_dataset_get (dataset, UgDataProxyIface, 0));
-	plugin->http   = ug_data_list_copy (ug_dataset_get (dataset, UgDataHttpIface, 0));
-	plugin->ftp    = ug_data_list_copy (ug_dataset_get (dataset, UgDataFtpIface, 0));
+	plugin->common = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_COMMON_I, 0));
+	plugin->proxy  = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_PROXY_I, 0));
+	plugin->http   = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_HTTP_I, 0));
+	plugin->ftp    = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_FTP_I, 0));
 
 	// default values
 	plugin->resumable = TRUE;
@@ -172,10 +170,10 @@ static gboolean	ug_plugin_curl_init (UgPluginCurl* plugin, UgDataset* dataset)
 static void	ug_plugin_curl_finalize (UgPluginCurl* plugin)
 {
 	// free data
-	ug_data_list_free (plugin->common);
-	ug_data_list_free (plugin->proxy);
-	ug_data_list_free (plugin->http);
-	ug_data_list_free (plugin->ftp);
+	ug_datalist_free (plugin->common);
+	ug_datalist_free (plugin->proxy);
+	ug_datalist_free (plugin->http);
+	ug_datalist_free (plugin->ftp);
 	// clear curl
 	curl_easy_cleanup (plugin->curl);
 }
@@ -231,7 +229,7 @@ static UgResult	ug_plugin_curl_get (UgPluginCurl* plugin, guint parameter, gpoin
 
 	if (parameter != UG_DATA_INSTANCE)
 		return UG_RESULT_UNSUPPORT;
-	if (data == NULL || ((UgData*)data)->iface != UgProgressIface)
+	if (data == NULL || ((UgData*)data)->iface != UG_PROGRESS_I)
 		return UG_RESULT_UNSUPPORT;
 
 	progress = data;

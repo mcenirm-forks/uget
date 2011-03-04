@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -589,14 +589,6 @@ static void uget_gtk_menubar_init (struct UgetGtkMenubar* menubar, GtkAccelGroup
 	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_PROPERTIES, NULL);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	menubar->category.properties = menu_item;
-	// separator
-	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
-	// Default for new
-	menu_item = gtk_image_menu_item_new_with_mnemonic(_("Default for new Category..."));
-	image = gtk_image_new_from_stock (GTK_STOCK_APPLY, GTK_ICON_SIZE_MENU);
-	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	menubar->category.default_for_new = menu_item;
 
 	// ----------------------------------------------------
 	// UgetGtkDownloadMenu

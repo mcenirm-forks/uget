@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -47,7 +47,7 @@
 
 // This is used by GtkTreeStore
 enum UgCategoryStoreColumn {
-	UG_CATEGORY_STORE_INSTANCE,		// UgCategoryGtk
+	UG_CATEGORY_STORE_INSTANCE,		// UgCategory
 	UG_CATEGORY_STORE_DOWNLOAD,		// UgDownloadWidget
 	UG_CATEGORY_N_COLUMN
 };

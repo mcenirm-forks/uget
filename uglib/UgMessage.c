@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -120,26 +120,25 @@ static guint	http_data_count = sizeof (http_data) / sizeof (guint);
 static void	ug_message_finalize	(UgMessage* message);
 static void	ug_message_assign	(UgMessage* message, UgMessage* src);
 
-static UgDataEntry	message_data_entry[] =
+static const UgDataEntry	ug_message_entry[] =
 {
 	{"type",		G_STRUCT_OFFSET (UgMessage, type),		UG_DATA_UINT,		NULL,	NULL},
 	{"code",		G_STRUCT_OFFSET (UgMessage, code),		UG_DATA_UINT,		NULL,	NULL},
 	{"string",		G_STRUCT_OFFSET (UgMessage, string),	UG_DATA_STRING,		NULL,	NULL},
 	{NULL},		// null-terminated
 };
-
-static UgDataInterface message_data_interface =
+// extern
+const UgDataInterface ug_message_iface =
 {
 	sizeof (UgMessage),		// instance_size
 	"message",				// name
-	message_data_entry,		// entry
+	ug_message_entry,		// entry
 
 	(UgInitFunc)		NULL,
 	(UgFinalizeFunc)	ug_message_finalize,
 	(UgAssignFunc)		ug_message_assign,
 };
-// extern
-const	UgDataInterface*	UgMessageIface = &message_data_interface;
+
 
 static void	ug_message_finalize	(UgMessage* message)
 {
@@ -173,7 +172,7 @@ UgMessage*	ug_message_new	(UgMessageType type)
 {
 	UgMessage*	message;
 
-	message = ug_data_new (&message_data_interface);
+	message = ug_data_new (&ug_message_iface);
 	message->type = type;
 	return message;
 }
@@ -200,7 +199,7 @@ UgMessage*	ug_message_new_info (guint info_code, const gchar* string)
 	guint			message_member;
 	const gchar*	native_string;
 
-	message = ug_data_new (&message_data_interface);
+	message = ug_data_new (&ug_message_iface);
 	message->type = UG_MESSAGE_INFO;
 	message->code = info_code;
 
@@ -236,7 +235,7 @@ UgMessage*	ug_message_new_warning (guint warning_code, const gchar* string)
 	guint			message_member;
 	const gchar*	native_string;
 
-	message = ug_data_new (&message_data_interface);
+	message = ug_data_new (&ug_message_iface);
 	message->type = UG_MESSAGE_WARNING;
 	message->code = warning_code;
 
@@ -272,7 +271,7 @@ UgMessage*	ug_message_new_error (guint error_code, const gchar* string)
 	guint			message_member;
 	const gchar*	native_string;
 
-	message = ug_data_new (&message_data_interface);
+	message = ug_data_new (&ug_message_iface);
 	message->type = UG_MESSAGE_ERROR;
 	message->code = error_code;
 
@@ -314,7 +313,7 @@ UgMessage*	ug_message_new_data	(guint data_code, ...)
 	UgDataType		data_type;
 	va_list			args;
 
-	message = ug_data_new (&message_data_interface);
+	message = ug_data_new (&ug_message_iface);
 	message->type = UG_MESSAGE_DATA;
 	message->code = data_code;
 

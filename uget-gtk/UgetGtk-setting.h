@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -45,7 +45,6 @@
 #endif
 
 #include <UgData.h>
-#include <UgCategory.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,10 +56,10 @@ extern "C" {
 #define UGET_GTK_CLIPBOARD_PATTERN		"ZIP|BIN|GZ|7Z|Z|TAR|TGZ|BZ2|A[0-9]?|LZH|MP3|RPM|DEB|EXE|RAR|R[0-9][0-9]"
 #define UGET_GTK_LAUNCH_APP_TYPES		"torrent"
 
-typedef struct	UgetGtkSetting_			UgetGtkSetting;
-typedef enum	UgScheduleState_		UgScheduleState;
+typedef struct	UgetGtkSetting			UgetGtkSetting;
+typedef enum	UgScheduleState			UgScheduleState;
 
-enum UgScheduleState_
+enum UgScheduleState
 {
 	UG_SCHEDULE_TURN_OFF,
 	UG_SCHEDULE_UPLOAD_ONLY,	// reserve
@@ -71,16 +70,14 @@ enum UgScheduleState_
 };
 
 // <UgetGtkSetting>
-struct UgetGtkSetting_
+struct UgetGtkSetting
 {
-	UG_DATA_MEMBERS;
-//	UgDataInterface*	iface;		// for UgMarkup parse/write
+	const UgDataInterface*	iface;			// for UgMarkup parse/write
 
 	// "DownloadColumnSetting"
 	struct UgDownloadColumnSetting
 	{
-		UG_DATA_MEMBERS;
-//		UgDataInterface*	iface;		// for UgMarkup parse/write
+		const UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		guint		changed_count;	// sync with UgDownloadWidget.changed_count
 
@@ -101,8 +98,7 @@ struct UgetGtkSetting_
 	// "SummarySetting"
 	struct UgSummarySetting
 	{
-		UG_DATA_MEMBERS;
-//		UgDataInterface*	iface;		// for UgMarkup parse/write
+		const UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		gboolean	name;
 		gboolean	folder;
@@ -114,8 +110,7 @@ struct UgetGtkSetting_
 	// "WindowSetting"
 	struct UgWindowSetting
 	{
-		UG_DATA_MEMBERS;
-//		UgDataInterface*	iface;		// for UgMarkup parse/write
+		const UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		// visible
 		gboolean	toolbar;
@@ -132,8 +127,7 @@ struct UgetGtkSetting_
 
 	struct UgUserInterfaceSetting
 	{
-		UG_DATA_MEMBERS;
-//		UgDataInterface*	iface;		// for UgMarkup parse/write
+		const UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		// close_action == 0, Let user decide.
 		// close_action == 1, Minimize to tray.
@@ -153,31 +147,28 @@ struct UgetGtkSetting_
 	// "ClipboardSetting"
 	struct UgClipboardSetting
 	{
-		UG_DATA_MEMBERS;
-//		UgDataInterface*	iface;		// for UgMarkup parse/write
+		const UgDataInterface*	iface;		// for UgMarkup parse/write
 
-		gchar*			pattern;
-		gboolean		monitor;
-		gboolean		quiet;
-		gint			nth_category;
+		gchar*		pattern;
+		gboolean	monitor;
+		gboolean	quiet;
+		gint		nth_category;
 	} clipboard;
 
 	// "SchedulerSetting"
 	struct UgSchedulerSetting
 	{
-		UG_DATA_MEMBERS;
-//		UgDataInterface*	iface;		// for UgMarkup parse/write
+		const UgDataInterface*	iface;		// for UgMarkup parse/write
 
-		gboolean		enable;
-		guint			state[7][24];	// 1 week, 7 days, 24 hours
-		gint64			speed_limit;
+		gboolean	enable;
+		guint		state[7][24];	// 1 week, 7 days, 24 hours
+		gint64		speed_limit;
 	} scheduler;
 
 	// "PluginSetting"
 	struct UgPluginSetting
 	{
-		UG_DATA_MEMBERS;
-//		UgDataInterface*	iface;		// for UgMarkup parse/write
+		const UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		struct
 		{
@@ -192,9 +183,6 @@ struct UgetGtkSetting_
 
 	gboolean		offline_mode;
 	guint			shutdown;			// shutdown when downloads complete
-
-	// "CategoryDefault"
-	UgCategory		category;
 
 	// "FolderList"
 	GList*			folder_list;
@@ -213,7 +201,6 @@ struct UgetGtkSetting_
 };
 
 void	uget_gtk_setting_init  (UgetGtkSetting* setting);
-void	uget_gtk_setting_reset (UgetGtkSetting* setting);
 
 gboolean	uget_gtk_setting_save  (UgetGtkSetting* setting, const gchar* file);
 gboolean	uget_gtk_setting_load  (UgetGtkSetting* setting, const gchar* file);

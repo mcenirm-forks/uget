@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -222,10 +222,10 @@ void	ug_category_gtk_add (UgCategory* category, UgDataset* dataset)
 	GtkTreeModel*		model;
 	GtkTreePath*		path;
 
-	// add and set UgRelationIface to dataset
+	// add and set UgRelation to dataset
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation == NULL)
-		relation = ug_dataset_alloc_front (dataset, UgRelationIface);
+		relation = ug_dataset_alloc_front (dataset, UG_RELATION_I);
 	// GtkTreeIter in relation->user.position
 	if (relation->user.position == NULL) {
 		relation->user.position = g_slice_alloc (sizeof (GtkTreeIter));

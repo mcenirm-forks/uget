@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by Raymond Huang
+ *   Copyright (C) 2005-2011 by plushuang
  *   plushuang at users.sourceforge.net
  *
  *  This library is free software; you can redistribute it and/or
@@ -45,19 +45,19 @@
 
 // ----------------------------------------------------------------------------
 // UgDataCommon
-//
+
 static void ug_data_common_init		(UgDataCommon* common);
 static void ug_data_common_finalize	(UgDataCommon* common);
 static void ug_data_common_assign	(UgDataCommon* common, UgDataCommon* src);
 
-static const UgDataEntry	common_data_entry[] =
+static const UgDataEntry	ug_data_common_entry[] =
 {
-	{"name",				G_STRUCT_OFFSET (UgDataCommon, name),			UG_DATA_STRING,	NULL,	NULL},
-	{"url",					G_STRUCT_OFFSET (UgDataCommon, url),			UG_DATA_STRING,	NULL,	NULL},
-	{"file",				G_STRUCT_OFFSET (UgDataCommon, file),			UG_DATA_STRING,	NULL,	NULL},
-	{"folder",				G_STRUCT_OFFSET (UgDataCommon, folder),			UG_DATA_STRING,	NULL,	NULL},
-	{"user",				G_STRUCT_OFFSET (UgDataCommon, user),			UG_DATA_STRING,	NULL,	NULL},
-	{"password",			G_STRUCT_OFFSET (UgDataCommon, password),		UG_DATA_STRING,	NULL,	NULL},
+	{"name",				G_STRUCT_OFFSET (UgDataCommon, name),				UG_DATA_STRING,	NULL,	NULL},
+	{"url",					G_STRUCT_OFFSET (UgDataCommon, url),				UG_DATA_STRING,	NULL,	NULL},
+	{"file",				G_STRUCT_OFFSET (UgDataCommon, file),				UG_DATA_STRING,	NULL,	NULL},
+	{"folder",				G_STRUCT_OFFSET (UgDataCommon, folder),				UG_DATA_STRING,	NULL,	NULL},
+	{"user",				G_STRUCT_OFFSET (UgDataCommon, user),				UG_DATA_STRING,	NULL,	NULL},
+	{"password",			G_STRUCT_OFFSET (UgDataCommon, password),			UG_DATA_STRING,	NULL,	NULL},
 	{"ConnectTimeout",		G_STRUCT_OFFSET (UgDataCommon, connect_timeout),	UG_DATA_UINT,	NULL,	NULL},
 	{"TransmitTimeout",		G_STRUCT_OFFSET (UgDataCommon, transmit_timeout),	UG_DATA_UINT,	NULL,	NULL},
 	{"RetryDelay",			G_STRUCT_OFFSET (UgDataCommon, retry_delay),		UG_DATA_UINT,	NULL,	NULL},
@@ -71,19 +71,17 @@ static const UgDataEntry	common_data_entry[] =
 	{"AttachedStamp",		G_STRUCT_OFFSET (UgDataCommon, attached.stamp),		UG_DATA_UINT,	NULL,	NULL},
 	{NULL}		// null-terminated
 };
-
-static const UgDataInterface	common_data_interface =
+// extern
+const UgDataInterface	ug_data_common_iface =
 {
 	sizeof (UgDataCommon),	// instance_size
 	"common",				// name
-	common_data_entry,		// entry
+	ug_data_common_entry,	// entry
 
 	(UgInitFunc)     ug_data_common_init,
 	(UgFinalizeFunc) ug_data_common_finalize,
 	(UgAssignFunc)   ug_data_common_assign,
 };
-// extern
-const	UgDataInterface*		UgDataCommonIface = &common_data_interface;
 
 
 static void ug_data_common_init (UgDataCommon* common)
@@ -147,11 +145,11 @@ static void ug_data_common_assign (UgDataCommon* common, UgDataCommon* src)
 
 // ----------------------------------------------------------------------------
 // UgDataProxy
-//
+
 static void	ug_data_proxy_finalize	(UgDataProxy* proxy);
 static void	ug_data_proxy_assign	(UgDataProxy* proxy, UgDataProxy* src);
 
-static const UgDataEntry	proxy_data_entry[] =
+static const UgDataEntry	ug_data_proxy_entry[] =
 {
 	{"host",		G_STRUCT_OFFSET (UgDataProxy, host),		UG_DATA_STRING,	NULL,	NULL},
 	{"port",		G_STRUCT_OFFSET (UgDataProxy, port),		UG_DATA_UINT,	NULL,	NULL},
@@ -170,19 +168,17 @@ static const UgDataEntry	proxy_data_entry[] =
 #endif
 	{NULL},		// null-terminated
 };
-
-static const UgDataInterface	proxy_data_interface =
+// extern
+const UgDataInterface	ug_data_proxy_iface =
 {
 	sizeof (UgDataProxy),	// instance_size
 	"proxy",				// name
-	proxy_data_entry,		// entry
+	ug_data_proxy_entry,	// entry
 
 	(UgInitFunc)		NULL,
 	(UgFinalizeFunc)	ug_data_proxy_finalize,
 	(UgAssignFunc)		ug_data_proxy_assign,
 };
-// extern
-const	UgDataInterface*	UgDataProxyIface = &proxy_data_interface;
 
 
 static void	ug_data_proxy_finalize	(UgDataProxy* proxy)
@@ -227,10 +223,10 @@ static void	ug_data_proxy_assign (UgDataProxy* proxy, UgDataProxy* src)
 
 // ----------------------------------------------------------------------------
 // UgProgress
-//
+
 static void ug_progress_assign		(UgProgress* progress, UgProgress* src);
 
-static const UgDataEntry	progress_data_entry[] =
+static const UgDataEntry	ug_progress_entry[] =
 {
 	{"complete",	G_STRUCT_OFFSET (UgProgress, complete),		UG_DATA_INT64,	NULL,	NULL},
 	{"total",		G_STRUCT_OFFSET (UgProgress, total),		UG_DATA_INT64,	NULL,	NULL},
@@ -238,37 +234,36 @@ static const UgDataEntry	progress_data_entry[] =
 	{"elapsed",		G_STRUCT_OFFSET (UgProgress, consume_time),	UG_DATA_DOUBLE,	NULL,	NULL},
 	{NULL},		// null-terminated
 };
-
-static const UgDataInterface	progress_data_interface =
+// extern
+const UgDataInterface	ug_progress_iface =
 {
 	sizeof (UgProgress),	// instance_size
 	"progress",				// name
-	progress_data_entry,	// entry
+	ug_progress_entry,		// entry
 
 	(UgInitFunc)		NULL,
 	(UgFinalizeFunc)	NULL,
 	(UgAssignFunc)		ug_progress_assign,
 };
-// extern
-const UgDataInterface*	UgProgressIface = &progress_data_interface;
+
 
 static void ug_progress_assign (UgProgress* progress, UgProgress* src)
 {
 	// copy without private member
-	memcpy ( ((guint8*) progress) + sizeof (UgDataList),
-	         ((guint8*) src)      + sizeof (UgDataList),
-	         sizeof (UgProgress)  - sizeof (UgDataList) );
+	memcpy ( ((guint8*) progress) + sizeof (UgDatalist),
+	         ((guint8*) src)      + sizeof (UgDatalist),
+	         sizeof (UgProgress)  - sizeof (UgDatalist) );
 }
 
 
 // ---------------------------------------------------------------------------
 // UgDataHttp
-//
+
 static void	ug_data_http_init		(UgDataHttp* http);
 static void	ug_data_http_finalize	(UgDataHttp* http);
 static void	ug_data_http_assign		(UgDataHttp* http, UgDataHttp* src);
 
-static const UgDataEntry	http_data_entry[] =
+static const UgDataEntry	ug_data_http_entry[] =
 {
 	{"user",				G_STRUCT_OFFSET (UgDataHttp, user),					UG_DATA_STRING,	NULL,	NULL},
 	{"password",			G_STRUCT_OFFSET (UgDataHttp, password),				UG_DATA_STRING,	NULL,	NULL},
@@ -282,19 +277,18 @@ static const UgDataEntry	http_data_entry[] =
 	{"RedirectionCount",	G_STRUCT_OFFSET (UgDataHttp, redirection_count),	UG_DATA_UINT,	NULL,	NULL},
 	{NULL},		// null-terminated
 };
-
-static const UgDataInterface	http_data_interface =
+// extern
+const UgDataInterface	ug_data_http_iface =
 {
 	sizeof (UgDataHttp),	// instance_size
 	"http",					// name
-	http_data_entry,		// entry
+	ug_data_http_entry,		// entry
 
 	(UgInitFunc)		ug_data_http_init,
 	(UgFinalizeFunc)	ug_data_http_finalize,
 	(UgAssignFunc)		ug_data_http_assign,
 };
-// extern
-const	UgDataInterface*	UgDataHttpIface = &http_data_interface;
+
 
 static void	ug_data_http_init (UgDataHttp* http)
 {
@@ -346,26 +340,24 @@ static void	ug_data_http_assign (UgDataHttp* http, UgDataHttp* src)
 static void	ug_data_ftp_finalize	(UgDataFtp* ftp);
 static void	ug_data_ftp_assign		(UgDataFtp* ftp, UgDataFtp* src);
 
-static const UgDataEntry	ftp_data_entry[] =
+static const UgDataEntry	ug_data_ftp_entry[] =
 {
 	{"user",		G_STRUCT_OFFSET (UgDataFtp, user),		UG_DATA_STRING,	NULL,	NULL},
 	{"password",	G_STRUCT_OFFSET (UgDataFtp, password),	UG_DATA_STRING,	NULL,	NULL},
 	{"ActiveMode",	G_STRUCT_OFFSET (UgDataFtp, active_mode),	UG_DATA_INT,NULL,	NULL},
 	{NULL},		// null-terminated
 };
-
-static const UgDataInterface	ftp_data_interface =
+// extern
+const UgDataInterface	ug_data_ftp_iface =
 {
 	sizeof (UgDataFtp),	// instance_size
 	"ftp",				// name
-	ftp_data_entry,		// entry
+	ug_data_ftp_entry,	// entry
 
 	(UgInitFunc)		NULL,
 	(UgFinalizeFunc)	ug_data_ftp_finalize,
 	(UgAssignFunc)		ug_data_ftp_assign,
 };
-// extern
-const	UgDataInterface*	UgDataFtpIface = &ftp_data_interface;
 
 
 static void	ug_data_ftp_finalize	(UgDataFtp* ftp)
@@ -393,25 +385,23 @@ static void	ug_data_ftp_assign	(UgDataFtp* ftp, UgDataFtp* src)
 //
 static void	ug_data_log_finalize	(UgDataLog* log);
 
-static const UgDataEntry	log_data_entry[] =
+static const UgDataEntry	ug_data_log_entry[] =
 {
 	{"AddedOn",		G_STRUCT_OFFSET (UgDataLog, added_on),		UG_DATA_STRING,	NULL,	NULL},
 	{"CompletedOn",	G_STRUCT_OFFSET (UgDataLog, completed_on),	UG_DATA_STRING,	NULL,	NULL},
 	{NULL},		// null-terminated
 };
-
-static const UgDataInterface	log_data_interface =
+// extern
+const UgDataInterface	ug_data_log_iface =
 {
 	sizeof (UgDataLog),	// instance_size
 	"log",				// name
-	log_data_entry,		// entry
+	ug_data_log_entry,	// entry
 
 	(UgInitFunc)		NULL,
 	(UgFinalizeFunc)	ug_data_log_finalize,
 	(UgAssignFunc)		NULL,
 };
-// extern
-const	UgDataInterface*	UgDataLogIface = &log_data_interface;
 
 
 static void	ug_data_log_finalize	(UgDataLog* log)
