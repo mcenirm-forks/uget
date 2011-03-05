@@ -56,8 +56,6 @@ extern "C" {
 #define	UG_DATASET_PROXY(dataset)			( (UgDataProxy*) ((dataset)->data[2]) )
 #define	UG_DATASET_PROGRESS(dataset)		( (UgProgress*)  ((dataset)->data[4]) )
 #define	UG_DATASET_RELATION(dataset)		( (UgRelation*)  ((dataset)->data[6]) )
-// interface address
-#define	UG_DATASET_I		&ug_dataset_iface
 
 typedef struct	UgDataset			UgDataset;		// collection of all UgDatalist-based instance
 

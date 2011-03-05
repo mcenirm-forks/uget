@@ -45,8 +45,6 @@
 extern "C" {
 #endif
 
-#define	UG_PLUGIN_ARIA2_I		&ug_plugin_aria2_iface
-
 typedef	struct	UgPluginAria2		UgPluginAria2;
 
 extern	const	UgPluginInterface	ug_plugin_aria2_iface;

@@ -66,7 +66,7 @@
 extern "C" {
 #endif
 
-// interface address
+// interface address for UgDataset
 #define	UG_DATA_COMMON_I		&ug_data_common_iface
 #define	UG_DATA_PROXY_I			&ug_data_proxy_iface
 #define	UG_PROGRESS_I			&ug_progress_iface

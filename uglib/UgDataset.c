@@ -113,7 +113,7 @@ static void	ug_dataset_assign (UgDataset* dataset, UgDataset* src)
 
 UgDataset*	ug_dataset_new (void)
 {
-	return ug_data_new (UG_DATASET_I);
+	return ug_data_new (&ug_dataset_iface);
 }
 
 void	ug_dataset_ref   (UgDataset* dataset)

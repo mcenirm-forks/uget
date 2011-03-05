@@ -45,9 +45,8 @@
 extern "C" {
 #endif
 
-// interface address
-#define	UG_CATEGORY_I		&ug_category_iface
-#define	UG_RELATION_I		&ug_relation_iface
+// interface address for UgDataset
+#define	UG_RELATION_I		ug_relation_iface_pointer
 
 typedef struct	UgCategory			UgCategory;
 typedef struct	UgCategoryFuncs		UgCategoryFuncs;
@@ -61,6 +60,8 @@ typedef void	(*UgCategoryChangedFunc)(UgCategory* category, UgDataset* dataset);
 
 extern const	UgDataInterface		ug_category_iface;
 extern const	UgDataInterface		ug_relation_iface;
+extern const	UgDataInterface*	ug_category_iface_pointer;
+extern const	UgDataInterface*	ug_relation_iface_pointer;
 
 
 // ----------------------------------------------------------------------------

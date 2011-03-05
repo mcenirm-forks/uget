@@ -59,7 +59,7 @@ static const UgDataEntry	ug_category_entry[] =
 	{"ActiveLimit",		G_STRUCT_OFFSET (UgCategory, active_limit),		UG_DATA_UINT,		NULL,	NULL},
 	{"FinishedLimit",	G_STRUCT_OFFSET (UgCategory, finished_limit),	UG_DATA_UINT,		NULL,	NULL},
 	{"RecycledLimit",	G_STRUCT_OFFSET (UgCategory, recycled_limit),	UG_DATA_UINT,		NULL,	NULL},
-	{"DownloadDefault",	G_STRUCT_OFFSET (UgCategory, defaults),			UG_DATA_INSTANCE,	UG_DATASET_I,	NULL},
+	{"DownloadDefault",	G_STRUCT_OFFSET (UgCategory, defaults),			UG_DATA_INSTANCE,	&ug_dataset_iface,	NULL},
 	{"DownloadIndices",	G_STRUCT_OFFSET (UgCategory, indices),			UG_DATA_CUSTOM,		ug_int_list_in_markup,	ug_int_list_to_markup},
 	{NULL},			// null-terminated
 };
@@ -74,11 +74,13 @@ const UgDataInterface	ug_category_iface =
 	(UgFinalizeFunc) ug_category_finalize,
 	(UgAssignFunc)   ug_category_assign,
 };
+// extern
+const UgDataInterface*	ug_category_iface_pointer = &ug_category_iface;
 
 
 void	ug_category_init (UgCategory* category)
 {
-	category->iface = &ug_category_iface;
+//	category->iface = ug_category_iface_pointer;
 
 	category->defaults = ug_dataset_new ();
 	category->active_limit   = 3;
@@ -109,7 +111,7 @@ static void	ug_category_assign (UgCategory* category, UgCategory* src)
 
 UgCategory*	ug_category_new (void)
 {
-	return ug_data_new (&ug_category_iface);
+	return ug_data_new (ug_category_iface_pointer);
 }
 
 void	ug_category_free (UgCategory* category)
@@ -222,7 +224,7 @@ static void ug_category_data_start_element (GMarkupParseContext*	context,
 	}
 
 	// user must register data interface of UgCategory.
-	category = ug_data_new (&ug_category_iface);
+	category = ug_data_new (ug_category_iface_pointer);
 	*list = g_list_prepend (*list, category);
 	g_markup_parse_context_push (context, &ug_data_parser, category);
 }
@@ -663,6 +665,8 @@ const UgDataInterface	ug_relation_iface =
 	(UgFinalizeFunc) ug_relation_finalize,
 	(UgAssignFunc)   ug_relation_assign,
 };
+// extern
+const UgDataInterface*	ug_relation_iface_pointer = &ug_relation_iface;
 
 
 static void	ug_relation_finalize (UgRelation* relation)

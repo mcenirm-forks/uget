@@ -46,8 +46,6 @@
 extern "C" {
 #endif
 
-#define	UG_PLUGIN_CURL_I		&ug_plugin_curl_iface
-
 typedef	struct	UgPluginCurl		UgPluginCurl;
 
 extern	const	UgPluginInterface	ug_plugin_curl_iface;

@@ -54,14 +54,14 @@ gboolean	uget_gtk_aria2_setup (UgetGtk* ugtk)
 	const UgPluginInterface*	iface;
 
 	ug_xmlrpc_use_client (&ugtk->xmlrpc, ugtk->setting.plugin.aria2.uri, NULL);
-	ug_plugin_global_set (UG_PLUGIN_ARIA2_I,
+	ug_plugin_global_set (&ug_plugin_aria2_iface,
 			UG_DATA_STRING, ugtk->setting.plugin.aria2.uri);
 
 	iface = ug_plugin_interface_find ("aria2", 0);
 	if (iface)
 		ug_plugin_interface_unregister (iface);
 	if (ugtk->setting.plugin.aria2.enable) {
-		ug_plugin_interface_register (UG_PLUGIN_ARIA2_I);
+		ug_plugin_interface_register (&ug_plugin_aria2_iface);
 		if (ugtk->setting.plugin.aria2.launch)
 			uget_gtk_aria2_launch (ugtk);
 	}
