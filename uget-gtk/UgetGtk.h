@@ -350,10 +350,10 @@ gboolean	uget_gtk_aria2_setup (UgetGtk* ugtk);
 gboolean	uget_gtk_aria2_launch (UgetGtk* ugtk);
 void		uget_gtk_aria2_shutdown (UgetGtk* ugtk);
 #else
-#define		uget_gtk_aria2_init(ugtk);
-#define		uget_gtk_aria2_setup(ugtk);
-#define		uget_gtk_aria2_launch(ugtk);
-#define		uget_gtk_aria2_shutdown(ugtk);
+#define		uget_gtk_aria2_init(ugtk)
+#define		uget_gtk_aria2_setup(ugtk)
+#define		uget_gtk_aria2_launch(ugtk)
+#define		uget_gtk_aria2_shutdown(ugtk)
 #endif	// HAVE_PLUGIN_ARIA2
 
 
