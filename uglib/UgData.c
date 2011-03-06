@@ -116,7 +116,8 @@ gpointer	ug_data_copy (gpointer data)
 		iface = ((UgData*)data)->iface;
 		assign = iface->assign;
 		if (assign) {
-			new_data = g_malloc0 (iface->instance_size);
+//			new_data = g_malloc0 (iface->instance_size);
+			new_data = g_slice_alloc0 (iface->instance_size);
 			((UgData*)new_data)->iface = iface;
 			assign (new_data, data);
 			return new_data;
