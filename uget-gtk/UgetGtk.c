@@ -78,7 +78,7 @@ void	uget_gtk_init (UgetGtk* ugtk)
 	UgCategory*		category;
 	UgDataCommon*	common;
 
-	ugtk->running = ug_running_new ();
+	ug_running_init (&ugtk->running);
 	// upgrade from Uget 1.6
 	uget_gtk_update_config_dir ();
 	// initialize widgets in UgetGtk-gui.c
@@ -126,7 +126,7 @@ void	uget_gtk_init (UgetGtk* ugtk)
 void	uget_gtk_quit (UgetGtk* ugtk)
 {
 	// stop all active download
-	ug_running_clear (ugtk->running);
+	ug_running_clear (&ugtk->running);
 	// get and update setting before program save it
 	uget_gtk_get_setting (ugtk, &ugtk->setting);
 	// save data

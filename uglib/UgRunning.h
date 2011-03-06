@@ -67,6 +67,9 @@ struct UgRunning
 	} watch;
 };
 
+void		ug_running_init (UgRunning* running);
+void		ug_running_finalize (UgRunning* running);
+
 UgRunning*	ug_running_new (void);
 void		ug_running_free (UgRunning* running);
 

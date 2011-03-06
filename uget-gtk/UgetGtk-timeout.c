@@ -80,7 +80,7 @@ void	uget_gtk_init_timeout (UgetGtk* ugtk)
 			(GSourceFunc) uget_gtk_timeout_ipc, ugtk, NULL);
 	// 0.5 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500,
-			(GSourceFunc) ug_running_dispatch, ugtk->running, NULL);
+			(GSourceFunc) ug_running_dispatch, &ugtk->running, NULL);
 	// 1 seconds
 	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT_IDLE, 1,
 			(GSourceFunc) uget_gtk_timeout_queuing, ugtk, NULL);
@@ -422,17 +422,17 @@ static gboolean	uget_gtk_decide_schedule_state (UgetGtk* ugtk)
 		switch (state)
 		{
 		case UG_SCHEDULE_TURN_OFF:
-			ug_running_clear (ugtk->running);
+			ug_running_clear (&ugtk->running);
 			break;
 
 		case UG_SCHEDULE_LIMITED_SPEED:
-			ug_running_set_speed (ugtk->running,
+			ug_running_set_speed (&ugtk->running,
 					ugtk->setting.scheduler.speed_limit);
 			break;
 
 		default:
 			// no speed limit
-			ug_running_set_speed (ugtk->running, 0);
+			ug_running_set_speed (&ugtk->running, 0);
 			break;
 		}
 	}
@@ -459,7 +459,7 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 	// If changed is TRUE, it will refresh all category-related data.
 	changed = uget_gtk_decide_schedule_state (ugtk);
 	// do something for inactive jobs
-	jobs = ug_running_get_inactive (ugtk->running);
+	jobs = ug_running_get_inactive (&ugtk->running);
 	for (link = jobs;  link;  link = link->next) {
 		temp.relation = UG_DATASET_RELATION ((UgDataset*) link->data);
 		// This will change tray icon.
@@ -469,7 +469,7 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 		if ((temp.relation->hints & UG_HINT_COMPLETED) && ugtk->setting.launch.active)
 			uget_gtk_launch_default_app (link->data, ugtk->launch_regex);
 		// remove inactive jobs from group
-		ug_running_remove (ugtk->running, link->data);
+		ug_running_remove (&ugtk->running, link->data);
 		changed = TRUE;
 	}
 	g_list_free (jobs);
@@ -485,14 +485,14 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 			continue;
 		// get queuing jobs from categories and activate them
 		jobs = ug_category_gtk_get_jobs (link->data);
-		if (ug_running_add_jobs (ugtk->running, jobs))
+		if (ug_running_add_jobs (&ugtk->running, jobs))
 			changed = TRUE;
 		g_list_free (jobs);
 	}
 	g_list_free (list);
 
 	// get number of jobs after queuing
-	n_after = ug_running_get_n_jobs (ugtk->running);
+	n_after = ug_running_get_n_jobs (&ugtk->running);
 	// some jobs was start or stop
 	if (n_before != n_after) {
 		// downloading start
@@ -529,7 +529,7 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 
 	// category or download status changed
 	if (changed || n_after) {
-		temp.speed = ug_running_get_speed (ugtk->running);
+		temp.speed = ug_running_get_speed (&ugtk->running);
 		gtk_widget_queue_draw (ugtk->cwidget.current.widget->self);
 		// summary
 		ug_summary_show (&ugtk->summary,

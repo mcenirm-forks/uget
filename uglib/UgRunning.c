@@ -44,20 +44,30 @@
 // ----------------------------------------------------------------------------
 // UgRunning
 //
+void	ug_running_init (UgRunning* running)
+{
+	g_queue_init (&running->group);
+}
+
+void	ug_running_finalize (UgRunning* running)
+{
+	ug_running_clear (running);
+	g_queue_clear (&running->group);
+}
+
 UgRunning*	ug_running_new (void)
 {
 	UgRunning*	running;
 
-	running = g_malloc0 (sizeof (UgRunning));
-	g_queue_init (&running->group);
+	running = g_slice_new0 (UgRunning);
+	ug_running_init (running);
 	return running;
 }
 
 void	ug_running_free (UgRunning* running)
 {
-	ug_running_clear (running);
-	g_queue_clear (&running->group);
-	g_free (running);
+	ug_running_finalize (running);
+	g_slice_free (UgRunning, running);
 }
 
 gboolean	ug_running_add (UgRunning* running, UgDataset* dataset)

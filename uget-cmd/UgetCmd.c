@@ -56,7 +56,7 @@ void	uget_cmd_run (UgetCmd* ugcmd)
 		ugcmd->category_list = g_list_append (ugcmd->category_list, ug_category_new_with_cmd());
 	}
 
-	ugcmd->running = ug_running_new ();
+	ug_running_init (&ugcmd->running);
 
 	ugcmd->main_loop = g_main_loop_new (NULL, FALSE);
 
@@ -65,7 +65,7 @@ void	uget_cmd_run (UgetCmd* ugcmd)
 						(GSourceFunc) uget_cmd_timer_ipc, ugcmd, NULL);
 	// 0.5 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500,
-						(GSourceFunc) ug_running_dispatch, ugcmd->running, NULL);
+						(GSourceFunc) ug_running_dispatch, &ugcmd->running, NULL);
 	// 1 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 1000,
 						(GSourceFunc) uget_cmd_timer_queuing, ugcmd, NULL);
@@ -175,25 +175,25 @@ static gboolean	uget_cmd_timer_queuing (UgetCmd* ugcmd)
 	gdouble			speed;
 
 	// do something for inactive jobs
-	jobs = ug_running_get_inactive (ugcmd->running);
+	jobs = ug_running_get_inactive (&ugcmd->running);
 	for (link = jobs;  link;  link = link->next) {
 		// remove inactive jobs from group
-		ug_running_remove (ugcmd->running, link->data);
+		ug_running_remove (&ugcmd->running, link->data);
 	}
 	g_list_free (jobs);
 
 	// get queuing jobs from categories and activate them
 	for (link = ugcmd->category_list;  link;  link = link->next) {
 		jobs = ug_category_cmd_get_jobs (link->data);
-		ug_running_add_jobs (ugcmd->running, jobs);
+		ug_running_add_jobs (&ugcmd->running, jobs);
 		g_list_free (jobs);
 	}
 
 	// display number of jobs and speed
-	if (ug_running_get_n_jobs (ugcmd->running) > 0) {
-		speed = ug_running_get_speed (ugcmd->running);
+	if (ug_running_get_n_jobs (&ugcmd->running) > 0) {
+		speed = ug_running_get_speed (&ugcmd->running);
 		g_print ("%u jobs, %.2f KiB\n",
-				ug_running_get_n_jobs (ugcmd->running),
+				ug_running_get_n_jobs (&ugcmd->running),
 				speed / 1024.0);
 	}
 

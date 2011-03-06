@@ -64,7 +64,7 @@ struct UgetCmd
 {
 	UgOption		option;
 	UgIpc			ipc;
-	UgRunning*		running;
+	UgRunning		running;
 
 	GList*			category_list;
 

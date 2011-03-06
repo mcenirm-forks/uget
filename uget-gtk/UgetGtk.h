@@ -78,7 +78,7 @@ struct UgetGtk
 	// command argument, IPC, UgRunning
 	UgOption		option;			// initialize in uget-gtk/main.c
 	UgIpc			ipc;			// initialize in uget-gtk/main.c
-	UgRunning*		running;
+	UgRunning		running;
 
 	// aria2
 	UgXmlrpc		xmlrpc;

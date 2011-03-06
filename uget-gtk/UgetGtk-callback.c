@@ -319,7 +319,7 @@ static void	on_delete_download (GtkWidget* widget, UgetGtk* ugtk)
 		// set status "stop by user"
 		ugtk->user_action = TRUE;
 		// stop job
-		ug_running_remove (ugtk->running, link->data);
+		ug_running_remove (&ugtk->running, link->data);
 		// delete data or move it to recycled
 		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
 		if ((relation->hints & UG_HINT_RECYCLED) || (mask & GDK_SHIFT_MASK))
@@ -352,7 +352,7 @@ static void	on_delete_download_file_response (GtkWidget* widget, gint response_i
 		// set status "stop by user"
 		ugtk->user_action = TRUE;
 		// stop job
-		ug_running_remove (ugtk->running, link->data);
+		ug_running_remove (&ugtk->running, link->data);
 		// delete file
 		common = UG_DATASET_COMMON ((UgDataset*) link->data);
 		if (common->folder) {
@@ -568,7 +568,7 @@ static void	on_set_download_to_pause (GtkWidget* widget, UgetGtk* ugtk)
 		// set status "stop by user"
 		ugtk->user_action = TRUE;
 		// stop job
-		ug_running_remove (ugtk->running, link->data);
+		ug_running_remove (&ugtk->running, link->data);
 	}
 	g_list_free (list);
 	// refresh other data & status
@@ -873,7 +873,7 @@ static void	on_offline_mode (GtkWidget* widget, UgetGtk* ugtk)
 		// set status "stop by user"
 		ugtk->user_action = TRUE;
 		// stop all active jobs
-		ug_running_clear (ugtk->running);
+		ug_running_clear (&ugtk->running);
 		// refresh
 		gtk_widget_queue_draw (ugtk->cwidget.self);
 		dwidget = ugtk->cwidget.current.widget;
