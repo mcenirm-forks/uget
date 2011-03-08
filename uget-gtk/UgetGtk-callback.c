@@ -1164,10 +1164,13 @@ static void	on_tray_icon_activate (GtkStatusIcon* status_icon, UgetGtk* ugtk)
 	// clear error status
 	if (ugtk->tray_icon.error_occurred) {
 		ugtk->tray_icon.error_occurred = FALSE;
+#ifndef HAVE_APP_INDICATOR
 		gtk_status_icon_set_from_icon_name (status_icon, UGET_GTK_ICON_NAME);
+#endif
 	}
 }
 
+#ifndef HAVE_APP_INDICATOR
 static void	on_tray_icon_popup_menu (GtkStatusIcon* status_icon, guint button, guint activate_time, UgetGtk* ugtk)
 {
 	gtk_menu_set_screen ((GtkMenu*) ugtk->tray_icon.menu.self,
@@ -1184,6 +1187,7 @@ static void	on_tray_icon_popup_menu (GtkStatusIcon* status_icon, guint button, g
 			button, activate_time);
 #endif
 }
+#endif	// HAVE_APP_INDICATOR
 
 // ----------------------------------------------------------------------------
 // UgetGtkWindow
@@ -1468,10 +1472,13 @@ static gboolean	tray_menu_leave_enter (GtkWidget* menu, GdkEventCrossing* event,
 // UgetGtkTrayIcon
 static void uget_gtk_tray_icon_init_callback (struct UgetGtkTrayIcon* icon, UgetGtk* ugtk)
 {
+#ifndef HAVE_APP_INDICATOR
 	g_signal_connect (icon->self, "activate",
 			G_CALLBACK (on_tray_icon_activate), ugtk);
 	g_signal_connect (icon->self, "popup-menu",
 			G_CALLBACK (on_tray_icon_popup_menu), ugtk);
+#endif
+
 #ifdef _WIN32
 	g_signal_connect (icon->menu.self, "leave-notify-event",
 			G_CALLBACK (tray_menu_leave_enter), NULL);
@@ -1485,6 +1492,8 @@ static void uget_gtk_tray_icon_init_callback (struct UgetGtkTrayIcon* icon, Uget
 			G_CALLBACK (on_create_from_clipboard), ugtk);
 	g_signal_connect (icon->menu.settings, "activate",
 			G_CALLBACK (on_config_settings), ugtk);
+	g_signal_connect (icon->menu.show_window, "activate",
+			G_CALLBACK (on_tray_icon_activate), ugtk);
 	g_signal_connect (icon->menu.offline_mode, "toggled",
 			G_CALLBACK (on_offline_mode), ugtk);
 	g_signal_connect (icon->menu.about, "activate",

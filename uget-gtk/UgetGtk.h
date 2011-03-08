@@ -48,6 +48,10 @@
 #include <UgCategory-gtk.h>
 #include <UgCategoryWidget.h>
 
+#ifdef HAVE_APP_INDICATOR
+#include <libappindicator/app-indicator.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -118,7 +122,11 @@ struct UgetGtk
 	// System tray icon
 	struct UgetGtkTrayIcon
 	{
+#ifdef HAVE_APP_INDICATOR
+		AppIndicator*	indicator;
+#else
 		GtkStatusIcon*	self;
+#endif
 		gboolean		error_occurred;
 		guint			last_status;
 
@@ -130,6 +138,7 @@ struct UgetGtk
 			GtkWidget*		create_clipboard;
 			GtkWidget*		settings;
 			GtkWidget*		about;
+			GtkWidget*		show_window;
 			GtkWidget*		offline_mode;
 			GtkWidget*		quit;
 		} menu;
@@ -336,6 +345,7 @@ void	uget_gtk_show_message (UgetGtk* ugtk, GtkMessageType type, const gchar* mes
 void	uget_gtk_move_menu_refresh (struct UgetGtkMenubar* menubar, UgetGtk* ugtk, gboolean reset);
 void	uget_gtk_tray_icon_refresh (struct UgetGtkTrayIcon* icon, guint n_active, gdouble speed);
 void	uget_gtk_tray_icon_decide_visible (UgetGtk* ugtk);
+void	uget_gtk_tray_icon_set_visible (UgetGtk* ugtk, gboolean visible);
 void	uget_gtk_statusbar_refresh (struct UgetGtkStatusbar* statusbar, UgDownloadWidget* dwidget);
 void	uget_gtk_statusbar_refresh_speed (struct UgetGtkStatusbar* statusbar, gdouble speed);
 void	uget_gtk_refresh_download_column (UgetGtk* ugtk);

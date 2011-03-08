@@ -81,6 +81,27 @@ if test "x$enable_notify" = "xyes"; then
 fi
 
 ## ----------------
+## appindicator
+AC_ARG_ENABLE(
+	[appindicator],
+	AS_HELP_STRING([--enable-appindicator[=@<:@no/auto/yes@:>@]],[Build support for application indicators.]),
+	[enable_appindicator=$enableval],
+	[enable_appindicator="auto"]
+)
+if test x$enable_appindicator = xauto ; then
+	PKG_CHECK_EXISTS([appindicator-0.1 >= 0.0.7],
+	                 [enable_appindicator="yes"],
+	                 [enable_appindicator="no"])
+fi
+if test x$enable_appindicator = xyes ; then
+	PKG_CHECK_MODULES(APP_INDICATOR, appindicator-0.1 >= 0.0.7)
+	AC_SUBST(APP_INDICATOR_CFLAGS)
+	AC_SUBST(APP_INDICATOR_LIBS)
+	AC_DEFINE(HAVE_APP_INDICATOR, 1, [Have AppIndicator])
+fi
+AM_CONDITIONAL(HAVE_APP_INDICATOR, test x"$enable_appindicator" = xyes)
+
+## ----------------
 ## gstreamer
 AC_ARG_ENABLE(
 	[gstreamer],

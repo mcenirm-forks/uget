@@ -132,7 +132,7 @@ void	uget_gtk_quit (UgetGtk* ugtk)
 	// save data
 	uget_gtk_save (ugtk);
 	// hide icon in system tray before quit
-	gtk_status_icon_set_visible (ugtk->tray_icon.self, FALSE);
+	uget_gtk_tray_icon_set_visible (ugtk, FALSE);
 	// hide window
 	gtk_widget_hide (GTK_WIDGET (ugtk->window.self));
 	// aria2
@@ -732,6 +732,11 @@ void	uget_gtk_tray_icon_refresh (struct UgetGtkTrayIcon* icon, guint n_active, g
 	gchar*	string_speed;
 	guint	current_status;
 
+#ifdef HAVE_APP_INDICATOR
+	if (icon->indicator == NULL)
+		return;
+	icon->error_occurred = FALSE;
+#endif
 	// change tray icon
 	if (icon->error_occurred) {
 		string = UGET_GTK_ICON_ERROR_NAME;
@@ -748,7 +753,23 @@ void	uget_gtk_tray_icon_refresh (struct UgetGtkTrayIcon* icon, guint n_active, g
 
 	if (icon->last_status != current_status) {
 		icon->last_status  = current_status;
+#ifdef HAVE_APP_INDICATOR
+		if (app_indicator_get_status (icon->indicator) != APP_INDICATOR_STATUS_PASSIVE) {
+			if (current_status == 0) {
+				app_indicator_set_status (icon->indicator,
+						APP_INDICATOR_STATUS_ACTIVE);
+			}
+			else {
+				g_object_set (icon->indicator, "attention-icon", string, NULL);
+//				app_indicator_set_attention_icon_full (icon->indicator,
+//						string, "attention");
+				app_indicator_set_status (icon->indicator,
+						APP_INDICATOR_STATUS_ATTENTION);
+			}
+		}
+#else
 		gtk_status_icon_set_from_icon_name (icon->self, string);
+#endif
 	}
 	// change tooltip
 	string_speed = ug_str_dtoa_unit (speed, 1, "/s");
@@ -758,7 +779,12 @@ void	uget_gtk_tray_icon_refresh (struct UgetGtkTrayIcon* icon, guint n_active, g
 			"%s",
 			n_active, _("downloading"),
 			string_speed);
+#ifdef HAVE_APP_INDICATOR
+	g_object_set (icon->indicator, "icon-desc", string, NULL);
+	g_object_set (icon->indicator, "attention-icon-desc", string, NULL);
+#else
 	gtk_status_icon_set_tooltip_text (icon->self, string);
+#endif
 	g_free (string_speed);
 	g_free (string);
 }
@@ -775,8 +801,22 @@ void	uget_gtk_tray_icon_decide_visible (UgetGtk* ugtk)
 		else
 			visible = TRUE;
 	}
+	uget_gtk_tray_icon_set_visible (ugtk, visible);
+}
 
+void	uget_gtk_tray_icon_set_visible (UgetGtk* ugtk, gboolean visible)
+{
+#ifdef HAVE_APP_INDICATOR
+	if (ugtk->tray_icon.indicator == NULL)
+		return;
+
+	if (visible)
+		app_indicator_set_status (ugtk->tray_icon.indicator, APP_INDICATOR_STATUS_ACTIVE);
+	else
+		app_indicator_set_status (ugtk->tray_icon.indicator, APP_INDICATOR_STATUS_PASSIVE);
+#else
 	gtk_status_icon_set_visible (ugtk->tray_icon.self, visible);
+#endif
 }
 
 void	uget_gtk_statusbar_refresh (struct UgetGtkStatusbar* statusbar, UgDownloadWidget* dwidget)

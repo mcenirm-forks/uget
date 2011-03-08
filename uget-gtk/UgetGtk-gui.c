@@ -40,6 +40,9 @@
 #define GDK_KEY_n			GDK_n
 #endif
 
+#ifdef	HAVE_CONFIG_H
+#include <config.h>
+#endif
 // uglib
 #include <UgetGtk.h>
 
@@ -87,18 +90,8 @@ static void uget_gtk_tray_icon_init (struct UgetGtkTrayIcon* icon)
 	GtkWidget*		image;
 	GtkWidget*		menu;
 	GtkWidget*		menu_item;
-	gchar*			file;
-
-	file = g_build_filename (ug_get_data_dir (), "icons",
-	                         "hicolor", "16x16", "apps",
-	                         "uget-icon.png", NULL);
-	if (g_file_test (file, G_FILE_TEST_IS_REGULAR))
-		icon->self = gtk_status_icon_new_from_icon_name (UGET_GTK_ICON_NAME);
-	else
-		icon->self = gtk_status_icon_new_from_stock (GTK_STOCK_GO_DOWN);
-	g_free (file);
-	gtk_status_icon_set_visible (icon->self, FALSE);
-	uget_gtk_tray_icon_refresh (icon, 0, 0.0);
+	gchar*			icon_name;
+	gchar*			file_name;
 
 	// UgetGtkTrayIcon.menu
 	menu = gtk_menu_new ();
@@ -132,6 +125,11 @@ static void uget_gtk_tray_icon_init (struct UgetGtkTrayIcon* icon)
 
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
 
+	// Show/Hide window
+	menu_item = gtk_menu_item_new_with_mnemonic (_("Show/Hide window"));
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	icon->menu.show_window = menu_item;
+
 	// Offline mode
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Offline Mode"));
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
@@ -144,6 +142,29 @@ static void uget_gtk_tray_icon_init (struct UgetGtkTrayIcon* icon)
 
 	gtk_widget_show_all (menu);
 	icon->menu.self = menu;
+
+	// decide tray icon
+	file_name = g_build_filename (ug_get_data_dir (), "icons",
+	                         "hicolor", "16x16", "apps",
+	                         "uget-icon.png", NULL);
+	if (g_file_test (file_name, G_FILE_TEST_IS_REGULAR))
+		icon_name = UGET_GTK_ICON_NAME;
+	else
+		icon_name = GTK_STOCK_GO_DOWN;
+	g_free (file_name);
+#ifdef HAVE_APP_INDICATOR
+	icon->indicator = app_indicator_new ("uget-gtk", icon_name,
+			APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
+	if (icon->indicator == NULL)
+		return;
+	app_indicator_set_menu (icon->indicator, GTK_MENU (icon->menu.self));
+	app_indicator_set_attention_icon_full (icon->indicator,
+			UGET_GTK_ICON_ACTIVE_NAME, NULL);
+#else
+	icon->self = gtk_status_icon_new_from_icon_name (icon_name);
+	gtk_status_icon_set_visible (icon->self, FALSE);
+#endif
+	uget_gtk_tray_icon_refresh (icon, 0, 0.0);
 }
 
 // ----------------------------------------------------------------------------
@@ -188,7 +209,9 @@ static void uget_gtk_window_init  (struct UgetGtkWindow* window, UgetGtk* ugtk)
 static void uget_gtk_statusbar_init (struct UgetGtkStatusbar* sbar)
 {
 	sbar->self = (GtkStatusbar*) gtk_statusbar_new ();
-
+#if GTK_MAJOR_VERSION < 3
+	gtk_statusbar_set_has_resize_grip (sbar->self, FALSE);
+#endif
 	sbar->speed = (GtkLabel*) gtk_label_new ("");
 //	gtk_label_set_width_chars (sbar->speed, 15);
 //	gtk_label_set_justify (sbar->speed, GTK_JUSTIFY_RIGHT);
