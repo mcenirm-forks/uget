@@ -657,8 +657,8 @@ static void uget_gtk_notify (UgetGtk* ugtk, const gchar* title, const gchar* bod
 		notification = notify_notification_new (string,
 				body, UGET_GTK_ICON_NAME);
 #else
-		notification = notify_notification_new_with_status_icon (string,
-				body, UGET_GTK_ICON_NAME, ugtk->tray_icon.self);
+		notification = notify_notification_new (string,
+				body, UGET_GTK_ICON_NAME, NULL);
 #endif
 		notify_notification_set_timeout (notification, 7000);	// milliseconds
 	}
