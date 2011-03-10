@@ -34,38 +34,51 @@
  *
  */
 
-#ifndef UGLIB_H
-#define UGLIB_H
 
-#include <glib.h>
-// uglib
-#include <UgData-download.h>
-#include <UgDataset.h>
-#include <UgMessage.h>
-#include <UgCategory.h>
-#include <UgRegistry.h>
-#include <UgPlugin.h>
-#include <UgOption.h>
-#include <UgString.h>
-#include <UgStdio.h>
-#include <UgUtils.h>
-#include <UgIpc.h>
-#include <UgUri.h>
+#ifndef UG_APP_CMD_H
+#define UG_APP_CMD_H
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <UgApp.h>
+#include <UgRunning.h>
+#include <UgCategory-cmd.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#define UG_APP_CMD_DIR				"uGet"
+#define UG_APP_CMD_CATEGORY_FILE	"CategoryList-cmd.xml"
+#define UG_APP_CMD_DOWNLOAD_FILE	"DownloadList-cmd.xml"
 
-// ------------------------------------------------------------------
-// register/unregister interfaces
-gboolean	uglib_init		(void);
-void		uglib_finalize	(void);
+typedef struct	UgAppCmd			UgAppCmd;
+
+
+// ----------------------------------------------------------------------------
+// UgAppCmd: uGet application for command-line
+//
+struct UgAppCmd
+{
+	UgOption		option;
+	UgIpc			ipc;
+	UgRunning		running;
+
+	GList*			category_list;
+
+	GMainLoop*		main_loop;
+};
+
+void	ug_app_cmd_run  (UgAppCmd* app);
+void	ug_app_cmd_save (UgAppCmd* app);
+void	ug_app_cmd_load (UgAppCmd* app);
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif  // UGLIB_H
+#endif  // UG_APP_CMD_H
 

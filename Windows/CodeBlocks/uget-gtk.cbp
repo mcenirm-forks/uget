@@ -77,6 +77,25 @@
 		<Unit filename="..\resources\uget.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="..\..\uget-gtk\UgApp-gtk-aria2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uget-gtk\UgApp-gtk-callback.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uget-gtk\UgApp-gtk-gui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uget-gtk\UgApp-gtk-main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uget-gtk\UgApp-gtk-timeout.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uget-gtk\UgApp-gtk.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uget-gtk\UgApp-gtk.h" />
 		<Unit filename="..\..\uget-gtk\UgBatchForm.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -121,6 +140,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\uget-gtk\UgSelector.h" />
+		<Unit filename="..\..\uget-gtk\UgSetting.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uget-gtk\UgSetting.h" />
 		<Unit filename="..\..\uget-gtk\UgSettingDialog.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -133,29 +156,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\uget-gtk\UgSummary.h" />
-		<Unit filename="..\..\uget-gtk\UgetGtk-aria2.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgetGtk-callback.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgetGtk-gui.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgetGtk-setting.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgetGtk-setting.h" />
-		<Unit filename="..\..\uget-gtk\UgetGtk-timeout.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgetGtk.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgetGtk.h" />
-		<Unit filename="..\..\uget-gtk\main-gtk.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Extensions>
 			<code_completion />
 			<debugger />

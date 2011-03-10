@@ -111,7 +111,7 @@ void	ug_clipboard_setting_form_init (struct UgClipboardSettingForm* csform)
 	csform->nth_label = widget;
 }
 
-void	ug_clipboard_setting_form_set (struct UgClipboardSettingForm* csform, UgetGtkSetting* setting)
+void	ug_clipboard_setting_form_set (struct UgClipboardSettingForm* csform, UgSetting* setting)
 {
 	if (setting->clipboard.pattern)
 		gtk_entry_set_text (csform->pattern, setting->clipboard.pattern);
@@ -124,7 +124,7 @@ void	ug_clipboard_setting_form_set (struct UgClipboardSettingForm* csform, UgetG
 //	on_clipboard_quiet_mode_toggled ((GtkWidget*) csform->quiet, csform);
 }
 
-void	ug_clipboard_setting_form_get (struct UgClipboardSettingForm* csform, UgetGtkSetting* setting)
+void	ug_clipboard_setting_form_get (struct UgClipboardSettingForm* csform, UgSetting* setting)
 {
 	g_free (setting->clipboard.pattern);
 	setting->clipboard.pattern = g_strdup (gtk_entry_get_text (csform->pattern));
@@ -167,7 +167,7 @@ void	ug_user_interface_form_init (struct UgUserInterfaceForm* uiform)
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 1);
 }
 
-void	ug_user_interface_form_set (struct UgUserInterfaceForm* uiform, UgetGtkSetting* setting)
+void	ug_user_interface_form_set (struct UgUserInterfaceForm* uiform, UgSetting* setting)
 {
 	gtk_toggle_button_set_active (uiform->confirm_close,
 			setting->ui.close_confirmation);
@@ -185,7 +185,7 @@ void	ug_user_interface_form_set (struct UgUserInterfaceForm* uiform, UgetGtkSett
 			setting->ui.sound_notification);
 }
 
-void	ug_user_interface_form_get (struct UgUserInterfaceForm* uiform, UgetGtkSetting* setting)
+void	ug_user_interface_form_get (struct UgUserInterfaceForm* uiform, UgSetting* setting)
 {
 	setting->ui.close_confirmation = gtk_toggle_button_get_active (uiform->confirm_close);
 	setting->ui.delete_confirmation = gtk_toggle_button_get_active (uiform->confirm_delete);
@@ -242,7 +242,7 @@ void	ug_launch_setting_form_init (struct UgLaunchSettingForm* lsform)
 			FALSE, FALSE, 2);
 }
 
-void	ug_launch_setting_form_set (struct UgLaunchSettingForm* lsform, UgetGtkSetting* setting)
+void	ug_launch_setting_form_set (struct UgLaunchSettingForm* lsform, UgSetting* setting)
 {
 	// launch app
 	gtk_toggle_button_set_active (lsform->active, setting->launch.active);
@@ -252,7 +252,7 @@ void	ug_launch_setting_form_set (struct UgLaunchSettingForm* lsform, UgetGtkSett
 //	on_launch_app_toggled ((GtkWidget*) lsform->active, lsform);
 }
 
-void	ug_launch_setting_form_get (struct UgLaunchSettingForm* lsform, UgetGtkSetting* setting)
+void	ug_launch_setting_form_get (struct UgLaunchSettingForm* lsform, UgSetting* setting)
 {
 	setting->launch.active = gtk_toggle_button_get_active (lsform->active);
 	g_free (setting->launch.types);
@@ -299,7 +299,7 @@ void	ug_auto_save_form_init (struct UgAutoSaveForm* asform)
 			(GtkWidget*) asform->interval_spin);
 }
 
-void	ug_auto_save_form_set (struct UgAutoSaveForm* asform, UgetGtkSetting* setting)
+void	ug_auto_save_form_set (struct UgAutoSaveForm* asform, UgSetting* setting)
 {
 	gtk_toggle_button_set_active (asform->active, setting->auto_save.active);
 	gtk_spin_button_set_value (asform->interval_spin, (gdouble) setting->auto_save.interval);
@@ -307,7 +307,7 @@ void	ug_auto_save_form_set (struct UgAutoSaveForm* asform, UgetGtkSetting* setti
 //	on_auto_save_toggled ((GtkWidget*) asform->active, asform);
 }
 
-void	ug_auto_save_form_get (struct UgAutoSaveForm* asform, UgetGtkSetting* setting)
+void	ug_auto_save_form_get (struct UgAutoSaveForm* asform, UgSetting* setting)
 {
 	setting->auto_save.active = gtk_toggle_button_get_active (asform->active);
 	setting->auto_save.interval = gtk_spin_button_get_value_as_int (asform->interval_spin);
@@ -406,7 +406,7 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	gtk_widget_show (psform->self);
 }
 
-void	ug_plugin_setting_form_set (struct UgPluginSettingForm* psform, UgetGtkSetting* setting)
+void	ug_plugin_setting_form_set (struct UgPluginSettingForm* psform, UgSetting* setting)
 {
 	gtk_toggle_button_set_active (psform->enable, setting->plugin.aria2.enable);
 	gtk_toggle_button_set_active (psform->launch, setting->plugin.aria2.launch);
@@ -419,7 +419,7 @@ void	ug_plugin_setting_form_set (struct UgPluginSettingForm* psform, UgetGtkSett
 	on_plugin_aria2_toggled ((GtkWidget*) psform->enable, psform);
 }
 
-void	ug_plugin_setting_form_get (struct UgPluginSettingForm* psform, UgetGtkSetting* setting)
+void	ug_plugin_setting_form_get (struct UgPluginSettingForm* psform, UgSetting* setting)
 {
 	setting->plugin.aria2.enable = gtk_toggle_button_get_active (psform->enable);
 	setting->plugin.aria2.launch = gtk_toggle_button_get_active (psform->launch);

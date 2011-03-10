@@ -38,42 +38,42 @@
 #include <windows.h>
 #endif
 
-#include <UgetCmd.h>
+#include <UgApp-cmd.h>
 
 
 // ----------------------------------------------------------------------------
-// UgetCmd
+// UgAppCmd
 //
-static gboolean	uget_cmd_timer_ipc (UgetCmd* ugcmd);
-static gboolean	uget_cmd_timer_queuing (UgetCmd* ugcmd);
+static gboolean	ug_app_cmd_timer_ipc (UgAppCmd* app);
+static gboolean	ug_app_cmd_timer_queuing (UgAppCmd* app);
 
-void	uget_cmd_run (UgetCmd* ugcmd)
+void	ug_app_cmd_run (UgAppCmd* app)
 {
-	uget_cmd_load (ugcmd);
+	ug_app_cmd_load (app);
 
-	if (ugcmd->category_list == NULL) {
-		ugcmd->category_list = g_list_append (ugcmd->category_list, ug_category_new_with_cmd());
-		ugcmd->category_list = g_list_append (ugcmd->category_list, ug_category_new_with_cmd());
+	if (app->category_list == NULL) {
+		app->category_list = g_list_append (app->category_list, ug_category_new_with_cmd());
+		app->category_list = g_list_append (app->category_list, ug_category_new_with_cmd());
 	}
 
-	ug_running_init (&ugcmd->running);
+	ug_running_init (&app->running);
 
-	ugcmd->main_loop = g_main_loop_new (NULL, FALSE);
+	app->main_loop = g_main_loop_new (NULL, FALSE);
 
 	// 0.5 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500,
-						(GSourceFunc) uget_cmd_timer_ipc, ugcmd, NULL);
+						(GSourceFunc) ug_app_cmd_timer_ipc, app, NULL);
 	// 0.5 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500,
-						(GSourceFunc) ug_running_dispatch, &ugcmd->running, NULL);
+						(GSourceFunc) ug_running_dispatch, &app->running, NULL);
 	// 1 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 1000,
-						(GSourceFunc) uget_cmd_timer_queuing, ugcmd, NULL);
+						(GSourceFunc) ug_app_cmd_timer_queuing, app, NULL);
 
-	g_main_loop_run (ugcmd->main_loop);
+	g_main_loop_run (app->main_loop);
 }
 
-void	uget_cmd_save (UgetCmd* ugcmd)
+void	ug_app_cmd_save (UgAppCmd* app)
 {
 	GList*	link;
 	GList*	list;
@@ -81,13 +81,13 @@ void	uget_cmd_save (UgetCmd* ugcmd)
 
 	// get all of UgDataset from all UgCategory
 	list = NULL;
-	for (link = ugcmd->category_list;  link;  link = link->next) {
+	for (link = app->category_list;  link;  link = link->next) {
 		list = g_list_concat (list, ug_category_cmd_get_all ((UgCategory*) link->data));
 	}
 
 	// save all UgDataset
 	file = g_build_filename (g_get_user_config_dir (),
-	                         UGET_CMD_DIR, UGET_CMD_DOWNLOAD_FILE,
+	                         UG_APP_CMD_DIR, UG_APP_CMD_DOWNLOAD_FILE,
 	                         NULL);
 	ug_download_list_save (list, file);
 	g_list_free (list);
@@ -95,13 +95,13 @@ void	uget_cmd_save (UgetCmd* ugcmd)
 
 	// save all UgCategory after calling ug_download_list_save()
 	file = g_build_filename (g_get_user_config_dir (),
-	                         UGET_CMD_DIR, UGET_CMD_CATEGORY_FILE,
+	                         UG_APP_CMD_DIR, UG_APP_CMD_CATEGORY_FILE,
 	                         NULL);
-	ug_category_list_save (ugcmd->category_list, file);
+	ug_category_list_save (app->category_list, file);
 	g_free (file);
 }
 
-void	uget_cmd_load (UgetCmd* ugcmd)
+void	ug_app_cmd_load (UgAppCmd* app)
 {
 	GList*			download_list;
 	GList*			category_list;
@@ -109,14 +109,14 @@ void	uget_cmd_load (UgetCmd* ugcmd)
 
 	// load all UgDataset from file
 	file = g_build_filename (g_get_user_config_dir (),
-	                         UGET_CMD_DIR, UGET_CMD_DOWNLOAD_FILE,
+	                         UG_APP_CMD_DIR, UG_APP_CMD_DOWNLOAD_FILE,
 	                         NULL);
 	download_list = ug_download_list_load (file);
 	g_free (file);
 
 	// load all UgCategory
 	file = g_build_filename (g_get_user_config_dir (),
-	                         UGET_CMD_DIR, UGET_CMD_CATEGORY_FILE,
+	                         UG_APP_CMD_DIR, UG_APP_CMD_CATEGORY_FILE,
 	                         NULL);
 	category_list = ug_category_list_load (file);
 	g_free (file);
@@ -126,14 +126,14 @@ void	uget_cmd_load (UgetCmd* ugcmd)
 
 	// link and add UgDataset to UgCategory
 	ug_category_list_link (category_list, download_list);
-	ugcmd->category_list = category_list;
+	app->category_list = category_list;
 
 	// free unused UgDataset and list
 	g_list_foreach (download_list, (GFunc) ug_dataset_unref, NULL);
 	g_list_free (download_list);
 }
 
-static gboolean uget_cmd_timer_ipc (UgetCmd* ugcmd)
+static gboolean ug_app_cmd_timer_ipc (UgAppCmd* app)
 {
 	UgCategory*		category;
 	GPtrArray*		args;
@@ -141,11 +141,11 @@ static gboolean uget_cmd_timer_ipc (UgetCmd* ugcmd)
 	GList*			link;
 
 	// get arguments from IPC
-	args = ug_ipc_pop (&ugcmd->ipc);
+	args = ug_ipc_pop (&app->ipc);
 	if (args == NULL)
 		return TRUE;
 	// parse arguments
-	list = ug_option_parse (&ugcmd->option, args);
+	list = ug_option_parse (&app->option, args);
 	ug_arg_free (args, TRUE);
 	if (list == NULL)
 		return TRUE;
@@ -154,9 +154,9 @@ static gboolean uget_cmd_timer_ipc (UgetCmd* ugcmd)
 //		g_list_foreach (list->next, (GFunc) ug_download_assign_attachment, list->data);
 	// select category
 	g_print ("uget-cmd: Get %d downloads.\n", g_list_length (list));
-	if (ugcmd->option.data->category_index < 0 || ugcmd->option.data->category_index > 1)
-		ugcmd->option.data->category_index = 0;
-	category = g_list_nth_data (ugcmd->category_list, ugcmd->option.data->category_index);
+	if (app->option.data->category_index < 0 || app->option.data->category_index > 1)
+		app->option.data->category_index = 0;
+	category = g_list_nth_data (app->category_list, app->option.data->category_index);
 	// add UgDataset to category
 	for (link = list;  link;  link = link->next) {
 		ug_data_assign (link->data, category->defaults);
@@ -168,32 +168,32 @@ static gboolean uget_cmd_timer_ipc (UgetCmd* ugcmd)
 	return TRUE;
 }
 
-static gboolean	uget_cmd_timer_queuing (UgetCmd* ugcmd)
+static gboolean	ug_app_cmd_timer_queuing (UgAppCmd* app)
 {
 	GList*			jobs;
 	GList*			link;
 	gdouble			speed;
 
 	// do something for inactive jobs
-	jobs = ug_running_get_inactive (&ugcmd->running);
+	jobs = ug_running_get_inactive (&app->running);
 	for (link = jobs;  link;  link = link->next) {
 		// remove inactive jobs from group
-		ug_running_remove (&ugcmd->running, link->data);
+		ug_running_remove (&app->running, link->data);
 	}
 	g_list_free (jobs);
 
 	// get queuing jobs from categories and activate them
-	for (link = ugcmd->category_list;  link;  link = link->next) {
+	for (link = app->category_list;  link;  link = link->next) {
 		jobs = ug_category_cmd_get_jobs (link->data);
-		ug_running_add_jobs (&ugcmd->running, jobs);
+		ug_running_add_jobs (&app->running, jobs);
 		g_list_free (jobs);
 	}
 
 	// display number of jobs and speed
-	if (ug_running_get_n_jobs (&ugcmd->running) > 0) {
-		speed = ug_running_get_speed (&ugcmd->running);
+	if (ug_running_get_n_jobs (&app->running) > 0) {
+		speed = ug_running_get_speed (&app->running);
 		g_print ("%u jobs, %.2f KiB\n",
-				ug_running_get_n_jobs (&ugcmd->running),
+				ug_running_get_n_jobs (&app->running),
 				speed / 1024.0);
 	}
 

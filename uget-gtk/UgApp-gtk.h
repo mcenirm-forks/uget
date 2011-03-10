@@ -34,16 +34,17 @@
  *
  */
 
-#ifndef UGET_GTK_H
-#define UGET_GTK_H
+#ifndef UG_APP_GTK_H
+#define UG_APP_GTK_H
 
 #include <gtk/gtk.h>
 // uglib
+#include <UgApp.h>
 #include <UgIpc.h>
 #include <UgOption.h>
 #include <UgXmlrpc.h>
 #include <UgRunning.h>
-#include <UgetGtk-setting.h>
+#include <UgSetting.h>
 #include <UgSummary.h>
 #include <UgCategory-gtk.h>
 #include <UgCategoryWidget.h>
@@ -56,28 +57,27 @@
 extern "C" {
 #endif
 
+#define UG_APP_GTK_DIR					"uGet"
+#define UG_APP_GTK_SETTING_FILE			"Setting.xml"
+#define UG_APP_GTK_CATEGORY_FILE		"CategoryList.xml"
+#define UG_APP_GTK_DOWNLOAD_FILE		"DownloadList.xml"
+#define UG_APP_GTK_ICON_NAME			"uget-icon"
+#define UG_APP_GTK_ICON_ERROR_NAME		"uget-error"
+#define UG_APP_GTK_ICON_ACTIVE_NAME		"uget-downloading"
+#define	UG_APP_GTK_ACCEL_PATH_CTRL_N	"<uGet>/New/Download"
+#define	UG_APP_GTK_CATEGORY_STOCK		GTK_STOCK_DND_MULTIPLE
 
-#define UGET_GTK_DIR					"uGet"
-#define UGET_GTK_SETTING_FILE			"Setting.xml"
-#define UGET_GTK_CATEGORY_FILE			"CategoryList.xml"
-#define UGET_GTK_DOWNLOAD_FILE			"DownloadList.xml"
-#define UGET_GTK_ICON_NAME				"uget-icon"
-#define UGET_GTK_ICON_ERROR_NAME		"uget-error"
-#define UGET_GTK_ICON_ACTIVE_NAME		"uget-downloading"
-#define	UGET_GTK_ACCEL_PATH_CTRL_N		"<uGet>/New/Download"
-#define	UGET_GTK_CATEGORY_STOCK			GTK_STOCK_DND_MULTIPLE
-
-typedef struct	UgetGtk					UgetGtk;
+typedef struct	UgAppGtk				UgAppGtk;
 
 // implemented in uget-gtk/main.c
 const gchar*	ug_get_data_dir (void);
-// return g_get_user_config_dir () + UGET_GTK_DIR + "attachment"
+// return g_get_user_config_dir () + UG_APP_GTK_DIR + "attachment"
 const gchar*	ug_get_attachment_dir (void);
 
 // ----------------------------------------------------------------------------
-// UgetGtk: Uget GTK+ version
+// UgAppGtk: Uget application for GTK+
 //
-struct UgetGtk
+struct UgAppGtk
 {
 	// command argument, IPC, UgRunning
 	UgOption		option;			// initialize in uget-gtk/main.c
@@ -88,14 +88,14 @@ struct UgetGtk
 	UgXmlrpc		xmlrpc;
 	gboolean		aria2_launched;
 
-	UgetGtkSetting	setting;		// uget-gtk-setting.h
+	UgSetting		setting;		// UgSetting.h
 	gboolean		user_action;	// some job stop by user
 	UgScheduleState	schedule_state;
 
 	// Launch application
 	GRegex*			launch_regex;
 	// Clipboard
-	struct UgetGtkClipboard
+	struct UgClipboard
 	{
 		GtkClipboard*	self;
 		gchar*			text;
@@ -103,7 +103,7 @@ struct UgetGtk
 	} clipboard;
 
 	// dialogs
-	struct UgetGtkDialogs
+	struct UgDialogs
 	{
 		GtkWidget*		error;
 		GtkWidget*		message;
@@ -120,7 +120,7 @@ struct UgetGtk
 
 	// --------------------------------
 	// System tray icon
-	struct UgetGtkTrayIcon
+	struct UgTrayIcon
 	{
 #ifdef HAVE_APP_INDICATOR
 		AppIndicator*	indicator;
@@ -130,7 +130,7 @@ struct UgetGtk
 		gboolean		error_occurred;
 		guint			last_status;
 
-		struct UgetGtkTrayIconMenu
+		struct UgTrayIconMenu
 		{
 			GtkWidget*		self;		// (GtkMenu) pop-up menu
 
@@ -146,7 +146,7 @@ struct UgetGtk
 
 	// --------------------------------
 	// Main Window
-	struct UgetGtkWindow
+	struct UgWindow
 	{
 		GtkWindow*		self;
 		// layout
@@ -156,7 +156,7 @@ struct UgetGtk
 
 	// --------------------------------
 	// status bar
-	struct UgetGtkStatusbar
+	struct UgStatusbar
 	{
 		GtkStatusbar*	self;
 		GtkLabel*		speed;
@@ -164,7 +164,7 @@ struct UgetGtk
 
 	// --------------------------------
 	// Toolbar
-	struct UgetGtkToolbar
+	struct UgToolbar
 	{
 		GtkWidget*		self;			// GtkToolbar
 
@@ -191,17 +191,17 @@ struct UgetGtk
 
 	// --------------------------------
 	// Menubar --- start ---
-	struct UgetGtkMenubar
+	struct UgMenubar
 	{
 		GtkWidget*	self;	// GtkMenuBar
 
 		// GtkWidget*	self;		// GtkMenu*
 		// GtkWidget*	shell;		// GtkMenuShell*
 		// GtkWidget*	other;		// GtkMenuItem*
-		struct UgetGtkFileMenu
+		struct UgFileMenu
 		{
 			// file.create
-			struct UgetGtkFileCreateMenu
+			struct UgFileCreateMenu
 			{
 				GtkWidget*	download;
 				GtkWidget*	category;
@@ -219,7 +219,7 @@ struct UgetGtk
 			GtkWidget*	quit;
 		} file;
 
-		struct UgetGtkEditMenu
+		struct UgEditMenu
 		{
 			GtkWidget*	clipboard_monitor;
 			GtkWidget*	clipboard_option;
@@ -227,14 +227,14 @@ struct UgetGtk
 			GtkWidget*	settings;
 		} edit;
 
-		struct UgetGtkViewMenu
+		struct UgViewMenu
 		{
 			GtkWidget*	toolbar;
 			GtkWidget*	statusbar;
 			GtkWidget*	category;
 			GtkWidget*	summary;
 
-			struct UgetGtkViewItemMenu
+			struct UgViewItemMenu
 			{
 				GtkWidget*	name;
 				GtkWidget*	folder;
@@ -244,7 +244,7 @@ struct UgetGtk
 				GtkWidget*	message;
 			} summary_items;
 
-			struct UgetGtkViewColMenu
+			struct UgViewColMenu
 			{
 				GtkWidget*	self;		// GtkMenu
 
@@ -263,7 +263,7 @@ struct UgetGtk
 			} columns;					// download columns
 		} view;
 
-		struct UgetGtkCategoryMenu
+		struct UgCategoryMenu
 		{
 			GtkWidget*	self;		// GtkMenu
 
@@ -272,7 +272,7 @@ struct UgetGtk
 			GtkWidget*	properties;
 		} category;
 
-		struct UgetGtkDownloadMenu
+		struct UgDownloadMenu
 		{
 			GtkWidget*	self;		// GtkMenu
 
@@ -284,7 +284,7 @@ struct UgetGtk
 			GtkWidget*	runnable;
 			GtkWidget*	pause;
 
-			struct UgetGtkDownloadMoveToMenu
+			struct UgDownloadMoveToMenu
 			{
 				GtkWidget*		self;		// GtkMenu
 				GtkWidget*		item;		// GtkMenuItem
@@ -302,7 +302,7 @@ struct UgetGtk
 			GtkWidget*	properties;
 		} download;
 
-		struct UgetGtkHelpMenu
+		struct UgHelpMenu
 		{
 			GtkWidget*	about_uget;
 		} help;
@@ -311,59 +311,59 @@ struct UgetGtk
 	// --------------------------------
 };
 
-void	uget_gtk_init (UgetGtk* ugtk);
-void	uget_gtk_quit (UgetGtk* ugtk);
-void	uget_gtk_save (UgetGtk* ugtk);
-void	uget_gtk_load (UgetGtk* ugtk);
-void	uget_gtk_set_setting (UgetGtk* ugtk, UgetGtkSetting* setting);
-void	uget_gtk_get_setting (UgetGtk* ugtk, UgetGtkSetting* setting);
+void	ug_app_gtk_init (UgAppGtk* app);
+void	ug_app_gtk_quit (UgAppGtk* app);
+void	ug_app_gtk_save (UgAppGtk* app);
+void	ug_app_gtk_load (UgAppGtk* app);
+void	ug_app_gtk_set_setting (UgAppGtk* app, UgSetting* setting);
+void	ug_app_gtk_get_setting (UgAppGtk* app, UgSetting* setting);
 
-// uget-gtk-gui.c
-void	uget_gtk_init_gui (UgetGtk* ugtk);
-// uget-gtk-callback.c
-void	uget_gtk_init_callback (UgetGtk* ugtk);
-// uget-gtk-timeout.c
-void	uget_gtk_init_timeout (UgetGtk* ugtk);
+// UgApp-gtk-gui.c
+void	ug_app_gtk_init_gui (UgAppGtk* app);
+// UgApp-gtk-callback.c
+void	ug_app_gtk_init_callback (UgAppGtk* app);
+// UgApp-gtk-timeout.c
+void	ug_app_gtk_init_timeout (UgAppGtk* app);
 
 // -------------------------------------------------------
-// UgetGtkClipboard
-void	uget_gtk_clipboard_init (struct UgetGtkClipboard* clipboard, const gchar* pattern);
-void	uget_gtk_clipboard_set_pattern (struct UgetGtkClipboard* clipboard, const gchar* pattern);
-void	uget_gtk_clipboard_set_text (struct UgetGtkClipboard* clipboard, gchar* text);
-GList*	uget_gtk_clipboard_get_uris (struct UgetGtkClipboard* clipboard);
-GList*	uget_gtk_clipboard_get_matched (struct UgetGtkClipboard* clipboard, const gchar* text);
+// UgClipboard
+void	ug_clipboard_init (struct UgClipboard* clipboard, const gchar* pattern);
+void	ug_clipboard_set_pattern (struct UgClipboard* clipboard, const gchar* pattern);
+void	ug_clipboard_set_text (struct UgClipboard* clipboard, gchar* text);
+GList*	ug_clipboard_get_uris (struct UgClipboard* clipboard);
+GList*	ug_clipboard_get_matched (struct UgClipboard* clipboard, const gchar* text);
 
 // -------------------------------------------------------
 // utility functions
-void	uget_gtk_close_window (UgetGtk* ugtk);
-void	uget_gtk_confirm_to_quit (UgetGtk* ugtk);
-void	uget_gtk_confirm_to_delete (UgetGtk* ugtk, GCallback response, gpointer response_data);
-void	uget_gtk_show_message (UgetGtk* ugtk, GtkMessageType type, const gchar* message);
+void	ug_app_gtk_close_window (UgAppGtk* app);
+void	ug_app_gtk_confirm_to_quit (UgAppGtk* app);
+void	ug_app_gtk_confirm_to_delete (UgAppGtk* app, GCallback response, gpointer response_data);
+void	ug_app_gtk_show_message (UgAppGtk* app, GtkMessageType type, const gchar* message);
 
 // -------------------------------------------------------
 // Functions are used to refresh status and data.
-void	uget_gtk_move_menu_refresh (struct UgetGtkMenubar* menubar, UgetGtk* ugtk, gboolean reset);
-void	uget_gtk_tray_icon_refresh (struct UgetGtkTrayIcon* icon, guint n_active, gdouble speed);
-void	uget_gtk_tray_icon_decide_visible (UgetGtk* ugtk);
-void	uget_gtk_tray_icon_set_visible (UgetGtk* ugtk, gboolean visible);
-void	uget_gtk_statusbar_refresh (struct UgetGtkStatusbar* statusbar, UgDownloadWidget* dwidget);
-void	uget_gtk_statusbar_refresh_speed (struct UgetGtkStatusbar* statusbar, gdouble speed);
-void	uget_gtk_refresh_download_column (UgetGtk* ugtk);
-void	uget_gtk_decide_download_sensitive (UgetGtk* ugtk);
-void	uget_gtk_decide_category_sensitive (UgetGtk* ugtk);
+void	ug_tray_icon_set_info (struct UgTrayIcon* trayicon, guint n_active, gdouble speed);
+void	ug_tray_icon_decide_visible (struct UgTrayIcon* trayicon, UgAppGtk* app);
+void	ug_tray_icon_set_visible (struct UgTrayIcon* trayicon, gboolean visible);
+void	ug_statusbar_refresh (struct UgStatusbar* statusbar, UgDownloadWidget* dwidget);
+void	ug_statusbar_set_speed (struct UgStatusbar* statusbar, gdouble speed);
+void	ug_menubar_sync_category (struct UgMenubar* menubar, UgAppGtk* app, gboolean reset);
+void	ug_app_gtk_refresh_download_column (UgAppGtk* app);
+void	ug_app_gtk_decide_download_sensitive (UgAppGtk* app);
+void	ug_app_gtk_decide_category_sensitive (UgAppGtk* app);
 
 // ------------------------------------------------------
 // aria2
 #ifdef HAVE_PLUGIN_ARIA2
-void		uget_gtk_aria2_init (UgetGtk* ugtk);
-gboolean	uget_gtk_aria2_setup (UgetGtk* ugtk);
-gboolean	uget_gtk_aria2_launch (UgetGtk* ugtk);
-void		uget_gtk_aria2_shutdown (UgetGtk* ugtk);
+void		ug_app_gtk_aria2_init (UgAppGtk* app);
+gboolean	ug_app_gtk_aria2_setup (UgAppGtk* app);
+gboolean	ug_app_gtk_aria2_launch (UgAppGtk* app);
+void		ug_app_gtk_aria2_shutdown (UgAppGtk* app);
 #else
-#define		uget_gtk_aria2_init(ugtk)
-#define		uget_gtk_aria2_setup(ugtk)
-#define		uget_gtk_aria2_launch(ugtk)
-#define		uget_gtk_aria2_shutdown(ugtk)
+#define		ug_app_gtk_aria2_init(app)
+#define		ug_app_gtk_aria2_setup(app)
+#define		ug_app_gtk_aria2_launch(app)
+#define		ug_app_gtk_aria2_shutdown(app)
 #endif	// HAVE_PLUGIN_ARIA2
 
 
@@ -371,5 +371,5 @@ void		uget_gtk_aria2_shutdown (UgetGtk* ugtk);
 }
 #endif
 
-#endif  // End of UGET_GTK_H
+#endif  // End of UG_APP_GTK_H
 

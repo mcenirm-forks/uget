@@ -40,7 +40,7 @@
 #include <UgUri.h>
 #include <UgUtils.h>
 #include <UgString.h>
-#include <UgetGtk-setting.h>		// UGET_GTK_NAME
+#include <UgSetting.h>		// UG_APP_GTK_NAME
 
 #include <glib/gi18n.h>
 
@@ -758,7 +758,7 @@ static void	on_select_folder (GtkEntry* entry, GtkEntryIconPosition icon_pos, Gd
 	if (dform->parent)
 		gtk_widget_set_sensitive ((GtkWidget*) dform->parent, FALSE);
 
-	title = g_strconcat (UGET_GTK_NAME " - ", _("Select Folder"), NULL);
+	title = g_strconcat (UG_APP_GTK_NAME " - ", _("Select Folder"), NULL);
 	chooser = gtk_file_chooser_dialog_new (title, dform->parent,
 			GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -814,7 +814,7 @@ static void	on_select_cookie (GtkEntry* entry, GtkEntryIconPosition icon_pos, Gd
 	if (dform->parent)
 		gtk_widget_set_sensitive ((GtkWidget*) dform->parent, FALSE);
 
-	title = g_strconcat (UGET_GTK_NAME " - ", _("Select Cookie File"), NULL);
+	title = g_strconcat (UG_APP_GTK_NAME " - ", _("Select Cookie File"), NULL);
 	chooser = gtk_file_chooser_dialog_new (title, dform->parent,
 			GTK_FILE_CHOOSER_ACTION_OPEN,
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -870,7 +870,7 @@ static void	on_select_post (GtkEntry* entry, GtkEntryIconPosition icon_pos, GdkE
 	if (dform->parent)
 		gtk_widget_set_sensitive ((GtkWidget*) dform->parent, FALSE);
 
-	title = g_strconcat (UGET_GTK_NAME " - ", _("Select Post File"), NULL);
+	title = g_strconcat (UG_APP_GTK_NAME " - ", _("Select Post File"), NULL);
 	chooser = gtk_file_chooser_dialog_new (title, dform->parent,
 			GTK_FILE_CHOOSER_ACTION_OPEN,
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,

@@ -120,7 +120,7 @@ void	ug_setting_dialog_free (UgSettingDialog* dialog)
 	g_free (dialog);
 }
 
-void	ug_setting_dialog_set (UgSettingDialog* dialog, UgetGtkSetting* setting)
+void	ug_setting_dialog_set (UgSettingDialog* dialog, UgSetting* setting)
 {
 	ug_schedule_grid_set (&dialog->scheduler, setting);
 	ug_clipboard_setting_form_set (&dialog->clipboard, setting);
@@ -132,7 +132,7 @@ void	ug_setting_dialog_set (UgSettingDialog* dialog, UgetGtkSetting* setting)
 #endif
 }
 
-void	ug_setting_dialog_get (UgSettingDialog* dialog, UgetGtkSetting* setting)
+void	ug_setting_dialog_get (UgSettingDialog* dialog, UgSetting* setting)
 {
 	ug_schedule_grid_get (&dialog->scheduler, setting);
 	ug_clipboard_setting_form_get (&dialog->clipboard, setting);

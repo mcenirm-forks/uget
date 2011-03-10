@@ -177,7 +177,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\uget-gtk\main-gtk.c"
+				RelativePath="..\..\uget-gtk\UgApp-gtk-aria2.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgApp-gtk-callback.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgApp-gtk-gui.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgApp-gtk-main.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgApp-gtk-timeout.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgApp-gtk.c"
 				>
 			</File>
 			<File
@@ -213,30 +233,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\uget-gtk\UgetGtk-aria2.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk-callback.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk-gui.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk-setting.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk-timeout.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\uget-gtk\UgProxyForm.c"
 				>
 			</File>
@@ -246,6 +242,10 @@
 			</File>
 			<File
 				RelativePath="..\..\uget-gtk\UgSelector.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgSetting.c"
 				>
 			</File>
 			<File
@@ -266,6 +266,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\uget-gtk\UgApp-gtk.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\uget-gtk\UgBatchForm.h"
 				>
@@ -299,14 +303,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\uget-gtk\UgetGtk-setting.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-gtk\UgetGtk.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\uget-gtk\UgProxyForm.h"
 				>
 			</File>
@@ -316,6 +312,10 @@
 			</File>
 			<File
 				RelativePath="..\..\uget-gtk\UgSelector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-gtk\UgSetting.h"
 				>
 			</File>
 			<File

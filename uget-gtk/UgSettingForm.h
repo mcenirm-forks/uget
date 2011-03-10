@@ -38,7 +38,7 @@
 #define UG_SETTING_FORM_H
 
 #include <gtk/gtk.h>
-#include <UgetGtk-setting.h>
+#include <UgSetting.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,8 +60,8 @@ struct UgClipboardSettingForm
 };
 
 void	ug_clipboard_setting_form_init (struct UgClipboardSettingForm* csform);
-void	ug_clipboard_setting_form_set (struct UgClipboardSettingForm* csform, UgetGtkSetting* setting);
-void	ug_clipboard_setting_form_get (struct UgClipboardSettingForm* csform, UgetGtkSetting* setting);
+void	ug_clipboard_setting_form_set (struct UgClipboardSettingForm* csform, UgSetting* setting);
+void	ug_clipboard_setting_form_get (struct UgClipboardSettingForm* csform, UgSetting* setting);
 
 // ----------------------------------------------------------------------------
 // UgUserInterfaceForm
@@ -79,8 +79,8 @@ struct UgUserInterfaceForm
 };
 
 void	ug_user_interface_form_init (struct UgUserInterfaceForm* uiform);
-void	ug_user_interface_form_set (struct UgUserInterfaceForm* uiform, UgetGtkSetting* setting);
-void	ug_user_interface_form_get (struct UgUserInterfaceForm* uiform, UgetGtkSetting* setting);
+void	ug_user_interface_form_set (struct UgUserInterfaceForm* uiform, UgSetting* setting);
+void	ug_user_interface_form_get (struct UgUserInterfaceForm* uiform, UgSetting* setting);
 
 // ----------------------------------------------------------------------------
 // UgLaunchSettingForm
@@ -93,8 +93,8 @@ struct UgLaunchSettingForm
 };
 
 void	ug_launch_setting_form_init (struct UgLaunchSettingForm* lsform);
-void	ug_launch_setting_form_set (struct UgLaunchSettingForm* lsform, UgetGtkSetting* setting);
-void	ug_launch_setting_form_get (struct UgLaunchSettingForm* lsform, UgetGtkSetting* setting);
+void	ug_launch_setting_form_set (struct UgLaunchSettingForm* lsform, UgSetting* setting);
+void	ug_launch_setting_form_get (struct UgLaunchSettingForm* lsform, UgSetting* setting);
 
 // ----------------------------------------------------------------------------
 // UgAutoSaveForm
@@ -110,8 +110,8 @@ struct UgAutoSaveForm
 };
 
 void	ug_auto_save_form_init (struct UgAutoSaveForm* asform);
-void	ug_auto_save_form_set (struct UgAutoSaveForm* asform, UgetGtkSetting* setting);
-void	ug_auto_save_form_get (struct UgAutoSaveForm* asform, UgetGtkSetting* setting);
+void	ug_auto_save_form_set (struct UgAutoSaveForm* asform, UgSetting* setting);
+void	ug_auto_save_form_get (struct UgAutoSaveForm* asform, UgSetting* setting);
 
 
 // ----------------------------------------------------------------------------
@@ -130,8 +130,8 @@ struct UgPluginSettingForm
 };
 
 void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform);
-void	ug_plugin_setting_form_set (struct UgPluginSettingForm* psform, UgetGtkSetting* setting);
-void	ug_plugin_setting_form_get (struct UgPluginSettingForm* psform, UgetGtkSetting* setting);
+void	ug_plugin_setting_form_set (struct UgPluginSettingForm* psform, UgSetting* setting);
+void	ug_plugin_setting_form_get (struct UgPluginSettingForm* psform, UgSetting* setting);
 
 
 #ifdef __cplusplus

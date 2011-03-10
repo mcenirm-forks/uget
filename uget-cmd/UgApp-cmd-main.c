@@ -64,16 +64,16 @@ static void	win32_winsock_finalize (void)
 #include <stdlib.h>		// exit(), EXIT_SUCCESS, EXIT_FAILURE
 #include <signal.h>
 // uglib
-#include <uglib.h>
-#include <UgetCmd.h>
+#include <UgApp.h>
+#include <UgApp-cmd.h>
 
 // ----------------------------------------------------------------------------
-static	UgetCmd*	ugcmd;
+static	UgAppCmd*	app;
 
 static void term_signal_handler (int sig)
 {
-	uget_cmd_save (ugcmd);
-	ug_ipc_finalize (&ugcmd->ipc);
+	ug_app_cmd_save (app);
+	ug_ipc_finalize (&app->ipc);
 #if defined (_WIN32)
 	win32_winsock_finalize ();
 #endif
@@ -105,22 +105,22 @@ int main (int argc, char** argv)
 		g_thread_init (NULL);
 
 	// allocate memory for application
-	ugcmd = g_malloc0 (sizeof (UgetCmd));
+	app = g_slice_alloc0 (sizeof (UgAppCmd));
 	// uglib options
-	ug_option_init (&ugcmd->option);
+	ug_option_init (&app->option);
 	if (string) {
 		g_print ("uGet " PACKAGE_VERSION " for commandline" "\n");
-		ug_option_help (&ugcmd->option, argv[0], string);
+		ug_option_help (&app->option, argv[0], string);
 	}
 
 	// IPC initialize & check exist Uget program
-	ipc_status = ug_ipc_init_with_args (&ugcmd->ipc, argc, argv);
+	ipc_status = ug_ipc_init_with_args (&app->ipc, argc, argv);
 	if (ipc_status < 1) {
 		if (ipc_status == -1)
 			g_print ("uget: IPC failed.\n");
 //		if (ipc_status == 0)
 //			g_print ("uget: Server exists.\n");
-		ug_ipc_finalize (&ugcmd->ipc);
+		ug_ipc_finalize (&app->ipc);
 		goto exit;
 	}
 	// register uget interfaces
@@ -128,10 +128,10 @@ int main (int argc, char** argv)
 
 	// main program
 	signal (SIGTERM, term_signal_handler);
-	uget_cmd_run (ugcmd);
+	ug_app_cmd_run (app);
 
 	// shutdown IPC and sleep 2 second to wait thread
-	ug_ipc_finalize (&ugcmd->ipc);
+	ug_ipc_finalize (&app->ipc);
 	g_usleep (2 * 1000000);
 
 exit:

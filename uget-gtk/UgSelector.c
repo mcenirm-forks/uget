@@ -38,7 +38,7 @@
 #include <UgData-download.h>
 #include <UgSelector.h>
 #include <UgUri.h>
-#include <UgetGtk-setting.h>		// UGET_GTK_NAME
+#include <UgSetting.h>		// UG_APP_GTK_NAME
 
 #include <glib/gi18n.h>
 
@@ -265,7 +265,7 @@ static void	ug_selector_filter_init (struct UgSelectorFilter* filter, UgSelector
 	GtkBox*			hbox;
 	gchar*			title;
 
-	title  = g_strconcat (UGET_GTK_NAME " - ", _("Mark by filter"), NULL);
+	title  = g_strconcat (UG_APP_GTK_NAME " - ", _("Mark by filter"), NULL);
 	dialog = (GtkDialog*) gtk_dialog_new_with_buttons (title, selector->parent,
 			GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,

@@ -44,17 +44,17 @@
 #include <config.h>
 #endif
 // uglib
-#include <UgetGtk.h>
+#include <UgApp-gtk.h>
 
 #include <glib/gi18n.h>
 
-static void	uget_gtk_tray_icon_init	(struct UgetGtkTrayIcon* ugtk_tray_icon);
-static void	uget_gtk_window_init	(struct UgetGtkWindow* ugtk_window, UgetGtk* ugtk);
-static void	uget_gtk_statusbar_init	(struct UgetGtkStatusbar* ugtk_statusbar);
-static void	uget_gtk_toolbar_init	(struct UgetGtkToolbar* ugtk_toolbar, GtkAccelGroup* accel_group);
-static void	uget_gtk_menubar_init	(struct UgetGtkMenubar* ugtk_menubar, GtkAccelGroup* accel_group);
+static void	ug_tray_icon_init	(struct UgTrayIcon* app_tray_icon);
+static void	ug_window_init		(struct UgWindow* app_window, UgAppGtk* app);
+static void	ug_statusbar_init	(struct UgStatusbar* app_statusbar);
+static void	ug_toolbar_init		(struct UgToolbar* app_toolbar, GtkAccelGroup* accel_group);
+static void	ug_menubar_init		(struct UgMenubar* app_menubar, GtkAccelGroup* accel_group);
 
-void	uget_gtk_init_gui (UgetGtk* ugtk)
+void	ug_app_gtk_init_gui (UgAppGtk* app)
 {
 #ifdef _WIN32
 	// This will use icons\hicolor\index.theme
@@ -68,24 +68,24 @@ void	uget_gtk_init_gui (UgetGtk* ugtk)
 #endif	// _WIN32
 
 	// Registers a new accelerator "Ctrl+N" with the global accelerator map.
-	gtk_accel_map_add_entry (UGET_GTK_ACCEL_PATH_CTRL_N, GDK_KEY_n, GDK_CONTROL_MASK);
+	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_CTRL_N, GDK_KEY_n, GDK_CONTROL_MASK);
 	// accelerators
-	ugtk->accel_group = gtk_accel_group_new ();
+	app->accel_group = gtk_accel_group_new ();
 	// tray icon
-	uget_gtk_tray_icon_init (&ugtk->tray_icon);
+	ug_tray_icon_init (&app->tray_icon);
 	// main window
-	ug_category_widget_init (&ugtk->cwidget);
-	ug_summary_init (&ugtk->summary, ugtk->accel_group);
-	uget_gtk_statusbar_init (&ugtk->statusbar);
-	uget_gtk_toolbar_init (&ugtk->toolbar, ugtk->accel_group);
-	uget_gtk_menubar_init (&ugtk->menubar, ugtk->accel_group);
-	uget_gtk_window_init  (&ugtk->window, ugtk);
+	ug_category_widget_init (&app->cwidget);
+	ug_summary_init (&app->summary, app->accel_group);
+	ug_statusbar_init (&app->statusbar);
+	ug_toolbar_init (&app->toolbar, app->accel_group);
+	ug_menubar_init (&app->menubar, app->accel_group);
+	ug_window_init  (&app->window, app);
 }
 
 // ----------------------------------------------------------------------------
-// UgetGtkTrayIcon
+// UgTrayIcon
 //
-static void uget_gtk_tray_icon_init (struct UgetGtkTrayIcon* icon)
+static void ug_tray_icon_init (struct UgTrayIcon* trayicon)
 {
 	GtkWidget*		image;
 	GtkWidget*		menu;
@@ -93,21 +93,21 @@ static void uget_gtk_tray_icon_init (struct UgetGtkTrayIcon* icon)
 	gchar*			icon_name;
 	gchar*			file_name;
 
-	// UgetGtkTrayIcon.menu
+	// UgTrayIcon.menu
 	menu = gtk_menu_new ();
 	// New Download
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New _Download..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	icon->menu.create_download = menu_item;
+	trayicon->menu.create_download = menu_item;
 
 	// New Download from Clipboard
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New _from Clipboard..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_PASTE, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	icon->menu.create_clipboard = menu_item;
+	trayicon->menu.create_clipboard = menu_item;
 
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
 
@@ -116,97 +116,97 @@ static void uget_gtk_tray_icon_init (struct UgetGtkTrayIcon* icon)
 	image = gtk_image_new_from_stock (GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	icon->menu.settings = menu_item;
+	trayicon->menu.settings = menu_item;
 
 	// About
 	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ABOUT, NULL);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	icon->menu.about = menu_item;
+	trayicon->menu.about = menu_item;
 
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
 
 	// Show/Hide window
 	menu_item = gtk_menu_item_new_with_mnemonic (_("Show/Hide window"));
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	icon->menu.show_window = menu_item;
+	trayicon->menu.show_window = menu_item;
 
 	// Offline mode
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Offline Mode"));
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	icon->menu.offline_mode = menu_item;
+	trayicon->menu.offline_mode = menu_item;
 
 	// Quit
 	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_QUIT, NULL);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	icon->menu.quit = menu_item;
+	trayicon->menu.quit = menu_item;
 
 	gtk_widget_show_all (menu);
-	icon->menu.self = menu;
+	trayicon->menu.self = menu;
 
 	// decide tray icon
 	file_name = g_build_filename (ug_get_data_dir (), "icons",
 	                         "hicolor", "16x16", "apps",
 	                         "uget-icon.png", NULL);
 	if (g_file_test (file_name, G_FILE_TEST_IS_REGULAR))
-		icon_name = UGET_GTK_ICON_NAME;
+		icon_name = UG_APP_GTK_ICON_NAME;
 	else
 		icon_name = GTK_STOCK_GO_DOWN;
 	g_free (file_name);
 #ifdef HAVE_APP_INDICATOR
-	icon->indicator = app_indicator_new ("uget-gtk", icon_name,
+	trayicon->indicator = app_indicator_new ("uget-gtk", icon_name,
 			APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
-	if (icon->indicator == NULL)
+	if (trayicon->indicator == NULL)
 		return;
-	app_indicator_set_menu (icon->indicator, GTK_MENU (icon->menu.self));
-	app_indicator_set_attention_icon_full (icon->indicator,
-			UGET_GTK_ICON_ACTIVE_NAME, NULL);
+	app_indicator_set_menu (trayicon->indicator, GTK_MENU (trayicon->menu.self));
+	app_indicator_set_attention_icon_full (trayicon->indicator,
+			UG_APP_GTK_ICON_ACTIVE_NAME, NULL);
 #else
-	icon->self = gtk_status_icon_new_from_icon_name (icon_name);
-	gtk_status_icon_set_visible (icon->self, FALSE);
+	trayicon->self = gtk_status_icon_new_from_icon_name (icon_name);
+	gtk_status_icon_set_visible (trayicon->self, FALSE);
 #endif
-	uget_gtk_tray_icon_refresh (icon, 0, 0.0);
+	ug_tray_icon_set_info (trayicon, 0, 0.0);
 }
 
 // ----------------------------------------------------------------------------
-// UgetGtkWindow
+// UgWindow
 //
-static void uget_gtk_window_init  (struct UgetGtkWindow* window, UgetGtk* ugtk)
+static void ug_window_init  (struct UgWindow* window, UgAppGtk* app)
 {
 	GtkBox*			vbox;
 	GtkBox*			rbox;
 
 	window->self = (GtkWindow*) gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title (window->self, UGET_GTK_NAME);
+	gtk_window_set_title (window->self, UG_APP_GTK_NAME);
 	gtk_window_set_default_size (window->self, 620, 400);
-	gtk_window_add_accel_group (window->self, ugtk->accel_group);
-	gtk_window_set_default_icon_name (UGET_GTK_ICON_NAME);
+	gtk_window_add_accel_group (window->self, app->accel_group);
+	gtk_window_set_default_icon_name (UG_APP_GTK_ICON_NAME);
 
 	// top container for Main Window
 	vbox = (GtkBox*) gtk_vbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (window->self), GTK_WIDGET (vbox));
-	gtk_box_pack_start (vbox, ugtk->menubar.self, FALSE, FALSE, 0);
+	gtk_box_pack_start (vbox, app->menubar.self, FALSE, FALSE, 0);
 	// right side vbox
 	rbox = (GtkBox*) gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start (rbox, ugtk->toolbar.self, FALSE, FALSE, 0);
+	gtk_box_pack_start (rbox, app->toolbar.self, FALSE, FALSE, 0);
 	// hpaned
 	window->hpaned = (GtkPaned*) gtk_hpaned_new ();
 	gtk_box_pack_start (vbox, GTK_WIDGET (window->hpaned), TRUE, TRUE, 0);
-	gtk_paned_pack1 (window->hpaned, ugtk->cwidget.self, FALSE, TRUE);
+	gtk_paned_pack1 (window->hpaned, app->cwidget.self, FALSE, TRUE);
 	gtk_paned_pack2 (window->hpaned, GTK_WIDGET (rbox), TRUE, FALSE);
 	// vpaned
 	window->vpaned = (GtkPaned*) gtk_vpaned_new ();
 	gtk_box_pack_start (rbox, (GtkWidget*) window->vpaned, TRUE, TRUE, 0);
-//	gtk_paned_pack1 (window->vpaned, GTK_WIDGET (ugtk->cwidget.primary->all.self), TRUE, TRUE);
-	gtk_paned_pack2 (window->vpaned, GTK_WIDGET (ugtk->summary.self), FALSE, TRUE);
+//	gtk_paned_pack1 (window->vpaned, GTK_WIDGET (app->cwidget.primary->all.self), TRUE, TRUE);
+	gtk_paned_pack2 (window->vpaned, GTK_WIDGET (app->summary.self), FALSE, TRUE);
 
-	gtk_box_pack_start (vbox, GTK_WIDGET (ugtk->statusbar.self), FALSE, FALSE, 0);
+	gtk_box_pack_start (vbox, GTK_WIDGET (app->statusbar.self), FALSE, FALSE, 0);
 	gtk_widget_show_all ((GtkWidget*) vbox);
 }
 
 // ----------------------------------------------------------------------------
-// UgetGtkStatusbar
+// UgStatusbar
 //
-static void uget_gtk_statusbar_init (struct UgetGtkStatusbar* sbar)
+static void ug_statusbar_init (struct UgStatusbar* sbar)
 {
 	sbar->self = (GtkStatusbar*) gtk_statusbar_new ();
 #if GTK_MAJOR_VERSION < 3
@@ -218,13 +218,13 @@ static void uget_gtk_statusbar_init (struct UgetGtkStatusbar* sbar)
 	gtk_box_pack_end (GTK_BOX (sbar->self), (GtkWidget*) sbar->speed,
 			FALSE, TRUE, 2);
 
-	uget_gtk_statusbar_refresh_speed (sbar, 0.0);
+	ug_statusbar_set_speed (sbar, 0.0);
 }
 
 // ----------------------------------------------------------------------------
-// UgetGtkToolbar
+// UgToolbar
 //
-static void uget_gtk_toolbar_init (struct UgetGtkToolbar* ugt, GtkAccelGroup* accel_group)
+static void ug_toolbar_init (struct UgToolbar* ugt, GtkAccelGroup* accel_group)
 {
 	GtkToolbar*		toolbar;
 	GtkToolItem*	tool_item;
@@ -251,7 +251,7 @@ static void uget_gtk_toolbar_init (struct UgetGtkToolbar* ugt, GtkAccelGroup* ac
 	gtk_menu_tool_button_set_menu ((GtkMenuToolButton*)tool_item, menu);
 	// New Download (accelerators)
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New _Download..."));
-	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UGET_GTK_ACCEL_PATH_CTRL_N);
+	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_CTRL_N);
 	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
@@ -328,9 +328,9 @@ static void uget_gtk_toolbar_init (struct UgetGtkToolbar* ugt, GtkAccelGroup* ac
 }
 
 // ----------------------------------------------------------------------------
-// UgetGtkMenubar
+// UgMenubar
 //
-static void uget_gtk_menubar_init (struct UgetGtkMenubar* menubar, GtkAccelGroup* accel_group)
+static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_group)
 {
 	GtkWidget*		image;
 	GtkWidget*		menu;
@@ -341,7 +341,7 @@ static void uget_gtk_menubar_init (struct UgetGtkMenubar* menubar, GtkAccelGroup
 	menubar->self = gtk_menu_bar_new ();
 
 	// ----------------------------------------------------
-	// UgetGtkFileMenu
+	// UgFileMenu
 	menu = gtk_menu_new ();
 	menu_item = gtk_menu_item_new_with_mnemonic (_("_File"));
 	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, menu);
@@ -356,7 +356,7 @@ static void uget_gtk_menubar_init (struct UgetGtkMenubar* menubar, GtkAccelGroup
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	// New - Download (accelerators)
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Download..."));
-	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UGET_GTK_ACCEL_PATH_CTRL_N);
+	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_CTRL_N);
 	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
@@ -420,7 +420,7 @@ static void uget_gtk_menubar_init (struct UgetGtkMenubar* menubar, GtkAccelGroup
 	menubar->file.quit = menu_item;
 
 	// ----------------------------------------------------
-	// UgetGtkEditMenu
+	// UgEditMenu
 	menu = gtk_menu_new ();
 	menu_item = gtk_menu_item_new_with_mnemonic (_("_Edit"));
 	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, menu);
@@ -449,7 +449,7 @@ static void uget_gtk_menubar_init (struct UgetGtkMenubar* menubar, GtkAccelGroup
 	menubar->edit.settings = menu_item;
 
 	// ----------------------------------------------------
-	// UgetGtkViewMenu
+	// UgViewMenu
 	menu = gtk_menu_new ();
 	menu_item = gtk_menu_item_new_with_mnemonic (_("_View"));
 	gtk_menu_item_set_submenu ((GtkMenuItem*) menu_item, menu);
@@ -590,7 +590,7 @@ static void uget_gtk_menubar_init (struct UgetGtkMenubar* menubar, GtkAccelGroup
 	// Download Columns --- end ---
 
 	// ----------------------------------------------------
-	// UgetGtkCategoryMenu
+	// UgCategoryMenu
 	menu = gtk_menu_new ();
 	menu_item = gtk_menu_item_new_with_mnemonic (_("_Category"));
 	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, menu);
@@ -614,7 +614,7 @@ static void uget_gtk_menubar_init (struct UgetGtkMenubar* menubar, GtkAccelGroup
 	menubar->category.properties = menu_item;
 
 	// ----------------------------------------------------
-	// UgetGtkDownloadMenu
+	// UgDownloadMenu
 	menu = gtk_menu_new ();
 	menu_item = gtk_menu_item_new_with_mnemonic (_("_Download"));
 	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, menu);
@@ -720,7 +720,7 @@ static void uget_gtk_menubar_init (struct UgetGtkMenubar* menubar, GtkAccelGroup
 	menubar->download.properties = menu_item;
 
 	// ----------------------------------------------------
-	// UgetGtkHelpMenu
+	// UgHelpMenu
 	menu = gtk_menu_new ();
 	menu_item = gtk_menu_item_new_with_mnemonic(_("_Help"));
 	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, menu);

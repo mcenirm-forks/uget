@@ -175,7 +175,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\uglib\uglib.c"
+				RelativePath="..\..\uglib\UgApp.c"
 				>
 			</File>
 			<File
@@ -261,7 +261,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\uglib\uglib.h"
+				RelativePath="..\..\uglib\UgApp.h"
 				>
 			</File>
 			<File

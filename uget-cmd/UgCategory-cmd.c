@@ -36,7 +36,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <uglib.h>
 #include <UgData-download.h>
 #include <UgCategory-cmd.h>
 

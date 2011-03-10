@@ -76,8 +76,8 @@ struct UgSettingDialog
 UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent);
 void				ug_setting_dialog_free (UgSettingDialog* dialog);
 
-void	ug_setting_dialog_get (UgSettingDialog* dialog, UgetGtkSetting* setting);
-void	ug_setting_dialog_set (UgSettingDialog* dialog, UgetGtkSetting* setting);
+void	ug_setting_dialog_get (UgSettingDialog* dialog, UgSetting* setting);
+void	ug_setting_dialog_set (UgSettingDialog* dialog, UgSetting* setting);
 
 
 #ifdef __cplusplus

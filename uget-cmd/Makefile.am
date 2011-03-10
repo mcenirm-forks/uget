@@ -9,10 +9,10 @@ uget_cmd_LDADD    = $(top_builddir)/uglib/libuglib.a $(UGET_CMD_LIBS)
 
 uget_cmd_SOURCES  = \
 	UgCategory-cmd.c \
-	UgetCmd.c \
-	main-cmd.c
+	UgApp-cmd.c \
+	UgApp-cmd-main.c
 
 noinst_HEADERS    = \
 	UgCategory-cmd.h \
-	UgetCmd.h
+	UgApp-cmd.h
 

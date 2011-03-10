@@ -110,8 +110,7 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
 #include <stdlib.h>		// exit(), EXIT_SUCCESS, EXIT_FAILURE
 #include <signal.h>
 // uglib
-#include <uglib.h>
-#include <UgetGtk.h>
+#include <UgApp-gtk.h>
 
 // GStreamer
 #ifdef HAVE_GSTREAMER
@@ -161,13 +160,13 @@ const gchar*	ug_get_data_dir (void)
 }
 
 // ----------------------------------------------------------------------------
-static	UgetGtk*	ugtk;
+static	UgAppGtk*	app;
 
 // SIGTERM
 static void term_signal_handler (int sig)
 {
 	// This will quit  gtk_main()  to  main()
-	uget_gtk_quit (ugtk);
+	ug_app_gtk_quit (app);
 }
 
 // ----------------------------------------------------------------------------
@@ -206,12 +205,12 @@ int main (int argc, char** argv)
 #endif  // _WIN32
 
 	// uglib: options
-	ugtk = g_malloc0 (sizeof (UgetGtk));
-	ug_option_init (&ugtk->option);
-	ug_option_add (&ugtk->option, NULL, gtk_get_option_group (TRUE));
+	app = g_slice_alloc0 (sizeof (UgAppGtk));
+	ug_option_init (&app->option);
+	ug_option_add (&app->option, NULL, gtk_get_option_group (TRUE));
 	if (string) {
 		g_print ("uGet " PACKAGE_VERSION " for GTK+" "\n");
-		ug_option_help (&ugtk->option, argv[0], string);
+		ug_option_help (&app->option, argv[0], string);
 	}
 
 	// GLib: GThread
@@ -228,13 +227,13 @@ int main (int argc, char** argv)
 #endif
 
 	// IPC initialize & check exist Uget program
-	ipc_status = ug_ipc_init_with_args (&ugtk->ipc, argc, argv);
+	ipc_status = ug_ipc_init_with_args (&app->ipc, argc, argv);
 	if (ipc_status < 1) {
 		if (ipc_status == -1)
 			g_print ("uget: IPC failed.\n");
 //		if (ipc_status == 0)
 //			g_print ("uget: Server exists.\n");
-		ug_ipc_finalize (&ugtk->ipc);
+		ug_ipc_finalize (&app->ipc);
 		goto exit;
 	}
 	// libnotify
@@ -246,7 +245,7 @@ int main (int argc, char** argv)
 	uglib_init ();
 
 	// main program
-	uget_gtk_init (ugtk);
+	ug_app_gtk_init (app);
 	signal (SIGTERM, term_signal_handler);
 	gdk_threads_enter ();
 	gtk_main ();
@@ -258,7 +257,7 @@ int main (int argc, char** argv)
 		notify_uninit ();
 #endif
 	// shutdown IPC and sleep 2 second to wait thread
-	ug_ipc_finalize (&ugtk->ipc);
+	ug_ipc_finalize (&app->ipc);
 	g_usleep (2 * 1000000);
 
 exit:

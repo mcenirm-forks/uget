@@ -59,49 +59,49 @@
 #include <UgUtils.h>
 #include <UgString.h>
 #include <UgData-download.h>
-#include <UgetGtk.h>
+#include <UgApp-gtk.h>
 #include <UgDownloadDialog.h>
 
 #include <glib/gi18n.h>
 
 
-static void	uget_gtk_notify_starting (UgetGtk* ugtk);
-static void	uget_gtk_notify_completed (UgetGtk* ugtk);
+static void	ug_app_gtk_notify_starting (UgAppGtk* app);
+static void	ug_app_gtk_notify_completed (UgAppGtk* app);
 // GSourceFunc
-static gboolean	uget_gtk_timeout_ipc (UgetGtk* ugtk);
-static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk);
-static gboolean	uget_gtk_timeout_clipboard (UgetGtk* ugtk);
-static gboolean	uget_gtk_timeout_autosave (UgetGtk* ugtk);
+static gboolean	ug_app_gtk_timeout_ipc (UgAppGtk* app);
+static gboolean	ug_app_gtk_timeout_queuing (UgAppGtk* app);
+static gboolean	ug_app_gtk_timeout_clipboard (UgAppGtk* app);
+static gboolean	ug_app_gtk_timeout_autosave (UgAppGtk* app);
 
-void	uget_gtk_init_timeout (UgetGtk* ugtk)
+void	ug_app_gtk_init_timeout (UgAppGtk* app)
 {
 	// 0.5 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500,
-			(GSourceFunc) uget_gtk_timeout_ipc, ugtk, NULL);
+			(GSourceFunc) ug_app_gtk_timeout_ipc, app, NULL);
 	// 0.5 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500,
-			(GSourceFunc) ug_running_dispatch, &ugtk->running, NULL);
+			(GSourceFunc) ug_running_dispatch, &app->running, NULL);
 	// 1 seconds
 	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT_IDLE, 1,
-			(GSourceFunc) uget_gtk_timeout_queuing, ugtk, NULL);
+			(GSourceFunc) ug_app_gtk_timeout_queuing, app, NULL);
 	// 2 seconds
 	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT_IDLE, 2,
-			(GSourceFunc) uget_gtk_timeout_clipboard, ugtk, NULL);
+			(GSourceFunc) ug_app_gtk_timeout_clipboard, app, NULL);
 	// 1 minutes
 	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT_IDLE, 60,
-			(GSourceFunc) uget_gtk_timeout_autosave, ugtk, NULL);
+			(GSourceFunc) ug_app_gtk_timeout_autosave, app, NULL);
 }
 
-static gboolean	uget_gtk_timeout_autosave (UgetGtk* ugtk)
+static gboolean	ug_app_gtk_timeout_autosave (UgAppGtk* app)
 {
 	static guint	counts = 0;
 
 	counts++;
-	// "ugtk->setting.auto_save.interval" may changed by user
-	if (counts >= ugtk->setting.auto_save.interval) {
+	// "app->setting.auto_save.interval" may changed by user
+	if (counts >= app->setting.auto_save.interval) {
 		counts = 0;
-		if (ugtk->setting.auto_save.active)
-			uget_gtk_save (ugtk);
+		if (app->setting.auto_save.active)
+			ug_app_gtk_save (app);
 	}
 	// return FALSE if the source should be removed.
 	return TRUE;
@@ -121,14 +121,14 @@ static void	on_keep_above_window_show (GtkWindow *window, gpointer  user_data)
 static void	on_add_download_response (GtkDialog *dialog, gint response, UgDownloadDialog* ddialog)
 {
 	UgCategory*		category;
-	UgetGtk*		ugtk;
+	UgAppGtk*		app;
 	GList*			list;
 	GList*			link;
 
 	if (response == GTK_RESPONSE_OK) {
-		ugtk = ddialog->user.app;
+		app = ddialog->user.app;
 		ug_download_form_get_folder_list (&ddialog->download,
-				&ugtk->setting.folder_list);
+				&app->setting.folder_list);
 		category = ug_download_dialog_get_category (ddialog);
 		if (category) {
 			list = ug_download_dialog_get_downloads (ddialog);
@@ -136,13 +136,13 @@ static void	on_add_download_response (GtkDialog *dialog, gint response, UgDownlo
 				ug_category_add (category, link->data);
 			g_list_foreach (list, (GFunc) ug_dataset_unref, NULL);
 			g_list_free (list);
-			gtk_widget_queue_draw ((GtkWidget*) ugtk->cwidget.self);
+			gtk_widget_queue_draw ((GtkWidget*) app->cwidget.self);
 		}
 	}
 	ug_download_dialog_free (ddialog);
 }
 
-static void	uget_add_uris_selected (UgetGtk* ugtk, GList* list)
+static void	uget_add_uris_selected (UgAppGtk* app, GList* list)
 {
 	UgDownloadDialog*	ddialog;
 	UgSelectorPage*		page;
@@ -150,17 +150,17 @@ static void	uget_add_uris_selected (UgetGtk* ugtk, GList* list)
 
 	if (list->next == NULL) {
 		// only 1 url matched
-		string = g_strconcat (UGET_GTK_NAME " - ", _("New from Clipboard"),
+		string = g_strconcat (UG_APP_GTK_NAME " - ", _("New from Clipboard"),
 				" (", _("only one matched"), ")", NULL);
-//		ddialog = ug_download_dialog_new (string, ugtk->window.self);
+//		ddialog = ug_download_dialog_new (string, app->window.self);
 		ddialog = ug_download_dialog_new (string, NULL);
 		g_free (string);
 		gtk_entry_set_text ((GtkEntry*) ddialog->download.url_entry, list->data);
 		g_free (list->data);
 	}
 	else {
-		string = g_strconcat (UGET_GTK_NAME " - ", _("New from Clipboard"), NULL);
-//		ddialog = ug_download_dialog_new (string, ugtk->window.self);
+		string = g_strconcat (UG_APP_GTK_NAME " - ", _("New from Clipboard"), NULL);
+//		ddialog = ug_download_dialog_new (string, app->window.self);
 		ddialog = ug_download_dialog_new (string, NULL);
 		g_free (string);
 		ug_download_dialog_use_selector (ddialog);
@@ -171,10 +171,10 @@ static void	uget_add_uris_selected (UgetGtk* ugtk, GList* list)
 	g_list_free (list);
 
 	ug_download_form_set_folder_list (&ddialog->download,
-			ugtk->setting.folder_list);
-	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
+			app->setting.folder_list);
+	ug_download_dialog_set_category (ddialog, &app->cwidget);
 	// connect signal and set data in download dialog
-	ddialog->user.app = ugtk;
+	ddialog->user.app = app;
 	g_signal_connect (ddialog->self, "response",
 			G_CALLBACK (on_add_download_response), ddialog);
 	g_signal_connect_after (ddialog->self, "show",
@@ -185,7 +185,7 @@ static void	uget_add_uris_selected (UgetGtk* ugtk, GList* list)
 	gtk_widget_show ((GtkWidget*) ddialog->self);
 }
 
-static void	uget_add_uris_quietly (UgetGtk* ugtk, GList* list)
+static void	uget_add_uris_quietly (UgAppGtk* app, GList* list)
 {
 	UgCategory*		category;
 	UgDataset*		dataset;
@@ -193,14 +193,14 @@ static void	uget_add_uris_quietly (UgetGtk* ugtk, GList* list)
 	GList*			link;
 
 	// get category
-	if (ugtk->setting.clipboard.nth_category == -1)
-		category = ug_category_view_get_cursor (ugtk->cwidget.view);
+	if (app->setting.clipboard.nth_category == -1)
+		category = ug_category_view_get_cursor (app->cwidget.view);
 	else {
-		category = ug_category_view_get_nth (ugtk->cwidget.view,
-				ugtk->setting.clipboard.nth_category);
+		category = ug_category_view_get_nth (app->cwidget.view,
+				app->setting.clipboard.nth_category);
 	}
 	if (category == NULL)
-		category = ug_category_view_get_nth (ugtk->cwidget.view, 0);
+		category = ug_category_view_get_nth (app->cwidget.view, 0);
 	if (category == NULL)
 		return;
 	// add list to category
@@ -220,27 +220,27 @@ static void on_clipboard_text_received (GtkClipboard*	clipboard,
                                         const gchar*	text,
                                         gpointer		user_data)
 {
-	UgetGtk*		ugtk;
+	UgAppGtk*		app;
 	GList*			list;
 
-	ugtk = (UgetGtk*) user_data;
-	list = uget_gtk_clipboard_get_matched (&ugtk->clipboard, text);
+	app = (UgAppGtk*) user_data;
+	list = ug_clipboard_get_matched (&app->clipboard, text);
 	if (list) {
-		if (ugtk->setting.clipboard.quiet)
-			uget_add_uris_quietly (ugtk, list);
+		if (app->setting.clipboard.quiet)
+			uget_add_uris_quietly (app, list);
 		else
-			uget_add_uris_selected (ugtk, list);
+			uget_add_uris_selected (app, list);
 	}
 	clipboard_processing = FALSE;
 }
 
-static gboolean	uget_gtk_timeout_clipboard (UgetGtk* ugtk)
+static gboolean	ug_app_gtk_timeout_clipboard (UgAppGtk* app)
 {
-	if (ugtk->setting.clipboard.monitor && clipboard_processing == FALSE) {
+	if (app->setting.clipboard.monitor && clipboard_processing == FALSE) {
 		// set FALSE in on_clipboard_text_received()
 		clipboard_processing = TRUE;
-		gtk_clipboard_request_text (ugtk->clipboard.self,
-				on_clipboard_text_received, ugtk);
+		gtk_clipboard_request_text (app->clipboard.self,
+				on_clipboard_text_received, app);
 	}
 	// return FALSE if the source should be removed.
 	return TRUE;
@@ -249,14 +249,14 @@ static gboolean	uget_gtk_timeout_clipboard (UgetGtk* ugtk)
 // ----------------------------------------------------------------------------
 // IPC
 //
-static void	uget_add_download_selected (UgetGtk* ugtk, GList* list, gint category_index)
+static void	uget_add_download_selected (UgAppGtk* app, GList* list, gint category_index)
 {
 	UgDownloadDialog*	ddialog;
 	UgSelectorPage*		page;
 	gchar*				string;
 
-	string = g_strconcat (UGET_GTK_NAME " - ", _("New Download"), NULL);
-//	ddialog = ug_download_dialog_new (string, ugtk->window.self);
+	string = g_strconcat (UG_APP_GTK_NAME " - ", _("New Download"), NULL);
+//	ddialog = ug_download_dialog_new (string, app->window.self);
 	ddialog = ug_download_dialog_new (string, NULL);
 	g_free (string);
 	if (list->next) {
@@ -275,11 +275,11 @@ static void	uget_add_download_selected (UgetGtk* ugtk, GList* list, gint categor
 	}
 
 	ug_download_form_set_folder_list (&ddialog->download,
-			ugtk->setting.folder_list);
-	ug_download_dialog_set_category (ddialog, &ugtk->cwidget);
+			app->setting.folder_list);
+	ug_download_dialog_set_category (ddialog, &app->cwidget);
 	ug_category_view_set_cursor (ddialog->category_view, category_index, -1);
 	// connect signal and set data in download dialog
-	ddialog->user.app = ugtk;
+	ddialog->user.app = app;
 	g_signal_connect (ddialog->self, "response",
 			G_CALLBACK (on_add_download_response), ddialog);
 	g_signal_connect_after (ddialog->self, "show",
@@ -290,16 +290,16 @@ static void	uget_add_download_selected (UgetGtk* ugtk, GList* list, gint categor
 	gtk_widget_show ((GtkWidget*) ddialog->self);
 }
 
-static void	uget_add_download_quietly (UgetGtk* ugtk, GList* list, gint category_index)
+static void	uget_add_download_quietly (UgAppGtk* app, GList* list, gint category_index)
 {
 	UgCategory*		category;
 	UgDataset*		dataset;
 	GList*			link;
 
 	// get category
-	category = ug_category_view_get_nth (ugtk->cwidget.view, category_index);
+	category = ug_category_view_get_nth (app->cwidget.view, category_index);
 	if (category == NULL)
-		category = ug_category_view_get_cursor (ugtk->cwidget.view);
+		category = ug_category_view_get_cursor (app->cwidget.view);
 	if (category == NULL)
 		return;
 	// add list to category
@@ -311,38 +311,38 @@ static void	uget_add_download_quietly (UgetGtk* ugtk, GList* list, gint category
 	}
 }
 
-static gboolean	uget_gtk_timeout_ipc (UgetGtk* ugtk)
+static gboolean	ug_app_gtk_timeout_ipc (UgAppGtk* app)
 {
 	GPtrArray*		args;
 	GList*			list;
 	gint			category_index;
 
-	args = ug_ipc_pop (&ugtk->ipc);
+	args = ug_ipc_pop (&app->ipc);
 	if (args == NULL)
 		return TRUE;
 	// If no argument, program presents main window to the user.
 	if (args->len == 1) {
 		ug_arg_free (args, TRUE);
-		if (gtk_widget_get_visible ((GtkWidget*) ugtk->window.self) == FALSE)
-			gtk_window_deiconify (ugtk->window.self);
-		gtk_window_present (ugtk->window.self);
+		if (gtk_widget_get_visible ((GtkWidget*) app->window.self) == FALSE)
+			gtk_window_deiconify (app->window.self);
+		gtk_window_present (app->window.self);
 		return TRUE;
 	}
 	// get and parse downloads
-	list = ug_option_parse (&ugtk->option, args);
+	list = ug_option_parse (&app->option, args);
 	ug_arg_free (args, TRUE);
 	// set-offline
-	switch (ugtk->option.data->offline) {
+	switch (app->option.data->offline) {
 	case 0:
-		ugtk->setting.offline_mode = FALSE;
+		app->setting.offline_mode = FALSE;
 		gtk_check_menu_item_set_active (
-				(GtkCheckMenuItem*) ugtk->menubar.file.offline_mode, FALSE);
+				(GtkCheckMenuItem*) app->menubar.file.offline_mode, FALSE);
 		break;
 
 	case 1:
-		ugtk->setting.offline_mode = TRUE;
+		app->setting.offline_mode = TRUE;
 		gtk_check_menu_item_set_active (
-				(GtkCheckMenuItem*) ugtk->menubar.file.offline_mode, TRUE);
+				(GtkCheckMenuItem*) app->menubar.file.offline_mode, TRUE);
 		break;
 
 	default:
@@ -355,11 +355,11 @@ static gboolean	uget_gtk_timeout_ipc (UgetGtk* ugtk)
 	if (ug_download_create_attachment (list->data, FALSE) == TRUE)
 		g_list_foreach (list->next, (GFunc) ug_download_assign_attachment, list->data);
 	// add downloads
-	category_index = ugtk->option.data->category_index;
-	if (ugtk->option.data->quiet)
-		uget_add_download_quietly (ugtk, list, category_index);
+	category_index = app->option.data->category_index;
+	if (app->option.data->quiet)
+		uget_add_download_quietly (app, list, category_index);
 	else
-		uget_add_download_selected (ugtk, list, category_index);
+		uget_add_download_selected (app, list, category_index);
 	// free unused downloads
 	g_list_foreach (list, (GFunc) ug_dataset_unref, NULL);
 	g_list_free (list);
@@ -371,7 +371,7 @@ static gboolean	uget_gtk_timeout_ipc (UgetGtk* ugtk)
 // ----------------------------------------------------------------------------
 // queuing
 //
-static void	uget_gtk_launch_default_app (UgDataset* dataset, GRegex* regex)
+static void	ug_app_gtk_launch_default_app (UgDataset* dataset, GRegex* regex)
 {
 	UgDataCommon*	common;
 	const gchar*	file_ext;
@@ -390,7 +390,7 @@ static void	uget_gtk_launch_default_app (UgDataset* dataset, GRegex* regex)
 }
 
 // scheduler
-static gboolean	uget_gtk_decide_schedule_state (UgetGtk* ugtk)
+static gboolean	ug_app_gtk_decide_schedule_state (UgAppGtk* app)
 {
 	struct tm*	timem;
 	time_t		timet;
@@ -398,8 +398,8 @@ static gboolean	uget_gtk_decide_schedule_state (UgetGtk* ugtk)
 	gboolean	changed;
 	UgScheduleState	state;
 
-	if (ugtk->setting.scheduler.enable == FALSE) {
-		ugtk->schedule_state = UG_SCHEDULE_NORMAL;
+	if (app->setting.scheduler.enable == FALSE) {
+		app->schedule_state = UG_SCHEDULE_NORMAL;
 		return FALSE;
 	}
 
@@ -412,27 +412,27 @@ static gboolean	uget_gtk_decide_schedule_state (UgetGtk* ugtk)
 	else
 		weekdays = timem->tm_wday - 1;
 	// get current schedule state
-	state = ugtk->setting.scheduler.state [weekdays][dayhours];
-	if (ugtk->schedule_state == state)
+	state = app->setting.scheduler.state [weekdays][dayhours];
+	if (app->schedule_state == state)
 		changed = FALSE;
 	else {
-		ugtk->schedule_state  = state;
+		app->schedule_state  = state;
 		changed = TRUE;
 		// switch mode
 		switch (state)
 		{
 		case UG_SCHEDULE_TURN_OFF:
-			ug_running_clear (&ugtk->running);
+			ug_running_clear (&app->running);
 			break;
 
 		case UG_SCHEDULE_LIMITED_SPEED:
-			ug_running_set_speed (&ugtk->running,
-					ugtk->setting.scheduler.speed_limit);
+			ug_running_set_speed (&app->running,
+					app->setting.scheduler.speed_limit);
 			break;
 
 		default:
 			// no speed limit
-			ug_running_set_speed (&ugtk->running, 0);
+			ug_running_set_speed (&app->running, 0);
 			break;
 		}
 	}
@@ -441,7 +441,7 @@ static gboolean	uget_gtk_decide_schedule_state (UgetGtk* ugtk)
 }
 
 // start, stop jobs and refresh information.
-static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
+static gboolean	ug_app_gtk_timeout_queuing (UgAppGtk* app)
 {
 	GList*		jobs;
 	GList*		list;
@@ -457,71 +457,71 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 
 
 	// If changed is TRUE, it will refresh all category-related data.
-	changed = uget_gtk_decide_schedule_state (ugtk);
+	changed = ug_app_gtk_decide_schedule_state (app);
 	// do something for inactive jobs
-	jobs = ug_running_get_inactive (&ugtk->running);
+	jobs = ug_running_get_inactive (&app->running);
 	for (link = jobs;  link;  link = link->next) {
 		temp.relation = UG_DATASET_RELATION ((UgDataset*) link->data);
 		// This will change tray icon.
 		if (temp.relation->hints & UG_HINT_ERROR)
-			ugtk->tray_icon.error_occurred = TRUE;
+			app->tray_icon.error_occurred = TRUE;
 		// launch default application
-		if ((temp.relation->hints & UG_HINT_COMPLETED) && ugtk->setting.launch.active)
-			uget_gtk_launch_default_app (link->data, ugtk->launch_regex);
+		if ((temp.relation->hints & UG_HINT_COMPLETED) && app->setting.launch.active)
+			ug_app_gtk_launch_default_app (link->data, app->launch_regex);
 		// remove inactive jobs from group
-		ug_running_remove (&ugtk->running, link->data);
+		ug_running_remove (&app->running, link->data);
 		changed = TRUE;
 	}
 	g_list_free (jobs);
 
 	// category list
-	list = ug_category_widget_get_list (&ugtk->cwidget);
+	list = ug_category_widget_get_list (&app->cwidget);
 	for (link = list;  link;  link = link->next) {
 		// clear excess downloads
 		if (ug_category_gtk_clear_excess (link->data))
 			changed = TRUE;
 		// Don't activate jobs if offline mode was enabled or schedule turns off jobs.
-		if (ugtk->setting.offline_mode || ugtk->schedule_state == UG_SCHEDULE_TURN_OFF)
+		if (app->setting.offline_mode || app->schedule_state == UG_SCHEDULE_TURN_OFF)
 			continue;
 		// get queuing jobs from categories and activate them
 		jobs = ug_category_gtk_get_jobs (link->data);
-		if (ug_running_add_jobs (&ugtk->running, jobs))
+		if (ug_running_add_jobs (&app->running, jobs))
 			changed = TRUE;
 		g_list_free (jobs);
 	}
 	g_list_free (list);
 
 	// get number of jobs after queuing
-	n_after = ug_running_get_n_jobs (&ugtk->running);
+	n_after = ug_running_get_n_jobs (&app->running);
 	// some jobs was start or stop
 	if (n_before != n_after) {
 		// downloading start
 		if (n_before == 0  &&  n_after > 0) {
 			// starting notification
-			if (ugtk->setting.ui.start_notification)
-				uget_gtk_notify_starting (ugtk);
+			if (app->setting.ui.start_notification)
+				ug_app_gtk_notify_starting (app);
 		}
 		// downloading completed
 		else if (n_before > 0  &&  n_after == 0) {
-			if (ugtk->user_action == FALSE) {
+			if (app->user_action == FALSE) {
 				// completed notification
-				uget_gtk_notify_completed (ugtk);
+				ug_app_gtk_notify_completed (app);
 				// shutdown
-				if (ugtk->setting.shutdown) {
-					uget_gtk_save (ugtk);
+				if (app->setting.shutdown) {
+					ug_app_gtk_save (app);
 					ug_shutdown ();
 				}
 			}
 		}
 		// window title
 		if (n_after > 0) {
-			temp.string = g_strdup_printf (UGET_GTK_NAME " - %u %s",
+			temp.string = g_strdup_printf (UG_APP_GTK_NAME " - %u %s",
 					n_after, _("downloading"));
-			gtk_window_set_title (ugtk->window.self, temp.string);
+			gtk_window_set_title (app->window.self, temp.string);
 			g_free (temp.string);
 		}
 		else
-			gtk_window_set_title (ugtk->window.self, UGET_GTK_NAME);
+			gtk_window_set_title (app->window.self, UG_APP_GTK_NAME);
 		// update
 		n_before = n_after;
 		changed = TRUE;
@@ -529,19 +529,19 @@ static gboolean	uget_gtk_timeout_queuing (UgetGtk* ugtk)
 
 	// category or download status changed
 	if (changed || n_after) {
-		temp.speed = ug_running_get_speed (&ugtk->running);
-		gtk_widget_queue_draw (ugtk->cwidget.current.widget->self);
+		temp.speed = ug_running_get_speed (&app->running);
+		gtk_widget_queue_draw (app->cwidget.current.widget->self);
 		// summary
-		ug_summary_show (&ugtk->summary,
-				ug_download_widget_get_cursor (ugtk->cwidget.current.widget));
+		ug_summary_show (&app->summary,
+				ug_download_widget_get_cursor (app->cwidget.current.widget));
 		// status bar
-		uget_gtk_statusbar_refresh_speed (&ugtk->statusbar, temp.speed);
+		ug_statusbar_set_speed (&app->statusbar, temp.speed);
 		// tray icon
-		uget_gtk_tray_icon_refresh (&ugtk->tray_icon, n_after, temp.speed);
+		ug_tray_icon_set_info (&app->tray_icon, n_after, temp.speed);
 	}
 	// category status changed
 	if (changed)
-		gtk_widget_queue_draw (ugtk->cwidget.self);
+		gtk_widget_queue_draw (app->cwidget.self);
 
 	// return FALSE if the source should be removed.
 	return TRUE;
@@ -642,7 +642,7 @@ static void uget_play_sound (const gchar* sound_file)
 // notification
 //
 #ifdef HAVE_LIBNOTIFY
-static void uget_gtk_notify (UgetGtk* ugtk, const gchar* title, const gchar* body)
+static void ug_app_gtk_notify (UgAppGtk* app, const gchar* title, const gchar* body)
 {
 	static	NotifyNotification*	notification = NULL;
 	gchar*	string;
@@ -650,28 +650,28 @@ static void uget_gtk_notify (UgetGtk* ugtk, const gchar* title, const gchar* bod
 	if (notify_is_initted () == FALSE)
 		return;
 	// set title and body
-	string = g_strconcat (UGET_GTK_NAME " - ", title, NULL);
+	string = g_strconcat (UG_APP_GTK_NAME " - ", title, NULL);
 	if (notification == NULL) {
 
 #if defined (NOTIFY_VERSION_MINOR) && NOTIFY_VERSION_MAJOR >= 0 && NOTIFY_VERSION_MINOR >= 7
 		notification = notify_notification_new (string,
-				body, UGET_GTK_ICON_NAME);
+				body, UG_APP_GTK_ICON_NAME);
 #else
 		notification = notify_notification_new (string,
-				body, UGET_GTK_ICON_NAME, NULL);
+				body, UG_APP_GTK_ICON_NAME, NULL);
 #endif
 		notify_notification_set_timeout (notification, 7000);	// milliseconds
 	}
 	else {
 		notify_notification_update (notification, string,
-				body, UGET_GTK_ICON_NAME);
+				body, UG_APP_GTK_ICON_NAME);
 	}
 	g_free (string);
 
 	notify_notification_show (notification, NULL);
 }
 #elif defined (_WIN32)
-static void uget_gtk_notify (UgetGtk* ugtk, const gchar* title, const gchar* body)
+static void ug_app_gtk_notify (UgAppGtk* app, const gchar* title, const gchar* body)
 {
 	static	NOTIFYICONDATAW*	pNotifyData = NULL;
 	gchar*		string;
@@ -692,9 +692,9 @@ static void uget_gtk_notify (UgetGtk* ugtk, const gchar* title, const gchar* bod
 		return;
 	// gtkstatusicon.c
 	// (gtk_status_icon_init): priv->nid.uID = GPOINTER_TO_UINT (status_icon);
-	pNotifyData->uID = GPOINTER_TO_UINT (ugtk->tray_icon.self);
+	pNotifyData->uID = GPOINTER_TO_UINT (app->tray_icon.self);
 	// title
-	string = g_strconcat (UGET_GTK_NAME " - ", title, NULL);
+	string = g_strconcat (UG_APP_GTK_NAME " - ", title, NULL);
 	string_wcs = g_utf8_to_utf16 (string,  -1, NULL, NULL, NULL);
 	wcsncpy (pNotifyData->szInfoTitle, string_wcs, 64 -1);	// null-terminated
 	g_free (string);
@@ -707,7 +707,7 @@ static void uget_gtk_notify (UgetGtk* ugtk, const gchar* title, const gchar* bod
 	Shell_NotifyIconW (NIM_MODIFY, pNotifyData);
 }
 #else
-static void uget_gtk_notify (UgetGtk* ugtk, const gchar* title, const gchar* info)
+static void ug_app_gtk_notify (UgAppGtk* app, const gchar* title, const gchar* info)
 {
 	// do nothing
 }
@@ -718,15 +718,15 @@ static void uget_gtk_notify (UgetGtk* ugtk, const gchar* title, const gchar* inf
 #define	NOTIFICATION_COMPLETED_TITLE		_("Download Completed")
 #define	NOTIFICATION_COMPLETED_STRING		_("All queuing downloads have been completed.")
 
-static void	uget_gtk_notify_completed (UgetGtk* ugtk)
+static void	ug_app_gtk_notify_completed (UgAppGtk* app)
 {
 	gchar*	path;
 
-	uget_gtk_notify (ugtk,
+	ug_app_gtk_notify (app,
 			NOTIFICATION_COMPLETED_TITLE,
 			NOTIFICATION_COMPLETED_STRING);
 
-	if (ugtk->setting.ui.sound_notification) {
+	if (app->setting.ui.sound_notification) {
 		path = g_build_filename (ug_get_data_dir (),
 				"sounds", "uget", "notification.wav",  NULL);
 		uget_play_sound (path);
@@ -734,11 +734,11 @@ static void	uget_gtk_notify_completed (UgetGtk* ugtk)
 	}
 }
 
-static void	uget_gtk_notify_starting (UgetGtk* ugtk)
+static void	ug_app_gtk_notify_starting (UgAppGtk* app)
 {
 //	gchar*	path;
 
-	uget_gtk_notify (ugtk,
+	ug_app_gtk_notify (app,
 			NOTIFICATION_STARTING_TITLE,
 			NOTIFICATION_STARTING_STRING);
 

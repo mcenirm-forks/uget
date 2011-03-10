@@ -34,8 +34,8 @@
  *
  */
 
-#ifndef UGET_GTK_SETTING_H
-#define UGET_GTK_SETTING_H
+#ifndef UG_SETTING_H
+#define UG_SETTING_H
 
 #ifdef	HAVE_CONFIG_H
 #include <config.h>
@@ -50,13 +50,13 @@
 extern "C" {
 #endif
 
-#define UGET_GTK_NAME					"uGet"
-#define UGET_GTK_VERSION				PACKAGE_VERSION " (developing)"
+#define UG_APP_GTK_NAME					"uGet"
+#define UG_APP_GTK_VERSION				PACKAGE_VERSION " (developing)"
 // default setting
-#define UGET_GTK_CLIPBOARD_PATTERN		"ZIP|BIN|GZ|7Z|Z|TAR|TGZ|BZ2|A[0-9]?|LZH|MP3|RPM|DEB|EXE|RAR|R[0-9][0-9]"
-#define UGET_GTK_LAUNCH_APP_TYPES		"torrent"
+#define UG_APP_GTK_CLIPBOARD_PATTERN	"ZIP|BIN|GZ|7Z|Z|TAR|TGZ|BZ2|A[0-9]?|LZH|MP3|RPM|DEB|EXE|RAR|R[0-9][0-9]"
+#define UG_APP_GTK_LAUNCH_APP_TYPES		"torrent"
 
-typedef struct	UgetGtkSetting			UgetGtkSetting;
+typedef struct	UgSetting				UgSetting;
 typedef enum	UgScheduleState			UgScheduleState;
 
 enum UgScheduleState
@@ -69,8 +69,8 @@ enum UgScheduleState
 	UG_SCHEDULE_N_STATE,
 };
 
-// <UgetGtkSetting>
-struct UgetGtkSetting
+// <UgSetting>
+struct UgSetting
 {
 	const UgDataInterface*	iface;			// for UgMarkup parse/write
 
@@ -200,15 +200,15 @@ struct UgetGtkSetting
 	} auto_save;
 };
 
-void	uget_gtk_setting_init  (UgetGtkSetting* setting);
+void	ug_setting_init  (UgSetting* setting);
 
-gboolean	uget_gtk_setting_save  (UgetGtkSetting* setting, const gchar* file);
-gboolean	uget_gtk_setting_load  (UgetGtkSetting* setting, const gchar* file);
+gboolean	ug_setting_save  (UgSetting* setting, const gchar* file);
+gboolean	ug_setting_load  (UgSetting* setting, const gchar* file);
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif  // End of UGET_GTK_SETTING_H
+#endif  // End of UG_SETTING_H
 

@@ -34,51 +34,68 @@
  *
  */
 
+#include <UgApp-gtk.h>
+#include <UgPlugin-aria2.h>
 
-#ifndef UGET_CMD_H
-#define UGET_CMD_H
+#include <glib/gi18n.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <uglib.h>
-#include <UgRunning.h>
-#include <UgCategory-cmd.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#define UGET_CMD_DIR				"uGet"		// "uGetCmd"
-#define UGET_CMD_CATEGORY_FILE		"CategoryList-cmd.xml"
-#define UGET_CMD_DOWNLOAD_FILE		"DownloadList-cmd.xml"
-
-typedef struct	UgetCmd				UgetCmd;
-
-
-// ----------------------------------------------------------------------------
-// UgetCmd: uGet command-line version
+// ------------------------------------------------------
+// aria2
 //
-struct UgetCmd
+#ifdef HAVE_PLUGIN_ARIA2
+
+void	ug_app_gtk_aria2_init (UgAppGtk* app)
 {
-	UgOption		option;
-	UgIpc			ipc;
-	UgRunning		running;
-
-	GList*			category_list;
-
-	GMainLoop*		main_loop;
-};
-
-void	uget_cmd_run  (UgetCmd* ugcmd);
-void	uget_cmd_save (UgetCmd* ugcmd);
-void	uget_cmd_load (UgetCmd* ugcmd);
-
-
-#ifdef __cplusplus
+	ug_xmlrpc_init (&app->xmlrpc);
 }
-#endif
 
-#endif  // UGET_CMD_H
+gboolean	ug_app_gtk_aria2_setup (UgAppGtk* app)
+{
+	const UgPluginInterface*	iface;
+
+	ug_xmlrpc_use_client (&app->xmlrpc, app->setting.plugin.aria2.uri, NULL);
+	ug_plugin_global_set (&ug_plugin_aria2_iface,
+			UG_DATA_STRING, app->setting.plugin.aria2.uri);
+
+	iface = ug_plugin_interface_find ("aria2", 0);
+	if (iface)
+		ug_plugin_interface_unregister (iface);
+	if (app->setting.plugin.aria2.enable) {
+		ug_plugin_interface_register (&ug_plugin_aria2_iface);
+		if (app->setting.plugin.aria2.launch)
+			ug_app_gtk_aria2_launch (app);
+	}
+
+	return TRUE;
+}
+
+gboolean	ug_app_gtk_aria2_launch (UgAppGtk* app)
+{
+	gboolean	result;
+	gchar*		string;
+
+	if (app->aria2_launched == TRUE)
+		return TRUE;
+
+	string = g_strconcat (app->setting.plugin.aria2.path, " ",
+			app->setting.plugin.aria2.args, NULL);
+	result = g_spawn_command_line_async (string, NULL);
+	g_free (string);
+
+	if (result == TRUE)
+		app->aria2_launched = TRUE;
+	else
+		ug_app_gtk_show_message (app, GTK_MESSAGE_ERROR, _("failed to launch aria2."));
+	return result;
+}
+
+void	ug_app_gtk_aria2_shutdown (UgAppGtk* app)
+{
+	if (app->setting.plugin.aria2.shutdown) {
+		ug_xmlrpc_call (&app->xmlrpc, "aria2.shutdown", NULL);
+		app->aria2_launched = FALSE;
+	}
+}
+
+#endif	// HAVE_PLUGIN_ARIA2
 

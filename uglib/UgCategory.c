@@ -245,22 +245,22 @@ static void ug_category_list_start_element (GMarkupParseContext*	context,
                                             GList**				list,
                                             GError**			error)
 {
-	guint	index;
+//	guint	index;
 
-	if (strcmp (element_name, "UgetCategoryList") == 0) {
-		for (index=0; attr_names[index]; index++) {
-			if (strcmp (attr_names[index], "version") != 0)
-				continue;
-			if (strcmp (attr_values[index], "1") == 0) {
+//	if (strcmp (element_name, "UgCategoryList") == 0) {
+//		for (index=0; attr_names[index]; index++) {
+//			if (strcmp (attr_names[index], "version") != 0)
+//				continue;
+//			if (strcmp (attr_values[index], "1") == 0) {
 				g_markup_parse_context_push (context, &ug_category_data_parser, list);
 				return;
-			}
-			// others...
-			break;
-		}
-	}
+//			}
+//			// others...
+//			break;
+//		}
+//	}
 
-	g_markup_parse_context_push (context, &ug_markup_skip_parser, NULL);
+//	g_markup_parse_context_push (context, &ug_markup_skip_parser, NULL);
 }
 
 static GMarkupParser	ug_category_list_parser =
@@ -295,7 +295,7 @@ gboolean	ug_category_list_save (GList* list, const gchar* file)
 		return FALSE;
 	}
 
-	ug_markup_write_element_start (markup, "UgetCategoryList version='1'");
+	ug_markup_write_element_start (markup, "UgCategoryList version='1'");
 	for (list = g_list_last (list);  list;  list = list->prev) {
 		category = list->data;
 		get_all = category->funcs->get_all;
@@ -313,7 +313,7 @@ gboolean	ug_category_list_save (GList* list, const gchar* file)
 		g_list_free (category->indices);
 		category->indices = NULL;
 	}
-	ug_markup_write_element_end (markup, "UgetCategoryList");
+	ug_markup_write_element_end (markup, "UgCategoryList");
 
 	ug_markup_write_end (markup);
 	return	TRUE;
@@ -390,22 +390,22 @@ static void ug_download_list_start_element (GMarkupParseContext*	context,
                                             GList**				list,
                                             GError**			error)
 {
-	guint	index;
+//	guint	index;
 
-	if (strcmp (element_name, "UgetDownloadList") == 0) {
-		for (index=0; attr_names[index]; index++) {
-			if (strcmp (attr_names[index], "version") != 0)
-				continue;
-			if (strcmp (attr_values[index], "1") == 0) {
+//	if (strcmp (element_name, "UgDownloadList") == 0) {
+//		for (index=0; attr_names[index]; index++) {
+//			if (strcmp (attr_names[index], "version") != 0)
+//				continue;
+//			if (strcmp (attr_values[index], "1") == 0) {
 				g_markup_parse_context_push (context, &ug_download_data_parser, list);
 				return;
-			}
+//			}
 			// others...
-			break;
-		}
-	}
+//			break;
+//		}
+//	}
 
-	g_markup_parse_context_push (context, &ug_markup_skip_parser, NULL);
+//	g_markup_parse_context_push (context, &ug_markup_skip_parser, NULL);
 }
 
 static GMarkupParser	ug_download_list_parser =
@@ -468,13 +468,13 @@ gboolean	ug_download_list_save (GList* list, const gchar* download_file)
 			break;
 	}
 
-	ug_markup_write_element_start (markup, "UgetDownloadList version='1'");
+	ug_markup_write_element_start (markup, "UgDownloadList version='1'");
 	for (;  list;  list = list->prev) {
 		ug_markup_write_element_start (markup, "download");
 		ug_data_write_markup ((UgData*) list->data, markup);
 		ug_markup_write_element_end (markup, "download");
 	}
-	ug_markup_write_element_end (markup, "UgetDownloadList");
+	ug_markup_write_element_end (markup, "UgDownloadList");
 
 	ug_markup_write_end (markup);
 	return	TRUE;

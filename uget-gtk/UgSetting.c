@@ -38,7 +38,7 @@
 #include <stdlib.h>
 
 #include <UgData-download.h>
-#include <UgetGtk-setting.h>
+#include <UgSetting.h>
 
 static void	ug_string_list_in_markup (GList** string_list, GMarkupParseContext* context);
 static void	ug_string_list_to_markup (GList** string_list, UgMarkup* markup);
@@ -200,30 +200,30 @@ static const UgDataInterface	ug_plugin_setting_iface =
 };
 
 // ----------------------------------------------------------------------------
-// UgetGtkSetting
+// UgSetting
 static const UgDataEntry	uget_setting_data_entry[] =
 {
-	{"LaunchApp",		G_STRUCT_OFFSET (UgetGtkSetting, launch.active),	UG_DATA_INT,		NULL,	NULL},
-	{"LaunchAppTypes",	G_STRUCT_OFFSET (UgetGtkSetting, launch.types),		UG_DATA_STRING,		NULL,	NULL},
-	{"AutoSave",		G_STRUCT_OFFSET (UgetGtkSetting, auto_save.active),		UG_DATA_INT,	NULL,	NULL},
-	{"AutoSaveInterval",G_STRUCT_OFFSET (UgetGtkSetting, auto_save.interval),	UG_DATA_INT,	NULL,	NULL},
-	{"DownloadColumn",	G_STRUCT_OFFSET (UgetGtkSetting, download_column),	UG_DATA_STATIC,		NULL,	NULL},
-	{"Summary",			G_STRUCT_OFFSET (UgetGtkSetting, summary),			UG_DATA_STATIC,		NULL,	NULL},
-	{"Window",			G_STRUCT_OFFSET (UgetGtkSetting, window),			UG_DATA_STATIC,		NULL,	NULL},
-	{"UserInterface",	G_STRUCT_OFFSET (UgetGtkSetting, ui),				UG_DATA_STATIC,		NULL,	NULL},
-	{"Clipboard",		G_STRUCT_OFFSET (UgetGtkSetting, clipboard),		UG_DATA_STATIC,		NULL,	NULL},
-	{"Scheduler",		G_STRUCT_OFFSET (UgetGtkSetting, scheduler),		UG_DATA_STATIC,		NULL,	NULL},
-	{"Plug-in",			G_STRUCT_OFFSET (UgetGtkSetting, plugin),			UG_DATA_STATIC,		NULL,	NULL},
-//	{"OfflineMode",		G_STRUCT_OFFSET (UgetGtkSetting, offline_mode),		UG_DATA_INT,		NULL,	NULL},
-//	{"Shutdown",		G_STRUCT_OFFSET (UgetGtkSetting, shutdown),			UG_DATA_INT,		NULL,	NULL},
-	{"FolderList",		G_STRUCT_OFFSET (UgetGtkSetting, folder_list),		UG_DATA_CUSTOM,		ug_string_list_in_markup,	ug_string_list_to_markup},
+	{"LaunchApp",		G_STRUCT_OFFSET (UgSetting, launch.active),	UG_DATA_INT,		NULL,	NULL},
+	{"LaunchAppTypes",	G_STRUCT_OFFSET (UgSetting, launch.types),		UG_DATA_STRING,		NULL,	NULL},
+	{"AutoSave",		G_STRUCT_OFFSET (UgSetting, auto_save.active),		UG_DATA_INT,	NULL,	NULL},
+	{"AutoSaveInterval",G_STRUCT_OFFSET (UgSetting, auto_save.interval),	UG_DATA_INT,	NULL,	NULL},
+	{"DownloadColumn",	G_STRUCT_OFFSET (UgSetting, download_column),	UG_DATA_STATIC,		NULL,	NULL},
+	{"Summary",			G_STRUCT_OFFSET (UgSetting, summary),			UG_DATA_STATIC,		NULL,	NULL},
+	{"Window",			G_STRUCT_OFFSET (UgSetting, window),			UG_DATA_STATIC,		NULL,	NULL},
+	{"UserInterface",	G_STRUCT_OFFSET (UgSetting, ui),				UG_DATA_STATIC,		NULL,	NULL},
+	{"Clipboard",		G_STRUCT_OFFSET (UgSetting, clipboard),		UG_DATA_STATIC,		NULL,	NULL},
+	{"Scheduler",		G_STRUCT_OFFSET (UgSetting, scheduler),		UG_DATA_STATIC,		NULL,	NULL},
+	{"Plug-in",			G_STRUCT_OFFSET (UgSetting, plugin),			UG_DATA_STATIC,		NULL,	NULL},
+//	{"OfflineMode",		G_STRUCT_OFFSET (UgSetting, offline_mode),		UG_DATA_INT,		NULL,	NULL},
+//	{"Shutdown",		G_STRUCT_OFFSET (UgSetting, shutdown),			UG_DATA_INT,		NULL,	NULL},
+	{"FolderList",		G_STRUCT_OFFSET (UgSetting, folder_list),		UG_DATA_CUSTOM,		ug_string_list_in_markup,	ug_string_list_to_markup},
 	{NULL},				// null-terminated
 };
 
 static const UgDataInterface	uget_setting_iface =
 {
-	sizeof (UgetGtkSetting),	// instance_size
-	"UgetGtkSetting",			// name
+	sizeof (UgSetting),			// instance_size
+	"UgSetting",				// name
 	uget_setting_data_entry,	// entry
 	NULL, NULL, NULL,
 };
@@ -326,22 +326,22 @@ static void	ug_schedule_state_to_markup (guint (*state)[7][24], UgMarkup* markup
 }
 
 // ----------------------------------------------------------------------------
-// "UgetGtkSetting" UgMarkup functions
+// "UgSetting" UgMarkup functions
 //
 static void uget_setting_start_element (GMarkupParseContext*	context,
                                         const gchar*			element_name,
                                         const gchar**			attr_names,
                                         const gchar**			attr_values,
-                                        UgetGtkSetting*			setting,
+                                        UgSetting*			setting,
                                         GError**				error)
 {
 	guint	index;
 
-	if (strcmp (element_name, "UgetGtkSetting") != 0) {
-		g_set_error (error, G_MARKUP_ERROR,
-				G_MARKUP_ERROR_UNKNOWN_ELEMENT, "Unknown element");
-		return;
-	}
+//	if (strcmp (element_name, "UgSetting") != 0) {
+//		g_set_error (error, G_MARKUP_ERROR,
+//				G_MARKUP_ERROR_UNKNOWN_ELEMENT, "Unknown element");
+//		return;
+//	}
 
 	for (index=0; attr_names[index]; index++) {
 		if (strcmp (attr_names[index], "version") != 0)
@@ -357,8 +357,8 @@ static void uget_setting_start_element (GMarkupParseContext*	context,
 			G_MARKUP_ERROR_UNKNOWN_ELEMENT, "Unknown element");
 }
 
-// UgetGtkSetting*  user_data
-static GMarkupParser	uget_gtk_setting_parser =
+// UgSetting*  user_data
+static GMarkupParser	ug_setting_parser =
 {
 	(gpointer) uget_setting_start_element,
 	(gpointer) g_markup_parse_context_pop,
@@ -366,9 +366,9 @@ static GMarkupParser	uget_gtk_setting_parser =
 };
 
 // ----------------------------------------------------------------------------
-// "UgetGtkSetting" functions
+// "UgSetting" functions
 //
-void	uget_gtk_setting_init (UgetGtkSetting* setting)
+void	ug_setting_init (UgSetting* setting)
 {
 	guint			weekdays, dayhours;
 
@@ -424,7 +424,7 @@ void	uget_gtk_setting_init (UgetGtkSetting* setting)
 	// "ClipboardSetting"
 	setting->clipboard.iface = &ug_clipboard_setting_iface;
 	g_free (setting->clipboard.pattern);
-	setting->clipboard.pattern = g_strdup (UGET_GTK_CLIPBOARD_PATTERN);
+	setting->clipboard.pattern = g_strdup (UG_APP_GTK_CLIPBOARD_PATTERN);
 	setting->clipboard.monitor = TRUE;
 	setting->clipboard.quiet = FALSE;
 	setting->clipboard.nth_category = 0;
@@ -454,28 +454,28 @@ void	uget_gtk_setting_init (UgetGtkSetting* setting)
 	setting->offline_mode = FALSE;
 	setting->shutdown = 0;
 	setting->launch.active = TRUE;
-	setting->launch.types = g_strdup (UGET_GTK_LAUNCH_APP_TYPES);
+	setting->launch.types = g_strdup (UG_APP_GTK_LAUNCH_APP_TYPES);
 	setting->auto_save.active = TRUE;
 	setting->auto_save.interval = 3;
 }
 
-gboolean	uget_gtk_setting_save (UgetGtkSetting* setting, const gchar* file)
+gboolean	ug_setting_save (UgSetting* setting, const gchar* file)
 {
 	UgMarkup*	markup;
 
 	markup = ug_markup_new ();
 	if (ug_markup_write_start (markup, file, TRUE)) {
-		ug_markup_write_element_start	(markup, "UgetGtkSetting version='1'");
+		ug_markup_write_element_start	(markup, "UgSetting version='1'");
 		ug_data_write_markup ((UgData*) setting, markup);
-		ug_markup_write_element_end	(markup, "UgetGtkSetting");
+		ug_markup_write_element_end	(markup, "UgSetting");
 		ug_markup_write_end (markup);
 		return TRUE;
 	}
 	return FALSE;
 }
 
-gboolean	uget_gtk_setting_load (UgetGtkSetting* setting, const gchar* file)
+gboolean	ug_setting_load (UgSetting* setting, const gchar* file)
 {
-	return ug_markup_parse (file, &uget_gtk_setting_parser, setting);
+	return ug_markup_parse (file, &ug_setting_parser, setting);
 }
 

@@ -6,7 +6,7 @@
 #include <winsock.h>
 #endif  // _WIN32
 
-#include <uglib.h>
+#include <UgApp.h>
 #include <UgOption.h>
 #include <UgDataset.h>
 #include <UgData-download.h>

@@ -1,5 +1,6 @@
-#include <uglib.h>
+#include <UgApp.h>
 #include <UgMarkup.h>
+#include <UgData-download.h>
 
 void test_conf ()
 {

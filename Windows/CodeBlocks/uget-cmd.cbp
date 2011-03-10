@@ -52,17 +52,17 @@
 			<Add directory="D:\devpack\gtk2\lib" />
 			<Add directory="D:\devpack\curl-mingw\lib" />
 		</Linker>
+		<Unit filename="..\..\uget-cmd\UgApp-cmd-main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uget-cmd\UgApp-cmd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\uget-cmd\UgApp-cmd.h" />
 		<Unit filename="..\..\uget-cmd\UgCategory-cmd.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\uget-cmd\UgCategory-cmd.h" />
-		<Unit filename="..\..\uget-cmd\UgetCmd.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-cmd\UgetCmd.h" />
-		<Unit filename="..\..\uget-cmd\main-cmd.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Extensions>
 			<code_completion />
 			<debugger />

@@ -34,68 +34,35 @@
  *
  */
 
-#include <UgetGtk.h>
-#include <UgPlugin-aria2.h>
+#ifndef UG_APP_H
+#define UG_APP_H
 
-#include <glib/gi18n.h>
+#include <glib.h>
+// uglib
+#include <UgIpc.h>
+#include <UgOption.h>
+#include <UgRunning.h>
 
-// ------------------------------------------------------
-// aria2
-//
-#ifdef HAVE_PLUGIN_ARIA2
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-void	uget_gtk_aria2_init (UgetGtk* ugtk)
-{
-	ug_xmlrpc_init (&ugtk->xmlrpc);
+
+// ------------------------------------------------------------------
+// UgApp
+
+typedef struct	UgApp			UgApp;
+
+
+// ------------------------------------------------------------------
+// register/unregister interfaces
+gboolean	uglib_init		(void);
+void		uglib_finalize	(void);
+
+
+#ifdef __cplusplus
 }
+#endif
 
-gboolean	uget_gtk_aria2_setup (UgetGtk* ugtk)
-{
-	const UgPluginInterface*	iface;
-
-	ug_xmlrpc_use_client (&ugtk->xmlrpc, ugtk->setting.plugin.aria2.uri, NULL);
-	ug_plugin_global_set (&ug_plugin_aria2_iface,
-			UG_DATA_STRING, ugtk->setting.plugin.aria2.uri);
-
-	iface = ug_plugin_interface_find ("aria2", 0);
-	if (iface)
-		ug_plugin_interface_unregister (iface);
-	if (ugtk->setting.plugin.aria2.enable) {
-		ug_plugin_interface_register (&ug_plugin_aria2_iface);
-		if (ugtk->setting.plugin.aria2.launch)
-			uget_gtk_aria2_launch (ugtk);
-	}
-
-	return TRUE;
-}
-
-gboolean	uget_gtk_aria2_launch (UgetGtk* ugtk)
-{
-	gboolean	result;
-	gchar*		string;
-
-	if (ugtk->aria2_launched == TRUE)
-		return TRUE;
-
-	string = g_strconcat (ugtk->setting.plugin.aria2.path, " ",
-			ugtk->setting.plugin.aria2.args, NULL);
-	result = g_spawn_command_line_async (string, NULL);
-	g_free (string);
-
-	if (result == TRUE)
-		ugtk->aria2_launched = TRUE;
-	else
-		uget_gtk_show_message (ugtk, GTK_MESSAGE_ERROR, _("failed to launch aria2."));
-	return result;
-}
-
-void	uget_gtk_aria2_shutdown (UgetGtk* ugtk)
-{
-	if (ugtk->setting.plugin.aria2.shutdown) {
-		ug_xmlrpc_call (&ugtk->xmlrpc, "aria2.shutdown", NULL);
-		ugtk->aria2_launched = FALSE;
-	}
-}
-
-#endif	// HAVE_PLUGIN_ARIA2
+#endif  // UG_APP_H
 

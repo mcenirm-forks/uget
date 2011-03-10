@@ -177,15 +177,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\uget-cmd\main-cmd.c"
+				RelativePath="..\..\uget-cmd\UgApp-cmd-main.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\uget-cmd\UgApp-cmd.c"
 				>
 			</File>
 			<File
 				RelativePath="..\..\uget-cmd\UgCategory-cmd.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\uget-cmd\UgetCmd.c"
 				>
 			</File>
 		</Filter>
@@ -195,11 +195,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\uget-cmd\UgCategory-cmd.h"
+				RelativePath="..\..\uget-cmd\UgApp-cmd.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\uget-cmd\UgetCmd.h"
+				RelativePath="..\..\uget-cmd\UgCategory-cmd.h"
 				>
 			</File>
 		</Filter>

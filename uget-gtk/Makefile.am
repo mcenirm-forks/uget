@@ -9,19 +9,19 @@ uget_gtk_CFLAGS   = @LFS_CFLAGS@  @GTK_CFLAGS@ @GIO_CFLAGS@ @GTHREAD_CFLAGS@ @CU
 uget_gtk_LDFLAGS  = @LFS_LDFLAGS@
 uget_gtk_LDADD    = $(top_builddir)/uglib/libuglib.a $(UGET_GTK_LIBS)
 
-uget_gtk_SOURCES  = \
+uget_gtk_SOURCES  = UgSetting.c \
 	UgSelector.c  UgSummary.c  UgSettingForm.c  UgScheduleGrid.c \
 	UgDownloadForm.c    UgCategoryForm.c    UgProxyForm.c  UgBatchForm.c \
 	UgDownloadWidget.c  UgCategoryWidget.c  UgCategory-gtk.c \
 	UgDownloadDialog.c  UgCategoryDialog.c  UgSettingDialog.c \
-	UgetGtk.c  UgetGtk-setting.c  UgetGtk-gui.c  UgetGtk-aria2.c \
-	UgetGtk-callback.c  UgetGtk-timeout.c \
-	main-gtk.c
+	UgApp-gtk.c  UgApp-gtk-gui.c  UgApp-gtk-aria2.c \
+	UgApp-gtk-callback.c  UgApp-gtk-timeout.c \
+	UgApp-gtk-main.c
 
-noinst_HEADERS    = \
+noinst_HEADERS    = UgSetting.h \
 	UgSelector.h  UgSummary.h  UgSettingForm.h  UgScheduleGrid.h \
 	UgDownloadForm.h    UgCategoryForm.h    UgProxyForm.h  UgBatchForm.h \
 	UgDownloadWidget.h  UgCategoryWidget.h  UgCategory-gtk.h \
 	UgDownloadDialog.h  UgCategoryDialog.h  UgSettingDialog.h \
-	UgetGtk.h  UgetGtk-setting.h
+	UgApp-gtk.h
 

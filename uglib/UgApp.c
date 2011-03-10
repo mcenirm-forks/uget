@@ -40,7 +40,10 @@
 
 #include <string.h>
 
-#include <uglib.h>
+#include <UgApp.h>
+#include <UgData-download.h>
+#include <UgMessage.h>
+#include <UgCategory.h>
 #ifdef HAVE_PLUGIN_CURL
 #include <UgPlugin-curl.h>
 #endif

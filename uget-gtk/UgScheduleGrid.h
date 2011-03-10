@@ -37,7 +37,7 @@
 #ifndef UG_SCHEDULE_GRID_H
 #define UG_SCHEDULE_GRID_H
 
-#include <UgetGtk-setting.h>
+#include <UgSetting.h>
 #include <gtk/gtk.h>
 
 #ifdef __cplusplus
@@ -63,8 +63,8 @@ struct UgScheduleGrid
 };
 
 void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid);
-void	ug_schedule_grid_get  (struct UgScheduleGrid* sgrid, UgetGtkSetting* setting);
-void	ug_schedule_grid_set  (struct UgScheduleGrid* sgrid, UgetGtkSetting* setting);
+void	ug_schedule_grid_get  (struct UgScheduleGrid* sgrid, UgSetting* setting);
+void	ug_schedule_grid_set  (struct UgScheduleGrid* sgrid, UgSetting* setting);
 
 
 #ifdef __cplusplus

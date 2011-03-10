@@ -188,7 +188,7 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 	gtk_widget_show_all (sgrid->self);
 }
 
-void	ug_schedule_grid_get (struct UgScheduleGrid* sgrid, UgetGtkSetting* setting)
+void	ug_schedule_grid_get (struct UgScheduleGrid* sgrid, UgSetting* setting)
 {
 //	gint	value;
 
@@ -199,7 +199,7 @@ void	ug_schedule_grid_get (struct UgScheduleGrid* sgrid, UgetGtkSetting* setting
 //	setting->scheduler.speed_limit = value * 1024;
 }
 
-void	ug_schedule_grid_set (struct UgScheduleGrid* sgrid, UgetGtkSetting* setting)
+void	ug_schedule_grid_set (struct UgScheduleGrid* sgrid, UgSetting* setting)
 {
 //	gint	value;
 
