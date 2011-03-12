@@ -71,22 +71,49 @@ gboolean	ug_app_gtk_aria2_setup (UgAppGtk* app)
 
 gboolean	ug_app_gtk_aria2_launch (UgAppGtk* app)
 {
-	gboolean	result;
-	gchar*		string;
+	GPtrArray*	args;
+	gchar**		argv;
+	gint		argc;
+	gint		index;
+	gboolean	retval;
+	GSpawnFlags	flags;
 
 	if (app->aria2_launched == TRUE)
 		return TRUE;
+	// arguments
+	argc = 0;
+	argv = NULL;
+	g_shell_parse_argv (app->setting.plugin.aria2.args, &argc, &argv, NULL);
+	args = g_ptr_array_sized_new (argc + 2);
+	g_ptr_array_add (args, app->setting.plugin.aria2.path);
+	for (index = 0;  index < argc;  index++)
+		g_ptr_array_add (args, argv[index]);
+	g_strfreev (argv);
+	g_ptr_array_add (args, NULL);	// NULL-terminated
 
-	string = g_strconcat (app->setting.plugin.aria2.path, " ",
-			app->setting.plugin.aria2.args, NULL);
-	result = g_spawn_command_line_async (string, NULL);
-	g_free (string);
+	// If path is not absolute path, don't search PATH.
+	if (strrchr (app->setting.plugin.aria2.path, G_DIR_SEPARATOR) == NULL)
+		flags = G_SPAWN_SEARCH_PATH;
+	else
+		flags = 0;
+	// spawn command
+	retval = g_spawn_async (NULL,			// working_directory
+		                    (gchar**) args->pdata,	// argv
+	                        NULL,			// envp
+	                        flags,			// GSpawnFlags
+	                        NULL,			// child_setup
+	                        NULL,			// user_data
+	                        NULL,			// child_pid
+	                        NULL);			// GError**
 
-	if (result == TRUE)
+	// free arguments
+	g_ptr_array_free (args, TRUE);
+	// returning value
+	if (retval == TRUE)
 		app->aria2_launched = TRUE;
 	else
 		ug_app_gtk_show_message (app, GTK_MESSAGE_ERROR, _("failed to launch aria2."));
-	return result;
+	return retval;
 }
 
 void	ug_app_gtk_aria2_shutdown (UgAppGtk* app)
