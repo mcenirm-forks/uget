@@ -65,34 +65,34 @@
 #include <glib/gi18n.h>
 
 
-static void	ug_app_gtk_notify_starting (UgAppGtk* app);
-static void	ug_app_gtk_notify_completed (UgAppGtk* app);
+static void	ug_app_notify_starting (UgAppGtk* app);
+static void	ug_app_notify_completed (UgAppGtk* app);
 // GSourceFunc
-static gboolean	ug_app_gtk_timeout_ipc (UgAppGtk* app);
-static gboolean	ug_app_gtk_timeout_queuing (UgAppGtk* app);
-static gboolean	ug_app_gtk_timeout_clipboard (UgAppGtk* app);
-static gboolean	ug_app_gtk_timeout_autosave (UgAppGtk* app);
+static gboolean	ug_app_timeout_ipc (UgAppGtk* app);
+static gboolean	ug_app_timeout_queuing (UgAppGtk* app);
+static gboolean	ug_app_timeout_clipboard (UgAppGtk* app);
+static gboolean	ug_app_timeout_autosave (UgAppGtk* app);
 
-void	ug_app_gtk_init_timeout (UgAppGtk* app)
+void	ug_app_init_timeout (UgAppGtk* app)
 {
 	// 0.5 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500,
-			(GSourceFunc) ug_app_gtk_timeout_ipc, app, NULL);
+			(GSourceFunc) ug_app_timeout_ipc, app, NULL);
 	// 0.5 seconds
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500,
 			(GSourceFunc) ug_running_dispatch, &app->running, NULL);
 	// 1 seconds
 	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT_IDLE, 1,
-			(GSourceFunc) ug_app_gtk_timeout_queuing, app, NULL);
+			(GSourceFunc) ug_app_timeout_queuing, app, NULL);
 	// 2 seconds
 	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT_IDLE, 2,
-			(GSourceFunc) ug_app_gtk_timeout_clipboard, app, NULL);
+			(GSourceFunc) ug_app_timeout_clipboard, app, NULL);
 	// 1 minutes
 	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT_IDLE, 60,
-			(GSourceFunc) ug_app_gtk_timeout_autosave, app, NULL);
+			(GSourceFunc) ug_app_timeout_autosave, app, NULL);
 }
 
-static gboolean	ug_app_gtk_timeout_autosave (UgAppGtk* app)
+static gboolean	ug_app_timeout_autosave (UgAppGtk* app)
 {
 	static guint	counts = 0;
 
@@ -101,7 +101,7 @@ static gboolean	ug_app_gtk_timeout_autosave (UgAppGtk* app)
 	if (counts >= app->setting.auto_save.interval) {
 		counts = 0;
 		if (app->setting.auto_save.active)
-			ug_app_gtk_save (app);
+			ug_app_save (app);
 	}
 	// return FALSE if the source should be removed.
 	return TRUE;
@@ -234,7 +234,7 @@ static void on_clipboard_text_received (GtkClipboard*	clipboard,
 	clipboard_processing = FALSE;
 }
 
-static gboolean	ug_app_gtk_timeout_clipboard (UgAppGtk* app)
+static gboolean	ug_app_timeout_clipboard (UgAppGtk* app)
 {
 	if (app->setting.clipboard.monitor && clipboard_processing == FALSE) {
 		// set FALSE in on_clipboard_text_received()
@@ -311,7 +311,7 @@ static void	uget_add_download_quietly (UgAppGtk* app, GList* list, gint category
 	}
 }
 
-static gboolean	ug_app_gtk_timeout_ipc (UgAppGtk* app)
+static gboolean	ug_app_timeout_ipc (UgAppGtk* app)
 {
 	GPtrArray*		args;
 	GList*			list;
@@ -371,7 +371,7 @@ static gboolean	ug_app_gtk_timeout_ipc (UgAppGtk* app)
 // ----------------------------------------------------------------------------
 // queuing
 //
-static void	ug_app_gtk_launch_default_app (UgDataset* dataset, GRegex* regex)
+static void	ug_app_launch_default_app (UgDataset* dataset, GRegex* regex)
 {
 	UgDataCommon*	common;
 	const gchar*	file_ext;
@@ -390,7 +390,7 @@ static void	ug_app_gtk_launch_default_app (UgDataset* dataset, GRegex* regex)
 }
 
 // scheduler
-static gboolean	ug_app_gtk_decide_schedule_state (UgAppGtk* app)
+static gboolean	ug_app_decide_schedule_state (UgAppGtk* app)
 {
 	struct tm*	timem;
 	time_t		timet;
@@ -441,7 +441,7 @@ static gboolean	ug_app_gtk_decide_schedule_state (UgAppGtk* app)
 }
 
 // start, stop jobs and refresh information.
-static gboolean	ug_app_gtk_timeout_queuing (UgAppGtk* app)
+static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 {
 	GList*		jobs;
 	GList*		list;
@@ -457,17 +457,17 @@ static gboolean	ug_app_gtk_timeout_queuing (UgAppGtk* app)
 
 
 	// If changed is TRUE, it will refresh all category-related data.
-	changed = ug_app_gtk_decide_schedule_state (app);
+	changed = ug_app_decide_schedule_state (app);
 	// do something for inactive jobs
 	jobs = ug_running_get_inactive (&app->running);
 	for (link = jobs;  link;  link = link->next) {
 		temp.relation = UG_DATASET_RELATION ((UgDataset*) link->data);
 		// This will change tray icon.
 		if (temp.relation->hints & UG_HINT_ERROR)
-			app->tray_icon.error_occurred = TRUE;
+			app->trayicon.error_occurred = TRUE;
 		// launch default application
 		if ((temp.relation->hints & UG_HINT_COMPLETED) && app->setting.launch.active)
-			ug_app_gtk_launch_default_app (link->data, app->launch_regex);
+			ug_app_launch_default_app (link->data, app->launch_regex);
 		// remove inactive jobs from group
 		ug_running_remove (&app->running, link->data);
 		changed = TRUE;
@@ -499,16 +499,16 @@ static gboolean	ug_app_gtk_timeout_queuing (UgAppGtk* app)
 		if (n_before == 0  &&  n_after > 0) {
 			// starting notification
 			if (app->setting.ui.start_notification)
-				ug_app_gtk_notify_starting (app);
+				ug_app_notify_starting (app);
 		}
 		// downloading completed
 		else if (n_before > 0  &&  n_after == 0) {
 			if (app->user_action == FALSE) {
 				// completed notification
-				ug_app_gtk_notify_completed (app);
+				ug_app_notify_completed (app);
 				// shutdown
 				if (app->setting.shutdown) {
-					ug_app_gtk_save (app);
+					ug_app_save (app);
 					ug_shutdown ();
 				}
 			}
@@ -537,7 +537,7 @@ static gboolean	ug_app_gtk_timeout_queuing (UgAppGtk* app)
 		// status bar
 		ug_statusbar_set_speed (&app->statusbar, temp.speed);
 		// tray icon
-		ug_tray_icon_set_info (&app->tray_icon, n_after, temp.speed);
+		ug_trayicon_set_info (&app->trayicon, n_after, temp.speed);
 	}
 	// category status changed
 	if (changed)
@@ -642,7 +642,7 @@ static void uget_play_sound (const gchar* sound_file)
 // notification
 //
 #ifdef HAVE_LIBNOTIFY
-static void ug_app_gtk_notify (UgAppGtk* app, const gchar* title, const gchar* body)
+static void ug_app_notify (UgAppGtk* app, const gchar* title, const gchar* body)
 {
 	static	NotifyNotification*	notification = NULL;
 	gchar*	string;
@@ -671,7 +671,7 @@ static void ug_app_gtk_notify (UgAppGtk* app, const gchar* title, const gchar* b
 	notify_notification_show (notification, NULL);
 }
 #elif defined (_WIN32)
-static void ug_app_gtk_notify (UgAppGtk* app, const gchar* title, const gchar* body)
+static void ug_app_notify (UgAppGtk* app, const gchar* title, const gchar* body)
 {
 	static	NOTIFYICONDATAW*	pNotifyData = NULL;
 	gchar*		string;
@@ -692,7 +692,7 @@ static void ug_app_gtk_notify (UgAppGtk* app, const gchar* title, const gchar* b
 		return;
 	// gtkstatusicon.c
 	// (gtk_status_icon_init): priv->nid.uID = GPOINTER_TO_UINT (status_icon);
-	pNotifyData->uID = GPOINTER_TO_UINT (app->tray_icon.self);
+	pNotifyData->uID = GPOINTER_TO_UINT (app->trayicon.self);
 	// title
 	string = g_strconcat (UG_APP_GTK_NAME " - ", title, NULL);
 	string_wcs = g_utf8_to_utf16 (string,  -1, NULL, NULL, NULL);
@@ -707,7 +707,7 @@ static void ug_app_gtk_notify (UgAppGtk* app, const gchar* title, const gchar* b
 	Shell_NotifyIconW (NIM_MODIFY, pNotifyData);
 }
 #else
-static void ug_app_gtk_notify (UgAppGtk* app, const gchar* title, const gchar* info)
+static void ug_app_notify (UgAppGtk* app, const gchar* title, const gchar* info)
 {
 	// do nothing
 }
@@ -718,11 +718,11 @@ static void ug_app_gtk_notify (UgAppGtk* app, const gchar* title, const gchar* i
 #define	NOTIFICATION_COMPLETED_TITLE		_("Download Completed")
 #define	NOTIFICATION_COMPLETED_STRING		_("All queuing downloads have been completed.")
 
-static void	ug_app_gtk_notify_completed (UgAppGtk* app)
+static void	ug_app_notify_completed (UgAppGtk* app)
 {
 	gchar*	path;
 
-	ug_app_gtk_notify (app,
+	ug_app_notify (app,
 			NOTIFICATION_COMPLETED_TITLE,
 			NOTIFICATION_COMPLETED_STRING);
 
@@ -734,11 +734,11 @@ static void	ug_app_gtk_notify_completed (UgAppGtk* app)
 	}
 }
 
-static void	ug_app_gtk_notify_starting (UgAppGtk* app)
+static void	ug_app_notify_starting (UgAppGtk* app)
 {
 //	gchar*	path;
 
-	ug_app_gtk_notify (app,
+	ug_app_notify (app,
 			NOTIFICATION_STARTING_TITLE,
 			NOTIFICATION_STARTING_STRING);
 

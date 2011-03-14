@@ -71,7 +71,7 @@ struct UgUserInterfaceForm
 
 	GtkToggleButton*	confirm_close;
 	GtkToggleButton*	confirm_delete;
-	GtkToggleButton*	show_tray_icon;
+	GtkToggleButton*	show_trayicon;
 	GtkToggleButton*	start_in_tray;
 	GtkToggleButton*	start_in_offline_mode;
 	GtkToggleButton*	start_notification;

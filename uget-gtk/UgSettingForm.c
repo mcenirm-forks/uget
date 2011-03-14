@@ -151,7 +151,7 @@ void	ug_user_interface_form_init (struct UgUserInterfaceForm* uiform)
 	uiform->confirm_delete = (GtkToggleButton*) widget;
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 1);
 	widget = gtk_check_button_new_with_label (_("Always show tray icon"));
-	uiform->show_tray_icon = (GtkToggleButton*) widget;
+	uiform->show_trayicon = (GtkToggleButton*) widget;
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 1);
 	widget = gtk_check_button_new_with_label (_("Minimize to tray on startup"));
 	uiform->start_in_tray = (GtkToggleButton*) widget;
@@ -173,8 +173,8 @@ void	ug_user_interface_form_set (struct UgUserInterfaceForm* uiform, UgSetting* 
 			setting->ui.close_confirmation);
 	gtk_toggle_button_set_active (uiform->confirm_delete,
 			setting->ui.delete_confirmation);
-	gtk_toggle_button_set_active (uiform->show_tray_icon,
-			setting->ui.show_tray_icon);
+	gtk_toggle_button_set_active (uiform->show_trayicon,
+			setting->ui.show_trayicon);
 	gtk_toggle_button_set_active (uiform->start_in_tray,
 			setting->ui.start_in_tray);
 	gtk_toggle_button_set_active (uiform->start_in_offline_mode,
@@ -189,7 +189,7 @@ void	ug_user_interface_form_get (struct UgUserInterfaceForm* uiform, UgSetting* 
 {
 	setting->ui.close_confirmation = gtk_toggle_button_get_active (uiform->confirm_close);
 	setting->ui.delete_confirmation = gtk_toggle_button_get_active (uiform->confirm_delete);
-	setting->ui.show_tray_icon = gtk_toggle_button_get_active (uiform->show_tray_icon);
+	setting->ui.show_trayicon = gtk_toggle_button_get_active (uiform->show_trayicon);
 	setting->ui.start_in_tray = gtk_toggle_button_get_active (uiform->start_in_tray);
 	setting->ui.start_in_offline_mode = gtk_toggle_button_get_active (uiform->start_in_offline_mode);
 	setting->ui.start_notification = gtk_toggle_button_get_active (uiform->start_notification);

@@ -54,7 +54,7 @@ const char*	ug_get_attachment_dir (void)
 	return dir;
 }
 
-static void ug_app_gtk_update_config_dir (void)
+static void ug_app_update_config_dir (void)
 {
 	gchar*	former_dir;
 	gchar*	dir;
@@ -73,24 +73,24 @@ static void ug_app_gtk_update_config_dir (void)
 	g_free (dir);
 }
 
-void	ug_app_gtk_init (UgAppGtk* app)
+void	ug_app_init (UgAppGtk* app)
 {
 	UgCategory*		category;
 	UgDataCommon*	common;
 
 	ug_running_init (&app->running);
 	// upgrade from Uget 1.6
-	ug_app_gtk_update_config_dir ();
+	ug_app_update_config_dir ();
 	// initialize widgets in UgApp-gtk-gui.c
-	ug_app_gtk_init_gui (app);
+	ug_app_init_gui (app);
 	// initialize settings
 	ug_setting_init (&app->setting);
 	// load settings & data
 	ug_attachment_init (ug_get_attachment_dir ());
-	ug_app_gtk_load (app);
+	ug_app_load (app);
 	ug_attachment_sync ();
 	// apply settings
-	ug_app_gtk_set_setting (app, &app->setting);
+	ug_app_set_setting (app, &app->setting);
 	ug_clipboard_init (&app->clipboard, app->setting.clipboard.pattern);
 	app->launch_regex = g_regex_new (app->setting.launch.types,
 			G_REGEX_CASELESS, 0, NULL);
@@ -103,45 +103,45 @@ void	ug_app_gtk_init (UgAppGtk* app)
 		ug_category_widget_append (&app->cwidget, category);
 	}
 	// initialize signal handlers in UgApp-gtk-callback.c
-	ug_app_gtk_init_callback (app);
+	ug_app_init_callback (app);
 	// initialize timeout in UgApp-gtk-timeout.c
-	ug_app_gtk_init_timeout (app);
+	ug_app_init_timeout (app);
 	// aria2
-	ug_app_gtk_aria2_init (app);
-	ug_app_gtk_aria2_setup (app);
+	ug_app_aria2_init (app);
+	ug_app_aria2_setup (app);
 
-	ug_menubar_sync_category (&app->menubar, app, TRUE);
+	ug_app_menubar_sync_category (app, TRUE);
 	ug_category_view_set_cursor (app->cwidget.primary.view, 0, -1);
 	gtk_window_set_focus (app->window.self,
 			(GtkWidget*) app->cwidget.primary.view);
 
 	// set user interface
 	if (app->setting.ui.start_in_offline_mode)
-	    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (app->tray_icon.menu.offline_mode), TRUE);
+	    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (app->trayicon.menu.offline_mode), TRUE);
 	if (app->setting.ui.start_in_tray == FALSE)
 		gtk_widget_show ((GtkWidget*) app->window.self);
-	ug_tray_icon_decide_visible (&app->tray_icon, app);
+	ug_app_trayicon_decide_visible (app);
 }
 
-void	ug_app_gtk_quit (UgAppGtk* app)
+void	ug_app_quit (UgAppGtk* app)
 {
 	// stop all active download
 	ug_running_clear (&app->running);
 	// get and update setting before program save it
-	ug_app_gtk_get_setting (app, &app->setting);
+	ug_app_get_setting (app, &app->setting);
 	// save data
-	ug_app_gtk_save (app);
+	ug_app_save (app);
 	// hide icon in system tray before quit
-	ug_tray_icon_set_visible (&app->tray_icon, FALSE);
+	ug_trayicon_set_visible (&app->trayicon, FALSE);
 	// hide window
 	gtk_widget_hide (GTK_WIDGET (app->window.self));
 	// aria2
-	ug_app_gtk_aria2_shutdown (app);
+	ug_app_aria2_shutdown (app);
 	// This will quit  gtk_main()  to  main()  in  main-gtk.c
 	gtk_main_quit ();
 }
 
-void	ug_app_gtk_save (UgAppGtk* app)
+void	ug_app_save (UgAppGtk* app)
 {
 	GList*			list;
 	gchar*			file;
@@ -167,7 +167,7 @@ void	ug_app_gtk_save (UgAppGtk* app)
 	g_free (file);
 }
 
-void	ug_app_gtk_load (UgAppGtk* app)
+void	ug_app_load (UgAppGtk* app)
 {
 	GList*			category_list;
 	GList*			download_list;
@@ -204,7 +204,7 @@ void	ug_app_gtk_load (UgAppGtk* app)
 	g_list_free (download_list);
 }
 
-void	ug_app_gtk_set_setting (UgAppGtk* app, UgSetting* setting)
+void	ug_app_set_setting (UgAppGtk* app, UgSetting* setting)
 {
 	// set window position, size, and maximized state
 	if (setting->window.width  > 0 &&
@@ -304,7 +304,7 @@ void	ug_app_gtk_set_setting (UgAppGtk* app, UgSetting* setting)
 			setting->download_column.completed_on);
 }
 
-void	ug_app_gtk_get_setting (UgAppGtk* app, UgSetting* setting)
+void	ug_app_get_setting (UgAppGtk* app, UgSetting* setting)
 {
 	GdkWindowState	gdk_wstate;
 	GdkWindow*		gdk_window;
@@ -328,8 +328,10 @@ void	ug_app_gtk_get_setting (UgAppGtk* app, UgSetting* setting)
 	}
 }
 
+
 // -------------------------------------------------------
 // UgClipboard
+
 void	ug_clipboard_init (struct UgClipboard* clipboard, const gchar* pattern)
 {
 	clipboard->self  = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
@@ -409,25 +411,118 @@ GList*	ug_clipboard_get_matched (struct UgClipboard* clipboard, const gchar* tex
 	return list;
 }
 
-// -------------------------------------------------------
-// utility functions
-//
-void	ug_app_gtk_close_window (UgAppGtk* app)
-{
-	switch (app->setting.ui.close_action)
-	{
-	default:
-	case 1:		// Minimize to tray.
-		gtk_window_iconify (app->window.self);
-		gtk_widget_hide ((GtkWidget*) app->window.self);
-		ug_tray_icon_decide_visible (&app->tray_icon, app);
-		break;
 
-	case 2:		// Exit.
-		ug_app_gtk_quit (app);
-		break;
+// -------------------------------------------------------
+// UgTrayIcon and UgStatusbar
+
+void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gdouble speed)
+{
+	gchar*	string;
+	gchar*	string_speed;
+	guint	current_status;
+
+#ifdef HAVE_APP_INDICATOR
+	if (trayicon->indicator == NULL)
+		return;
+	trayicon->error_occurred = FALSE;
+#endif
+	// change tray icon
+	if (trayicon->error_occurred) {
+		string = UG_APP_GTK_ICON_ERROR_NAME;
+		current_status = 2;
+	}
+	else if (n_active > 0) {
+		string = UG_APP_GTK_ICON_ACTIVE_NAME;
+		current_status = 1;
+	}
+	else {
+		string = UG_APP_GTK_ICON_NAME;
+		current_status = 0;
+	}
+
+	if (trayicon->last_status != current_status) {
+		trayicon->last_status  = current_status;
+#ifdef HAVE_APP_INDICATOR
+		if (app_indicator_get_status (trayicon->indicator) != APP_INDICATOR_STATUS_PASSIVE) {
+			if (current_status == 0) {
+				app_indicator_set_status (trayicon->indicator,
+						APP_INDICATOR_STATUS_ACTIVE);
+			}
+			else {
+				g_object_set (trayicon->indicator, "attention-icon", string, NULL);
+//				app_indicator_set_attention_icon_full (trayicon->indicator,
+//						string, "attention");
+				app_indicator_set_status (trayicon->indicator,
+						APP_INDICATOR_STATUS_ATTENTION);
+			}
+		}
+#else
+		gtk_status_icon_set_from_icon_name (trayicon->self, string);
+#endif
+	}
+	// change tooltip
+	string_speed = ug_str_dtoa_unit (speed, 1, "/s");
+	string = g_strdup_printf (
+			UG_APP_GTK_NAME " " UG_APP_GTK_VERSION "\n"
+			"%u %s" "\n"
+			"%s",
+			n_active, _("downloading"),
+			string_speed);
+#ifdef HAVE_APP_INDICATOR
+	g_object_set (trayicon->indicator, "icon-desc", string, NULL);
+	g_object_set (trayicon->indicator, "attention-icon-desc", string, NULL);
+#else
+	gtk_status_icon_set_tooltip_text (trayicon->self, string);
+#endif
+	g_free (string_speed);
+	g_free (string);
+}
+
+void	ug_trayicon_set_visible (struct UgTrayIcon* trayicon, gboolean visible)
+{
+#ifdef HAVE_APP_INDICATOR
+	if (trayicon->indicator == NULL)
+		return;
+
+	if (visible)
+		app_indicator_set_status (trayicon->indicator, APP_INDICATOR_STATUS_ACTIVE);
+	else
+		app_indicator_set_status (trayicon->indicator, APP_INDICATOR_STATUS_PASSIVE);
+#else
+	gtk_status_icon_set_visible (trayicon->self, visible);
+#endif
+}
+
+void	ug_statusbar_set_info (struct UgStatusbar* statusbar, UgDownloadWidget* dwidget)
+{
+	static guint	context_id = 0;
+	gint			n_selected;
+	gchar*			string;
+
+	if (context_id == 0)
+		context_id = gtk_statusbar_get_context_id (statusbar->self, "selected");
+	gtk_statusbar_pop  (statusbar->self, context_id);
+
+	if (dwidget) {
+		n_selected = ug_download_widget_count_selected (dwidget);
+		string = g_strdup_printf (_("Selected %d items"), n_selected);
+		gtk_statusbar_push (statusbar->self, context_id, string);
+		g_free (string);
 	}
 }
+
+void	ug_statusbar_set_speed (struct UgStatusbar* statusbar, gdouble speed)
+{
+	gchar*			string;
+
+	string = ug_str_dtoa_unit (speed, 1, "/s");
+	gtk_label_set_text (statusbar->speed, string);
+	g_free (string);
+}
+
+
+// -------------------------------------------------------
+// utility or integrate functions
 
 // confirmation dialog
 struct UgConfirmationDialog {
@@ -455,13 +550,13 @@ static void	on_confirm_to_quit_response (GtkWidget* dialog, gint response, struc
 		else
 			app->setting.ui.close_confirmation = FALSE;
 		// minimize to tray or exit when user close window.
-		ug_app_gtk_close_window (app);
+		ug_app_window_close (app);
 	}
 	gtk_widget_destroy (dialog);
 	g_free (ucd);
 }
 
-void	ug_app_gtk_confirm_to_quit (UgAppGtk* app)
+void	ug_app_confirm_to_quit (UgAppGtk* app)
 {
 	struct UgConfirmationDialog*	ucd;
 	GtkWidget*	dialog;
@@ -545,7 +640,7 @@ static void	on_confirm_to_delete_response (GtkWidget* dialog, gint response, str
 	g_free (ucd);
 }
 
-void	ug_app_gtk_confirm_to_delete (UgAppGtk* app, GCallback response, gpointer response_data)
+void	ug_app_confirm_to_delete (UgAppGtk* app, GCallback response, gpointer response_data)
 {
 	struct UgConfirmationDialog*	ucd;
 	GtkWidget*	dialog;
@@ -608,7 +703,7 @@ static void	on_message_response (GtkWidget* dialog, gint response, GtkWidget** v
 	*value = NULL;
 }
 
-void	ug_app_gtk_show_message (UgAppGtk* app, GtkMessageType type, const gchar* message)
+void	ug_app_show_message (UgAppGtk* app, GtkMessageType type, const gchar* message)
 {
 	GtkWidget*		dialog;
 	GtkWidget**		value;
@@ -642,130 +737,8 @@ void	ug_app_gtk_show_message (UgAppGtk* app, GtkMessageType type, const gchar* m
 	gtk_widget_show (dialog);
 }
 
-// -------------------------------------------------------
-// Functions are used to refresh status and data.
-//
-void	ug_tray_icon_set_info (struct UgTrayIcon* trayicon, guint n_active, gdouble speed)
-{
-	gchar*	string;
-	gchar*	string_speed;
-	guint	current_status;
 
-#ifdef HAVE_APP_INDICATOR
-	if (trayicon->indicator == NULL)
-		return;
-	trayicon->error_occurred = FALSE;
-#endif
-	// change tray icon
-	if (trayicon->error_occurred) {
-		string = UG_APP_GTK_ICON_ERROR_NAME;
-		current_status = 2;
-	}
-	else if (n_active > 0) {
-		string = UG_APP_GTK_ICON_ACTIVE_NAME;
-		current_status = 1;
-	}
-	else {
-		string = UG_APP_GTK_ICON_NAME;
-		current_status = 0;
-	}
-
-	if (trayicon->last_status != current_status) {
-		trayicon->last_status  = current_status;
-#ifdef HAVE_APP_INDICATOR
-		if (app_indicator_get_status (trayicon->indicator) != APP_INDICATOR_STATUS_PASSIVE) {
-			if (current_status == 0) {
-				app_indicator_set_status (trayicon->indicator,
-						APP_INDICATOR_STATUS_ACTIVE);
-			}
-			else {
-				g_object_set (trayicon->indicator, "attention-icon", string, NULL);
-//				app_indicator_set_attention_icon_full (trayicon->indicator,
-//						string, "attention");
-				app_indicator_set_status (trayicon->indicator,
-						APP_INDICATOR_STATUS_ATTENTION);
-			}
-		}
-#else
-		gtk_status_icon_set_from_icon_name (trayicon->self, string);
-#endif
-	}
-	// change tooltip
-	string_speed = ug_str_dtoa_unit (speed, 1, "/s");
-	string = g_strdup_printf (
-			UG_APP_GTK_NAME " " UG_APP_GTK_VERSION "\n"
-			"%u %s" "\n"
-			"%s",
-			n_active, _("downloading"),
-			string_speed);
-#ifdef HAVE_APP_INDICATOR
-	g_object_set (trayicon->indicator, "icon-desc", string, NULL);
-	g_object_set (trayicon->indicator, "attention-icon-desc", string, NULL);
-#else
-	gtk_status_icon_set_tooltip_text (trayicon->self, string);
-#endif
-	g_free (string_speed);
-	g_free (string);
-}
-
-void	ug_tray_icon_decide_visible (struct UgTrayIcon* trayicon, UgAppGtk* app)
-{
-	gboolean	visible;
-
-	if (app->setting.ui.show_tray_icon)
-		visible = TRUE;
-	else {
-		if (gtk_widget_get_visible ((GtkWidget*) app->window.self))
-			visible = FALSE;
-		else
-			visible = TRUE;
-	}
-	ug_tray_icon_set_visible (trayicon, visible);
-}
-
-void	ug_tray_icon_set_visible (struct UgTrayIcon* trayicon, gboolean visible)
-{
-#ifdef HAVE_APP_INDICATOR
-	if (trayicon->indicator == NULL)
-		return;
-
-	if (visible)
-		app_indicator_set_status (trayicon->indicator, APP_INDICATOR_STATUS_ACTIVE);
-	else
-		app_indicator_set_status (trayicon->indicator, APP_INDICATOR_STATUS_PASSIVE);
-#else
-	gtk_status_icon_set_visible (trayicon->self, visible);
-#endif
-}
-
-void	ug_statusbar_refresh (struct UgStatusbar* statusbar, UgDownloadWidget* dwidget)
-{
-	static guint	context_id = 0;
-	gint			n_selected;
-	gchar*			string;
-
-	if (context_id == 0)
-		context_id = gtk_statusbar_get_context_id (statusbar->self, "selected");
-	gtk_statusbar_pop  (statusbar->self, context_id);
-
-	if (dwidget) {
-		n_selected = ug_download_widget_count_selected (dwidget);
-		string = g_strdup_printf (_("Selected %d items"), n_selected);
-		gtk_statusbar_push (statusbar->self, context_id, string);
-		g_free (string);
-	}
-}
-
-void	ug_statusbar_set_speed (struct UgStatusbar* statusbar, gdouble speed)
-{
-	gchar*			string;
-
-	string = ug_str_dtoa_unit (speed, 1, "/s");
-	gtk_label_set_text (statusbar->speed, string);
-	g_free (string);
-}
-
-// this function used by ug_menubar_sync_category()
+// this function used by ug_app_menubar_sync_category()
 static void	on_move_download (GtkWidget* widget, UgAppGtk* app)
 {
 	GPtrArray*			array;
@@ -797,7 +770,39 @@ static void	on_move_download (GtkWidget* widget, UgAppGtk* app)
 	ug_summary_show (&app->summary, ug_download_widget_get_cursor (dwidget));
 }
 
-void	ug_menubar_sync_category (struct UgMenubar* menubar, UgAppGtk* app, gboolean reset)
+void	ug_app_window_close (UgAppGtk* app)
+{
+	switch (app->setting.ui.close_action)
+	{
+	default:
+	case 1:		// Minimize to tray.
+		gtk_window_iconify (app->window.self);
+		gtk_widget_hide ((GtkWidget*) app->window.self);
+		ug_app_trayicon_decide_visible (app);
+		break;
+
+	case 2:		// Exit.
+		ug_app_quit (app);
+		break;
+	}
+}
+
+void	ug_app_trayicon_decide_visible (UgAppGtk* app)
+{
+	gboolean	visible;
+
+	if (app->setting.ui.show_trayicon)
+		visible = TRUE;
+	else {
+		if (gtk_widget_get_visible ((GtkWidget*) app->window.self))
+			visible = FALSE;
+		else
+			visible = TRUE;
+	}
+	ug_trayicon_set_visible (&app->trayicon, visible);
+}
+
+void	ug_app_menubar_sync_category (UgAppGtk* app, gboolean reset)
 {
 	UgCategory*		category;
 	GtkWidget*		menu_item;
@@ -808,14 +813,14 @@ void	ug_menubar_sync_category (struct UgMenubar* menubar, UgAppGtk* app, gboolea
 	gboolean		valid;
 	guint			index;
 
-	array = menubar->download.move_to.array;
+	array = app->menubar.download.move_to.array;
 	model = GTK_TREE_MODEL (app->cwidget.store);
 
 	if (reset) {
 		// remove all item
 		for (index = 0;  index < array->len;  index += 2) {
 			menu_item = g_ptr_array_index (array, index);
-			gtk_container_remove ((GtkContainer*) menubar->download.move_to.self, menu_item);
+			gtk_container_remove ((GtkContainer*) app->menubar.download.move_to.self, menu_item);
 		}
 		g_ptr_array_set_size (array, 0);
 		// add new item
@@ -827,7 +832,7 @@ void	ug_menubar_sync_category (struct UgMenubar* menubar, UgAppGtk* app, gboolea
 			menu_item = gtk_image_menu_item_new_with_label (category->name);
 			image = gtk_image_new_from_stock (UG_APP_GTK_CATEGORY_STOCK, GTK_ICON_SIZE_MENU);
 			gtk_image_menu_item_set_image ((GtkImageMenuItem*) menu_item, image);
-			gtk_menu_shell_append (GTK_MENU_SHELL (menubar->download.move_to.self), menu_item);
+			gtk_menu_shell_append (GTK_MENU_SHELL (app->menubar.download.move_to.self), menu_item);
 			g_signal_connect (menu_item, "activate",
 					G_CALLBACK (on_move_download), app);
 			gtk_widget_show (menu_item);
@@ -847,7 +852,7 @@ void	ug_menubar_sync_category (struct UgMenubar* menubar, UgAppGtk* app, gboolea
 	}
 }
 
-void	ug_app_gtk_refresh_download_column (UgAppGtk* app)
+void	ug_app_reset_download_column (UgAppGtk* app)
 {
 	struct UgDownloadColumnSetting*	setting;
 	GtkTreeViewColumn*	column;
@@ -920,7 +925,7 @@ void	ug_app_gtk_refresh_download_column (UgAppGtk* app)
 	}
 }
 
-void	ug_app_gtk_decide_download_sensitive (UgAppGtk* app)
+void	ug_app_decide_download_sensitive (UgAppGtk* app)
 {
 	UgDownloadWidget*	dwidget;
 	UgCategoryGtk*		cgtk;
@@ -962,7 +967,7 @@ void	ug_app_gtk_decide_download_sensitive (UgAppGtk* app)
 	gtk_widget_set_sensitive (app->menubar.download.move_bottom, sensitive);
 }
 
-void	ug_app_gtk_decide_category_sensitive (UgAppGtk* app)
+void	ug_app_decide_category_sensitive (UgAppGtk* app)
 {
 	static gboolean		last_sensitive = TRUE;
 	gboolean			sensitive;
@@ -986,6 +991,6 @@ void	ug_app_gtk_decide_category_sensitive (UgAppGtk* app)
 		gtk_widget_set_sensitive (app->menubar.category.properties, sensitive);
 	}
 
-	ug_app_gtk_decide_download_sensitive (app);
+	ug_app_decide_download_sensitive (app);
 }
 

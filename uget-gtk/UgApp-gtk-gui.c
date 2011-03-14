@@ -48,13 +48,13 @@
 
 #include <glib/gi18n.h>
 
-static void	ug_tray_icon_init	(struct UgTrayIcon* app_tray_icon);
+static void	ug_trayicon_init	(struct UgTrayIcon* app_trayicon);
 static void	ug_window_init		(struct UgWindow* app_window, UgAppGtk* app);
 static void	ug_statusbar_init	(struct UgStatusbar* app_statusbar);
 static void	ug_toolbar_init		(struct UgToolbar* app_toolbar, GtkAccelGroup* accel_group);
 static void	ug_menubar_init		(struct UgMenubar* app_menubar, GtkAccelGroup* accel_group);
 
-void	ug_app_gtk_init_gui (UgAppGtk* app)
+void	ug_app_init_gui (UgAppGtk* app)
 {
 #ifdef _WIN32
 	// This will use icons\hicolor\index.theme
@@ -72,7 +72,7 @@ void	ug_app_gtk_init_gui (UgAppGtk* app)
 	// accelerators
 	app->accel_group = gtk_accel_group_new ();
 	// tray icon
-	ug_tray_icon_init (&app->tray_icon);
+	ug_trayicon_init (&app->trayicon);
 	// main window
 	ug_category_widget_init (&app->cwidget);
 	ug_summary_init (&app->summary, app->accel_group);
@@ -85,7 +85,7 @@ void	ug_app_gtk_init_gui (UgAppGtk* app)
 // ----------------------------------------------------------------------------
 // UgTrayIcon
 //
-static void ug_tray_icon_init (struct UgTrayIcon* trayicon)
+static void ug_trayicon_init (struct UgTrayIcon* trayicon)
 {
 	GtkWidget*		image;
 	GtkWidget*		menu;
@@ -164,7 +164,7 @@ static void ug_tray_icon_init (struct UgTrayIcon* trayicon)
 	trayicon->self = gtk_status_icon_new_from_icon_name (icon_name);
 	gtk_status_icon_set_visible (trayicon->self, FALSE);
 #endif
-	ug_tray_icon_set_info (trayicon, 0, 0.0);
+	ug_trayicon_set_info (trayicon, 0, 0.0);
 }
 
 // ----------------------------------------------------------------------------

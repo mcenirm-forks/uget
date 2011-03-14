@@ -64,7 +64,7 @@ static void	win32_winsock_finalize (void)
 #include <stdlib.h>		// exit(), EXIT_SUCCESS, EXIT_FAILURE
 #include <signal.h>
 // uglib
-#include <UgApp.h>
+#include <UgApp-base.h>
 #include <UgApp-cmd.h>
 
 // ----------------------------------------------------------------------------

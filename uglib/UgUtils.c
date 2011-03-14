@@ -161,16 +161,16 @@ int  ug_delete_dir (const gchar *dir_utf8)
 #ifdef _WIN32
 int  ug_copy_file (const gchar *src_file_utf8, const gchar *new_file_utf8)
 {
-	gboolean	result;
+	gboolean	retval;
 	gunichar2*	src_file_wcs;
 	gunichar2*	new_file_wcs;
 
 	src_file_wcs = g_utf8_to_utf16 (src_file_utf8, -1, NULL, NULL, NULL);
 	new_file_wcs = g_utf8_to_utf16 (new_file_utf8, -1, NULL, NULL, NULL);
-	result = CopyFileW (src_file_wcs, new_file_wcs, FALSE);
+	retval = CopyFileW (src_file_wcs, new_file_wcs, FALSE);
 	g_free (src_file_wcs);
 	g_free (new_file_wcs);
-	if (result == 0)
+	if (retval == 0)
 		return -1;
 	return 0;
 }
@@ -181,7 +181,7 @@ int  ug_copy_file (const gchar *src_file_utf8, const gchar *new_file_utf8)
 	int		new_fd;
 	char*	buf;
 	int		buf_len;
-	int		result = 0;
+	int		retval = 0;
 
 //	new_fd = open (new_file_utf8,
 //	               O_BINARY | O_WRONLY | O_CREAT,
@@ -205,7 +205,7 @@ int  ug_copy_file (const gchar *src_file_utf8, const gchar *new_file_utf8)
 		if (buf_len <=0)
 			break;
 		if (ug_fd_write (new_fd, buf, buf_len) != buf_len) {
-			result = -1;
+			retval = -1;
 			break;
 		}
 	}
@@ -213,7 +213,7 @@ int  ug_copy_file (const gchar *src_file_utf8, const gchar *new_file_utf8)
 	g_free (buf);
 	ug_fd_close (src_fd);
 	ug_fd_close (new_fd);
-	return result;
+	return retval;
 }
 #endif	// _WIN32
 
@@ -315,15 +315,15 @@ int	ug_modify_file_time (const gchar *file_utf8, time_t mod_time)
 {
 	struct utimbuf	utb;
 	gchar*			file;
-	int				result;
+	int				retval;
 
 	utb.actime = time (NULL);
 	utb.modtime = mod_time;
 	file = g_filename_from_utf8 (file_utf8, -1, NULL, NULL, NULL);
-	result = g_utime (file, &utb);
+	retval = g_utime (file, &utb);
 	g_free (file);
 
-	return result;
+	return retval;
 }
 
 

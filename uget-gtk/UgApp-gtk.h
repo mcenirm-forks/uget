@@ -39,7 +39,7 @@
 
 #include <gtk/gtk.h>
 // uglib
-#include <UgApp.h>
+#include <UgApp-base.h>
 #include <UgIpc.h>
 #include <UgOption.h>
 #include <UgXmlrpc.h>
@@ -69,24 +69,21 @@ extern "C" {
 
 typedef struct	UgAppGtk				UgAppGtk;
 
-// implemented in uget-gtk/main.c
+// implemented in UgApp-gtk-main.c
 const gchar*	ug_get_data_dir (void);
 // return g_get_user_config_dir () + UG_APP_GTK_DIR + "attachment"
 const gchar*	ug_get_attachment_dir (void);
 
+
 // ----------------------------------------------------------------------------
 // UgAppGtk: Uget application for GTK+
-//
+
 struct UgAppGtk
 {
 	// command argument, IPC, UgRunning
-	UgOption		option;			// initialize in uget-gtk/main.c
-	UgIpc			ipc;			// initialize in uget-gtk/main.c
+	UgIpc			ipc;			// initialize in UgApp-gtk-main.c
+	UgOption		option;			// initialize in UgApp-gtk-main.c
 	UgRunning		running;
-
-	// aria2
-	UgXmlrpc		xmlrpc;
-	gboolean		aria2_launched;
 
 	UgSetting		setting;		// UgSetting.h
 	gboolean		user_action;	// some job stop by user
@@ -94,6 +91,13 @@ struct UgAppGtk
 
 	// Launch application
 	GRegex*			launch_regex;
+	// aria2 plug-in
+	struct
+	{
+		UgXmlrpc	xmlrpc;
+		gboolean	launched;
+	} aria2;
+
 	// Clipboard
 	struct UgClipboard
 	{
@@ -113,7 +117,7 @@ struct UgAppGtk
 	} dialogs;
 
 	// -------------------------------------------------------
-	// GUI (initialize in uget-gtk-gui.c)
+	// GUI (initialize in UgApp-gtk-gui.c)
 	GtkAccelGroup*		accel_group;
 	UgCategoryWidget	cwidget;
 	UgSummary			summary;
@@ -142,7 +146,7 @@ struct UgAppGtk
 			GtkWidget*		offline_mode;
 			GtkWidget*		quit;
 		} menu;
-	} tray_icon;
+	} trayicon;
 
 	// --------------------------------
 	// Main Window
@@ -311,21 +315,23 @@ struct UgAppGtk
 	// --------------------------------
 };
 
-void	ug_app_gtk_init (UgAppGtk* app);
-void	ug_app_gtk_quit (UgAppGtk* app);
-void	ug_app_gtk_save (UgAppGtk* app);
-void	ug_app_gtk_load (UgAppGtk* app);
-void	ug_app_gtk_set_setting (UgAppGtk* app, UgSetting* setting);
-void	ug_app_gtk_get_setting (UgAppGtk* app, UgSetting* setting);
+// use function name "ug_app_xxx" to replace "ug_app_gtk_xxx" here.
+// ug_app_init is easy to understand, ug_app_gtk_init and ug_appgtk_init are not.
+void	ug_app_init (UgAppGtk* app);
+void	ug_app_quit (UgAppGtk* app);
+void	ug_app_save (UgAppGtk* app);
+void	ug_app_load (UgAppGtk* app);
+void	ug_app_set_setting (UgAppGtk* app, UgSetting* setting);
+void	ug_app_get_setting (UgAppGtk* app, UgSetting* setting);
 
 // UgApp-gtk-gui.c
-void	ug_app_gtk_init_gui (UgAppGtk* app);
+void	ug_app_init_gui (UgAppGtk* app);
 // UgApp-gtk-callback.c
-void	ug_app_gtk_init_callback (UgAppGtk* app);
+void	ug_app_init_callback (UgAppGtk* app);
 // UgApp-gtk-timeout.c
-void	ug_app_gtk_init_timeout (UgAppGtk* app);
+void	ug_app_init_timeout (UgAppGtk* app);
 
-// -------------------------------------------------------
+// --------------------------------------------------------
 // UgClipboard
 void	ug_clipboard_init (struct UgClipboard* clipboard, const gchar* pattern);
 void	ug_clipboard_set_pattern (struct UgClipboard* clipboard, const gchar* pattern);
@@ -333,37 +339,37 @@ void	ug_clipboard_set_text (struct UgClipboard* clipboard, gchar* text);
 GList*	ug_clipboard_get_uris (struct UgClipboard* clipboard);
 GList*	ug_clipboard_get_matched (struct UgClipboard* clipboard, const gchar* text);
 
-// -------------------------------------------------------
-// utility functions
-void	ug_app_gtk_close_window (UgAppGtk* app);
-void	ug_app_gtk_confirm_to_quit (UgAppGtk* app);
-void	ug_app_gtk_confirm_to_delete (UgAppGtk* app, GCallback response, gpointer response_data);
-void	ug_app_gtk_show_message (UgAppGtk* app, GtkMessageType type, const gchar* message);
-
-// -------------------------------------------------------
-// Functions are used to refresh status and data.
-void	ug_tray_icon_set_info (struct UgTrayIcon* trayicon, guint n_active, gdouble speed);
-void	ug_tray_icon_decide_visible (struct UgTrayIcon* trayicon, UgAppGtk* app);
-void	ug_tray_icon_set_visible (struct UgTrayIcon* trayicon, gboolean visible);
-void	ug_statusbar_refresh (struct UgStatusbar* statusbar, UgDownloadWidget* dwidget);
+// --------------------------------------------------------
+// UgTrayIcon and UgStatusbar
+void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gdouble speed);
+void	ug_trayicon_set_visible (struct UgTrayIcon* trayicon, gboolean visible);
+void	ug_statusbar_set_info (struct UgStatusbar* statusbar, UgDownloadWidget* dwidget);
 void	ug_statusbar_set_speed (struct UgStatusbar* statusbar, gdouble speed);
-void	ug_menubar_sync_category (struct UgMenubar* menubar, UgAppGtk* app, gboolean reset);
-void	ug_app_gtk_refresh_download_column (UgAppGtk* app);
-void	ug_app_gtk_decide_download_sensitive (UgAppGtk* app);
-void	ug_app_gtk_decide_category_sensitive (UgAppGtk* app);
 
-// ------------------------------------------------------
+// --------------------------------------------------------
+// utility and integrate functions
+void	ug_app_confirm_to_quit (UgAppGtk* app);
+void	ug_app_confirm_to_delete (UgAppGtk* app, GCallback response, gpointer response_data);
+void	ug_app_show_message (UgAppGtk* app, GtkMessageType type, const gchar* message);
+void	ug_app_window_close (UgAppGtk* app);
+void	ug_app_trayicon_decide_visible (UgAppGtk* app);
+void	ug_app_menubar_sync_category (UgAppGtk* app, gboolean reset);
+void	ug_app_reset_download_column (UgAppGtk* app);
+void	ug_app_decide_download_sensitive (UgAppGtk* app);
+void	ug_app_decide_category_sensitive (UgAppGtk* app);
+
+// --------------------------------------------------------
 // aria2
 #ifdef HAVE_PLUGIN_ARIA2
-void		ug_app_gtk_aria2_init (UgAppGtk* app);
-gboolean	ug_app_gtk_aria2_setup (UgAppGtk* app);
-gboolean	ug_app_gtk_aria2_launch (UgAppGtk* app);
-void		ug_app_gtk_aria2_shutdown (UgAppGtk* app);
+void		ug_app_aria2_init (UgAppGtk* app);
+gboolean	ug_app_aria2_setup (UgAppGtk* app);
+gboolean	ug_app_aria2_launch (UgAppGtk* app);
+void		ug_app_aria2_shutdown (UgAppGtk* app);
 #else
-#define		ug_app_gtk_aria2_init(app)
-#define		ug_app_gtk_aria2_setup(app)
-#define		ug_app_gtk_aria2_launch(app)
-#define		ug_app_gtk_aria2_shutdown(app)
+#define		ug_app_aria2_init(app)
+#define		ug_app_aria2_setup(app)
+#define		ug_app_aria2_launch(app)
+#define		ug_app_aria2_shutdown(app)
 #endif	// HAVE_PLUGIN_ARIA2
 
 

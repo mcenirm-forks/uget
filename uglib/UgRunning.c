@@ -144,14 +144,14 @@ void	ug_running_remove (UgRunning* running, UgDataset* dataset)
 
 gboolean	ug_running_add_jobs (UgRunning* running, GList* list)
 {
-	gboolean	result = FALSE;
+	gboolean	retval = FALSE;
 
 	for (;  list;  list = list->next) {
 		if (ug_running_add (running, list->data))
-			result = TRUE;
+			retval = TRUE;
 	}
 
-	return result;
+	return retval;
 }
 
 void	ug_running_remove_jobs (UgRunning* running, GList* list)

@@ -131,7 +131,7 @@ gboolean	gst_inited	= FALSE;
 #include <glib/gi18n.h>
 
 // ----------------------------------------------------------------------------
-// ug_get_data_dir() defined in uget-gtk.h
+// ug_get_data_dir() defined in UgApp-gtk.h
 const gchar*	ug_get_data_dir (void)
 {
 #ifdef _WIN32
@@ -166,7 +166,7 @@ static	UgAppGtk*	app;
 static void term_signal_handler (int sig)
 {
 	// This will quit  gtk_main()  to  main()
-	ug_app_gtk_quit (app);
+	ug_app_quit (app);
 }
 
 // ----------------------------------------------------------------------------
@@ -245,7 +245,7 @@ int main (int argc, char** argv)
 	uglib_init ();
 
 	// main program
-	ug_app_gtk_init (app);
+	ug_app_init (app);
 	signal (SIGTERM, term_signal_handler);
 	gdk_threads_enter ();
 	gtk_main ();

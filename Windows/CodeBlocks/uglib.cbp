@@ -120,10 +120,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\uglib\UgXmlrpc.h" />
-		<Unit filename="..\..\uglib\UgApp.c">
+		<Unit filename="..\..\uglib\UgApp-base.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\uglib\UgApp.h" />
+		<Unit filename="..\..\uglib\UgApp-base.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

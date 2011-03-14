@@ -446,7 +446,7 @@ gboolean	ug_category_gtk_move_selected_up (UgCategory* category, UgDownloadWidge
 	GList*			link;
 	gint			index;
 	gint			index_prev;
-	gboolean		result = FALSE;
+	gboolean		retval = FALSE;
 
 	index_prev = -1;
 	list = ug_download_widget_get_selected_indices (dwidget);
@@ -478,11 +478,11 @@ gboolean	ug_category_gtk_move_selected_up (UgCategory* category, UgDownloadWidge
 		// swap
 		gtk_list_store_swap (relation->user.storage,
 				relation->user.position, relation_prev->user.position);
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	g_list_free (list);
-	return result;
+	return retval;
 }
 
 gboolean	ug_category_gtk_move_selected_down (UgCategory* category, UgDownloadWidget* dwidget)
@@ -496,7 +496,7 @@ gboolean	ug_category_gtk_move_selected_down (UgCategory* category, UgDownloadWid
 	GList*			link;
 	gint			index;
 	gint			index_next;
-	gboolean		result = FALSE;
+	gboolean		retval = FALSE;
 
 	index_next = gtk_tree_model_iter_n_children (dwidget->model, NULL);
 	list = ug_download_widget_get_selected_indices (dwidget);
@@ -529,11 +529,11 @@ gboolean	ug_category_gtk_move_selected_down (UgCategory* category, UgDownloadWid
 		// swap
 		gtk_list_store_swap (relation->user.storage,
 				relation->user.position, relation_next->user.position);
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	g_list_free (list);
-	return result;
+	return retval;
 }
 
 gboolean	ug_category_gtk_move_selected_to_top (UgCategory* category, UgDownloadWidget* dwidget)
@@ -644,20 +644,20 @@ gboolean	ug_category_gtk_clear_excess (UgCategory* category)
 {
 	UgCategoryGtk*	cgtk;
 	guint			n;
-	gboolean		result = FALSE;
+	gboolean		retval = FALSE;
 
 	cgtk = category->user.category;
 	n = gtk_tree_model_iter_n_children (cgtk->finished.model, NULL);
 	if (n > category->finished_limit)
-		result = TRUE;
+		retval = TRUE;
 	n = gtk_tree_model_iter_n_children (cgtk->recycled.model, NULL);
 	if (n > category->recycled_limit)
-		result = TRUE;
+		retval = TRUE;
 
 	ug_category_gtk_clear (category, UG_HINT_FINISHED, category->finished_limit);
 	ug_category_gtk_clear (category, UG_HINT_RECYCLED, category->recycled_limit);
 
-	return result;
+	return retval;
 }
 
 // ----------------------------------------------------------------------------

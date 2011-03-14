@@ -34,8 +34,8 @@
  *
  */
 
-#ifndef UG_APP_H
-#define UG_APP_H
+#ifndef UG_APP_BASE_H
+#define UG_APP_BASE_H
 
 #include <glib.h>
 // uglib
@@ -49,9 +49,9 @@ extern "C" {
 
 
 // ------------------------------------------------------------------
-// UgApp
+// UgAppBase: reserve
 
-typedef struct	UgApp			UgApp;
+typedef struct	UgAppBase			UgAppBase;
 
 
 // ------------------------------------------------------------------
@@ -64,5 +64,5 @@ void		uglib_finalize	(void);
 }
 #endif
 
-#endif  // UG_APP_H
+#endif  // UG_APP_BASE_H
 

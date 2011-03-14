@@ -40,7 +40,7 @@
 
 #include <string.h>
 
-#include <UgApp.h>
+#include <UgApp-base.h>
 #include <UgData-download.h>
 #include <UgMessage.h>
 #include <UgCategory.h>

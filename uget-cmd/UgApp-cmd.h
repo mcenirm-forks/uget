@@ -42,7 +42,7 @@
 #include <config.h>
 #endif
 
-#include <UgApp.h>
+#include <UgApp-base.h>
 #include <UgRunning.h>
 #include <UgCategory-cmd.h>
 
@@ -62,8 +62,8 @@ typedef struct	UgAppCmd			UgAppCmd;
 //
 struct UgAppCmd
 {
-	UgOption		option;
 	UgIpc			ipc;
+	UgOption		option;
 	UgRunning		running;
 
 	GList*			category_list;

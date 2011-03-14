@@ -44,16 +44,16 @@
 //
 #ifdef HAVE_PLUGIN_ARIA2
 
-void	ug_app_gtk_aria2_init (UgAppGtk* app)
+void	ug_app_aria2_init (UgAppGtk* app)
 {
-	ug_xmlrpc_init (&app->xmlrpc);
+	ug_xmlrpc_init (&app->aria2.xmlrpc);
 }
 
-gboolean	ug_app_gtk_aria2_setup (UgAppGtk* app)
+gboolean	ug_app_aria2_setup (UgAppGtk* app)
 {
 	const UgPluginInterface*	iface;
 
-	ug_xmlrpc_use_client (&app->xmlrpc, app->setting.plugin.aria2.uri, NULL);
+	ug_xmlrpc_use_client (&app->aria2.xmlrpc, app->setting.plugin.aria2.uri, NULL);
 	ug_plugin_global_set (&ug_plugin_aria2_iface,
 			UG_DATA_STRING, app->setting.plugin.aria2.uri);
 
@@ -63,13 +63,13 @@ gboolean	ug_app_gtk_aria2_setup (UgAppGtk* app)
 	if (app->setting.plugin.aria2.enable) {
 		ug_plugin_interface_register (&ug_plugin_aria2_iface);
 		if (app->setting.plugin.aria2.launch)
-			ug_app_gtk_aria2_launch (app);
+			ug_app_aria2_launch (app);
 	}
 
 	return TRUE;
 }
 
-gboolean	ug_app_gtk_aria2_launch (UgAppGtk* app)
+gboolean	ug_app_aria2_launch (UgAppGtk* app)
 {
 	GPtrArray*	args;
 	gchar**		argv;
@@ -78,7 +78,7 @@ gboolean	ug_app_gtk_aria2_launch (UgAppGtk* app)
 	gboolean	retval;
 	GSpawnFlags	flags;
 
-	if (app->aria2_launched == TRUE)
+	if (app->aria2.launched == TRUE)
 		return TRUE;
 	// arguments
 	argc = 0;
@@ -110,17 +110,17 @@ gboolean	ug_app_gtk_aria2_launch (UgAppGtk* app)
 	g_strfreev (argv);
 	// returning value
 	if (retval == TRUE)
-		app->aria2_launched = TRUE;
+		app->aria2.launched = TRUE;
 	else
-		ug_app_gtk_show_message (app, GTK_MESSAGE_ERROR, _("failed to launch aria2."));
+		ug_app_show_message (app, GTK_MESSAGE_ERROR, _("failed to launch aria2."));
 	return retval;
 }
 
-void	ug_app_gtk_aria2_shutdown (UgAppGtk* app)
+void	ug_app_aria2_shutdown (UgAppGtk* app)
 {
 	if (app->setting.plugin.aria2.shutdown) {
-		ug_xmlrpc_call (&app->xmlrpc, "aria2.shutdown", NULL);
-		app->aria2_launched = FALSE;
+		ug_xmlrpc_call (&app->aria2.xmlrpc, "aria2.shutdown", NULL);
+		app->aria2.launched = FALSE;
 	}
 }
 

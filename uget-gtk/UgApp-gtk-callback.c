@@ -75,21 +75,21 @@ static const gchar*	translator_credits = N_("translator-credits");
 static void	ug_window_init_callback    (struct UgWindow*  window,  UgAppGtk* app);
 static void	ug_toolbar_init_callback   (struct UgToolbar* toolbar, UgAppGtk* app);
 static void	ug_menubar_init_callback   (struct UgMenubar* menubar, UgAppGtk* app);
-static void	ug_tray_icon_init_callback (struct UgTrayIcon* icon,   UgAppGtk* app);
+static void	ug_trayicon_init_callback (struct UgTrayIcon* icon,   UgAppGtk* app);
 
 
-void	ug_app_gtk_init_callback (UgAppGtk* app)
+void	ug_app_init_callback (UgAppGtk* app)
 {
 //	gtk_accel_group_connect (app->accel_group, GDK_KEY_q, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE,
-//	                         g_cclosure_new_swap (G_CALLBACK (ug_app_gtk_quit), app, NULL));
+//	                         g_cclosure_new_swap (G_CALLBACK (ug_app_quit), app, NULL));
 //	gtk_accel_group_connect (app->accel_group, GDK_KEY_s, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE,
-//	                         g_cclosure_new_swap (G_CALLBACK (ug_app_gtk_save), app, NULL));
+//	                         g_cclosure_new_swap (G_CALLBACK (ug_app_save), app, NULL));
 //	gtk_accel_group_connect (app->accel_group, GDK_KEY_c, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE,
 //	                         g_cclosure_new_swap (G_CALLBACK (on_summary_copy_selected), app, NULL));
 	ug_window_init_callback  (&app->window,  app);
 	ug_toolbar_init_callback (&app->toolbar, app);
 	ug_menubar_init_callback (&app->menubar, app);
-	ug_tray_icon_init_callback (&app->tray_icon, app);
+	ug_trayicon_init_callback (&app->trayicon, app);
 }
 
 // ----------------------------------------------------------------------------
@@ -107,7 +107,7 @@ static void	on_create_category_response (GtkDialog *dialog, gint response_id, Ug
 		category = ug_category_new_with_gtk (app->cwidget.primary.category);
 		ug_category_dialog_get (cdialog, category);
 		ug_category_widget_append (&app->cwidget, category);
-		ug_menubar_sync_category (&app->menubar, app, TRUE);
+		ug_app_menubar_sync_category (app, TRUE);
 	}
 	ug_category_dialog_free (cdialog);
 }
@@ -156,7 +156,7 @@ static void	on_delete_category (GtkWidget* widget, UgAppGtk* app)
 	ug_category_widget_remove (&app->cwidget, current);
 	// refresh
 	gtk_widget_queue_draw ((GtkWidget*) app->cwidget.primary.view);
-	ug_menubar_sync_category (&app->menubar, app, TRUE);
+	ug_app_menubar_sync_category (app, TRUE);
 }
 
 static void	on_config_category_response (GtkDialog *dialog, gint response_id, UgCategoryDialog* cdialog)
@@ -276,7 +276,7 @@ static void	on_create_from_clipboard (GtkWidget* widget, UgAppGtk* app)
 
 	list = ug_clipboard_get_uris (&app->clipboard);
 	if (list == NULL) {
-		ug_app_gtk_show_message (app, GTK_MESSAGE_ERROR,
+		ug_app_show_message (app, GTK_MESSAGE_ERROR,
 				_("No URLs found in clipboard."));
 		return;
 	}
@@ -376,7 +376,7 @@ static void	on_delete_download_file (GtkWidget* widget, UgAppGtk* app)
 	if (app->setting.ui.delete_confirmation == FALSE)
 		on_delete_download_file_response (widget, GTK_RESPONSE_YES, app);
 	else {
-		ug_app_gtk_confirm_to_delete (app,
+		ug_app_confirm_to_delete (app,
 				G_CALLBACK (on_delete_download_file_response), app);
 	}
 }
@@ -770,7 +770,7 @@ static void	on_import_text_file_response (GtkWidget* dialog, gint response, UgAp
 	list = ug_text_file_get_uris (file, &error);
 	g_free (file);
 	if (error) {
-		ug_app_gtk_show_message (app, GTK_MESSAGE_ERROR, error->message);
+		ug_app_show_message (app, GTK_MESSAGE_ERROR, error->message);
 		g_error_free (error);
 		return;
 	}
@@ -865,7 +865,7 @@ static void	on_offline_mode (GtkWidget* widget, UgAppGtk* app)
 	app->setting.offline_mode = gtk_check_menu_item_get_active (item);
 	item = GTK_CHECK_MENU_ITEM (app->menubar.file.offline_mode);
 	gtk_check_menu_item_set_active (item, app->setting.offline_mode);
-	item = GTK_CHECK_MENU_ITEM (app->tray_icon.menu.offline_mode);
+	item = GTK_CHECK_MENU_ITEM (app->trayicon.menu.offline_mode);
 	gtk_check_menu_item_set_active (item, app->setting.offline_mode);
 
 	// into offline mode
@@ -912,9 +912,9 @@ static void	on_config_settings_response (GtkDialog *dialog, gint response, UgSet
 		app->launch_regex = g_regex_new (app->setting.launch.types,
 				G_REGEX_CASELESS, 0, NULL);
 		// ui
-		ug_tray_icon_decide_visible (&app->tray_icon, app);
+		ug_app_trayicon_decide_visible (app);
 		// aria2
-		ug_app_gtk_aria2_setup (app);
+		ug_app_aria2_setup (app);
 	}
 	ug_setting_dialog_free (sdialog);
 	// refresh
@@ -1143,7 +1143,7 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 // ----------------------------------------------------------------------------
 // UgTrayIcon
 //
-static void	on_tray_icon_activate (GtkStatusIcon* status_icon, UgAppGtk* app)
+static void	on_trayicon_activate (GtkStatusIcon* status_icon, UgAppGtk* app)
 {
 	if (gtk_widget_get_visible ((GtkWidget*) app->window.self) == TRUE) {
 		// get position and size
@@ -1159,11 +1159,11 @@ static void	on_tray_icon_activate (GtkStatusIcon* status_icon, UgAppGtk* app)
 		gtk_widget_show ((GtkWidget*) app->window.self);
 		gtk_window_deiconify (app->window.self);
 		gtk_window_present (app->window.self);
-		ug_tray_icon_decide_visible (&app->tray_icon, app);
+		ug_app_trayicon_decide_visible (app);
 	}
 	// clear error status
-	if (app->tray_icon.error_occurred) {
-		app->tray_icon.error_occurred = FALSE;
+	if (app->trayicon.error_occurred) {
+		app->trayicon.error_occurred = FALSE;
 #ifndef HAVE_APP_INDICATOR
 		gtk_status_icon_set_from_icon_name (status_icon, UG_APP_GTK_ICON_NAME);
 #endif
@@ -1171,17 +1171,17 @@ static void	on_tray_icon_activate (GtkStatusIcon* status_icon, UgAppGtk* app)
 }
 
 #ifndef HAVE_APP_INDICATOR
-static void	on_tray_icon_popup_menu (GtkStatusIcon* status_icon, guint button, guint activate_time, UgAppGtk* app)
+static void	on_trayicon_popup_menu (GtkStatusIcon* status_icon, guint button, guint activate_time, UgAppGtk* app)
 {
-	gtk_menu_set_screen ((GtkMenu*) app->tray_icon.menu.self,
+	gtk_menu_set_screen ((GtkMenu*) app->trayicon.menu.self,
 			gtk_status_icon_get_screen (status_icon));
 #ifdef _WIN32
-	gtk_menu_popup ((GtkMenu*) app->tray_icon.menu.self,
+	gtk_menu_popup ((GtkMenu*) app->trayicon.menu.self,
 			NULL, NULL,
 			NULL, NULL,
 			button, activate_time);
 #else
-	gtk_menu_popup ((GtkMenu*) app->tray_icon.menu.self,
+	gtk_menu_popup ((GtkMenu*) app->trayicon.menu.self,
 			NULL, NULL,
 			gtk_status_icon_position_menu, status_icon,
 			button, activate_time);
@@ -1302,10 +1302,10 @@ static gboolean	on_window_key_press_event (GtkWidget *widget, GdkEventKey *event
 static gboolean	on_window_delete_event (GtkWidget* widget, GdkEvent* event, UgAppGtk* app)
 {
 	if (app->setting.ui.close_confirmation == FALSE) {
-		ug_app_gtk_close_window (app);
+		ug_app_window_close (app);
 		return TRUE;
 	}
-	ug_app_gtk_confirm_to_quit (app);
+	ug_app_confirm_to_quit (app);
 	return TRUE;
 }
 
@@ -1325,8 +1325,8 @@ static void	on_download_selection_changed (GtkTreeSelection* selection, UgAppGtk
 	UgDownloadWidget*	dwidget;
 
 	dwidget = app->cwidget.current.widget;
-	ug_statusbar_refresh (&app->statusbar, dwidget);
-	ug_app_gtk_decide_download_sensitive (app);
+	ug_statusbar_set_info (&app->statusbar, dwidget);
+	ug_app_decide_download_sensitive (app);
 }
 
 // UgDownloadWidget.view "cursor-changed"
@@ -1379,10 +1379,10 @@ static void	on_category_cursor_changed (GtkTreeView* view, UgAppGtk* app)
 	}
 
 	// refresh
-	ug_menubar_sync_category (&app->menubar, app, FALSE);
-	ug_statusbar_refresh (&app->statusbar, dwidget);
-	ug_app_gtk_refresh_download_column (app);
-	ug_app_gtk_decide_category_sensitive (app);
+	ug_app_menubar_sync_category (app, FALSE);
+	ug_statusbar_set_info (&app->statusbar, dwidget);
+	ug_app_reset_download_column (app);
+	ug_app_decide_category_sensitive (app);
 }
 
 // UgSummary.menu.copy signal handler
@@ -1404,7 +1404,7 @@ static void	on_summary_copy_all (GtkWidget* widget, UgAppGtk* app)
 }
 
 // ----------------------------------------------------------------------------
-// used by ug_app_gtk_init_callback()
+// used by ug_app_init_callback()
 
 // UgWindow
 static void ug_window_init_callback (struct UgWindow* window, UgAppGtk* app)
@@ -1435,7 +1435,7 @@ static void ug_window_init_callback (struct UgWindow* window, UgAppGtk* app)
 	g_signal_connect (window->self, "delete-event",
 			G_CALLBACK (on_window_delete_event), app);
 	g_signal_connect_swapped (window->self, "destroy",
-			G_CALLBACK (ug_app_gtk_quit), app);
+			G_CALLBACK (ug_app_quit), app);
 }
 
 #ifdef _WIN32
@@ -1470,13 +1470,13 @@ static gboolean	tray_menu_leave_enter (GtkWidget* menu, GdkEventCrossing* event,
 #endif	// _WIN32
 
 // UgTrayIcon
-static void ug_tray_icon_init_callback (struct UgTrayIcon* icon, UgAppGtk* app)
+static void ug_trayicon_init_callback (struct UgTrayIcon* icon, UgAppGtk* app)
 {
 #ifndef HAVE_APP_INDICATOR
 	g_signal_connect (icon->self, "activate",
-			G_CALLBACK (on_tray_icon_activate), app);
+			G_CALLBACK (on_trayicon_activate), app);
 	g_signal_connect (icon->self, "popup-menu",
-			G_CALLBACK (on_tray_icon_popup_menu), app);
+			G_CALLBACK (on_trayicon_popup_menu), app);
 #endif
 
 #ifdef _WIN32
@@ -1493,13 +1493,13 @@ static void ug_tray_icon_init_callback (struct UgTrayIcon* icon, UgAppGtk* app)
 	g_signal_connect (icon->menu.settings, "activate",
 			G_CALLBACK (on_config_settings), app);
 	g_signal_connect (icon->menu.show_window, "activate",
-			G_CALLBACK (on_tray_icon_activate), app);
+			G_CALLBACK (on_trayicon_activate), app);
 	g_signal_connect (icon->menu.offline_mode, "toggled",
 			G_CALLBACK (on_offline_mode), app);
 	g_signal_connect (icon->menu.about, "activate",
 			G_CALLBACK (on_about), app);
 	g_signal_connect_swapped (icon->menu.quit, "activate",
-			G_CALLBACK (ug_app_gtk_quit), app);
+			G_CALLBACK (ug_app_quit), app);
 }
 
 // UgToolbar
@@ -1518,7 +1518,7 @@ static void ug_toolbar_init_callback (struct UgToolbar* toolbar, UgAppGtk* app)
 			G_CALLBACK (on_create_from_clipboard), app);
 	// save
 	g_signal_connect_swapped (toolbar->save, "clicked",
-			G_CALLBACK (ug_app_gtk_save), app);
+			G_CALLBACK (ug_app_save), app);
 	// change status
 	g_signal_connect (toolbar->runnable, "clicked",
 			G_CALLBACK (on_set_download_runnable), app);
@@ -1552,7 +1552,7 @@ static void ug_menubar_init_callback (struct UgMenubar* menubar, UgAppGtk* app)
 	g_signal_connect (menubar->file.create.from_clipboard, "activate",
 			G_CALLBACK (on_create_from_clipboard), app);
 	g_signal_connect_swapped (menubar->file.save, "activate",
-			G_CALLBACK (ug_app_gtk_save), app);
+			G_CALLBACK (ug_app_save), app);
 	g_signal_connect (menubar->file.import_html, "activate",
 			G_CALLBACK (on_import_html_file), app);
 	g_signal_connect (menubar->file.import_text, "activate",
@@ -1562,7 +1562,7 @@ static void ug_menubar_init_callback (struct UgMenubar* menubar, UgAppGtk* app)
 	g_signal_connect (menubar->file.offline_mode, "toggled",
 			G_CALLBACK (on_offline_mode), app);
 	g_signal_connect_swapped (menubar->file.quit, "activate",
-			G_CALLBACK (ug_app_gtk_quit), app);
+			G_CALLBACK (ug_app_quit), app);
 
 	// ----------------------------------------------------
 	// UgEditMenu

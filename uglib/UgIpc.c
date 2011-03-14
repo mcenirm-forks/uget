@@ -56,7 +56,7 @@ gboolean	ug_ipc_use_server (UgIpc* ipc)
 	struct sockaddr_in	saddr;
 /*
 	ADDRINFO	addrInfo;
-	ADDRINFO*	ai_result = NULL;
+	ADDRINFO*	ai_retval = NULL;
 
 	// AI_PASSIVE     // Socket address will be used in bind() call
 	// AI_CANONNAME   // Return canonical name in first ai_canonname
@@ -67,14 +67,14 @@ gboolean	ug_ipc_use_server (UgIpc* ipc)
 	addrInfo.ai_socktype	= SOCK_STREAM;
 	addrInfo.ai_flags		= AI_NUMERICSERV | AI_PASSIVE;
 
-	if (getaddrinfo ("localhost", UGET_SOCKET_PORT_S, &addrInfo, &ai_result))
+	if (getaddrinfo ("localhost", UGET_SOCKET_PORT_S, &addrInfo, &ai_retval))
 		return FALSE;
 
 	fd = socket (AF_INET, SOCK_STREAM, 0);
 	if (fd == INVALID_SOCKET)
 		return FALSE;
 
-	if (bind(fd, ai_result->ai_addr, ai_result->ai_addrlen) == SOCKET_ERROR) {
+	if (bind(fd, ai_retval->ai_addr, ai_retval->ai_addrlen) == SOCKET_ERROR) {
 		closesocket (fd);
 		return FALSE;
 	}

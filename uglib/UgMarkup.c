@@ -195,7 +195,7 @@ gboolean ug_markup_parse (const gchar* filename, const GMarkupParser* parser, gp
 	gchar*		buffer;
 	gint		fd;
 	gint		size;
-	gboolean	result = FALSE;
+	gboolean	retval = FALSE;
 
 //	fd = open (filename, O_RDONLY | O_TEXT, S_IREAD);
 	fd = ug_fd_open (filename, UG_FD_O_READONLY | UG_FD_O_TEXT, UG_FD_S_IREAD);
@@ -209,17 +209,17 @@ gboolean ug_markup_parse (const gchar* filename, const GMarkupParser* parser, gp
 //		size = read (fd, buffer, 4096);
 		size = ug_fd_read (fd, buffer, 4096);
 		if (size > 0)
-			result = g_markup_parse_context_parse (context, buffer, size, NULL);
-	} while (size > 0 && result);
+			retval = g_markup_parse_context_parse (context, buffer, size, NULL);
+	} while (size > 0 && retval);
 
-	result = g_markup_parse_context_end_parse (context, NULL);
+	retval = g_markup_parse_context_end_parse (context, NULL);
 	g_markup_parse_context_free (context);
 	g_free (buffer);
 
 //	close (fd);
 	ug_fd_close (fd);
 
-	return result;
+	return retval;
 }
 
 

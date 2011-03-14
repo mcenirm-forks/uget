@@ -686,18 +686,18 @@ static GList*	ug_selector_store_get_marked (GtkListStore* store)
 	GtkTreeModel*	model;
 	GtkTreeIter		iter;
 	gboolean		valid;
-	GList*			result;
+	GList*			retval;
 
-	result = NULL;
+	retval = NULL;
 	model = GTK_TREE_MODEL (store);
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 	while (valid) {
 		gtk_tree_model_get (model, &iter, 0, &item, -1);
 		valid = gtk_tree_model_iter_next (model, &iter);
 		if (item->mark)
-			result = g_list_prepend (result, item);
+			retval = g_list_prepend (retval, item);
 	}
-	return result;
+	return retval;
 }
 
 static void	ug_selector_store_set_mark_all (GtkListStore* store, gboolean mark)

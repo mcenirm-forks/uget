@@ -628,7 +628,7 @@ gboolean	ug_xmltag_parse (UgXmltag* xmltag, const gchar* string, int len)
 
 gboolean	ug_xmltag_clear	(UgXmltag* xmltag)
 {
-	gboolean	result;
+	gboolean	retval;
 
 	ug_xmltag_parse_in (xmltag, xmltag->buffer->str, xmltag->buffer->len, TRUE);
 	xmltag->buffer->len = 0;
@@ -636,12 +636,12 @@ gboolean	ug_xmltag_clear	(UgXmltag* xmltag)
 	// Because user push parser and data before running ug_xmltag_parse(),
 	// xmltag->parser.len must be 2
 	if (xmltag->parser.len == 2)
-		result = TRUE;
+		retval = TRUE;
 	else
-		result = FALSE;
+		retval = FALSE;
 
 	xmltag->parser.len = 0;
-	return result;
+	return retval;
 }
 
 void	ug_xmltag_push (UgXmltag* xmltag, UgXmltagFunc func, gpointer data)

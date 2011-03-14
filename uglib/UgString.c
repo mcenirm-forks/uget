@@ -126,11 +126,11 @@ exit:
  */
 unsigned int ug_str_line_len (const char* string, int string_len, unsigned int offset)
 {
-	unsigned int result;
+	unsigned int retval;
 
-	result = ug_str_find_charset(string, string_len, offset, "\r\n");
-	if (result > offset)
-		return result - offset;
+	retval = ug_str_find_charset(string, string_len, offset, "\r\n");
+	if (retval > offset)
+		return retval - offset;
 	return 0;
 }
 

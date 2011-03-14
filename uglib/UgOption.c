@@ -220,7 +220,7 @@ static void	ug_option_main_entry_init	(UgOptionMainData* option_data)
 static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* dataset)
 {
 	UgOptionMainData*	option_data;
-	gboolean		result = FALSE;
+	gboolean		retval = FALSE;
 	UgDataCommon*	common;
 	UgDataProxy*	proxy;
 	UgDataHttp*		http;
@@ -233,7 +233,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (common->folder);
 		common->folder = g_strdup (option_data->folder);
 		common->keeping.folder = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->file) {
@@ -241,7 +241,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (common->file);
 		common->file = g_strdup (option_data->file);
 		common->keeping.file = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->user) {
@@ -249,7 +249,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (common->user);
 		common->user = g_strdup (option_data->user);
 		common->keeping.user = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->password) {
@@ -257,7 +257,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (common->password);
 		common->password = g_strdup (option_data->password);
 		common->keeping.password = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	// proxy
@@ -265,7 +265,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		proxy = ug_dataset_realloc (dataset, UG_DATA_PROXY_I, 0);
 		proxy->type = option_data->proxy.type;
 		proxy->keeping.type = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->proxy.host) {
@@ -273,14 +273,14 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (proxy->host);
 		proxy->host = g_strdup (option_data->proxy.host);
 		proxy->keeping.host = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->proxy.port) {
 		proxy = ug_dataset_realloc (dataset, UG_DATA_PROXY_I, 0);
 		proxy->port = option_data->proxy.port;
 		proxy->keeping.port = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->proxy.user) {
@@ -288,7 +288,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (proxy->user);
 		proxy->user = g_strdup (option_data->proxy.user);
 		proxy->keeping.user = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->proxy.password) {
@@ -296,7 +296,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (proxy->password);
 		proxy->password = g_strdup (option_data->proxy.password);
 		proxy->keeping.password = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	// http
@@ -305,7 +305,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (http->user);
 		http->user = g_strdup (option_data->http.user);
 		http->keeping.user = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->http.password) {
@@ -313,7 +313,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (http->password);
 		http->password = g_strdup (option_data->http.password);
 		http->keeping.password = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->http.referrer) {
@@ -321,7 +321,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (http->referrer);
 		http->referrer = g_strdup (option_data->http.referrer);
 		http->keeping.referrer = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->http.user_agent) {
@@ -329,7 +329,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (http->user_agent);
 		http->user_agent = g_strdup (option_data->http.user_agent);
 		http->keeping.user_agent = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->http.cookie_data) {
@@ -337,7 +337,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (http->cookie_data);
 		http->cookie_data = g_strdup (option_data->http.cookie_data);
 		http->keeping.cookie_data = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->http.cookie_file) {
@@ -345,7 +345,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (http->cookie_file);
 		http->cookie_file = g_strdup (option_data->http.cookie_file);
 		http->keeping.cookie_file = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->http.post_data) {
@@ -353,7 +353,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (http->post_data);
 		http->post_data = g_strdup (option_data->http.post_data);
 		http->keeping.post_data = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->http.post_file) {
@@ -361,7 +361,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (http->post_file);
 		http->post_file = g_strdup (option_data->http.post_file);
 		http->keeping.post_file = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	// ftp
@@ -370,7 +370,7 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (ftp->user);
 		ftp->user = g_strdup (option_data->ftp.user);
 		ftp->keeping.user = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
 	if (option_data->ftp.password) {
@@ -378,10 +378,10 @@ static gboolean	ug_option_main_entry_get (UgOptionEntry* oentry, UgDataset* data
 		g_free (ftp->password);
 		ftp->password = g_strdup (option_data->ftp.password);
 		ftp->keeping.password = TRUE;
-		result = TRUE;
+		retval = TRUE;
 	}
 
-	return result;
+	return retval;
 }
 
 // ------------------------------------
