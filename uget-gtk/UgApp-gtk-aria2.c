@@ -88,7 +88,6 @@ gboolean	ug_app_gtk_aria2_launch (UgAppGtk* app)
 	g_ptr_array_add (args, app->setting.plugin.aria2.path);
 	for (index = 0;  index < argc;  index++)
 		g_ptr_array_add (args, argv[index]);
-	g_strfreev (argv);
 	g_ptr_array_add (args, NULL);	// NULL-terminated
 
 	// If path is not absolute path, don't search PATH.
@@ -108,6 +107,7 @@ gboolean	ug_app_gtk_aria2_launch (UgAppGtk* app)
 
 	// free arguments
 	g_ptr_array_free (args, TRUE);
+	g_strfreev (argv);
 	// returning value
 	if (retval == TRUE)
 		app->aria2_launched = TRUE;
