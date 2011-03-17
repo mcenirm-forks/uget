@@ -3,16 +3,17 @@
 	* es.po: Spanish - Victor Emmanuel
 	* ru.po: Russian - Гранкин Александр
 	* tr.po: Turkish - Yiğit Ateş
+	* uk.po: Ukrainian - Сергій Дубик
 	* zh_CN.po: Simplified Chinese - Liu Hao
-	* zh_TW.po: Traditional Chinese - Raymond Huang
+	* zh_TW.po: Traditional Chinese - plushuang
 
-Past Translators:
+Former Translators:
 	* fr.po: French - Rémy HUBSCHER
 	* it.po: Italian - Michele Petrecca
 	* pl.po: Polish - Piotr Ozarowski
 	* ru.po: Russian - Pavlo Bohmat
-	* zh_TW.po: Traditional Chinese - Raymond Huang
+	* zh_TW.po: Traditional Chinese - plushuang
 ===============================================================================
 
-2009-07-28  Raymond Huang
+2009-07-28  plushuang
 	* po/fr.po, po/it.po, po/pl.po, po/ru.po, po/zh_CN.po: Remove fuzzy translation.

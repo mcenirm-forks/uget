@@ -1,3 +1,4 @@
+uglib/UgApp-base.c
 uglib/UgCategory.c
 uglib/UgData.c
 uglib/UgData-download.c
@@ -14,7 +15,11 @@ uglib/UgRunning.c
 uglib/UgStdio.c
 uglib/UgUri.c
 uglib/UgUtils.c
-uglib/uglib.c
+uget-gtk/UgApp-gtk.c
+uget-gtk/UgApp-gtk-aria2.c
+uget-gtk/UgApp-gtk-callback.c
+uget-gtk/UgApp-gtk-gui.c
+uget-gtk/UgApp-gtk-timeout.c
 uget-gtk/UgBatchForm.c
 uget-gtk/UgCategory-gtk.c
 uget-gtk/UgCategoryDialog.c
@@ -28,10 +33,5 @@ uget-gtk/UgScheduleGrid.c
 uget-gtk/UgSelector.c
 uget-gtk/UgSettingDialog.c
 uget-gtk/UgSettingForm.c
+uget-gtk/UgSetting.c
 uget-gtk/UgSummary.c
-uget-gtk/UgetGtk.c
-uget-gtk/UgetGtk-aria2.c
-uget-gtk/UgetGtk-callback.c
-uget-gtk/UgetGtk-gui.c
-uget-gtk/UgetGtk-setting.c
-uget-gtk/UgetGtk-timeout.c
