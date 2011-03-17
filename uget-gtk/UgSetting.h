@@ -41,7 +41,7 @@
 #include <config.h>
 #endif
 #ifndef PACKAGE_VERSION
-#define PACKAGE_VERSION					"1.7.2"
+#define PACKAGE_VERSION					"1.7.3"
 #endif
 
 #include <UgData.h>

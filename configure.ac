@@ -1,5 +1,5 @@
 AC_PREREQ([2.60])
-AC_INIT([uget],[1.7.2a])
+AC_INIT([uget],[1.7.3])
 
 ## Use automake (add automake to autogen.sh)
 AM_INIT_AUTOMAKE
