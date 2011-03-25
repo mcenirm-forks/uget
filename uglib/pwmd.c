@@ -46,13 +46,11 @@ gpg_error_t ug_set_pwmd_proxy_options(struct pwmd_proxy_s *pwmd,
        pwmd_init();
        pwm_t *pwm = pwmd_new("uget");
        rc = pwmd_connect_url(pwm, proxy->pwmd.socket);
-
        if (rc)
                goto fail;
 
        pwmd_socket_t stype;
        rc = pwmd_socket_type(pwm, &stype);
-
        if (rc)
                goto fail;
 
@@ -60,48 +58,43 @@ gpg_error_t ug_set_pwmd_proxy_options(struct pwmd_proxy_s *pwmd,
                rc = pwmd_open2(pwm, proxy->pwmd.file);
        else
                rc = pwmd_open(pwm, proxy->pwmd.file);
-
        if (rc)
                goto fail;
 
        rc = pwmd_command(pwm, &result, "GET %stype", path ? path : "");
-
        if (rc)
                goto fail;
 
        pwmd->type = result;
        rc = pwmd_command(pwm, &result, "GET %shostname", path ? path : "");
-
        if (rc)
                goto fail;
 
        pwmd->hostname = result;
        rc = pwmd_command(pwm, &result, "GET %sport", path ? path : "");
-
        if (rc && rc != GPG_ERR_ELEMENT_NOT_FOUND)
                goto fail;
 
        pwmd->port = atoi(result);
        pwmd_free(result);
        rc = pwmd_command(pwm, &result, "GET %susername", path ? path : "");
-
-       if (rc && rc != GPG_ERR_ELEMENT_NOT_FOUND)
+       if (rc && rc != GPG_ERR_ELEMENT_NOT_FOUND && rc != GPG_ERR_NO_VALUE)
                goto fail;
 
        if (!rc)
                pwmd->username = result;
-
        rc = pwmd_command(pwm, &result, "GET %spassword", path ? path : "");
 
-       if (rc && rc != GPG_ERR_ELEMENT_NOT_FOUND)
+       if (rc && rc != GPG_ERR_ELEMENT_NOT_FOUND && rc != GPG_ERR_NO_VALUE)
                goto fail;
-
        if (!rc)
                pwmd->password = result;
 
        rc = 0;
 
 fail:
+       if (pwm)
+	   pwmd_close(pwm);
        return rc;
 }
 
