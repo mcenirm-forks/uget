@@ -77,6 +77,8 @@ static void	ug_toolbar_init_callback   (struct UgToolbar* toolbar, UgAppGtk* app
 static void	ug_menubar_init_callback   (struct UgMenubar* menubar, UgAppGtk* app);
 static void	ug_trayicon_init_callback (struct UgTrayIcon* icon,   UgAppGtk* app);
 
+static GtkWidget*	create_file_chooser (const gchar* title, GtkWindow* parent, const gchar* filter_name, const gchar* mine_type);
+
 
 void	ug_app_init_callback (UgAppGtk* app)
 {
@@ -297,6 +299,108 @@ static void	on_create_from_clipboard (GtkWidget* widget, UgAppGtk* app)
 	g_signal_connect (ddialog->self, "response",
 			G_CALLBACK (on_create_download_response), ddialog);
 	gtk_widget_show (GTK_WIDGET (ddialog->self));
+}
+
+static void	on_create_torrent_response (GtkWidget* dialog, gint response, UgAppGtk* app)
+{
+	UgDownloadDialog*	ddialog;
+	gchar*				string;
+	gchar*				uri;
+
+	if (response != GTK_RESPONSE_OK ) {
+		gtk_widget_destroy (dialog);
+		return;
+	}
+	// get filename
+	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
+	gtk_widget_destroy (dialog);
+
+	string = g_strconcat (UG_APP_GTK_NAME " - ", _("New Torrent"), NULL);
+	ddialog = ug_download_dialog_new (string, app->window.self);
+	g_free (string);
+	if (gtk_widget_get_visible ((GtkWidget*) app->window.self) == FALSE)
+		gtk_window_set_transient_for ((GtkWindow*) ddialog->self, NULL);
+	ug_download_form_set_folder_list (&ddialog->download,
+			app->setting.folder_list);
+	ug_download_dialog_set_category (ddialog, &app->cwidget);
+	gtk_entry_set_text (GTK_ENTRY (ddialog->download.url_entry), uri);
+	g_free (uri);
+	// connect signal and set data in download dialog
+	ddialog->user.app = app;
+	g_signal_connect (ddialog->self, "response",
+			G_CALLBACK (on_create_download_response), ddialog);
+	gtk_widget_show ((GtkWidget*) ddialog->self);
+}
+
+static void	on_create_torrent (GtkWidget* widget, UgAppGtk* app)
+{
+	GtkWidget*		dialog;
+	gchar*			title;
+
+	title = g_strconcat (UG_APP_GTK_NAME " - ", _("Open Torrent file"), NULL);
+	dialog = create_file_chooser (title, app->window.self,
+			"Torrent file (*.torrent)", "application/x-bittorrent");
+	g_free (title);
+	g_signal_connect (dialog, "response",
+			G_CALLBACK (on_create_torrent_response), app);
+	gtk_widget_show (dialog);
+}
+
+static void	on_create_metalink_response (GtkWidget* dialog, gint response, UgAppGtk* app)
+{
+	UgDownloadDialog*	ddialog;
+	gchar*				string;
+	gchar*				uri;
+
+	if (response != GTK_RESPONSE_OK ) {
+		gtk_widget_destroy (dialog);
+		return;
+	}
+	// get filename
+	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
+	gtk_widget_destroy (dialog);
+
+	string = g_strconcat (UG_APP_GTK_NAME " - ", _("New Metalink"), NULL);
+	ddialog = ug_download_dialog_new (string, app->window.self);
+	g_free (string);
+	if (gtk_widget_get_visible ((GtkWidget*) app->window.self) == FALSE)
+		gtk_window_set_transient_for ((GtkWindow*) ddialog->self, NULL);
+	ug_download_form_set_folder_list (&ddialog->download,
+			app->setting.folder_list);
+	ug_download_dialog_set_category (ddialog, &app->cwidget);
+	gtk_entry_set_text (GTK_ENTRY (ddialog->download.url_entry), uri);
+	g_free (uri);
+	// connect signal and set data in download dialog
+	ddialog->user.app = app;
+	g_signal_connect (ddialog->self, "response",
+			G_CALLBACK (on_create_download_response), ddialog);
+	gtk_widget_show ((GtkWidget*) ddialog->self);
+}
+
+static void	on_create_metalink (GtkWidget* widget, UgAppGtk* app)
+{
+	GtkWidget*		dialog;
+	GtkFileFilter*	filter;
+	gchar*			title;
+
+	title = g_strconcat (UG_APP_GTK_NAME " - ", _("Open Metalink file"), NULL);
+	dialog = gtk_file_chooser_dialog_new (title, app->window.self,
+			GTK_FILE_CHOOSER_ACTION_OPEN,
+			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			GTK_STOCK_OK,     GTK_RESPONSE_OK,
+			NULL);
+	g_free (title);
+	gtk_window_set_destroy_with_parent ((GtkWindow*) dialog, TRUE);
+	filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter, "Metalink file (*.metalink, *.meta4)");
+	gtk_file_filter_add_pattern (filter, "*.metalink");
+	gtk_file_filter_add_pattern (filter, "*.meta4");
+//	gtk_file_filter_add_mime_type (filter, "application/metalink+xml");
+//	gtk_file_filter_add_mime_type (filter, "application/metalink4+xml");
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
+	g_signal_connect (dialog, "response",
+			G_CALLBACK (on_create_metalink_response), app);
+	gtk_widget_show (dialog);
 }
 
 static void	on_delete_download (GtkWidget* widget, UgAppGtk* app)
@@ -914,6 +1018,7 @@ static void	on_config_settings_response (GtkDialog *dialog, gint response, UgSet
 		// ui
 		ug_app_trayicon_decide_visible (app);
 		// aria2
+		ug_app_decide_bt_meta_sensitive (app);
 		ug_app_aria2_setup (app);
 	}
 	ug_setting_dialog_free (sdialog);
@@ -1490,6 +1595,10 @@ static void ug_trayicon_init_callback (struct UgTrayIcon* icon, UgAppGtk* app)
 			G_CALLBACK (on_create_download), app);
 	g_signal_connect (icon->menu.create_clipboard, "activate",
 			G_CALLBACK (on_create_from_clipboard), app);
+	g_signal_connect (icon->menu.create_torrent, "activate",
+			G_CALLBACK (on_create_torrent), app);
+	g_signal_connect (icon->menu.create_metalink, "activate",
+			G_CALLBACK (on_create_metalink), app);
 	g_signal_connect (icon->menu.settings, "activate",
 			G_CALLBACK (on_config_settings), app);
 	g_signal_connect (icon->menu.show_window, "activate",
@@ -1516,6 +1625,10 @@ static void ug_toolbar_init_callback (struct UgToolbar* toolbar, UgAppGtk* app)
 			G_CALLBACK (on_create_batch), app);
 	g_signal_connect (toolbar->create_clipboard, "activate",
 			G_CALLBACK (on_create_from_clipboard), app);
+	g_signal_connect (toolbar->create_torrent, "activate",
+			G_CALLBACK (on_create_torrent), app);
+	g_signal_connect (toolbar->create_metalink, "activate",
+			G_CALLBACK (on_create_metalink), app);
 	// save
 	g_signal_connect_swapped (toolbar->save, "clicked",
 			G_CALLBACK (ug_app_save), app);
@@ -1551,6 +1664,10 @@ static void ug_menubar_init_callback (struct UgMenubar* menubar, UgAppGtk* app)
 			G_CALLBACK (on_create_batch), app);
 	g_signal_connect (menubar->file.create.from_clipboard, "activate",
 			G_CALLBACK (on_create_from_clipboard), app);
+	g_signal_connect (menubar->file.create.torrent, "activate",
+			G_CALLBACK (on_create_torrent), app);
+	g_signal_connect (menubar->file.create.metalink, "activate",
+			G_CALLBACK (on_create_metalink), app);
 	g_signal_connect_swapped (menubar->file.save, "activate",
 			G_CALLBACK (ug_app_save), app);
 	g_signal_connect (menubar->file.import_html, "activate",

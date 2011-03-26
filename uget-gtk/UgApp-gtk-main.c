@@ -160,7 +160,7 @@ const gchar*	ug_get_data_dir (void)
 }
 
 // ----------------------------------------------------------------------------
-static	UgAppGtk*	app;
+UgAppGtk*	app;
 
 // SIGTERM
 static void term_signal_handler (int sig)

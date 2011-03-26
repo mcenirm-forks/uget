@@ -302,6 +302,9 @@ void	ug_app_set_setting (UgAppGtk* app, UgSetting* setting)
 	gtk_check_menu_item_set_active (
 			(GtkCheckMenuItem*) app->menubar.view.columns.completed_on,
 			setting->download_column.completed_on);
+
+	// aria2
+	ug_app_decide_bt_meta_sensitive (app);
 }
 
 void	ug_app_get_setting (UgAppGtk* app, UgSetting* setting)
@@ -737,6 +740,37 @@ void	ug_app_show_message (UgAppGtk* app, GtkMessageType type, const gchar* messa
 	gtk_widget_show (dialog);
 }
 
+void	ug_app_window_close (UgAppGtk* app)
+{
+	switch (app->setting.ui.close_action)
+	{
+	default:
+	case 1:		// Minimize to tray.
+		gtk_window_iconify (app->window.self);
+		gtk_widget_hide ((GtkWidget*) app->window.self);
+		ug_app_trayicon_decide_visible (app);
+		break;
+
+	case 2:		// Exit.
+		ug_app_quit (app);
+		break;
+	}
+}
+
+void	ug_app_trayicon_decide_visible (UgAppGtk* app)
+{
+	gboolean	visible;
+
+	if (app->setting.ui.show_trayicon)
+		visible = TRUE;
+	else {
+		if (gtk_widget_get_visible ((GtkWidget*) app->window.self))
+			visible = FALSE;
+		else
+			visible = TRUE;
+	}
+	ug_trayicon_set_visible (&app->trayicon, visible);
+}
 
 // this function used by ug_app_menubar_sync_category()
 static void	on_move_download (GtkWidget* widget, UgAppGtk* app)
@@ -768,38 +802,6 @@ static void	on_move_download (GtkWidget* widget, UgAppGtk* app)
 	gtk_widget_queue_draw (app->cwidget.self);
 	gtk_widget_queue_draw (GTK_WIDGET (dwidget->view));
 	ug_summary_show (&app->summary, ug_download_widget_get_cursor (dwidget));
-}
-
-void	ug_app_window_close (UgAppGtk* app)
-{
-	switch (app->setting.ui.close_action)
-	{
-	default:
-	case 1:		// Minimize to tray.
-		gtk_window_iconify (app->window.self);
-		gtk_widget_hide ((GtkWidget*) app->window.self);
-		ug_app_trayicon_decide_visible (app);
-		break;
-
-	case 2:		// Exit.
-		ug_app_quit (app);
-		break;
-	}
-}
-
-void	ug_app_trayicon_decide_visible (UgAppGtk* app)
-{
-	gboolean	visible;
-
-	if (app->setting.ui.show_trayicon)
-		visible = TRUE;
-	else {
-		if (gtk_widget_get_visible ((GtkWidget*) app->window.self))
-			visible = FALSE;
-		else
-			visible = TRUE;
-	}
-	ug_trayicon_set_visible (&app->trayicon, visible);
 }
 
 void	ug_app_menubar_sync_category (UgAppGtk* app, gboolean reset)
@@ -992,5 +994,18 @@ void	ug_app_decide_category_sensitive (UgAppGtk* app)
 	}
 
 	ug_app_decide_download_sensitive (app);
+}
+
+void	ug_app_decide_bt_meta_sensitive (UgAppGtk* app)
+{
+	gboolean	sensitive;
+
+	sensitive = app->setting.plugin.aria2.enable;
+	gtk_widget_set_sensitive (app->trayicon.menu.create_metalink, sensitive);
+	gtk_widget_set_sensitive (app->trayicon.menu.create_torrent, sensitive);
+	gtk_widget_set_sensitive (app->toolbar.create_metalink, sensitive);
+	gtk_widget_set_sensitive (app->toolbar.create_torrent, sensitive);
+	gtk_widget_set_sensitive (app->menubar.file.create.metalink, sensitive);
+	gtk_widget_set_sensitive (app->menubar.file.create.torrent, sensitive);
 }
 

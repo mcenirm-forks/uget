@@ -205,6 +205,8 @@ static void	ug_plugin_aria2_finalize (UgPluginAria2* plugin)
 	ug_datalist_free (plugin->proxy);
 	ug_datalist_free (plugin->http);
 	ug_datalist_free (plugin->ftp);
+	// free filename
+	g_free (plugin->local_file);
 	// xmlrpc
 	ug_xmlrpc_finalize (&plugin->xmlrpc);
 	// others
@@ -306,7 +308,9 @@ static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpo
 static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 {
 	UgMessage*	message;
-	gchar*		string;
+	char*		string;
+	const char*	temp;
+	char		ext;
 	time_t		startingTime;
 	gboolean	redirection;
 
@@ -314,18 +318,17 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 	startingTime = time (NULL);
 	redirection  = TRUE;
 
-	if (plugin->common->url) {
-		if (ug_plugin_aria2_add_uri (plugin) == FALSE)
-			goto exit;
-	}
-	else if (plugin->common->file) {
-		string = strrchr (plugin->common->file, G_DIR_SEPARATOR);
-		if (string == NULL)
-			string = plugin->common->file;
-		// get filename extension
-		if ((string = strrchr (string, '.')) == NULL)
-			goto exit;
-		switch (string[1]) {
+	string = plugin->common->url;
+	if (strncmp (string, "file:", 5) == 0) {
+		string = g_filename_from_uri (string, NULL, NULL);
+		temp = strrchr (string, G_DIR_SEPARATOR);
+		if (temp == NULL)
+			temp = string;
+		temp = strrchr (temp, '.');
+		ext = temp ? temp[1] : 0;
+		plugin->local_file = string;
+
+		switch (ext) {
 		// torrent
 		case 'T':
 		case 't':
@@ -345,6 +348,10 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 			ug_plugin_post ((UgPlugin*) plugin, message);
 			goto exit;
 		}
+	}
+	else {
+		if (ug_plugin_aria2_add_uri (plugin) == FALSE)
+			goto exit;
 	}
 
 	for (;;) {
@@ -450,16 +457,23 @@ static gboolean	ug_plugin_aria2_add_torrent (UgPluginAria2* plugin)
 {
 	UgXmlrpcValue*		torrent;
 	UgXmlrpcValue*		options;
+	UgXmlrpcValue*		uris;
+	UgXmlrpcValue*		value;
 	UgXmlrpcResponse	response;
 
 	// options struct
 	options = ug_xmlrpc_value_new_struct (16);
 	ug_plugin_aria2_set_common (plugin, options);
 	ug_plugin_aria2_set_proxy (plugin, options);
+	// uri array
+	uris = ug_xmlrpc_value_new_array (1);
+	value = ug_xmlrpc_value_alloc (uris);
+	value->type = UG_XMLRPC_STRING;
+	value->c.string = "";
 	// torrent binary
 	torrent = ug_xmlrpc_value_new ();
 	torrent->type = UG_XMLRPC_BINARY;
-	torrent->c.binary = ug_load_binary (plugin->common->file, &torrent->len);
+	torrent->c.binary = ug_load_binary (plugin->local_file, &torrent->len);
 
 	if (torrent->c.binary == NULL)
 		response = UG_XMLRPC_ERROR;
@@ -467,7 +481,7 @@ static gboolean	ug_plugin_aria2_add_torrent (UgPluginAria2* plugin)
 		response = ug_xmlrpc_call (&plugin->xmlrpc,
 				"aria2.addTorrent",
 				UG_XMLRPC_BINARY, torrent,
-				UG_XMLRPC_NIL,    NULL,
+				UG_XMLRPC_ARRAY,  uris,
 				UG_XMLRPC_STRUCT, options,
 				UG_XMLRPC_NONE);
 	}
@@ -475,6 +489,7 @@ static gboolean	ug_plugin_aria2_add_torrent (UgPluginAria2* plugin)
 	g_free (torrent->c.binary);
 	ug_xmlrpc_value_free (torrent);
 	ug_xmlrpc_value_free (options);
+	ug_xmlrpc_value_free (uris);
 	// message
 	if (ug_plugin_aria2_response (plugin, response, "aria2.addTorrent") == FALSE)
 		return FALSE;
@@ -500,7 +515,7 @@ static gboolean	ug_plugin_aria2_add_metalink (UgPluginAria2* plugin)
 	// metalink binary
 	meta = ug_xmlrpc_value_new ();
 	meta->type = UG_XMLRPC_BINARY;
-	meta->c.binary = ug_load_binary (plugin->common->file, &meta->len);
+	meta->c.binary = ug_load_binary (plugin->local_file, &meta->len);
 
 	if (meta->c.binary == NULL)
 		response = UG_XMLRPC_ERROR;
@@ -521,6 +536,7 @@ static gboolean	ug_plugin_aria2_add_metalink (UgPluginAria2* plugin)
 
 	// get gid
 	meta = ug_xmlrpc_get_value (&plugin->xmlrpc);
+	meta = ug_xmlrpc_value_at (meta, 0);
 	plugin->gid = g_string_chunk_insert (plugin->chunk, meta->c.string);
 	return TRUE;
 }
@@ -664,9 +680,15 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	// uploadSpeed
 	value = ug_xmlrpc_value_find (progress, "uploadSpeed");
 	plugin->uploadSpeed = ug_xmlrpc_value_get_int (value);
+	// followedBy
+	value = ug_xmlrpc_value_find (progress, "followedBy");
+	if (value  &&  value->len > 0) {
+		keys = ug_xmlrpc_value_at (value, 0);
+		plugin->followedBy = g_string_chunk_insert (plugin->chunk, keys->c.string);
+	}
 	// files
 	value = ug_xmlrpc_value_find (progress, "files");
-	if (value  &&  value->len == 1  &&  plugin->followedBy == NULL) {
+	if (plugin->local_file == FALSE  &&  plugin->followedBy == NULL) {
 		keys = ug_xmlrpc_value_at (value, 0);
 		keys = ug_xmlrpc_value_find (keys, "path");		// UG_XMLRPC_STRUCT
 		if (keys  &&  g_strcmp0 (keys->c.string, plugin->path)) {
@@ -676,12 +698,6 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 			ug_plugin_post ((UgPlugin*) plugin,
 					ug_message_new_data (UG_MESSAGE_DATA_FILE_CHANGED, string));
 		}
-	}
-	// followedBy
-	value = ug_xmlrpc_value_find (progress, "followedBy");
-	if (value  &&  value->len > 0) {
-		keys = ug_xmlrpc_value_at (value, 0);
-		plugin->followedBy = g_string_chunk_insert (plugin->chunk, keys->c.string);
 	}
 
 	return TRUE;

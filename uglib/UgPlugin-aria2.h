@@ -75,6 +75,8 @@ struct UgPluginAria2
 	// temp
 	GString*		string;
 	GStringChunk*	chunk;
+	// torrent file or metalink file
+	gchar*			local_file;
 
 	// aria2 progress and status
 	gchar*			gid;

@@ -140,6 +140,8 @@ struct UgAppGtk
 
 			GtkWidget*		create_download;
 			GtkWidget*		create_clipboard;
+			GtkWidget*		create_torrent;
+			GtkWidget*		create_metalink;
 			GtkWidget*		settings;
 			GtkWidget*		about;
 			GtkWidget*		show_window;
@@ -181,6 +183,8 @@ struct UgAppGtk
 		GtkWidget*		create_category;
 		GtkWidget*		create_batch;
 		GtkWidget*		create_clipboard;
+		GtkWidget*		create_torrent;
+		GtkWidget*		create_metalink;
 
 		// GtkToolItem
 		GtkWidget*		save;
@@ -211,6 +215,8 @@ struct UgAppGtk
 				GtkWidget*	category;
 				GtkWidget*	batch;
 				GtkWidget*	from_clipboard;
+				GtkWidget*	torrent;
+				GtkWidget*	metalink;
 			} create;
 			// file.save
 			GtkWidget*	save;
@@ -357,6 +363,7 @@ void	ug_app_menubar_sync_category (UgAppGtk* app, gboolean reset);
 void	ug_app_reset_download_column (UgAppGtk* app);
 void	ug_app_decide_download_sensitive (UgAppGtk* app);
 void	ug_app_decide_category_sensitive (UgAppGtk* app);
+void	ug_app_decide_bt_meta_sensitive (UgAppGtk* app);
 
 // --------------------------------------------------------
 // aria2

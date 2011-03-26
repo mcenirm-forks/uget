@@ -165,33 +165,28 @@ UgPlugin*	ug_plugin_new_by_data	(UgDataset* dataset)
 {
 	const UgPluginInterface*	iface;
 	UgDataCommon*	common;
-	gchar*			string;
+	char*			string;
+	const char*		temp;
 
 	common = UG_DATASET_COMMON (dataset);
-	if (common == NULL)
+	if (common  &&  common->url == NULL)
 		return NULL;
-	iface = NULL;
-
-	if (common->url) {
-		string = g_uri_parse_scheme (common->url);
-		if (string) {
-			iface = ug_plugin_interface_find (string, "scheme.");
-			g_free (string);
-		}
+	string = g_uri_parse_scheme (common->url);
+	if (strcmp (string, "file") != 0)
+		iface = ug_plugin_interface_find (string, "scheme.");
+	else {
+		g_free (string);
+		string = g_filename_from_uri (common->url, NULL, NULL);
+		temp = strrchr (string, G_DIR_SEPARATOR);
+		if (temp == NULL)
+			temp = string;
+		temp = strrchr (temp, '.');
+		if (temp)
+			iface = ug_plugin_interface_find (temp + 1, "file.");
+		else
+			iface = NULL;
 	}
-	else if (common->file) {
-		// filename maybe contain folder
-		string = strrchr (common->file, G_DIR_SEPARATOR);
-		if (string == NULL)
-			string = common->file;
-		// get filename extension
-		string = strrchr (string, '.');
-		if (string) {
-			iface = ug_plugin_interface_find (string+1, "file.");
-		}
-	}
-	else
-		return NULL;
+	g_free (string);
 
 	if (iface)
 		return ug_plugin_new (iface, dataset);

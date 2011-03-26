@@ -111,6 +111,22 @@ static void ug_trayicon_init (struct UgTrayIcon* trayicon)
 
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
 
+	// New Torrent
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New Torrent..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	trayicon->menu.create_torrent = menu_item;
+
+	// New Metalink
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New Metalink..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	trayicon->menu.create_metalink = menu_item;
+
+	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
+
 	// Settings
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Settings..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_MENU);
@@ -278,6 +294,23 @@ static void ug_toolbar_init (struct UgToolbar* ugt, GtkAccelGroup* accel_group)
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	ugt->create_clipboard = menu_item;
 	gtk_widget_show_all (menu);
+
+	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
+
+	// New Torrent
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New Torrent..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	ugt->create_torrent = menu_item;
+	gtk_widget_show_all (menu);
+	// New Metalink
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New Metalink..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	ugt->create_metalink = menu_item;
+	gtk_widget_show_all (menu);
 	// New button --- end ---
 
 	tool_item = (GtkToolItem*) gtk_tool_button_new_from_stock (GTK_STOCK_SAVE);
@@ -381,6 +414,21 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
 	menubar->file.create.from_clipboard = menu_item;
+
+	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, gtk_separator_menu_item_new() );
+
+	// New - Torrent
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("Torrent..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	menubar->file.create.torrent = menu_item;
+	// New - Metalink
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("Metalink..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	menubar->file.create.metalink = menu_item;
 	// New --- end ---
 
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
