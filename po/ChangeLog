@@ -5,15 +5,15 @@
 	* tr.po: Turkish - Yiğit Ateş
 	* uk.po: Ukrainian - Сергій Дубик
 	* zh_CN.po: Simplified Chinese - Liu Hao
-	* zh_TW.po: Traditional Chinese - plushuang
+	* zh_TW.po: Traditional Chinese - C.H. Huang
 
 Former Translators:
 	* fr.po: French - Rémy HUBSCHER
 	* it.po: Italian - Michele Petrecca
 	* pl.po: Polish - Piotr Ozarowski
 	* ru.po: Russian - Pavlo Bohmat
-	* zh_TW.po: Traditional Chinese - plushuang
+	* zh_TW.po: Traditional Chinese - C.H. Huang
 ===============================================================================
 
-2009-07-28  plushuang
+2009-07-28  C.H. Huang
 	* po/fr.po, po/it.po, po/pl.po, po/ru.po, po/zh_CN.po: Remove fuzzy translation.

@@ -1,7 +1,7 @@
 static const char	uget_license[] =
 {
-" Copyright (C) 2005-2011 by plushuang"								"\n"
-" plushuang at users.sourceforge.net"									"\n"
+" Copyright (C) 2005-2011 by C.H. Huang"								"\n"
+" plushuang.tw@gmail.com"												"\n"
 																		"\n"
 "This library is free software; you can redistribute it and/or"			"\n"
 "modify it under the terms of the GNU Lesser General Public"			"\n"
@@ -58,7 +58,7 @@ static const char	uget_license[] =
 #define	UGET_URL_WEBSITE	"http://urlget.sourceforge.net/"
 
 // static data
-static const gchar*	uget_authors[] = { "plushuang  (\xE9\xBB\x83\xE6\xAD\xA3\xE9\x9B\x84)", NULL };
+static const gchar*	uget_authors[] = { "C.H. Huang  (\xE9\xBB\x83\xE6\xAD\xA3\xE9\x9B\x84)", NULL };
 static const gchar*	uget_artists[] =
 {
 	"Logo designer: Michael Tunnell (visuex.com)",
@@ -68,7 +68,7 @@ static const gchar*	uget_artists[] =
 };
 static const gchar*	uget_version   = UG_APP_GTK_VERSION;
 static const gchar*	uget_comments  = N_("Download Manager");
-static const gchar*	uget_copyright = "Copyright (C) 2005-2011 plushuang";
+static const gchar*	uget_copyright = "Copyright (C) 2005-2011 C.H. Huang";
 static const gchar*	translator_credits = N_("translator-credits");
 
 // static functions

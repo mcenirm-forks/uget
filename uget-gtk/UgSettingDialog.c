@@ -1,7 +1,7 @@
 /*
  *
- *   Copyright (C) 2005-2011 by plushuang
- *   plushuang at users.sourceforge.net
+ *   Copyright (C) 2005-2011 by C.H. Huang
+ *   plushuang.tw@gmail.com
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
