@@ -1248,6 +1248,7 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 // ----------------------------------------------------------------------------
 // UgTrayIcon
 //
+#ifndef HAVE_APP_INDICATOR
 static void	on_trayicon_activate (GtkStatusIcon* status_icon, UgAppGtk* app)
 {
 	if (gtk_widget_get_visible ((GtkWidget*) app->window.self) == TRUE) {
@@ -1269,13 +1270,10 @@ static void	on_trayicon_activate (GtkStatusIcon* status_icon, UgAppGtk* app)
 	// clear error status
 	if (app->trayicon.error_occurred) {
 		app->trayicon.error_occurred = FALSE;
-#ifndef HAVE_APP_INDICATOR
 		gtk_status_icon_set_from_icon_name (status_icon, UG_APP_GTK_ICON_NAME);
-#endif
 	}
 }
 
-#ifndef HAVE_APP_INDICATOR
 static void	on_trayicon_popup_menu (GtkStatusIcon* status_icon, guint button, guint activate_time, UgAppGtk* app)
 {
 	gtk_menu_set_screen ((GtkMenu*) app->trayicon.menu.self,
@@ -1293,6 +1291,18 @@ static void	on_trayicon_popup_menu (GtkStatusIcon* status_icon, guint button, gu
 #endif
 }
 #endif	// HAVE_APP_INDICATOR
+
+static void	on_trayicon_show_window (GtkWidget* widget, UgAppGtk* app)
+{
+	if (gtk_widget_get_visible ((GtkWidget*) app->window.self))
+		gtk_window_present (app->window.self);
+	else {
+		gtk_widget_show ((GtkWidget*) app->window.self);
+		gtk_window_deiconify (app->window.self);
+		gtk_window_present (app->window.self);
+		ug_app_trayicon_decide_visible (app);
+	}
+}
 
 // ----------------------------------------------------------------------------
 // UgWindow
@@ -1602,7 +1612,7 @@ static void ug_trayicon_init_callback (struct UgTrayIcon* icon, UgAppGtk* app)
 	g_signal_connect (icon->menu.settings, "activate",
 			G_CALLBACK (on_config_settings), app);
 	g_signal_connect (icon->menu.show_window, "activate",
-			G_CALLBACK (on_trayicon_activate), app);
+			G_CALLBACK (on_trayicon_show_window), app);
 	g_signal_connect (icon->menu.offline_mode, "toggled",
 			G_CALLBACK (on_offline_mode), app);
 	g_signal_connect (icon->menu.about, "activate",

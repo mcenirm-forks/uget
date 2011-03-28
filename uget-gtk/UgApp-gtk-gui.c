@@ -141,8 +141,8 @@ static void ug_trayicon_init (struct UgTrayIcon* trayicon)
 
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
 
-	// Show/Hide window
-	menu_item = gtk_menu_item_new_with_mnemonic (_("Show/Hide window"));
+	// Show window
+	menu_item = gtk_menu_item_new_with_mnemonic (_("Show window"));
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	trayicon->menu.show_window = menu_item;
 

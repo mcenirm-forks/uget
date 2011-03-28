@@ -472,8 +472,8 @@ void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gdouble 
 			n_active, _("downloading"),
 			string_speed);
 #ifdef HAVE_APP_INDICATOR
-	g_object_set (trayicon->indicator, "icon-desc", string, NULL);
-	g_object_set (trayicon->indicator, "attention-icon-desc", string, NULL);
+//	g_object_set (trayicon->indicator, "icon-desc", string, NULL);
+//	g_object_set (trayicon->indicator, "attention-icon-desc", string, NULL);
 #else
 	gtk_status_icon_set_tooltip_text (trayicon->self, string);
 #endif
