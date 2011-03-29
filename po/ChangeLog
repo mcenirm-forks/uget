@@ -1,7 +1,7 @@
 ﻿Current Translators:
 	* de.po: German - Alexander Haeussler
 	* es.po: Spanish - Victor Emmanuel
-	* ru.po: Russian - Гранкин Александр
+	* ru.po: Russian - Grankin Aleksandr
 	* tr.po: Turkish - Yiğit Ateş
 	* uk.po: Ukrainian - Сергій Дубик
 	* zh_CN.po: Simplified Chinese - Liu Hao
@@ -13,7 +13,4 @@ Former Translators:
 	* pl.po: Polish - Piotr Ozarowski
 	* ru.po: Russian - Pavlo Bohmat
 	* zh_TW.po: Traditional Chinese - C.H. Huang
-===============================================================================
 
-2009-07-28  C.H. Huang
-	* po/fr.po, po/it.po, po/pl.po, po/ru.po, po/zh_CN.po: Remove fuzzy translation.

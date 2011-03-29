@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: uget-1.5.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-28 19:34+0800\n"
-"PO-Revision-Date: 2010-10-31 21:14+0300\n"
+"PO-Revision-Date: 2011-03-27 23:49+0300\n"
 "Last-Translator: neur0n <cobalt25@mail.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -38,13 +38,15 @@ msgid "Download completed"
 msgstr "Закачка завершена"
 
 #. UG_MESSAGE_INFO_COMPLETE,
-#: ../../po/../uglib/UgMessage.c:56 ../../po/../uget-gtk/UgCategoryWidget.c:45
+#: ../../po/../uglib/UgMessage.c:56
+#: ../../po/../uget-gtk/UgCategoryWidget.c:45
 msgid "Finished"
 msgstr "Завершено"
 
 #. UG_MESSAGE_INFO_FINISH,
 #. resumable
-#: ../../po/../uglib/UgMessage.c:58 ../../po/../uglib/UgRunning.c:298
+#: ../../po/../uglib/UgMessage.c:58
+#: ../../po/../uglib/UgRunning.c:298
 msgid "Resumable"
 msgstr "Возобновляемо"
 
@@ -115,10 +117,9 @@ msgstr "Слишком много перенаправлений."
 
 #: ../../po/../uglib/UgRunning.c:84
 msgid "No plug-in support this scheme or file."
-msgstr ""
+msgstr "Нет приложения для поддержки этой схемы или файла."
 
 #: ../../po/../uglib/UgRunning.c:304
-#, fuzzy
 msgid "Not resumable"
 msgstr "Не возобновляемо"
 
@@ -213,7 +214,7 @@ msgstr "Все"
 
 #: ../../po/../uget-gtk/UgCategoryWidget.c:43
 msgid "Active"
-msgstr ""
+msgstr "Активно"
 
 #: ../../po/../uget-gtk/UgCategoryWidget.c:44
 msgid "Queuing"
@@ -221,7 +222,7 @@ msgstr "Очередь"
 
 #: ../../po/../uget-gtk/UgCategoryWidget.c:46
 msgid "Recycled"
-msgstr "Удаленные"
+msgstr "Удалено"
 
 #. Summary Items - Category
 #. Download Columns - Category
@@ -229,7 +230,8 @@ msgstr "Удаленные"
 #: ../../po/../uget-gtk/UgCategoryWidget.c:415
 #: ../../po/../uget-gtk/UgDownloadDialog.c:202
 #: ../../po/../uget-gtk/UgDownloadWidget.c:591
-#: ../../po/../uget-gtk/UgSummary.c:129 ../../po/../uget-gtk/UgetGtk-gui.c:442
+#: ../../po/../uget-gtk/UgSummary.c:129
+#: ../../po/../uget-gtk/UgetGtk-gui.c:442
 #: ../../po/../uget-gtk/UgetGtk-gui.c:470
 #: ../../po/../uget-gtk/UgetGtk-gui.c:540
 msgid "Category"
@@ -265,7 +267,7 @@ msgstr "Выбрать каталог"
 #. "Referrer" label & entry
 #: ../../po/../uget-gtk/UgDownloadForm.c:155
 msgid "Referrer:"
-msgstr "Регистрация:"
+msgstr "Источник перехода:"
 
 #. ----------------------------------------------------
 #. frame for Status (start mode)
@@ -337,7 +339,7 @@ msgstr "Сообщение:"
 #: ../../po/../uget-gtk/UgDownloadForm.c:278
 #: ../../po/../uget-gtk/UgDownloadForm.c:772
 msgid "Select Post File"
-msgstr ""
+msgstr "Выберите Post-файл"
 
 #: ../../po/../uget-gtk/UgDownloadWidget.c:249
 msgid "unnamed"
@@ -375,7 +377,8 @@ msgid "Speed"
 msgstr "Скорость"
 
 #: ../../po/../uget-gtk/UgDownloadWidget.c:605
-#: ../../po/../uget-gtk/UgSelector.c:478 ../../po/../uget-gtk/UgSummary.c:140
+#: ../../po/../uget-gtk/UgSelector.c:478
+#: ../../po/../uget-gtk/UgSummary.c:140
 msgid "URL"
 msgstr "Адрес"
 
@@ -404,11 +407,11 @@ msgstr "Порт:"
 
 #: ../../po/../uget-gtk/UgProxyForm.c:329
 msgid "Socket:"
-msgstr ""
+msgstr "Сокет:"
 
 #: ../../po/../uget-gtk/UgProxyForm.c:350
 msgid "Element:"
-msgstr ""
+msgstr "Элемент:"
 
 #: ../../po/../uget-gtk/UgSelector.c:97
 msgid "Base hypertext reference"
@@ -518,9 +521,8 @@ msgid "Download starting notification"
 msgstr "Уведомление при запуске загрузки"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:162
-#, fuzzy
 msgid "Sound when download is finished"
-msgstr "Закачка завершена"
+msgstr "Звуковое уведомление по окончании"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:217
 msgid "_Launch default application for specified file types:"
@@ -550,7 +552,8 @@ msgstr "Файл"
 msgid "Folder"
 msgstr "Каталог"
 
-#: ../../po/../uget-gtk/UgSummary.c:162 ../../po/../uget-gtk/UgetGtk.c:620
+#: ../../po/../uget-gtk/UgSummary.c:162
+#: ../../po/../uget-gtk/UgetGtk.c:620
 msgid "Message"
 msgstr "Сообщение"
 
@@ -600,7 +603,7 @@ msgstr "Вы уверены, что хотите удалить файлы?"
 
 #: ../../po/../uget-gtk/UgetGtk.c:571
 msgid "Do not ask me again"
-msgstr ""
+msgstr "Не спрашивать более"
 
 #: ../../po/../uget-gtk/UgetGtk.c:613
 #: ../../po/../uget-gtk/UgetGtk-callback.c:429
@@ -826,9 +829,8 @@ msgid "_Clipboard Option..."
 msgstr "Параметры _буфера обмена..."
 
 #: ../../po/../uget-gtk/UgetGtk-gui.c:414
-#, fuzzy
 msgid "Shutdown when downloads complete"
-msgstr "Закачка завершена"
+msgstr "Выключить компьютер по завершении всех закачек"
 
 #: ../../po/../uget-gtk/UgetGtk-gui.c:428
 msgid "_View"
@@ -962,7 +964,7 @@ msgstr "Командная строка"
 
 #: ../../po/../uget-gtk/UgetGtk-timeout.c:662
 msgid "Download Starting"
-msgstr "Зачка запущена"
+msgstr "Закачка запущена"
 
 #: ../../po/../uget-gtk/UgetGtk-timeout.c:663
 msgid "Starting download queue."
@@ -974,73 +976,52 @@ msgstr "Закачка завершена"
 
 #: ../../po/../uget-gtk/UgetGtk-timeout.c:665
 msgid "All queuing downloads have been completed."
-msgstr "Все очереди загрузки были завершены"
+msgstr "Все очереди загрузки были завершены."
 
 #~ msgid "Type:"
 #~ msgstr "Тип:"
-
 #~ msgid "C_ategory"
 #~ msgstr "К_атегория"
-
 #~ msgid "Can't open selected file. Permission denied?"
 #~ msgstr "Не могу открыть выбранный файл. Доступ запрещен?"
-
 #~ msgid "Capacity of Completed:"
 #~ msgstr "Количество завершенных:"
-
 #~ msgid "Category _Tree"
 #~ msgstr "Дерево категорий"
-
 #~ msgid "Choose _file..."
 #~ msgstr "Выбрать _файл..."
-
 #~ msgid "Completed"
 #~ msgstr "Завершенные"
-
 #~ msgid "Download _Rules Hint"
 #~ msgstr "Подсказка для правил закачки"
-
 #~ msgid "Export URLs to file"
 #~ msgstr "Экспорт адресов в файл"
-
 #~ msgid "Home"
 #~ msgstr "Дом"
-
 #~ msgid "Import from text file"
 #~ msgstr "Импорт из текстового файла"
-
 #~ msgid "No URL marked."
 #~ msgstr "Нет отмеченных адресов."
-
 #~ msgid "No category selected."
 #~ msgstr "Не выбрана категория."
-
 #~ msgid "Select a category or it's child to export"
 #~ msgstr "Выберите категорию или поток для экспорта"
-
 #~ msgid "Spee_d"
 #~ msgstr "Скорост_ь"
-
 #~ msgid "Status _Bar"
 #~ msgstr "Панель статуса"
-
 #~ msgid "This will export URLs to text file."
 #~ msgstr "Адреса будут экспортированы в текстовый файл."
-
 #~ msgid "Total"
 #~ msgstr "Общий"
-
 #~ msgid "Total _List"
 #~ msgstr "Общий _список"
-
 #~ msgid "_All"
 #~ msgstr "_Все"
-
 #~ msgid "_None"
 #~ msgstr "_Никакой"
-
 #~ msgid "counts"
 #~ msgstr "раз"
-
 #~ msgid "seconds"
 #~ msgstr "секунд"
+
