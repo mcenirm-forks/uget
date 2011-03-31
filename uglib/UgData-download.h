@@ -242,10 +242,13 @@ struct UgProgress
 	gint64		complete;
 	gint64		total;
 	gdouble		percent;
-	gdouble		upload_speed;
 	gdouble		download_speed;
 	gdouble		consume_time;		// Elapsed	(seconds)
 	gdouble		remain_time;		// Left		(seconds)
+
+	gdouble		upload_speed;		// torrent
+	gint64		uploaded;			// torrent
+	gdouble		ratio;				// torrent
 
 //	guint		n_segments;			// 1 segment = 1 offset + 1 length
 //	gint64*		segments;			// offset1, length1, offset2, length2

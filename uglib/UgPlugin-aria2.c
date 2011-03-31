@@ -288,8 +288,14 @@ static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpo
 	progress->download_speed = (gdouble) plugin->downloadSpeed;
 	progress->upload_speed = (gdouble) plugin->uploadSpeed;
 	progress->complete = plugin->completedLength;
+	progress->uploaded = plugin->uploadLength;
 	progress->total = plugin->totalLength;
 	progress->consume_time = plugin->consumeTime;
+	// ratio
+	if (progress->uploaded && progress->complete)
+		progress->ratio = (double)progress->uploaded / (double)progress->complete;
+	else
+		progress->ratio = 0.0;
 	// If total size is unknown, don't calculate percent.
 	if (progress->total)
 		progress->percent = (gdouble) (progress->complete * 100 / progress->total);
@@ -594,7 +600,7 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	gchar*				string;
 
 	// set keys array
-	keys = ug_xmlrpc_value_new_array (5);
+	keys = ug_xmlrpc_value_new_array (16);
 	value = ug_xmlrpc_value_alloc (keys);
 	value->type = UG_XMLRPC_STRING;
 	value->c.string = "status";
@@ -604,6 +610,9 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	value = ug_xmlrpc_value_alloc (keys);
 	value->type = UG_XMLRPC_STRING;
 	value->c.string = "completedLength";
+	value = ug_xmlrpc_value_alloc (keys);
+	value->type = UG_XMLRPC_STRING;
+	value->c.string = "uploadLength";
 	value = ug_xmlrpc_value_alloc (keys);
 	value->type = UG_XMLRPC_STRING;
 	value->c.string = "downloadSpeed";
@@ -674,6 +683,9 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	// completedLength
 	value = ug_xmlrpc_value_find (progress, "completedLength");
 	plugin->completedLength = ug_xmlrpc_value_get_int64 (value);
+	// uploadLength
+	value = ug_xmlrpc_value_find (progress, "uploadLength");
+	plugin->uploadLength = ug_xmlrpc_value_get_int64 (value);
 	// downloadSpeed
 	value = ug_xmlrpc_value_find (progress, "downloadSpeed");
 	plugin->downloadSpeed = ug_xmlrpc_value_get_int (value);

@@ -58,6 +58,8 @@ static const UgDataEntry	ug_download_column_setting_entry[] =
 	{"left",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, left),			UG_DATA_INT,	NULL,	NULL},
 	{"speed",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, speed),		UG_DATA_INT,	NULL,	NULL},
 	{"UpSpeed",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, up_speed),		UG_DATA_INT,	NULL,	NULL},
+	{"uploaded",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, uploaded),		UG_DATA_INT,	NULL,	NULL},
+	{"ratio",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, ratio),		UG_DATA_INT,	NULL,	NULL},
 	{"retry",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, retry),		UG_DATA_INT,	NULL,	NULL},
 	{"category",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, category),		UG_DATA_INT,	NULL,	NULL},
 	{"URL",			G_STRUCT_OFFSET (struct UgDownloadColumnSetting, url),			UG_DATA_INT,	NULL,	NULL},

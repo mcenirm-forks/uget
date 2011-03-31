@@ -264,7 +264,9 @@ struct UgAppGtk
 				GtkWidget*	elapsed;	// consuming time
 				GtkWidget*	left;		// remaining time
 				GtkWidget*	speed;
-				GtkWidget*	up_speed;
+				GtkWidget*	up_speed;	// torrent
+				GtkWidget*	uploaded;	// torrent
+				GtkWidget*	ratio;		// torrent
 				GtkWidget*	retry;
 				GtkWidget*	category;
 				GtkWidget*	url;

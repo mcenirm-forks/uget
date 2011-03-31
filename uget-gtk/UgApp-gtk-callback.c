@@ -1187,6 +1187,14 @@ void	on_change_visible_column (GtkWidget* widget, UgAppGtk* app)
 		column_index = UG_DOWNLOAD_COLUMN_UPLOAD_SPEED;
 		setting->up_speed = visible;
 	}
+	else if (widget == app->menubar.view.columns.uploaded) {
+		column_index = UG_DOWNLOAD_COLUMN_UPLOADED;
+		setting->uploaded = visible;
+	}
+	else if (widget == app->menubar.view.columns.ratio) {
+		column_index = UG_DOWNLOAD_COLUMN_RATIO;
+		setting->ratio = visible;
+	}
 	else if (widget == app->menubar.view.columns.retry) {
 		column_index = UG_DOWNLOAD_COLUMN_RETRY;
 		setting->retry = visible;
@@ -1737,6 +1745,10 @@ static void ug_menubar_init_callback (struct UgMenubar* menubar, UgAppGtk* app)
 	g_signal_connect (menubar->view.columns.speed, "toggled",
 			G_CALLBACK (on_change_visible_column), app);
 	g_signal_connect (menubar->view.columns.up_speed, "toggled",
+			G_CALLBACK (on_change_visible_column), app);
+	g_signal_connect (menubar->view.columns.uploaded, "toggled",
+			G_CALLBACK (on_change_visible_column), app);
+	g_signal_connect (menubar->view.columns.ratio, "toggled",
 			G_CALLBACK (on_change_visible_column), app);
 	g_signal_connect (menubar->view.columns.retry, "toggled",
 			G_CALLBACK (on_change_visible_column), app);

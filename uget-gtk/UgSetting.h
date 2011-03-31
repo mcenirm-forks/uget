@@ -88,6 +88,8 @@ struct UgSetting
 		gboolean	left;			// remaining time
 		gboolean	speed;
 		gboolean	up_speed;
+		gboolean	uploaded;
+		gboolean	ratio;
 		gboolean	retry;
 		gboolean	category;
 		gboolean	url;

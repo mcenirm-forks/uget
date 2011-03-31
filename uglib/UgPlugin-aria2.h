@@ -86,6 +86,7 @@ struct UgPluginAria2
 	guint			aria2Status;
 	gint64			totalLength;
 	gint64			completedLength;
+	gint64			uploadLength;
 	gint			downloadSpeed;
 	gint			uploadSpeed;
 	gdouble			consumeTime;

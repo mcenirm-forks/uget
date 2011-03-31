@@ -56,6 +56,8 @@ static void	on_elapsed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeVie
 static void	on_left_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
 static void	on_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
 static void	on_upload_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
+static void	on_uploaded_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
+static void	on_ratio_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
 static void	on_retry_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
 static void	on_category_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
 static void	on_url_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
@@ -158,6 +160,16 @@ void	ug_download_widget_use_sortable (UgDownloadWidget* dwidget, GtkTreeModel* m
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
 			G_CALLBACK (on_upload_speed_column_clicked), dwidget->view);
+	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_UPLOADED
+	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_UPLOADED);
+	gtk_tree_view_column_set_clickable (column, TRUE);
+	g_signal_connect (column, "clicked",
+			G_CALLBACK (on_uploaded_column_clicked), dwidget->view);
+	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_RATIO
+	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_RATIO);
+	gtk_tree_view_column_set_clickable (column, TRUE);
+	g_signal_connect (column, "clicked",
+			G_CALLBACK (on_ratio_column_clicked), dwidget->view);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_RETRY
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_RETRY);
 	gtk_tree_view_column_set_clickable (column, TRUE);
@@ -507,6 +519,54 @@ static void col_set_upload_speed (GtkTreeViewColumn *tree_column,
 	g_free (string);
 }
 
+static void col_set_uploaded (GtkTreeViewColumn *tree_column,
+                           GtkCellRenderer   *cell,
+                           GtkTreeModel      *model,
+                           GtkTreeIter       *iter,
+                           gpointer           data)
+{
+	UgDataset*	dataset;
+	UgRelation*	relation;
+	UgProgress*	progress;
+	gchar*		string;
+
+	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	progress = UG_DATASET_PROGRESS (dataset);
+	relation = UG_DATASET_RELATION (dataset);
+
+	if (progress && relation && relation->plugin && progress->uploaded)
+		string = ug_str_dtoa_unit ((gdouble) progress->uploaded, 1, NULL);
+	else
+		string = NULL;
+
+	g_object_set (cell, "text", string, NULL);
+	g_free (string);
+}
+
+static void col_set_ratio (GtkTreeViewColumn *tree_column,
+                           GtkCellRenderer   *cell,
+                           GtkTreeModel      *model,
+                           GtkTreeIter       *iter,
+                           gpointer           data)
+{
+	UgDataset*	dataset;
+	UgRelation*	relation;
+	UgProgress*	progress;
+	gchar*		string;
+
+	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	progress = UG_DATASET_PROGRESS (dataset);
+	relation = UG_DATASET_RELATION (dataset);
+
+	if (progress && relation && relation->plugin && progress->ratio)
+		string = g_strdup_printf ("%.*f", 2, progress->ratio);
+	else
+		string = NULL;
+
+	g_object_set (cell, "text", string, NULL);
+	g_free (string);
+}
+
 static void col_set_retry (GtkTreeViewColumn *tree_column,
                            GtkCellRenderer   *cell,
                            GtkTreeModel      *model,
@@ -729,6 +789,34 @@ GtkTreeView*	ug_download_view_new (void)
 	                                         NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_column_set_min_width (column, 90);
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_alignment (column, 1.0);
+	gtk_tree_view_append_column (tview, column);
+
+	// columns uploaded
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_title (column, _("Uploaded"));
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_column_set_cell_data_func (column,
+	                                         renderer,
+	                                         col_set_uploaded,
+	                                         NULL, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
+	gtk_tree_view_column_set_min_width (column, 80);
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_alignment (column, 1.0);
+	gtk_tree_view_append_column (tview, column);
+
+	// columns ratio
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_title (column, _("Ratio"));
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_column_set_cell_data_func (column,
+	                                         renderer,
+	                                         col_set_ratio,
+	                                         NULL, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
+	gtk_tree_view_column_set_min_width (column, 40);
 	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_column_set_alignment (column, 1.0);
 	gtk_tree_view_append_column (tview, column);
@@ -1089,6 +1177,64 @@ static gint	ug_download_model_cmp_upload_speed (GtkTreeModel* model, GtkTreeIter
 		return (gint) (speed2 - speed1);
 }
 
+static gint	ug_download_model_cmp_uploaded (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
+{
+	UgDataset*	dataset;
+	UgProgress*	progress;
+	gint64		uploaded1;
+	gint64		uploaded2;
+
+	uploaded1 = 0;
+	gtk_tree_model_get (model, a, 0, &dataset, -1);
+	if (dataset) {
+		progress = UG_DATASET_PROGRESS (dataset);
+		if (progress)
+			uploaded1 = progress->uploaded;
+	}
+
+	uploaded2 = 0;
+	gtk_tree_model_get (model, b, 0, &dataset, -1);
+	if (dataset) {
+		progress = UG_DATASET_PROGRESS (dataset);
+		if (progress)
+			uploaded2 = progress->uploaded;
+	}
+
+	if (user_data == NULL)
+		return (gint) (uploaded1 - uploaded2);
+	else
+		return (gint) (uploaded2 - uploaded1);
+}
+
+static gint	ug_download_model_cmp_ratio (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
+{
+	UgDataset*	dataset;
+	UgProgress*	progress;
+	gdouble		ratio1;
+	gdouble		ratio2;
+
+	ratio1 = 0;
+	gtk_tree_model_get (model, a, 0, &dataset, -1);
+	if (dataset) {
+		progress = UG_DATASET_PROGRESS (dataset);
+		if (progress)
+			ratio1 = progress->ratio;
+	}
+
+	ratio2 = 0;
+	gtk_tree_model_get (model, b, 0, &dataset, -1);
+	if (dataset) {
+		progress = UG_DATASET_PROGRESS (dataset);
+		if (progress)
+			ratio2 = progress->ratio;
+	}
+
+	if (user_data == NULL)
+		return (gint) (ratio1 - ratio2);
+	else
+		return (gint) (ratio2 - ratio1);
+}
+
 static gint	ug_download_model_cmp_retry (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*		dataset;
@@ -1299,6 +1445,16 @@ static void	on_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView*
 static void	on_upload_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
 {
 	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_upload_speed);
+}
+
+static void	on_uploaded_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+{
+	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_uploaded);
+}
+
+static void	on_ratio_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+{
+	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_ratio);
 }
 
 static void	on_retry_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)

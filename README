@@ -1,6 +1,9 @@
-﻿uGet 1.7.3 (developing)
+﻿uGet 1.7.4 (developing)
 
-This version requires GTK+ version 2.18+
+This version requires GTK+ version 2.18+ or 3.0+
+
+What's new since 1.7.3:
+1. create new download from Torrent and Metalink file.
 
 What's new since 1.7.2:
 1. support for application indicator.
