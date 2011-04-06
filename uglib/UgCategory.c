@@ -681,12 +681,13 @@ static void	ug_relation_finalize (UgRelation* relation)
 static void	ug_relation_assign (UgRelation* relation, UgRelation* src)
 {
 	// hints
-//	if (src->hints & UG_HINT_PAUSED) {
-//		relation->hints |=  UG_HINT_PAUSED;
-//		relation->hints &= ~UG_HINT_DOWNLOADING;
-//	}
-//	else
-//		relation->hints &= ~UG_HINT_PAUSED;
+	// used by UgDownloadDialog
+	if (src->hints & UG_HINT_PAUSED) {
+		relation->hints |=  UG_HINT_PAUSED;
+		relation->hints &= ~UG_HINT_ACTIVE;
+	}
+	else
+		relation->hints &= ~UG_HINT_PAUSED;
 
 	// attachment
 	if (relation->attached.stamp != src->attached.stamp) {
