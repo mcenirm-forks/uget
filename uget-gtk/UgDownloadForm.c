@@ -492,8 +492,12 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		}
 	}
 	if (keep_changed==FALSE || dform->changed.folder==FALSE) {
+		g_signal_handlers_block_by_func (GTK_EDITABLE (dform->folder_entry),
+				on_entry_changed, dform);
 		gtk_entry_set_text ((GtkEntry*) dform->folder_entry,
 				(common && common->folder) ? common->folder : "");
+		g_signal_handlers_unblock_by_func (GTK_EDITABLE (dform->folder_entry),
+				on_entry_changed, dform);
 	}
 	if (keep_changed==FALSE || dform->changed.user==FALSE) {
 		gtk_entry_set_text ((GtkEntry*) dform->username_entry,
@@ -591,11 +595,15 @@ void	ug_download_form_set_folder_list (UgDownloadForm* dform, GList* folder_list
 	GtkComboBoxText*	combo;
 
 	dform->changed.enable = FALSE;
+	g_signal_handlers_block_by_func (GTK_EDITABLE (dform->folder_entry),
+			on_entry_changed, dform);
 	combo = GTK_COMBO_BOX_TEXT (dform->folder_combo);
 	for (;  folder_list;  folder_list = folder_list->next)
 		gtk_combo_box_text_append_text (combo, folder_list->data);
 	// set default folder
 	gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
+	g_signal_handlers_unblock_by_func (GTK_EDITABLE (dform->folder_entry),
+			on_entry_changed, dform);
 	dform->changed.enable = TRUE;
 }
 
