@@ -171,7 +171,10 @@ UgPlugin*	ug_plugin_new_by_data	(UgDataset* dataset)
 	common = UG_DATASET_COMMON (dataset);
 	if (common  &&  common->url == NULL)
 		return NULL;
+
 	string = g_uri_parse_scheme (common->url);
+	if (string == NULL)
+		return NULL;
 	if (strcmp (string, "file") != 0)
 		iface = ug_plugin_interface_find (string, "scheme.");
 	else {
