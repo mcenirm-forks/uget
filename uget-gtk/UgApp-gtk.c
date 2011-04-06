@@ -458,7 +458,7 @@ void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gdouble 
 						APP_INDICATOR_STATUS_ACTIVE);
 			}
 			else {
-				g_object_set (trayicon->indicator, "attention-icon", string, NULL);
+				app_indicator_set_attention_icon (trayicon->indicator, string);
 //				app_indicator_set_attention_icon_full (trayicon->indicator,
 //						string, "attention");
 				app_indicator_set_status (trayicon->indicator,

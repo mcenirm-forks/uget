@@ -820,8 +820,10 @@ static void	on_import_html_file_response (GtkWidget* dialog, gint response, UgAp
 	ug_download_dialog_set_category (ddialog, &app->cwidget);
 	ug_download_dialog_use_selector (ddialog);
 	// set <base href>
-	gtk_entry_set_text (ddialog->selector.href_entry, string);
-	g_free (string);
+	if (string) {
+		gtk_entry_set_text (ddialog->selector.href_entry, string);
+		g_free (string);
+	}
 	// add link
 	page = ug_selector_add_page (&ddialog->selector, _("Link <A>"));
 	ug_selector_page_add_uris (page, filter_a->attr_values);
@@ -1666,6 +1668,7 @@ static void ug_toolbar_init_callback (struct UgToolbar* toolbar, UgAppGtk* app)
 	g_signal_connect (toolbar->move_top, "clicked",
 			G_CALLBACK (on_move_download_to_top), app);
 	g_signal_connect (toolbar->move_bottom, "clicked",
+
 			G_CALLBACK (on_move_download_to_bottom), app);
 }
 
