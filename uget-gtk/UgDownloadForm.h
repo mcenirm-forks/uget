@@ -103,7 +103,8 @@ struct UgDownloadForm
 //	GtkWidget*	post_label;
 	GtkWidget*	post_entry;
 
-	GtkSpinButton*	spin_speed;
+	GtkSpinButton*	spin_download_speed;
+	GtkSpinButton*	spin_upload_speed;
 
 	// ----------------------------------------------------
 	// User changed entry
@@ -122,7 +123,8 @@ struct UgDownloadForm
 		gboolean	retry:1;	// spin_retry
 		gboolean	delay:1;	// spin_delay
 		gboolean	connections:1;	// spin_connections
-		gboolean	speed:1;	// spin_speed
+		gboolean	max_upload_speed:1;		// spin_upload_speed
+		gboolean	max_download_speed:1;	// spin_download_speed
 	} changed;
 
 	// ----------------------------------------------------

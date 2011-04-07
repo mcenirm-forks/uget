@@ -319,14 +319,14 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 	GtkWidget*	widget;
 	GtkTable*	table;
 
-	dform->page2 = gtk_table_new (7, 3, FALSE);
+	dform->page2 = gtk_table_new (7, 4, FALSE);
 	table = (GtkTable*) dform->page2;
 	gtk_container_set_border_width (GTK_CONTAINER (table), 2);
 
 	// label - cookie file
 	widget = gtk_label_new (_("Cookie file:"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_table_attach (table, widget, 3, 4, 0, 1,
+	gtk_table_attach (table, widget, 0, 1, 0, 1,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
 //	dform->cookie_label = widget;
 	// entry - cookie file
@@ -336,7 +336,7 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 			GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_FILE);
 	gtk_entry_set_icon_tooltip_text (GTK_ENTRY (widget),
 			GTK_ENTRY_ICON_SECONDARY, _("Select Cookie File"));
-	gtk_table_attach (table, widget, 4, 6, 0, 1,
+	gtk_table_attach (table, widget, 1, 4, 0, 1,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
 	g_signal_connect (widget, "icon-release",
 			G_CALLBACK (on_select_cookie), dform);
@@ -346,7 +346,7 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 	// label - post file
 	widget = gtk_label_new (_("Post file:"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_table_attach (table, widget, 3, 4, 1, 2,
+	gtk_table_attach (table, widget, 0, 1, 1, 2,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
 //	dform->post_label = widget;
 	// entry - post file
@@ -356,7 +356,7 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 			GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_FILE);
 	gtk_entry_set_icon_tooltip_text (GTK_ENTRY (widget),
 			GTK_ENTRY_ICON_SECONDARY, _("Select Post File"));
-	gtk_table_attach (table, widget, 4, 6, 1, 2,
+	gtk_table_attach (table, widget, 1, 4, 1, 2,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
 	g_signal_connect (widget, "icon-release",
 			G_CALLBACK (on_select_post), dform);
@@ -364,20 +364,36 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 			G_CALLBACK (on_http_entry_changed), dform);
 	dform->post_entry = widget;
 
-	// label - Speed limit
-	widget = gtk_label_new (_("Speed limit:"));
-	gtk_table_attach (table, widget, 3, 4, 2, 3,
+	// label - Max upload speed
+	widget = gtk_label_new (_("Max upload speed:"));
+	gtk_table_attach (table, widget, 0, 2, 2, 3,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
-	// spin - Speed limit
+	// spin - Max upload speed
 	widget = gtk_spin_button_new_with_range (0, 99999999, 1);
 	gtk_entry_set_width_chars (GTK_ENTRY (widget), 8);
-	gtk_table_attach (table, widget, 4, 5, 2, 3,
+	gtk_table_attach (table, widget, 2, 3, 2, 3,
 			GTK_FILL, GTK_SHRINK, 1, 1);
-	dform->spin_speed = (GtkSpinButton*) widget;
+	dform->spin_upload_speed = (GtkSpinButton*) widget;
 	// label - "KiB/s"
 	widget = gtk_label_new ("KiB/s");
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_table_attach (table, widget, 5, 6, 2, 3,
+	gtk_table_attach (table, widget, 3, 4, 2, 3,
+			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 2, 2);
+
+	// label - Max download speed
+	widget = gtk_label_new (_("Max download speed:"));
+	gtk_table_attach (table, widget, 0, 2, 3, 4,
+			GTK_SHRINK, GTK_SHRINK, 2, 1);
+	// spin - Max download speed
+	widget = gtk_spin_button_new_with_range (0, 99999999, 1);
+	gtk_entry_set_width_chars (GTK_ENTRY (widget), 8);
+	gtk_table_attach (table, widget, 2, 3, 3, 4,
+			GTK_FILL, GTK_SHRINK, 1, 1);
+	dform->spin_download_speed = (GtkSpinButton*) widget;
+	// label - "KiB/s"
+	widget = gtk_label_new ("KiB/s");
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
+	gtk_table_attach (table, widget, 3, 4, 3, 4,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 2, 2);
 }
 
@@ -396,8 +412,8 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	ug_str_set (&common->password, gtk_entry_get_text ((GtkEntry*)dform->password_entry), -1);
 	common->retry_limit = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_retry);
 	common->retry_delay = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_delay);
-	common->max_download_speed = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_speed) * 1024;
-	common->max_upload_speed = common->max_download_speed;
+	common->max_upload_speed   = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_upload_speed) * 1024;
+	common->max_download_speed = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_download_speed) * 1024;
 	common->max_connections = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_connections);
 
 	if (gtk_widget_is_sensitive (dform->url_entry) == TRUE) {
@@ -473,7 +489,8 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		dform->changed.password = common->keeping.password;
 		dform->changed.retry    = common->keeping.retry_limit;
 		dform->changed.delay    = common->keeping.retry_delay;
-		dform->changed.speed    = common->keeping.max_download_speed;
+		dform->changed.max_upload_speed   = common->keeping.max_upload_speed;
+		dform->changed.max_download_speed = common->keeping.max_download_speed;
 	}
 	// set data
 	if (keep_changed==FALSE || dform->changed.url==FALSE) {
@@ -515,8 +532,12 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_delay,
 				(common) ? common->retry_delay : 6);
 	}
-	if (keep_changed==FALSE || dform->changed.speed==FALSE) {
-		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_speed,
+	if (keep_changed==FALSE || dform->changed.max_upload_speed==FALSE) {
+		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_upload_speed,
+				(gdouble) (common->max_upload_speed / 1024));
+	}
+	if (keep_changed==FALSE || dform->changed.max_download_speed==FALSE) {
+		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_download_speed,
 				(gdouble) (common->max_download_speed / 1024));
 	}
 	if (keep_changed==FALSE || dform->changed.connections==FALSE) {
