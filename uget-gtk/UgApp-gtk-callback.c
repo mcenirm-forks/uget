@@ -1185,9 +1185,9 @@ void	on_change_visible_column (GtkWidget* widget, UgAppGtk* app)
 		column_index = UG_DOWNLOAD_COLUMN_SPEED;
 		setting->speed = visible;
 	}
-	else if (widget == app->menubar.view.columns.up_speed) {
+	else if (widget == app->menubar.view.columns.upload_speed) {
 		column_index = UG_DOWNLOAD_COLUMN_UPLOAD_SPEED;
-		setting->up_speed = visible;
+		setting->upload_speed = visible;
 	}
 	else if (widget == app->menubar.view.columns.uploaded) {
 		column_index = UG_DOWNLOAD_COLUMN_UPLOADED;
@@ -1747,7 +1747,7 @@ static void ug_menubar_init_callback (struct UgMenubar* menubar, UgAppGtk* app)
 			G_CALLBACK (on_change_visible_column), app);
 	g_signal_connect (menubar->view.columns.speed, "toggled",
 			G_CALLBACK (on_change_visible_column), app);
-	g_signal_connect (menubar->view.columns.up_speed, "toggled",
+	g_signal_connect (menubar->view.columns.upload_speed, "toggled",
 			G_CALLBACK (on_change_visible_column), app);
 	g_signal_connect (menubar->view.columns.uploaded, "toggled",
 			G_CALLBACK (on_change_visible_column), app);

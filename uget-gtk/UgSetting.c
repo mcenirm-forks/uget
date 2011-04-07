@@ -57,7 +57,7 @@ static const UgDataEntry	ug_download_column_setting_entry[] =
 	{"elapsed",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, elapsed),		UG_DATA_INT,	NULL,	NULL},
 	{"left",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, left),			UG_DATA_INT,	NULL,	NULL},
 	{"speed",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, speed),		UG_DATA_INT,	NULL,	NULL},
-	{"UpSpeed",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, up_speed),		UG_DATA_INT,	NULL,	NULL},
+	{"UploadSpeed",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, upload_speed),	UG_DATA_INT,	NULL,	NULL},
 	{"uploaded",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, uploaded),		UG_DATA_INT,	NULL,	NULL},
 	{"ratio",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, ratio),		UG_DATA_INT,	NULL,	NULL},
 	{"retry",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, retry),		UG_DATA_INT,	NULL,	NULL},
@@ -393,7 +393,7 @@ void	ug_setting_init (UgSetting* setting)
 	setting->download_column.elapsed      = TRUE;
 	setting->download_column.left         = TRUE;
 	setting->download_column.speed        = TRUE;
-	setting->download_column.up_speed     = TRUE;
+	setting->download_column.upload_speed = TRUE;
 	setting->download_column.retry        = TRUE;
 	setting->download_column.category     = TRUE;
 	setting->download_column.url          = FALSE;

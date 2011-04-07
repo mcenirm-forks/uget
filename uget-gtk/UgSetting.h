@@ -87,7 +87,7 @@ struct UgSetting
 		gboolean	elapsed;		// consuming time
 		gboolean	left;			// remaining time
 		gboolean	speed;
-		gboolean	up_speed;
+		gboolean	upload_speed;
 		gboolean	uploaded;
 		gboolean	ratio;
 		gboolean	retry;

@@ -285,8 +285,8 @@ void	ug_app_set_setting (UgAppGtk* app, UgSetting* setting)
 			(GtkCheckMenuItem*) app->menubar.view.columns.speed,
 			setting->download_column.speed);
 	gtk_check_menu_item_set_active (
-			(GtkCheckMenuItem*) app->menubar.view.columns.up_speed,
-			setting->download_column.up_speed);
+			(GtkCheckMenuItem*) app->menubar.view.columns.upload_speed,
+			setting->download_column.upload_speed);
 	gtk_check_menu_item_set_active (
 			(GtkCheckMenuItem*) app->menubar.view.columns.uploaded,
 			setting->download_column.uploaded);
@@ -892,7 +892,7 @@ void	ug_app_reset_download_column (UgAppGtk* app)
 		sensitive = TRUE;
 	gtk_widget_set_sensitive (app->menubar.view.columns.left, sensitive);
 	gtk_widget_set_sensitive (app->menubar.view.columns.speed, sensitive);
-	gtk_widget_set_sensitive (app->menubar.view.columns.up_speed, sensitive);
+	gtk_widget_set_sensitive (app->menubar.view.columns.upload_speed, sensitive);
 	gtk_widget_set_sensitive (app->menubar.view.columns.uploaded, sensitive);
 	gtk_widget_set_sensitive (app->menubar.view.columns.ratio, sensitive);
 
@@ -918,7 +918,7 @@ void	ug_app_reset_download_column (UgAppGtk* app)
 			column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_SPEED);
 			gtk_tree_view_column_set_visible (column, setting->speed);
 			column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_UPLOAD_SPEED);
-			gtk_tree_view_column_set_visible (column, setting->up_speed);
+			gtk_tree_view_column_set_visible (column, setting->upload_speed);
 			column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_UPLOADED);
 			gtk_tree_view_column_set_visible (column, setting->uploaded);
 			column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_RATIO);

@@ -611,7 +611,7 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Up Speed"));
 	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
-	menubar->view.columns.up_speed = menu_item;
+	menubar->view.columns.upload_speed = menu_item;
 	// Download Columns - Uploaded
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Uploaded"));
 	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
