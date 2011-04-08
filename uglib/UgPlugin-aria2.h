@@ -80,7 +80,7 @@ struct UgPluginAria2
 
 	// aria2 progress and status
 	gchar*			gid;
-	gchar*			followedBy;
+	GList*			followed;	// followedBy
 	gchar*			path;
 	guint			errorCode;
 	guint			aria2Status;

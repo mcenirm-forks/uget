@@ -371,7 +371,7 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 
 		if (plugin->totalLength > 0)
 			ug_plugin_post ((UgPlugin*)plugin, ug_message_new_progress ());
-		if (redirection && plugin->followedBy == NULL) {
+		if (redirection && plugin->followed == NULL) {
 			if (plugin->completedLength)
 				redirection = FALSE;
 			ug_plugin_aria2_get_servers (plugin);
@@ -380,9 +380,13 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 		switch (plugin->aria2Status) {
 		case ARIA2_COMPLETE:
 			// if current download is metalink or torrent file
-			if (plugin->gid != plugin->followedBy  &&  plugin->followedBy) {
-				plugin->gid = plugin->followedBy;
-				break;
+			if (plugin->followed) {
+				if (plugin->gid == plugin->followed->data)
+					plugin->followed = g_list_delete_link (plugin->followed, plugin->followed);
+				if (plugin->followed) {
+					plugin->gid = plugin->followed->data;
+					break;
+				}
 			}
 			// post completed message
 			ug_plugin_post ((UgPlugin*) plugin,
@@ -598,6 +602,7 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	UgXmlrpcValue*		value;
 	UgXmlrpcResponse	response;
 	gchar*				string;
+	guint				index;
 
 	// set keys array
 	keys = ug_xmlrpc_value_new_array (16);
@@ -694,21 +699,26 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 	plugin->uploadSpeed = ug_xmlrpc_value_get_int (value);
 	// followedBy
 	value = ug_xmlrpc_value_find (progress, "followedBy");
-	if (value  &&  value->len > 0) {
-		keys = ug_xmlrpc_value_at (value, 0);
-		plugin->followedBy = g_string_chunk_insert (plugin->chunk, keys->c.string);
+	if (value) {
+		for (index = 0;  index < value->len;  index++) {
+			keys = ug_xmlrpc_value_at (value, index);
+			string = g_string_chunk_insert (plugin->chunk, keys->c.string);
+			plugin->followed = g_list_append (plugin->followed, string);
+		}
 	}
 	// files
 	value = ug_xmlrpc_value_find (progress, "files");
-	if (plugin->local_file == FALSE  &&  plugin->followedBy == NULL) {
+	if (plugin->local_file == FALSE  &&  plugin->followed == NULL) {
 		keys = ug_xmlrpc_value_at (value, 0);
 		keys = ug_xmlrpc_value_find (keys, "path");		// UG_XMLRPC_STRUCT
 		if (keys  &&  g_strcmp0 (keys->c.string, plugin->path)) {
 			plugin->path = g_string_chunk_insert (plugin->chunk, keys->c.string);
 			string = strrchr (plugin->path, '/');
 			string = string ? string+1 : plugin->path;
-			ug_plugin_post ((UgPlugin*) plugin,
-					ug_message_new_data (UG_MESSAGE_DATA_FILE_CHANGED, string));
+			if (string[0]) {
+				ug_plugin_post ((UgPlugin*) plugin,
+						ug_message_new_data (UG_MESSAGE_DATA_FILE_CHANGED, string));
+			}
 		}
 	}
 
@@ -882,7 +892,7 @@ static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* op
 //	value = ug_xmlrpc_value_alloc (options);
 //	value->name = "max-concurrent-downloads";
 //	value->type = UG_XMLRPC_STRING;
-//	g_string_printf (string, "%u", common->segments_per_download);
+//	g_string_printf (string, "%u", common->max_connections);
 //	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
 	// max-connection-per-server
 	value = ug_xmlrpc_value_alloc (options);
