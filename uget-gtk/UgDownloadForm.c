@@ -289,8 +289,8 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	// separator
 	gtk_table_attach (table, gtk_vseparator_new (), 3, 4, 0, 2,
 			GTK_FILL | GTK_EXPAND, GTK_FILL, 2, 1);
-	// "connections per server" - label
-	widget = gtk_label_new ("connections per server");
+	// "Connections per server" - label
+	widget = gtk_label_new ("Connections per server");
 	gtk_table_attach (table, widget, 4, 7, 0, 1,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
 	// connections - spin button
