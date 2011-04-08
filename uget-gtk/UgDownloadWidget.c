@@ -44,25 +44,36 @@
 
 // Function used by GtkTreeModelSort.
 static gint	ug_download_model_cmp_name (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_complete (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_size (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_percent (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_elapsed (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_left (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_speed (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_upload_speed (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_uploaded (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_ratio (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_retry (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
 static gint	ug_download_model_cmp_category (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
+static gint	ug_download_model_cmp_url (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
 static gint	ug_download_model_cmp_added_on (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
 static gint	ug_download_model_cmp_completed_on (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data);
 // signal handler
-static void	on_name_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_complete_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_size_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_percent_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_elapsed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_left_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_upload_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_uploaded_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_ratio_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_retry_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_category_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_url_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_added_on_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
-static void	on_completed_on_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view);
+static void	on_name_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_complete_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_size_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_percent_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_elapsed_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_left_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_speed_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_upload_speed_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_uploaded_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_ratio_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_retry_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_category_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_url_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_added_on_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
+static void	on_completed_on_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget);
 
 
 void	ug_download_widget_init (UgDownloadWidget* dwidget, GtkTreeModel* model)
@@ -124,77 +135,77 @@ void	ug_download_widget_use_sortable (UgDownloadWidget* dwidget, GtkTreeModel* m
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	gtk_tree_view_column_set_sort_indicator (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_name_column_clicked), dwidget->view);
+			G_CALLBACK (on_name_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_COMPLETE
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_COMPLETE);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_complete_column_clicked), dwidget->view);
+			G_CALLBACK (on_complete_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_SIZE
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_SIZE);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_size_column_clicked), dwidget->view);
+			G_CALLBACK (on_size_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_PERCENT
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_PERCENT);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_percent_column_clicked), dwidget->view);
+			G_CALLBACK (on_percent_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_ELAPSED
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_ELAPSED);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_elapsed_column_clicked), dwidget->view);
+			G_CALLBACK (on_elapsed_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_LEFT
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_LEFT);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_left_column_clicked), dwidget->view);
+			G_CALLBACK (on_left_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_SPEED
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_SPEED);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_speed_column_clicked), dwidget->view);
+			G_CALLBACK (on_speed_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_UPLOAD_SPEED
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_UPLOAD_SPEED);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_upload_speed_column_clicked), dwidget->view);
+			G_CALLBACK (on_upload_speed_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_UPLOADED
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_UPLOADED);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_uploaded_column_clicked), dwidget->view);
+			G_CALLBACK (on_uploaded_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_RATIO
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_RATIO);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_ratio_column_clicked), dwidget->view);
+			G_CALLBACK (on_ratio_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_RETRY
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_RETRY);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_retry_column_clicked), dwidget->view);
+			G_CALLBACK (on_retry_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_CATEGORY
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_CATEGORY);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_category_column_clicked), dwidget->view);
+			G_CALLBACK (on_category_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_URL
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_URL);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_url_column_clicked), dwidget->view);
+			G_CALLBACK (on_url_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_ADDED_ON
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_ADDED_ON);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_added_on_column_clicked), dwidget->view);
+			G_CALLBACK (on_added_on_column_clicked), dwidget);
 	// GtkTreeViewColumn - UG_DOWNLOAD_COLUMN_COMPLETED_ON
 	column = gtk_tree_view_get_column (dwidget->view, UG_DOWNLOAD_COLUMN_COMPLETED_ON);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_signal_connect (column, "clicked",
-			G_CALLBACK (on_completed_on_column_clicked), dwidget->view);
+			G_CALLBACK (on_completed_on_column_clicked), dwidget);
 }
 
 GList*	ug_download_widget_get_selected (UgDownloadWidget* dwidget)
@@ -933,6 +944,89 @@ static void	ug_download_view_clear_sort_status (GtkTreeView* view)
 	}
 }
 
+void	ug_download_view_set_sort_order (GtkTreeView* view, guint nth_column, GtkSortType sorttype)
+{
+	GtkTreeViewColumn*	column;
+	GtkTreeSortable*	sortable;
+	GtkTreeIterCompareFunc	func;
+
+	sortable = GTK_TREE_SORTABLE (gtk_tree_view_get_model (view));
+	column   = gtk_tree_view_get_column (view, nth_column);
+	ug_download_view_clear_sort_status (view);
+	gtk_tree_view_column_set_sort_order (column, sorttype);
+	gtk_tree_view_column_set_sort_indicator (column, TRUE);
+
+	switch (nth_column) {
+	case UG_DOWNLOAD_COLUMN_NAME:
+		func = ug_download_model_cmp_name;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_COMPLETE:
+		func = ug_download_model_cmp_complete;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_SIZE:
+		func = ug_download_model_cmp_size;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_PERCENT:
+		func = ug_download_model_cmp_percent;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_ELAPSED:
+		func = ug_download_model_cmp_elapsed;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_LEFT:
+		func = ug_download_model_cmp_left;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_SPEED:
+		func = ug_download_model_cmp_speed;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_UPLOAD_SPEED:
+		func = ug_download_model_cmp_upload_speed;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_UPLOADED:
+		func = ug_download_model_cmp_uploaded;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_RATIO:
+		func = ug_download_model_cmp_ratio;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_RETRY:
+		func = ug_download_model_cmp_retry;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_CATEGORY:
+		func = ug_download_model_cmp_category;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_URL:
+		func = ug_download_model_cmp_url;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_ADDED_ON:
+		func = ug_download_model_cmp_added_on;
+		break;
+
+	case UG_DOWNLOAD_COLUMN_COMPLETED_ON:
+		func = ug_download_model_cmp_completed_on;
+		break;
+
+	default:
+		func = NULL;
+		break;
+	}
+
+	gtk_tree_sortable_set_default_sort_func (sortable,
+			func, GINT_TO_POINTER (sorttype), NULL);
+}
+
+
 // ----------------------------------------------------------------------------
 // Function used by GtkTreeModelSort.
 //
@@ -1407,78 +1501,108 @@ static void ug_tree_view_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeV
 			func, GINT_TO_POINTER (sorttype), NULL);
 }
 
-static void	on_name_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_name_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_name);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_name);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_NAME;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_complete_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_complete_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_complete);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_complete);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_COMPLETE;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_size_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_size_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_size);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_size);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_SIZE;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_percent_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_percent_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_percent);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_percent);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_PERCENT;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_elapsed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_elapsed_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_elapsed);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_elapsed);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_ELAPSED;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_left_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_left_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_left);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_left);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_LEFT;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_speed_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_speed);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_speed);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_SPEED;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_upload_speed_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_upload_speed_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_upload_speed);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_upload_speed);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_UPLOAD_SPEED;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_uploaded_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_uploaded_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_uploaded);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_uploaded);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_UPLOADED;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_ratio_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_ratio_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_ratio);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_ratio);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_RATIO;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_retry_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_retry_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_retry);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_retry);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_RETRY;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_category_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_category_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_category);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_category);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_CATEGORY;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_url_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_url_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_url);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_url);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_URL;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_added_on_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_added_on_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_added_on);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_added_on);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_ADDED_ON;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 
-static void	on_completed_on_column_clicked (GtkTreeViewColumn *treecolumn, GtkTreeView* view)
+static void	on_completed_on_column_clicked (GtkTreeViewColumn *treecolumn, UgDownloadWidget* dwidget)
 {
-	ug_tree_view_column_clicked (treecolumn, view, ug_download_model_cmp_completed_on);
+	ug_tree_view_column_clicked (treecolumn, dwidget->view, ug_download_model_cmp_completed_on);
+	dwidget->sort.nth   = UG_DOWNLOAD_COLUMN_COMPLETED_ON;
+	dwidget->sort.order = gtk_tree_view_column_get_sort_order (treecolumn);
 }
 

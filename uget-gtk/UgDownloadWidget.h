@@ -54,6 +54,12 @@ struct UgDownloadWidget
 	GtkTreeView*	view;
 	GtkTreeModel*	model;			// GtkTreeModelFilter or GtkTreeModelSort
 
+	struct
+	{
+		gint		nth;			// enum UgDownloadViewColumn
+		GtkSortType	order;
+	} sort;
+
 	gboolean		signal_connected;
 	guint			changed_count;	// sync with UgDownloadColumnSetting.changed_count
 };
@@ -99,6 +105,8 @@ enum UgDownloadViewColumn
 
 GtkTreeView*	ug_download_view_new (void);
 void			ug_download_view_use_all_icon (GtkTreeView* view, gboolean visible_all);
+void			ug_download_view_set_sort_order (GtkTreeView* view, guint nth_column, GtkSortType order);
+
 
 #ifdef __cplusplus
 }

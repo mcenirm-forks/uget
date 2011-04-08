@@ -309,6 +309,10 @@ void	ug_app_set_setting (UgAppGtk* app, UgSetting* setting)
 			(GtkCheckMenuItem*) app->menubar.view.columns.completed_on,
 			setting->download_column.completed_on);
 
+	// get setting of download column
+	app->cwidget.sort.nth   = app->setting.download_column.sort.nth;
+	app->cwidget.sort.order = app->setting.download_column.sort.order;
+
 	// aria2
 	ug_app_decide_bt_meta_sensitive (app);
 }
@@ -334,6 +338,16 @@ void	ug_app_get_setting (UgAppGtk* app, UgSetting* setting)
 			gtk_window_get_size (app->window.self,
 					&setting->window.width, &setting->window.height);
 		}
+	}
+
+	// get setting of download column
+	if (app->cwidget.current.widget == &app->cwidget.current.cgtk->all) {
+		app->setting.download_column.sort.nth   = app->cwidget.current.widget->sort.nth;
+		app->setting.download_column.sort.order = app->cwidget.current.widget->sort.order;
+	}
+	else {
+		app->setting.download_column.sort.nth   = app->cwidget.sort.nth;
+		app->setting.download_column.sort.order = app->cwidget.sort.order;
 	}
 }
 

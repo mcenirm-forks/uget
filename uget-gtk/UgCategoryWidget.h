@@ -77,6 +77,13 @@ struct UgCategoryWidget
 		GtkTreeView*		view;		// category view
 		UgDownloadWidget*	widget;
 	} current;
+
+	// download column
+	struct
+	{
+		gint			nth;		// enum UgDownloadViewColumn
+		GtkSortType		order;
+	} sort;
 };
 
 void	ug_category_widget_init (UgCategoryWidget* cwidget);

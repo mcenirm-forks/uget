@@ -266,6 +266,12 @@ static void	ug_category_cursor_changed (GtkTreeView* view, UgCategoryWidget* cwi
 	GtkTreePath*		path;
 	GtkTreeIter			iter;
 
+	// get setting of download column
+	if (cwidget->current.widget == &cwidget->current.cgtk->all) {
+		cwidget->sort.nth   = cwidget->current.widget->sort.nth;
+		cwidget->sort.order = cwidget->current.widget->sort.order;
+	}
+
 	if (cwidget->current.view != view) {
 		cwidget->current.view = view;
 		if (cwidget->primary.view == view)
@@ -292,6 +298,14 @@ static void	ug_category_cursor_changed (GtkTreeView* view, UgCategoryWidget* cwi
 
 	// set UgCategoryGtk from UgCategory
 	cwidget->current.cgtk = cwidget->current.category->user.category;
+
+	// set setting of download column
+	if (cwidget->current.widget == &cwidget->current.cgtk->all) {
+		ug_download_view_set_sort_order (cwidget->current.widget->view,
+				cwidget->sort.nth, cwidget->sort.order);
+		cwidget->current.widget->sort.nth   = cwidget->sort.nth;
+		cwidget->current.widget->sort.order = cwidget->sort.order;
+	}
 }
 
 // Function used by GtkTreeModelFilter.

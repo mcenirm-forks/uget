@@ -1668,7 +1668,6 @@ static void ug_toolbar_init_callback (struct UgToolbar* toolbar, UgAppGtk* app)
 	g_signal_connect (toolbar->move_top, "clicked",
 			G_CALLBACK (on_move_download_to_top), app);
 	g_signal_connect (toolbar->move_bottom, "clicked",
-
 			G_CALLBACK (on_move_download_to_bottom), app);
 }
 

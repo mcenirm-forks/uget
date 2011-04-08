@@ -95,6 +95,12 @@ struct UgSetting
 		gboolean	url;
 		gboolean	added_on;
 		gboolean	completed_on;
+
+		struct
+		{
+			gint		nth;
+			gint		order;		// sort order
+		} sort;
 	} download_column;
 
 	// "SummarySetting"

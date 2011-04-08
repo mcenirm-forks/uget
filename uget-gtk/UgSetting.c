@@ -65,6 +65,9 @@ static const UgDataEntry	ug_download_column_setting_entry[] =
 	{"URL",			G_STRUCT_OFFSET (struct UgDownloadColumnSetting, url),			UG_DATA_INT,	NULL,	NULL},
 	{"AddedOn",		G_STRUCT_OFFSET (struct UgDownloadColumnSetting, added_on),		UG_DATA_INT,	NULL,	NULL},
 	{"CompletedOn",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, completed_on),	UG_DATA_INT,	NULL,	NULL},
+
+	{"sort-nth",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, sort.nth),		UG_DATA_INT,	NULL,	NULL},
+	{"sort-order",	G_STRUCT_OFFSET (struct UgDownloadColumnSetting, sort.order),	UG_DATA_INT,	NULL,	NULL},
 	{NULL}			// null-terminated
 };
 
@@ -127,7 +130,7 @@ static const UgDataEntry	ug_user_interface_setting_entry[] =
 	{"CloseConfirmation",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting, close_confirmation),	UG_DATA_INT,	NULL,	NULL},
 	{"CloseAction",			G_STRUCT_OFFSET (struct UgUserInterfaceSetting, close_action),			UG_DATA_INT,	NULL,	NULL},
 	{"DeleteConfirmation",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	delete_confirmation),	UG_DATA_INT,	NULL,	NULL},
-	{"ShowTrayIcon",		G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	show_trayicon),		UG_DATA_INT,	NULL,	NULL},
+	{"ShowTrayIcon",		G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	show_trayicon),			UG_DATA_INT,	NULL,	NULL},
 	{"StartInTray",			G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	start_in_tray),			UG_DATA_INT,	NULL,	NULL},
 	{"StartInOfflineMode",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	start_in_offline_mode),	UG_DATA_INT,	NULL,	NULL},
 	{"StartNotification",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	start_notification),	UG_DATA_INT,	NULL,	NULL},
@@ -205,16 +208,16 @@ static const UgDataInterface	ug_plugin_setting_iface =
 // UgSetting
 static const UgDataEntry	uget_setting_data_entry[] =
 {
-	{"LaunchApp",		G_STRUCT_OFFSET (UgSetting, launch.active),	UG_DATA_INT,		NULL,	NULL},
+	{"LaunchApp",		G_STRUCT_OFFSET (UgSetting, launch.active),		UG_DATA_INT,		NULL,	NULL},
 	{"LaunchAppTypes",	G_STRUCT_OFFSET (UgSetting, launch.types),		UG_DATA_STRING,		NULL,	NULL},
-	{"AutoSave",		G_STRUCT_OFFSET (UgSetting, auto_save.active),		UG_DATA_INT,	NULL,	NULL},
-	{"AutoSaveInterval",G_STRUCT_OFFSET (UgSetting, auto_save.interval),	UG_DATA_INT,	NULL,	NULL},
+	{"AutoSave",		G_STRUCT_OFFSET (UgSetting, auto_save.active),	UG_DATA_INT,		NULL,	NULL},
+	{"AutoSaveInterval",G_STRUCT_OFFSET (UgSetting, auto_save.interval),UG_DATA_INT,		NULL,	NULL},
 	{"DownloadColumn",	G_STRUCT_OFFSET (UgSetting, download_column),	UG_DATA_STATIC,		NULL,	NULL},
 	{"Summary",			G_STRUCT_OFFSET (UgSetting, summary),			UG_DATA_STATIC,		NULL,	NULL},
 	{"Window",			G_STRUCT_OFFSET (UgSetting, window),			UG_DATA_STATIC,		NULL,	NULL},
 	{"UserInterface",	G_STRUCT_OFFSET (UgSetting, ui),				UG_DATA_STATIC,		NULL,	NULL},
-	{"Clipboard",		G_STRUCT_OFFSET (UgSetting, clipboard),		UG_DATA_STATIC,		NULL,	NULL},
-	{"Scheduler",		G_STRUCT_OFFSET (UgSetting, scheduler),		UG_DATA_STATIC,		NULL,	NULL},
+	{"Clipboard",		G_STRUCT_OFFSET (UgSetting, clipboard),			UG_DATA_STATIC,		NULL,	NULL},
+	{"Scheduler",		G_STRUCT_OFFSET (UgSetting, scheduler),			UG_DATA_STATIC,		NULL,	NULL},
 	{"Plug-in",			G_STRUCT_OFFSET (UgSetting, plugin),			UG_DATA_STATIC,		NULL,	NULL},
 //	{"OfflineMode",		G_STRUCT_OFFSET (UgSetting, offline_mode),		UG_DATA_INT,		NULL,	NULL},
 //	{"Shutdown",		G_STRUCT_OFFSET (UgSetting, shutdown),			UG_DATA_INT,		NULL,	NULL},
