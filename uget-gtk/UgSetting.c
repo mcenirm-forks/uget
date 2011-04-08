@@ -38,6 +38,7 @@
 #include <stdlib.h>
 
 #include <UgData-download.h>
+#include <UgDownloadWidget.h>
 #include <UgSetting.h>
 
 static void	ug_string_list_in_markup (GList** string_list, GMarkupParseContext* context);
@@ -402,6 +403,9 @@ void	ug_setting_init (UgSetting* setting)
 	setting->download_column.url          = FALSE;
 	setting->download_column.added_on     = TRUE;
 	setting->download_column.completed_on = FALSE;
+	// default sorted column
+	setting->download_column.sort.nth     = UG_DOWNLOAD_COLUMN_ADDED_ON;
+	setting->download_column.sort.order   = GTK_SORT_DESCENDING;
 
 	// "WindowSetting"
 	setting->window.iface = &ug_window_setting_iface;

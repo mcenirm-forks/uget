@@ -38,6 +38,7 @@
 #define UG_DOWNLOAD_WIDGET_H
 
 #include <gtk/gtk.h>
+#include <UgDataset.h>
 
 #ifdef __cplusplus
 extern "C" {
