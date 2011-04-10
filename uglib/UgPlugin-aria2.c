@@ -73,6 +73,7 @@ static gboolean	ug_plugin_aria2_add_uri		(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_add_torrent	(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_add_metalink(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_remove		(UgPluginAria2* plugin);
+static gboolean	ug_plugin_aria2_get_version	(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_get_servers	(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_tell_status	(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_change_option(UgPluginAria2* plugin, UgXmlrpcValue* options);
@@ -324,6 +325,12 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 	startingTime = time (NULL);
 	redirection  = TRUE;
 
+	if (ug_plugin_aria2_get_version (plugin) == FALSE) {
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2.getVersion failed.");
+		ug_plugin_post ((UgPlugin*) plugin, message);
+		goto exit;
+	}
+
 	string = plugin->common->url;
 	if (strncmp (string, "file:", 5) == 0) {
 		string = g_filename_from_uri (string, NULL, NULL);
@@ -564,6 +571,29 @@ static gboolean	ug_plugin_aria2_remove (UgPluginAria2* plugin)
 	return TRUE;
 }
 
+static gboolean	ug_plugin_aria2_get_version (UgPluginAria2* plugin)
+{
+	UgXmlrpcValue*		vdata;		// UG_XMLRPC_STRUCT
+	UgXmlrpcValue*		value;		// UG_XMLRPC_STRUCT
+	UgXmlrpcResponse	response;
+	const char*			temp;
+
+	response = ug_xmlrpc_call (&plugin->xmlrpc, "aria2.getVersion", UG_XMLRPC_NONE);
+	if (response != UG_XMLRPC_OK)
+		return FALSE;
+
+	vdata = ug_xmlrpc_get_value (&plugin->xmlrpc);
+	if (vdata->type == UG_XMLRPC_STRUCT) {
+		value = ug_xmlrpc_value_find (vdata, "version");
+		temp = value->c.string;
+		plugin->major_version = atoi (temp);
+		temp = strchr (temp, '.');
+		temp = temp ? temp+1 : "";
+		plugin->minor_version = atoi (temp);
+	}
+	return TRUE;
+}
+
 static gboolean	ug_plugin_aria2_get_servers (UgPluginAria2* plugin)
 {
 	UgXmlrpcValue*		array;		// UG_XMLRPC_ARRAY
@@ -574,7 +604,6 @@ static gboolean	ug_plugin_aria2_get_servers (UgPluginAria2* plugin)
 	response = ug_xmlrpc_call (&plugin->xmlrpc, "aria2.getServers",
 			UG_XMLRPC_STRING, plugin->gid,
 			UG_XMLRPC_NONE);
-	// message
 	if (response != UG_XMLRPC_OK)
 		return FALSE;
 
@@ -870,6 +899,14 @@ static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* op
 	value->type = UG_XMLRPC_STRING;
 	g_string_printf (string, "%u", common->retry_limit);
 	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
+	// retry-wait (since aria2 v1.11.0)
+	if (plugin->major_version >= 1  &&  plugin->minor_version >= 11) {
+		value = ug_xmlrpc_value_alloc (options);
+		value->name = "retry-wait";
+		value->type = UG_XMLRPC_STRING;
+		g_string_printf (string, "%u", common->retry_delay);
+		value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
+	}
 	// max-download-limit
 	value = ug_xmlrpc_value_alloc (options);
 	value->name = "max-download-limit";
@@ -888,18 +925,20 @@ static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* op
 	value->type = UG_XMLRPC_STRING;
 	g_string_printf (string, "%u", 512);
 	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
+	// max-connection-per-server (since aria2 v1.10.0)
+	if (plugin->major_version >= 1  &&  plugin->minor_version >= 10) {
+		value = ug_xmlrpc_value_alloc (options);
+		value->name = "max-connection-per-server";
+		value->type = UG_XMLRPC_STRING;
+		g_string_printf (string, "%u", common->max_connections);
+		value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
+	}
 	// max-concurrent-downloads
 //	value = ug_xmlrpc_value_alloc (options);
 //	value->name = "max-concurrent-downloads";
 //	value->type = UG_XMLRPC_STRING;
 //	g_string_printf (string, "%u", common->max_connections);
 //	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
-	// max-connection-per-server
-	value = ug_xmlrpc_value_alloc (options);
-	value->name = "max-connection-per-server";
-	value->type = UG_XMLRPC_STRING;
-	g_string_printf (string, "%u", common->max_connections);
-	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
 }
 
 static void	ug_plugin_aria2_set_http (UgPluginAria2* plugin, UgXmlrpcValue* options)
@@ -917,10 +956,10 @@ static void	ug_plugin_aria2_set_http (UgPluginAria2* plugin, UgXmlrpcValue* opti
 			value->c.string = http->referrer;
 		}
 		if (http->cookie_file) {
-			value = ug_xmlrpc_value_alloc (options);
-			value->name = "load-cookies";
-			value->type = UG_XMLRPC_STRING;
-			value->c.string = http->cookie_file;
+//			value = ug_xmlrpc_value_alloc (options);
+//			value->name = "load-cookies";
+//			value->type = UG_XMLRPC_STRING;
+//			value->c.string = http->cookie_file;
 		}
 		if (http->user_agent) {
 			value = ug_xmlrpc_value_alloc (options);

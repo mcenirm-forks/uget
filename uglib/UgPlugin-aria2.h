@@ -77,6 +77,9 @@ struct UgPluginAria2
 	GStringChunk*	chunk;
 	// torrent file or metalink file
 	gchar*			local_file;
+	// aria2 version
+	guint			major_version;
+	guint			minor_version;
 
 	// aria2 progress and status
 	gchar*			gid;
