@@ -232,6 +232,8 @@ static const UgDataEntry	ug_progress_entry[] =
 	{"total",		G_STRUCT_OFFSET (UgProgress, total),		UG_DATA_INT64,	NULL,	NULL},
 	{"percent",		G_STRUCT_OFFSET (UgProgress, percent),		UG_DATA_DOUBLE,	NULL,	NULL},
 	{"elapsed",		G_STRUCT_OFFSET (UgProgress, consume_time),	UG_DATA_DOUBLE,	NULL,	NULL},
+	{"uploaded",	G_STRUCT_OFFSET (UgProgress, uploaded),		UG_DATA_INT64,	NULL,	NULL},
+	{"ratio",		G_STRUCT_OFFSET (UgProgress, ratio),		UG_DATA_DOUBLE,	NULL,	NULL},
 	{NULL},		// null-terminated
 };
 // extern
