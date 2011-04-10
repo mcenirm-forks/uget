@@ -359,8 +359,8 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 			G_CALLBACK (on_plugin_aria2_toggled), psform);
 	psform->enable = (GtkToggleButton*) widget;
 
-	// hint
-	widget = gtk_label_new (_("Make sure that all of the downloads have been completed."));
+	// aria2 plug-in hints
+	widget = gtk_label_new (_("Please make sure that all of tasks have been completed."));
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 3);
 	widget = gtk_label_new ("");
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 3);
