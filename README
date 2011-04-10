@@ -1,9 +1,11 @@
-﻿uGet 1.7.4 (developing)
+﻿uGet 1.7.4 (testing)
 
 This version requires GTK+ version 2.18+ or 3.0+
 
 What's new since 1.7.3:
-1. create new download from Torrent and Metalink file.
+1. create new download from Torrent and Metalink file (with aria2 plug-in).
+2. save/restore sorted column.
+3. fix minor bugs.
 
 What's new since 1.7.2:
 1. support for application indicator.

@@ -41,7 +41,7 @@
 #include <config.h>
 #endif
 #ifndef PACKAGE_VERSION
-#define PACKAGE_VERSION					"1.7.3"
+#define PACKAGE_VERSION					"1.7.4"
 #endif
 
 #include <UgData.h>
@@ -51,7 +51,7 @@ extern "C" {
 #endif
 
 #define UG_APP_GTK_NAME					"uGet"
-#define UG_APP_GTK_VERSION				PACKAGE_VERSION " (developing)"
+#define UG_APP_GTK_VERSION				PACKAGE_VERSION " (testing)"
 // default setting
 #define UG_APP_GTK_CLIPBOARD_PATTERN	"ZIP|BIN|GZ|7Z|Z|TAR|TGZ|BZ2|A[0-9]?|LZH|MP3|RPM|DEB|EXE|RAR|R[0-9][0-9]"
 #define UG_APP_GTK_LAUNCH_APP_TYPES		"torrent"
