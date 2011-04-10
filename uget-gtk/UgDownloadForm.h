@@ -89,7 +89,8 @@ struct UgDownloadForm
 	GtkWidget*	spin_retry;		// counts
 	GtkWidget*	spin_delay;		// seconds
 
-	// connections per server
+	// Connections per server
+	GtkWidget*	title_connections;
 	GtkWidget*	label_connections;
 	GtkWidget*	spin_connections;		// connections
 
@@ -98,9 +99,9 @@ struct UgDownloadForm
 	//
 	GtkWidget*	page2;
 
-//	GtkWidget*	cookie_label;
+	GtkWidget*	cookie_label;
 	GtkWidget*	cookie_entry;
-//	GtkWidget*	post_label;
+	GtkWidget*	post_label;
 	GtkWidget*	post_entry;
 
 	GtkSpinButton*	spin_download_speed;

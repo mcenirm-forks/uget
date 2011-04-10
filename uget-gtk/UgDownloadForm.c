@@ -41,6 +41,7 @@
 #include <UgUtils.h>
 #include <UgString.h>
 #include <UgSetting.h>		// UG_APP_GTK_NAME
+#include <UgApp-gtk.h>		// UgAppGtk::aria2
 
 #include <glib/gi18n.h>
 
@@ -56,6 +57,7 @@
 
 static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* proxy);
 static void	ug_download_form_init_page2 (UgDownloadForm* dform);
+static void ug_download_form_decide_sensitive (UgDownloadForm* dform);	// aria2
 //	signal handler
 static void	on_spin_changed (GtkEditable *editable, UgDownloadForm* dform);
 static void	on_entry_changed (GtkEditable *editable, UgDownloadForm* dform);
@@ -83,6 +85,7 @@ void	ug_download_form_init (UgDownloadForm* dform, UgProxyForm* proxy, GtkWindow
 
 	ug_download_form_init_page1 (dform, proxy);
 	ug_download_form_init_page2 (dform);
+	ug_download_form_decide_sensitive (dform);	// for aria2
 
 	gtk_widget_show_all (dform->page1);
 	gtk_widget_show_all (dform->page2);
@@ -285,14 +288,15 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	gtk_table_attach (table, widget, 2, 3, 1, 2,
 			GTK_FILL, GTK_SHRINK, 2, 1);
 
-	// connections per server
+	// Connections per server
 	// separator
 	gtk_table_attach (table, gtk_vseparator_new (), 3, 4, 0, 2,
 			GTK_FILL | GTK_EXPAND, GTK_FILL, 2, 1);
-	// "Connections per server" - label
-	widget = gtk_label_new ("Connections per server");
+	// "Connections per server" - title label
+	widget = gtk_label_new (_("Connections per server"));
 	gtk_table_attach (table, widget, 4, 7, 0, 1,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
+	dform->title_connections = widget;
 	// connections - spin button
 	widget = gtk_spin_button_new_with_range (1.0, 20.0, 1.0);
 	gtk_entry_set_width_chars (GTK_ENTRY (widget), 3);
@@ -328,7 +332,7 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 0, 1, 0, 1,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
-//	dform->cookie_label = widget;
+	dform->cookie_label = widget;
 	// entry - cookie file
 	widget = gtk_entry_new ();
 	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
@@ -348,7 +352,7 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_table_attach (table, widget, 0, 1, 1, 2,
 			GTK_SHRINK, GTK_SHRINK, 2, 1);
-//	dform->post_label = widget;
+	dform->post_label = widget;
 	// entry - post file
 	widget = gtk_entry_new ();
 	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
@@ -397,6 +401,24 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 2, 2);
 }
 
+static void ug_download_form_decide_sensitive (UgDownloadForm* dform)
+{
+	extern UgAppGtk*	app;	// UgApp-gtk-main.c
+	gboolean	sensitive;
+
+	sensitive = app->setting.plugin.aria2.enable;
+	gtk_widget_set_sensitive (dform->title_connections, sensitive);
+	gtk_widget_set_sensitive (dform->label_connections, sensitive);
+	gtk_widget_set_sensitive (dform->spin_connections, sensitive);
+
+	// disable
+	sensitive = !sensitive;
+	gtk_widget_set_sensitive (dform->cookie_label, sensitive);
+	gtk_widget_set_sensitive (dform->cookie_entry, sensitive);
+	gtk_widget_set_sensitive (dform->post_label, sensitive);
+	gtk_widget_set_sensitive (dform->post_entry, sensitive);
+}
+
 void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 {
 	UgDataCommon*	common;
@@ -404,17 +426,35 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	UgRelation*		relation;
 	UgUriFull		urifull;
 	const gchar*	text;
+	gint			number;
 
+	// ------------------------------------------
 	// UgDataCommon
 	common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
-	ug_str_set (&common->folder,   gtk_entry_get_text ((GtkEntry*)dform->folder_entry),   -1);
-	ug_str_set (&common->user,     gtk_entry_get_text ((GtkEntry*)dform->username_entry), -1);
-	ug_str_set (&common->password, gtk_entry_get_text ((GtkEntry*)dform->password_entry), -1);
-	common->retry_limit = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_retry);
-	common->retry_delay = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_delay);
-	common->max_upload_speed   = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_upload_speed) * 1024;
-	common->max_download_speed = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_download_speed) * 1024;
-	common->max_connections = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_connections);
+	// folder
+	text = gtk_entry_get_text ((GtkEntry*)dform->folder_entry);
+	ug_str_set (&common->folder, text, -1);
+	// user
+	text = gtk_entry_get_text ((GtkEntry*)dform->username_entry);
+	ug_str_set (&common->user, text, -1);
+	// password
+	text = gtk_entry_get_text ((GtkEntry*)dform->password_entry);
+	ug_str_set (&common->password, text, -1);
+	// retry_limit
+	number = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_retry);
+	common->retry_limit = number;
+	// retry_delay
+	number = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_delay);
+	common->retry_delay = number;
+	// max_upload_speed
+	number = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_upload_speed) * 1024;
+	common->max_upload_speed = number;
+	// max_download_speed
+	number = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_download_speed) * 1024;
+	common->max_download_speed = number;
+	// max_connections
+	number = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_connections);
+	common->max_connections = number;
 
 	if (gtk_widget_is_sensitive (dform->url_entry) == TRUE) {
 		ug_str_set (&common->url,  gtk_entry_get_text ((GtkEntry*)dform->url_entry),  -1);
@@ -441,23 +481,20 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 		}
 	}
 
+	// ------------------------------------------
 	// UgDataHttp
+	http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
+	// referrer
 	text = gtk_entry_get_text ((GtkEntry*) dform->referrer_entry);
-	if (*text) {
-		http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
-		ug_str_set (&http->referrer, text, -1);
-	}
+	ug_str_set (&http->referrer, text, -1);
+	// cookie_file
 	text = gtk_entry_get_text ((GtkEntry*) dform->cookie_entry);
-	if (*text) {
-		http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
-		ug_str_set (&http->cookie_file, text, -1);
-	}
+	ug_str_set (&http->cookie_file, text, -1);
+	// post_file
 	text = gtk_entry_get_text ((GtkEntry*) dform->post_entry);
-	if (*text) {
-		http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
-		ug_str_set (&http->post_file, text, -1);
-	}
+	ug_str_set (&http->post_file, text, -1);
 
+	// ------------------------------------------
 	// UgRelation
 	if (gtk_widget_get_sensitive (dform->radio_pause)) {
 		relation = ug_dataset_realloc (dataset, UG_RELATION_I, 0);
@@ -479,6 +516,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 
 	// disable changed flags
 	dform->changed.enable = FALSE;
+	// ------------------------------------------
 	// UgDataCommon
 	// set changed flags
 	if (keep_changed==FALSE && common) {
@@ -545,6 +583,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 			common->max_connections);
 	}
 
+	// ------------------------------------------
 	// UgDataHttp
 	// set data
 	if (keep_changed==FALSE || dform->changed.referrer==FALSE) {
@@ -566,6 +605,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		dform->changed.post     = http->keeping.post_file;
 	}
 
+	// ------------------------------------------
 	// UgRelation
 	if (gtk_widget_get_sensitive (dform->radio_pause)) {
 		relation = ug_dataset_realloc (dataset, UG_RELATION_I, 0);
