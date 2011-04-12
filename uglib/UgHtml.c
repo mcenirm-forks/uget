@@ -41,9 +41,9 @@
 
 #define	TAG_LEN_MAX		4095
 
-typedef	struct	UgHtmlContextPrivate_		UgHtmlContextPrivate;
-typedef	enum	UgHtmlContextState_			UgHtmlContextState;
-typedef	enum	UgHtmlTagState_				UgHtmlTagState;
+typedef	struct	UgHtmlContextPrivate		UgHtmlContextPrivate;
+typedef	enum	UgHtmlContextState			UgHtmlContextState;
+typedef	enum	UgHtmlTagState				UgHtmlTagState;
 
 /* Called for open tags <foo bar="baz"> */
 static void	cb_start_element (UgHtmlContextPrivate* context,
@@ -64,14 +64,16 @@ static void	cb_text          (UgHtmlContext* context,
 	                          int            text_len,
 	                          gpointer       user_data);
 
-enum UgHtmlContextState_ {
+enum UgHtmlContextState
+{
 	UG_HTML_CONTEXT_NULL,
 	UG_HTML_CONTEXT_TEXT,
 	UG_HTML_CONTEXT_TAG,
 //	UG_HTML_CONTEXT_TAG_PASS,	// <!--pass-->
 };
 
-enum UgHtmlTagState_ {
+enum UgHtmlTagState
+{
 	UG_HTML_TAG_ERROR,	// (0 << 0)
 	UG_HTML_TAG_START,	// (1 << 0)
 	UG_HTML_TAG_END,	// (1 << 1)
@@ -79,7 +81,7 @@ enum UgHtmlTagState_ {
 
 // ----------------------------------------------------------------------------
 // UgHtmlContextPrivate : simple and uncompleted parser.
-struct	UgHtmlContextPrivate_
+struct	UgHtmlContextPrivate
 {
 	char*	base_href;
 	char*	charset;

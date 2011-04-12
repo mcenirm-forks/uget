@@ -46,7 +46,8 @@
 #define	UG_CATEGORY_GTK_RECYCLED_NAME		_("Recycled")
 
 // This is used by GtkTreeStore
-enum UgCategoryStoreColumn {
+enum UgCategoryStoreColumn
+{
 	UG_CATEGORY_STORE_INSTANCE,		// UgCategory
 	UG_CATEGORY_STORE_DOWNLOAD,		// UgDownloadWidget
 	UG_CATEGORY_N_COLUMN
