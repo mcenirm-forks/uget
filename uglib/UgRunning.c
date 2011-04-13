@@ -67,7 +67,7 @@ UgRunning*	ug_running_new (void)
 void	ug_running_free (UgRunning* running)
 {
 	ug_running_finalize (running);
-	g_slice_free (UgRunning, running);
+	g_slice_free1 (sizeof (UgRunning), running);
 }
 
 gboolean	ug_running_add (UgRunning* running, UgDataset* dataset)

@@ -689,7 +689,7 @@ UgXmlrpcValue*	ug_xmlrpc_value_new_data (UgXmlrpcType type, guint preallocated_s
 void	ug_xmlrpc_value_free (UgXmlrpcValue* value)
 {
 	ug_xmlrpc_value_clear (value);
-	g_slice_free (UgXmlrpcValue, value);
+	g_slice_free1 (sizeof (UgXmlrpcValue), value);
 }
 
 void	ug_xmlrpc_value_clear (UgXmlrpcValue* value)
