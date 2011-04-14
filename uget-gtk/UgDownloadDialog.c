@@ -206,7 +206,7 @@ void	ug_download_dialog_set_category (UgDownloadDialog* ddialog, UgCategoryWidge
 	gtk_box_pack_start (vbox, (GtkWidget*) scrolled, TRUE, TRUE, 0);
 	gtk_widget_show_all ((GtkWidget*) vbox);
 	// pack hbox
-	gtk_box_pack_start (ddialog->hbox, (GtkWidget*) vbox, TRUE, TRUE, 1);
+	gtk_box_pack_start (ddialog->hbox, (GtkWidget*) vbox, FALSE, FALSE, 1);
 }
 
 void	ug_download_dialog_set_current_page (UgDownloadDialog* ddialog, gint nth_page)
