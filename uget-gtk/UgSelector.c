@@ -348,9 +348,9 @@ static void	ug_selector_filter_show (struct UgSelectorFilter* filter, UgSelector
 	GtkWindow* parent;
 
 	gtk_tree_view_set_model (filter->host_view,
-			GTK_TREE_MODEL (page->filter_host));
+			GTK_TREE_MODEL (page->filter.host));
 	gtk_tree_view_set_model (filter->ext_view,
-			GTK_TREE_MODEL (page->filter_ext));
+			GTK_TREE_MODEL (page->filter.ext));
 
 	// disable sensitive of parent window
 	// enable sensitive in function on_filter_dialog_response()
@@ -487,25 +487,25 @@ void	ug_selector_page_init (UgSelectorPage* page)
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (page->view));
 	gtk_widget_show (page->self);
 
-	page->filter_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
+	page->filter.hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 			NULL, (GDestroyNotify) g_list_free);
-	page->filter_host = gtk_list_store_new (1, G_TYPE_POINTER);
-	page->filter_ext  = gtk_list_store_new (1, G_TYPE_POINTER);
+	page->filter.host = gtk_list_store_new (1, G_TYPE_POINTER);
+	page->filter.ext  = gtk_list_store_new (1, G_TYPE_POINTER);
 	page->n_marked = 0;
 }
 
 void	ug_selector_page_finalize (UgSelectorPage* page)
 {
-	g_hash_table_destroy (page->filter_hash);
+	g_hash_table_destroy (page->filter.hash);
 
 	ug_selector_store_clear (page->store);
 	g_object_unref (page->store);
 
-	ug_selector_store_clear (page->filter_host);
-	g_object_unref (page->filter_host);
+	ug_selector_store_clear (page->filter.host);
+	g_object_unref (page->filter.host);
 
-	ug_selector_store_clear (page->filter_ext);
-	g_object_unref (page->filter_ext);
+	ug_selector_store_clear (page->filter.ext);
+	g_object_unref (page->filter.ext);
 }
 
 void	ug_selector_page_add_uris (UgSelectorPage* page, GList* uris)
@@ -550,24 +550,24 @@ static void	ug_selector_page_add_filter (UgSelectorPage* page, GtkListStore* fil
 	GList*			filter_list;
 	gchar*			orig_key;
 
-	if (g_hash_table_lookup_extended (page->filter_hash, key,
+	if (g_hash_table_lookup_extended (page->filter.hash, key,
 			(gpointer*) &orig_key, (gpointer*) &filter_list) == FALSE)
 	{
 		filter_item = g_slice_alloc (sizeof (UgSelectorItem));
 		filter_item->uri  = key;
 		filter_item->mark = TRUE;
 		filter_item->dataset = NULL;
-		gtk_list_store_append (page->store, &iter);
-		gtk_list_store_set (page->store, &iter, 0, filter_item, -1);
+		gtk_list_store_append (filter_store, &iter);
+		gtk_list_store_set (filter_store, &iter, 0, filter_item, -1);
 		filter_list = NULL;
 	}
 	else {
-		g_hash_table_steal (page->filter_hash, key);
+		g_hash_table_steal (page->filter.hash, key);
 		g_free (key);
 		key = orig_key;
 	}
 	filter_list = g_list_prepend (filter_list, value);
-	g_hash_table_insert (page->filter_hash, key, filter_list);
+	g_hash_table_insert (page->filter.hash, key, filter_list);
 }
 
 void	ug_selector_page_make_filter (UgSelectorPage* page)
@@ -579,7 +579,7 @@ void	ug_selector_page_make_filter (UgSelectorPage* page)
 	int				value;
 	gchar*			key;
 
-	if (g_hash_table_size (page->filter_hash))
+	if (g_hash_table_size (page->filter.hash))
 		return;
 
 	upart = g_slice_alloc (sizeof (UgUriPart));
@@ -593,14 +593,14 @@ void	ug_selector_page_make_filter (UgSelectorPage* page)
 			key = g_strndup (item->uri, upart->path - item->uri);
 		else
 			key = g_strdup ("(none)");
-		ug_selector_page_add_filter (page, page->filter_host, key, item);
+		ug_selector_page_add_filter (page, page->filter.host, key, item);
 		// create filter by filename extension --
 		value = ug_uri_part_file_ext (upart, (const char**) &key);
 		if (value)
 			key = g_strdup_printf (".%.*s", value, key);
 		else
 			key = g_strdup (".(none)");
-		ug_selector_page_add_filter (page, page->filter_ext, key, item);
+		ug_selector_page_add_filter (page, page->filter.ext, key, item);
 		// next
 		value = gtk_tree_model_iter_next (model, &iter);
 	}
@@ -617,7 +617,7 @@ static void	ug_selector_page_mark_by_filter (UgSelectorPage* page, GtkListStore*
 	marked = ug_selector_store_get_marked (filter_store, NULL);
 	for (link = marked;  link;  link = link->next) {
 		item = link->data;
-		related = g_hash_table_lookup (page->filter_hash, item->uri);
+		related = g_hash_table_lookup (page->filter.hash, item->uri);
 		for (;  related;  related = related->next) {
 			item = related->data;
 			item->mark++;	// increase mark count
@@ -637,8 +637,8 @@ void	ug_selector_page_mark_by_filter_all (UgSelectorPage* page)
 	ug_selector_store_set_mark_all (page->store, FALSE);
 	page->n_marked = 0;
 	// If filter (host and filename extension) was selected, increase mark count.
-	ug_selector_page_mark_by_filter (page, page->filter_host);
-	ug_selector_page_mark_by_filter (page, page->filter_ext);
+	ug_selector_page_mark_by_filter (page, page->filter.host);
+	ug_selector_page_mark_by_filter (page, page->filter.ext);
 	// remark
 	model = GTK_TREE_MODEL (page->store);
 	valid = gtk_tree_model_get_iter_first (model, &iter);

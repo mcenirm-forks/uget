@@ -111,9 +111,12 @@ struct UgSelectorPage
 	GtkListStore*	store;
 
 	// used by UgSelectorFilter
-	GHashTable*		filter_hash;
-	GtkListStore*	filter_host;
-	GtkListStore*	filter_ext;
+	struct
+	{
+		GHashTable*		hash;
+		GtkListStore*	host;
+		GtkListStore*	ext;
+	} filter;
 
 	// total marked count
 	gint			n_marked;
