@@ -42,33 +42,33 @@
 
 #include <glib/gi18n.h>
 
+
 // ----------------------------------------------------------------------------
 // UgSelectorItem
 //
-typedef struct	UgSelectorItem_		UgSelectorItem;
+typedef struct	UgSelectorItem		UgSelectorItem;
 
-struct UgSelectorItem_
+struct UgSelectorItem
 {
 	gboolean	mark;
 	gchar*		uri;
 	UgDataset*	dataset;
 };
 
-// store
-static UgSelectorItem*	ug_selector_store_alloc_back (GtkListStore* store);
-static GList*	ug_selector_store_get_marked   (GtkListStore* store);
+// GtkListStore for UgSelectorItem
+static GList*	ug_selector_store_get_marked   (GtkListStore* store, GList* list);
 static void		ug_selector_store_set_mark_all (GtkListStore* store, gboolean mark);
 static void		ug_selector_store_clear        (GtkListStore* store);
-// view
+// GtkTreeView for UgSelectorItem
 static GtkTreeView*		ug_selector_view_new (const gchar* title, gboolean active_toggled);
 static GtkCellRenderer*	ug_selector_view_get_renderer_toggle (GtkTreeView* view);
+
 
 // ----------------------------------------------------------------------------
 // UgSelector
 //
-static GtkWidget*	ug_selector_filter_view_init (GtkTreeView* item_view);
-static void			ug_selector_filter_init (struct UgSelectorFilter* filter, UgSelector* selector);
-static void			ug_selector_filter_show (struct UgSelectorFilter* filter, UgSelectorPage* page);
+static void	ug_selector_filter_init (struct UgSelectorFilter* filter, UgSelector* selector);
+static void	ug_selector_filter_show (struct UgSelectorFilter* filter, UgSelectorPage* page);
 // signal handlers
 static void	on_selector_item_toggled (GtkCellRendererToggle* cell, gchar* path_str, UgSelector* selector);
 static void	on_selector_mark_all    (GtkWidget* button, UgSelector* selector);
@@ -143,6 +143,9 @@ void	ug_selector_finalize (UgSelector* selector)
 		ug_selector_page_finalize (page);
 	}
 	g_array_free (selector->pages, TRUE);
+
+	// UgSelectorFilter
+	gtk_widget_destroy (GTK_WIDGET (selector->filter.dialog));
 }
 
 void	ug_selector_hide_href (UgSelector* selector)
@@ -152,7 +155,7 @@ void	ug_selector_hide_href (UgSelector* selector)
 	gtk_widget_hide ((GtkWidget*) selector->href_separator);
 }
 
-GList*	ug_selector_get_selected (UgSelector* selector)
+static GList*	ug_selector_get_marked (UgSelector* selector)
 {
 	UgSelectorPage*	page;
 	GList*			list;
@@ -161,12 +164,12 @@ GList*	ug_selector_get_selected (UgSelector* selector)
 	list = NULL;
 	for (index = 0;  index < selector->pages->len;  index++) {
 		page = &g_array_index (selector->pages, UgSelectorPage, index);
-		ug_selector_page_for_selected (page, &list);
+		list = ug_selector_store_get_marked (page->store, list);
 	}
 	return g_list_reverse (list);
 }
 
-GList*	ug_selector_get_selected_downloads (UgSelector* selector)
+GList*	ug_selector_get_marked_downloads (UgSelector* selector)
 {
 	UgSelectorItem*	item;
 	UgDataset*		dataset;
@@ -176,7 +179,7 @@ GList*	ug_selector_get_selected_downloads (UgSelector* selector)
 	GList*			link;
 	const gchar*	base_href;
 
-	list = ug_selector_get_selected (selector);
+	list = ug_selector_get_marked (selector);
 	base_href = gtk_entry_get_text (selector->href_entry);
 	if (base_href[0] == 0)
 		base_href = NULL;
@@ -212,15 +215,15 @@ GList*	ug_selector_get_selected_downloads (UgSelector* selector)
 	return list;
 }
 
-gint	ug_selector_count_selected (UgSelector* selector)
+gint	ug_selector_count_marked (UgSelector* selector)
 {
 	gint			count;
 	guint			index;
 
 	count = 0;
 	for (index = 0;  index < selector->pages->len;  index++) {
-		count += g_array_index (selector->pages, UgSelectorPage, index).n_selected;
-//		count += page->n_selected;
+		count += g_array_index (selector->pages, UgSelectorPage, index).n_marked;
+//		count += page->n_marked;
 	}
 	if (selector->notify.func)
 		selector->notify.func (selector->notify.data, (count) ? TRUE: FALSE);
@@ -255,6 +258,41 @@ UgSelectorPage*	ug_selector_get_page (UgSelector* selector, gint nth_page)
 		return NULL;
 	page = &g_array_index (selector->pages, UgSelectorPage, nth_page);
 	return page;
+}
+
+static GtkWidget*	ug_selector_filter_view_init (GtkTreeView* item_view)
+{
+	GtkSizeGroup*	sizegroup;
+	GtkWidget*		widget;
+	GtkBox*			vbox;
+	GtkBox*			hbox;
+
+	vbox = (GtkBox*) gtk_vbox_new (FALSE, 2);
+	// filter view and it's scrolled window
+	gtk_widget_set_size_request ((GtkWidget*) item_view, 120, 120);
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (widget),
+			GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (widget),
+			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (item_view));
+	gtk_box_pack_start (vbox, widget, TRUE, TRUE, 2);
+	// button
+	sizegroup = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
+	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 2);
+	widget = gtk_button_new_with_label (_("All"));
+	gtk_size_group_add_widget (sizegroup, widget);
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 1);
+	g_signal_connect (widget, "clicked",
+			G_CALLBACK (on_filter_button_all), item_view);
+	widget = gtk_button_new_with_label (_("None"));
+	gtk_size_group_add_widget (sizegroup, widget);
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 1);
+	g_signal_connect (widget, "clicked",
+			G_CALLBACK (on_filter_button_none), item_view);
+
+	return (GtkWidget*) vbox;
 }
 
 static void	ug_selector_filter_init (struct UgSelectorFilter* filter, UgSelector* selector)
@@ -305,41 +343,6 @@ static void	ug_selector_filter_init (struct UgSelectorFilter* filter, UgSelector
 	gtk_widget_show_all (GTK_WIDGET (vbox));
 }
 
-static GtkWidget*	ug_selector_filter_view_init (GtkTreeView* item_view)
-{
-	GtkSizeGroup*	sizegroup;
-	GtkWidget*		widget;
-	GtkBox*			vbox;
-	GtkBox*			hbox;
-
-	vbox = (GtkBox*) gtk_vbox_new (FALSE, 2);
-	// filter view and it's scrolled window
-	gtk_widget_set_size_request ((GtkWidget*) item_view, 120, 120);
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (widget),
-			GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (widget),
-			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (item_view));
-	gtk_box_pack_start (vbox, widget, TRUE, TRUE, 2);
-	// button
-	sizegroup = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
-	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
-	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 2);
-	widget = gtk_button_new_with_label (_("All"));
-	gtk_size_group_add_widget (sizegroup, widget);
-	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 1);
-	g_signal_connect (widget, "clicked",
-			G_CALLBACK (on_filter_button_all), item_view);
-	widget = gtk_button_new_with_label (_("None"));
-	gtk_size_group_add_widget (sizegroup, widget);
-	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 1);
-	g_signal_connect (widget, "clicked",
-			G_CALLBACK (on_filter_button_none), item_view);
-
-	return (GtkWidget*) vbox;
-}
-
 static void	ug_selector_filter_show (struct UgSelectorFilter* filter, UgSelectorPage* page)
 {
 	GtkWindow* parent;
@@ -379,11 +382,11 @@ static void	on_selector_item_toggled (GtkCellRendererToggle* cell, gchar* path_s
 	// UgSelectorItem.mark
 	item->mark ^= 1;
 	if (item->mark)
-		page->n_selected++;
+		page->n_marked++;
 	else
-		page->n_selected--;
+		page->n_marked--;
 	// count and notify
-	ug_selector_count_selected (selector);
+	ug_selector_count_marked (selector);
 }
 
 static void on_selector_mark_all (GtkWidget* button, UgSelector* selector)
@@ -396,8 +399,8 @@ static void on_selector_mark_all (GtkWidget* button, UgSelector* selector)
 	ug_selector_store_set_mark_all (page->store, TRUE);
 	gtk_widget_queue_draw (GTK_WIDGET (page->view));
 	// count and notify
-	page->n_selected = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (page->store), NULL);
-	ug_selector_count_selected (selector);
+	page->n_marked = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (page->store), NULL);
+	ug_selector_count_marked (selector);
 }
 
 static void on_selector_mark_none (GtkWidget* button, UgSelector* selector)
@@ -410,8 +413,8 @@ static void on_selector_mark_none (GtkWidget* button, UgSelector* selector)
 	ug_selector_store_set_mark_all (page->store, FALSE);
 	gtk_widget_queue_draw (GTK_WIDGET (page->view));
 	// count and notify
-	page->n_selected = 0;
-	ug_selector_count_selected (selector);
+	page->n_marked = 0;
+	ug_selector_count_marked (selector);
 }
 
 static void on_selector_mark_filter (GtkWidget* button, UgSelector* selector)
@@ -434,7 +437,7 @@ static void on_filter_dialog_response (GtkDialog* dialog, gint response_id, UgSe
 		// update selection of page
 		page = ug_selector_get_page (selector, -1);
 		if (page)
-			ug_selector_page_reselect (page);
+			ug_selector_page_mark_by_filter_all (page);
 	}
 	// enable parent window
 	parent = gtk_window_get_transient_for ((GtkWindow*) dialog);
@@ -443,7 +446,7 @@ static void on_filter_dialog_response (GtkDialog* dialog, gint response_id, UgSe
 	// hide filter dialog
 	gtk_widget_hide ((GtkWidget*) dialog);
 	// count and notify
-	ug_selector_count_selected (selector);
+	ug_selector_count_marked (selector);
 }
 
 static void on_filter_button_all (GtkWidget* widget, GtkTreeView* treeview)
@@ -464,12 +467,10 @@ static void on_filter_button_none (GtkWidget* widget, GtkTreeView* treeview)
 	gtk_widget_queue_draw ((GtkWidget*) treeview);
 }
 
+
 // ----------------------------------------------------------------------------
 // UgSelectorPage
 //
-static void	ug_selector_page_add_filter (UgSelectorPage* page, GtkListStore* filter_store, gchar* key, UgSelectorItem* value);
-static void	ug_selector_page_mark_by_filter (UgSelectorPage* page, GtkListStore* filter_store);
-
 void	ug_selector_page_init (UgSelectorPage* page)
 {
 	GtkScrolledWindow*	scrolled;
@@ -490,7 +491,7 @@ void	ug_selector_page_init (UgSelectorPage* page)
 			NULL, (GDestroyNotify) g_list_free);
 	page->filter_host = gtk_list_store_new (1, G_TYPE_POINTER);
 	page->filter_ext  = gtk_list_store_new (1, G_TYPE_POINTER);
-	page->n_selected = 0;
+	page->n_marked = 0;
 }
 
 void	ug_selector_page_finalize (UgSelectorPage* page)
@@ -509,33 +510,123 @@ void	ug_selector_page_finalize (UgSelectorPage* page)
 
 void	ug_selector_page_add_uris (UgSelectorPage* page, GList* uris)
 {
+	GtkTreeIter			iter;
 	UgSelectorItem*		item;
 
 	for (;  uris;  uris = uris->next) {
-		item = ug_selector_store_alloc_back (page->store);
+		item = g_slice_alloc (sizeof (UgSelectorItem));
 		item->mark = TRUE;
 		item->uri  = uris->data;
-		page->n_selected++;
+		item->dataset = NULL;
+		gtk_list_store_append (page->store, &iter);
+		gtk_list_store_set (page->store, &iter, 0, item, -1);
+		page->n_marked++;
 	}
 }
 
 void	ug_selector_page_add_downloads (UgSelectorPage* page, GList* list)
 {
-	UgSelectorItem*	item;
+	GtkTreeIter		iter;
 	UgDataset*		dataset;
+	UgSelectorItem*	item;
 
 	for (;  list;  list = list->next) {
 		dataset = list->data;
 		ug_dataset_ref (dataset);
-		item = ug_selector_store_alloc_back (page->store);
+		item = g_slice_alloc (sizeof (UgSelectorItem));
 		item->mark = TRUE;
 		item->uri  = UG_DATASET_COMMON (dataset)->url;
 		item->dataset = dataset;
-		page->n_selected++;
+		gtk_list_store_append (page->store, &iter);
+		gtk_list_store_set (page->store, &iter, 0, item, -1);
+		page->n_marked++;
 	}
 }
 
-void	ug_selector_page_reselect (UgSelectorPage* page)
+static void	ug_selector_page_add_filter (UgSelectorPage* page, GtkListStore* filter_store, gchar* key, UgSelectorItem* value)
+{
+	GtkTreeIter		iter;
+	UgSelectorItem*	filter_item;
+	GList*			filter_list;
+	gchar*			orig_key;
+
+	if (g_hash_table_lookup_extended (page->filter_hash, key,
+			(gpointer*) &orig_key, (gpointer*) &filter_list) == FALSE)
+	{
+		filter_item = g_slice_alloc (sizeof (UgSelectorItem));
+		filter_item->uri  = key;
+		filter_item->mark = TRUE;
+		filter_item->dataset = NULL;
+		gtk_list_store_append (page->store, &iter);
+		gtk_list_store_set (page->store, &iter, 0, filter_item, -1);
+		filter_list = NULL;
+	}
+	else {
+		g_hash_table_steal (page->filter_hash, key);
+		g_free (key);
+		key = orig_key;
+	}
+	filter_list = g_list_prepend (filter_list, value);
+	g_hash_table_insert (page->filter_hash, key, filter_list);
+}
+
+void	ug_selector_page_make_filter (UgSelectorPage* page)
+{
+	UgUriPart*		upart;
+	UgSelectorItem*	item;
+	GtkTreeModel*	model;
+	GtkTreeIter		iter;
+	int				value;
+	gchar*			key;
+
+	if (g_hash_table_size (page->filter_hash))
+		return;
+
+	upart = g_slice_alloc (sizeof (UgUriPart));
+	model = GTK_TREE_MODEL (page->store);
+	value = gtk_tree_model_get_iter_first (model, &iter);
+	while (value) {
+		gtk_tree_model_get (model, &iter, 0, &item, -1);
+		// create filter by host ----------------
+		ug_uri_part_init (upart, item->uri);
+		if (upart->authority)
+			key = g_strndup (item->uri, upart->path - item->uri);
+		else
+			key = g_strdup ("(none)");
+		ug_selector_page_add_filter (page, page->filter_host, key, item);
+		// create filter by filename extension --
+		value = ug_uri_part_file_ext (upart, (const char**) &key);
+		if (value)
+			key = g_strdup_printf (".%.*s", value, key);
+		else
+			key = g_strdup (".(none)");
+		ug_selector_page_add_filter (page, page->filter_ext, key, item);
+		// next
+		value = gtk_tree_model_iter_next (model, &iter);
+	}
+	g_slice_free1 (sizeof (UgUriPart), upart);
+}
+
+static void	ug_selector_page_mark_by_filter (UgSelectorPage* page, GtkListStore* filter_store)
+{
+	UgSelectorItem*	item;
+	GList*			related;
+	GList*			marked;
+	GList*			link;
+
+	marked = ug_selector_store_get_marked (filter_store, NULL);
+	for (link = marked;  link;  link = link->next) {
+		item = link->data;
+		related = g_hash_table_lookup (page->filter_hash, item->uri);
+		for (;  related;  related = related->next) {
+			item = related->data;
+			item->mark++;	// increase mark count
+		}
+	}
+	g_list_free (marked);
+}
+
+void	ug_selector_page_mark_by_filter_all (UgSelectorPage* page)
 {
 	UgSelectorItem*	item;
 	GtkTreeModel*	model;
@@ -544,7 +635,7 @@ void	ug_selector_page_reselect (UgSelectorPage* page)
 
 	// clear all mark
 	ug_selector_store_set_mark_all (page->store, FALSE);
-	page->n_selected = 0;
+	page->n_marked = 0;
 	// If filter (host and filename extension) was selected, increase mark count.
 	ug_selector_page_mark_by_filter (page, page->filter_host);
 	ug_selector_page_mark_by_filter (page, page->filter_ext);
@@ -558,146 +649,32 @@ void	ug_selector_page_reselect (UgSelectorPage* page)
 		if (item->mark > 0) {
 			item->mark--;
 			if (item->mark)
-				page->n_selected++;
+				page->n_marked++;
 		}
 	}
 }
 
-void	ug_selector_page_make_filter (UgSelectorPage* page)
-{
-	UgUriPart		upart;
-	UgSelectorItem*	item;
-	GtkTreeModel*	model;
-	GtkTreeIter		iter;
-	int				value;
-	gchar*			key;
-
-	if (g_hash_table_size (page->filter_hash))
-		return;
-
-	model = GTK_TREE_MODEL (page->store);
-	value = gtk_tree_model_get_iter_first (model, &iter);
-	while (value) {
-		gtk_tree_model_get (model, &iter, 0, &item, -1);
-		// create filter by host ----------------
-		ug_uri_part_init (&upart, item->uri);
-		if (upart.authority)
-			key = g_strndup (item->uri, upart.path - item->uri);
-		else
-			key = g_strdup ("(none)");
-		ug_selector_page_add_filter (page, page->filter_host, key, item);
-		// create filter by filename extension --
-		value = ug_uri_part_file_ext (&upart, (const char**) &key);
-		if (value)
-			key = g_strdup_printf (".%.*s", value, key);
-		else
-			key = g_strdup (".(none)");
-		ug_selector_page_add_filter (page, page->filter_ext, key, item);
-		// next
-		value = gtk_tree_model_iter_next (model, &iter);
-	}
-}
-
-gint	ug_selector_page_for_selected (UgSelectorPage* page, GList** list)
-{
-	GtkTreeModel*	model;
-	GtkTreeIter		iter;
-	gboolean		valid;
-	UgSelectorItem*	item;
-	gint			count;
-
-	count = 0;
-	model = GTK_TREE_MODEL (page->store);
-	valid = gtk_tree_model_get_iter_first (model, &iter);
-	while (valid) {
-		gtk_tree_model_get (model, &iter, 0, &item, -1);
-		valid = gtk_tree_model_iter_next (model, &iter);
-		if (item->mark) {
-			if (list)
-				*list = g_list_prepend (*list, item);
-			count++;
-		}
-	}
-	page->n_selected = count;
-	return count;
-}
-
-// ----------------------------------------------
-// UgSelectorPage static functions
-static void	ug_selector_page_add_filter (UgSelectorPage* page, GtkListStore* filter_store, gchar* key, UgSelectorItem* value)
-{
-	UgSelectorItem*	filter_item;
-	GList*			filter_list;
-	gchar*			orig_key;
-
-	if (g_hash_table_lookup_extended (page->filter_hash, key,
-			(gpointer*) &orig_key, (gpointer*) &filter_list) == FALSE)
-	{
-		filter_item = ug_selector_store_alloc_back (filter_store);
-		filter_item->uri  = key;
-		filter_item->mark = TRUE;
-		filter_list = NULL;
-	}
-	else {
-		g_hash_table_steal (page->filter_hash, key);
-		g_free (key);
-		key = orig_key;
-	}
-	filter_list = g_list_prepend (filter_list, value);
-	g_hash_table_insert (page->filter_hash, key, filter_list);
-}
-
-static void	ug_selector_page_mark_by_filter (UgSelectorPage* page, GtkListStore* filter_store)
-{
-	UgSelectorItem*	item;
-	GList*			related;
-	GList*			marked;
-	GList*			link;
-
-	marked = ug_selector_store_get_marked (filter_store);
-	for (link = marked;  link;  link = link->next) {
-		item = link->data;
-		related = g_hash_table_lookup (page->filter_hash, item->uri);
-		for (;  related;  related = related->next) {
-			item = related->data;
-			item->mark++;	// increase mark count
-		}
-	}
-	g_list_free (marked);
-}
 
 // ----------------------------------------------------------------------------
 // GtkListStore for UgSelectorItem
-//
-static UgSelectorItem*	ug_selector_store_alloc_back (GtkListStore* store)
-{
-	UgSelectorItem*	item;
-	GtkTreeIter		iter;
 
-	item = g_malloc0 (sizeof (UgSelectorItem));
-	gtk_list_store_append (store, &iter);
-	gtk_list_store_set (store, &iter, 0, item, -1);
-	return item;
-}
-
-static GList*	ug_selector_store_get_marked (GtkListStore* store)
+// (UgItem*) list->data. To free the returned value, call g_list_free()
+static GList*	ug_selector_store_get_marked (GtkListStore* store, GList* list)
 {
 	UgSelectorItem*	item;
 	GtkTreeModel*	model;
 	GtkTreeIter		iter;
 	gboolean		valid;
-	GList*			retval;
 
-	retval = NULL;
 	model = GTK_TREE_MODEL (store);
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 	while (valid) {
 		gtk_tree_model_get (model, &iter, 0, &item, -1);
 		valid = gtk_tree_model_iter_next (model, &iter);
 		if (item->mark)
-			retval = g_list_prepend (retval, item);
+			list = g_list_prepend (list, item);
 	}
-	return retval;
+	return list;
 }
 
 static void	ug_selector_store_set_mark_all (GtkListStore* store, gboolean mark)
@@ -721,17 +698,17 @@ static void	ug_selector_store_clear (GtkListStore* store)
 	UgSelectorItem*	item;
 	GtkTreeModel*	model;
 	GtkTreeIter		iter;
-	gboolean		valid;
 
 	model = GTK_TREE_MODEL (store);
-	valid = gtk_tree_model_get_iter_first (model, &iter);
-	while (valid) {
+	while (gtk_tree_model_get_iter_first (model, &iter)) {
 		gtk_tree_model_get (model, &iter, 0, &item, -1);
-		valid = gtk_tree_model_iter_next (model, &iter);
+		gtk_list_store_remove (store, &iter);
+
 		if (item->dataset)
 			ug_dataset_unref (item->dataset);
 		else
 			g_free (item->uri);
+		g_slice_free1 (sizeof (UgSelectorItem), item);
 	}
 }
 

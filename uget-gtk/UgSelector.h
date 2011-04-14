@@ -88,18 +88,14 @@ void	ug_selector_finalize (UgSelector* selector);
 
 void	ug_selector_hide_href (UgSelector* selector);
 
-// (UgItem*) list->data.
-// To free the returned value, use g_list_free (list).
-GList*	ug_selector_get_selected (UgSelector* selector);
-
 // (UgDataset*) list->data.
 // To free the returned value, use:
 //	g_list_foreach (list, (GFunc) ug_dataset_unref, NULL);
 //	g_list_free (list);
-GList*	ug_selector_get_selected_downloads (UgSelector* selector);
+GList*	ug_selector_get_marked_downloads (UgSelector* selector);
 
-// count selected item and notify
-gint	ug_selector_count_selected (UgSelector* selector);
+// count marked item and notify
+gint	ug_selector_count_marked (UgSelector* selector);
 
 UgSelectorPage*	ug_selector_add_page (UgSelector* selector, const gchar* title);
 UgSelectorPage*	ug_selector_get_page (UgSelector* selector, gint nth_page);
@@ -120,7 +116,7 @@ struct UgSelectorPage
 	GtkListStore*	filter_ext;
 
 	// total marked count
-	gint	n_selected;
+	gint			n_marked;
 };
 
 void	ug_selector_page_init (UgSelectorPage* page);
@@ -128,11 +124,9 @@ void	ug_selector_page_finalize (UgSelectorPage* page);
 
 void	ug_selector_page_add_uris (UgSelectorPage* page, GList* uris);
 void	ug_selector_page_add_downloads (UgSelectorPage* page, GList* downloads);
-void	ug_selector_page_reselect (UgSelectorPage* page);
 void	ug_selector_page_make_filter (UgSelectorPage* page);
+void	ug_selector_page_mark_by_filter_all (UgSelectorPage* page);
 
-// (UgItem*) list->data. To free the returned value, call g_list_free()
-gint	ug_selector_page_for_selected (UgSelectorPage* page, GList** list);
 
 #ifdef __cplusplus
 }

@@ -106,8 +106,8 @@ void	ug_download_dialog_free (UgDownloadDialog* ddialog)
 	g_object_ref (ddialog->page.current);
 	gtk_container_remove (GTK_CONTAINER (ddialog->hbox), ddialog->page.current);
 	if (ddialog->selector.self) {
-		ug_selector_finalize (&ddialog->selector);
 		gtk_widget_destroy (ddialog->selector.self);
+		ug_selector_finalize (&ddialog->selector);
 	}
 	if (ddialog->download.page1) {
 		gtk_widget_destroy (ddialog->page.array[1]);
@@ -289,7 +289,7 @@ GList*	ug_download_dialog_get_downloads (UgDownloadDialog* ddialog)
 	if (ddialog->selector.self) {
 		dataset = ug_dataset_new ();
 		ug_download_dialog_get (ddialog, dataset);
-		list = ug_selector_get_selected_downloads (&ddialog->selector);
+		list = ug_selector_get_marked_downloads (&ddialog->selector);
 		for (link = list;  link;  link = link->next) {
 			ug_data_assign (link->data, dataset);
 			ug_download_complete_data (link->data);
@@ -360,7 +360,7 @@ static void	on_dialog_show (GtkWidget *widget, UgDownloadDialog* ddialog)
 				(GtkWidget*) ddialog->batch.entry);
 	}
 	else if (ddialog->selector.self) {
-		ug_selector_count_selected (&ddialog->selector);
+		ug_selector_count_marked (&ddialog->selector);
 		gtk_window_set_focus ((GtkWindow*) ddialog->self,
 				(GtkWidget*) ddialog->selector.notebook);
 	}
