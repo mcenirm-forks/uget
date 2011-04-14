@@ -43,6 +43,7 @@
 #include <string.h>
 #include <stdlib.h>
 // uglib
+#include <UgUtils.h>
 #include <UgStdio.h>
 #include <UgPlugin-aria2.h>
 
@@ -331,6 +332,11 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 		goto exit;
 	}
 
+	// create folder
+	if (plugin->common->folder)
+		ug_create_dir_all (plugin->common->folder, -1);
+
+	// uri, torrent, or metalink
 	string = plugin->common->url;
 	if (strncmp (string, "file:", 5) == 0) {
 		string = g_filename_from_uri (string, NULL, NULL);
@@ -367,6 +373,7 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 			goto exit;
 	}
 
+	// loop
 	for (;;) {
 		if (plugin->state != UG_STATE_ACTIVE) {
 			ug_plugin_aria2_remove (plugin);
@@ -579,7 +586,7 @@ static gboolean	ug_plugin_aria2_get_version (UgPluginAria2* plugin)
 	const char*			temp;
 
 	response = ug_xmlrpc_call (&plugin->xmlrpc, "aria2.getVersion", UG_XMLRPC_NONE);
-	if (response != UG_XMLRPC_OK)
+	if (ug_plugin_aria2_response (plugin, response, "aria2.getVersion") == FALSE)
 		return FALSE;
 
 	vdata = ug_xmlrpc_get_value (&plugin->xmlrpc);
