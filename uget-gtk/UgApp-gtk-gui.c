@@ -182,7 +182,7 @@ static void ug_trayicon_init (struct UgTrayIcon* trayicon)
 	trayicon->self = gtk_status_icon_new_from_icon_name (icon_name);
 	gtk_status_icon_set_visible (trayicon->self, FALSE);
 #endif
-	ug_trayicon_set_info (trayicon, 0, 0.0);
+	ug_trayicon_set_info (trayicon, 0, 0, 0);
 }
 
 // ----------------------------------------------------------------------------
@@ -230,13 +230,17 @@ static void ug_statusbar_init (struct UgStatusbar* sbar)
 #if GTK_MAJOR_VERSION < 3
 	gtk_statusbar_set_has_resize_grip (sbar->self, FALSE);
 #endif
-	sbar->speed = (GtkLabel*) gtk_label_new ("");
+
+	sbar->down_speed = (GtkLabel*) gtk_label_new ("");
+	sbar->up_speed = (GtkLabel*) gtk_label_new ("");
 //	gtk_label_set_width_chars (sbar->speed, 15);
 //	gtk_label_set_justify (sbar->speed, GTK_JUSTIFY_RIGHT);
-	gtk_box_pack_end (GTK_BOX (sbar->self), (GtkWidget*) sbar->speed,
-			FALSE, TRUE, 2);
+	gtk_box_pack_end (GTK_BOX (sbar->self), (GtkWidget*) sbar->up_speed,
+			FALSE, TRUE, 4);
+	gtk_box_pack_end (GTK_BOX (sbar->self), (GtkWidget*) sbar->down_speed,
+			FALSE, TRUE, 4);
 
-	ug_statusbar_set_speed (sbar, 0.0);
+	ug_statusbar_set_speed (sbar, 0, 0);
 }
 
 // ----------------------------------------------------------------------------

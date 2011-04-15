@@ -438,10 +438,11 @@ GList*	ug_clipboard_get_matched (struct UgClipboard* clipboard, const gchar* tex
 // -------------------------------------------------------
 // UgTrayIcon and UgStatusbar
 
-void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gdouble speed)
+void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gint64 down_speed, gint64 up_speed)
 {
 	gchar*	string;
-	gchar*	string_speed;
+	gchar*	string_down_speed;
+	gchar*	string_up_speed;
 	guint	current_status;
 
 #ifdef HAVE_APP_INDICATOR
@@ -483,21 +484,26 @@ void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gdouble 
 		gtk_status_icon_set_from_icon_name (trayicon->self, string);
 #endif
 	}
+
 	// change tooltip
-	string_speed = ug_str_dtoa_unit (speed, 1, "/s");
+	string_down_speed = ug_str_dtoa_unit ((gdouble) down_speed, 1, "/s");
+	string_up_speed   = ug_str_dtoa_unit ((gdouble) up_speed, 1, "/s");
 	string = g_strdup_printf (
 			UG_APP_GTK_NAME " " UG_APP_GTK_VERSION "\n"
 			"%u %s" "\n"
-			"%s",
-			n_active, _("downloading"),
-			string_speed);
+			"D: %s" "\n"
+			"U: %s",
+			n_active, _("tasks"),
+			string_down_speed,
+			string_up_speed);
 #ifdef HAVE_APP_INDICATOR
 //	g_object_set (trayicon->indicator, "icon-desc", string, NULL);
 //	g_object_set (trayicon->indicator, "attention-icon-desc", string, NULL);
 #else
 	gtk_status_icon_set_tooltip_text (trayicon->self, string);
 #endif
-	g_free (string_speed);
+	g_free (string_down_speed);
+	g_free (string_up_speed);
 	g_free (string);
 }
 
@@ -534,12 +540,21 @@ void	ug_statusbar_set_info (struct UgStatusbar* statusbar, UgDownloadWidget* dwi
 	}
 }
 
-void	ug_statusbar_set_speed (struct UgStatusbar* statusbar, gdouble speed)
+void	ug_statusbar_set_speed (struct UgStatusbar* statusbar, gint64 down_speed, gint64 up_speed)
 {
-	gchar*			string;
+	gchar*		string_speed;
+	gchar*		string;
 
-	string = ug_str_dtoa_unit (speed, 1, "/s");
-	gtk_label_set_text (statusbar->speed, string);
+	string_speed = ug_str_dtoa_unit ((gdouble) down_speed, 1, "/s");
+	string = g_strconcat ("D: ", string_speed, NULL);
+	gtk_label_set_text (statusbar->down_speed, string);
+	g_free (string_speed);
+	g_free (string);
+
+	string_speed = ug_str_dtoa_unit ((gdouble) up_speed, 1, "/s");
+	string = g_strconcat ("U: ", string_speed, NULL);
+	gtk_label_set_text (statusbar->up_speed, string);
+	g_free (string_speed);
 	g_free (string);
 }
 

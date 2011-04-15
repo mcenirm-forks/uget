@@ -26,8 +26,8 @@ static void  dump_progress (UgProgress* progress)
 #else
 	g_print ("total size     : %lld byte\n", (long long int) progress->total);
 #endif
-	g_print ("speed (upload) : %.2f byte/sec\n", progress->upload_speed);
-	g_print ("speed          : %.2f byte/sec\n", progress->download_speed);
+	g_print ("speed (upload) : %.2f byte/sec\n", (double) progress->upload_speed);
+	g_print ("speed          : %.2f byte/sec\n", (double) progress->download_speed);
 	g_print ("percent        : %.2f%%\n", progress->percent);
 	g_print ("consumed time  : %.2f sec\n", progress->consume_time);
 	g_print ("remain time    : %.2f sec\n", progress->remain_time);

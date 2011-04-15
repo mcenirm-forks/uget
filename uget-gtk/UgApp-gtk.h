@@ -165,7 +165,8 @@ struct UgAppGtk
 	struct UgStatusbar
 	{
 		GtkStatusbar*	self;
-		GtkLabel*		speed;
+		GtkLabel*		down_speed;
+		GtkLabel*		up_speed;
 	} statusbar;
 
 	// --------------------------------
@@ -349,10 +350,10 @@ GList*	ug_clipboard_get_matched (struct UgClipboard* clipboard, const gchar* tex
 
 // --------------------------------------------------------
 // UgTrayIcon and UgStatusbar
-void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gdouble speed);
+void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gint64 down_speed, gint64 up_speed);
 void	ug_trayicon_set_visible (struct UgTrayIcon* trayicon, gboolean visible);
 void	ug_statusbar_set_info (struct UgStatusbar* statusbar, UgDownloadWidget* dwidget);
-void	ug_statusbar_set_speed (struct UgStatusbar* statusbar, gdouble speed);
+void	ug_statusbar_set_speed (struct UgStatusbar* statusbar, gint64 down_speed, gint64 up_speed);
 
 // --------------------------------------------------------
 // utility and integrate functions

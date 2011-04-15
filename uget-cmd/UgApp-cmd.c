@@ -172,7 +172,8 @@ static gboolean	ug_app_cmd_timer_queuing (UgAppCmd* app)
 {
 	GList*			tasks;
 	GList*			link;
-	gdouble			speed;
+	gint64			down_speed;
+	gint64			up_speed;
 
 	// do something for inactive tasks
 	tasks = ug_running_get_inactive (&app->running);
@@ -191,10 +192,11 @@ static gboolean	ug_app_cmd_timer_queuing (UgAppCmd* app)
 
 	// display number of tasks and speed
 	if (ug_running_get_n_tasks (&app->running) > 0) {
-		speed = ug_running_get_speed (&app->running);
-		g_print ("%u tasks, %.2f KiB\n",
+		ug_running_get_speed (&app->running, &down_speed, &up_speed);
+		g_print ("%u tasks, D: %.2f KiB, U: %.2f KiB\n",
 				ug_running_get_n_tasks (&app->running),
-				speed / 1024.0);
+				(double) down_speed / 1024.0,
+				(double) up_speed / 1024.0);
 	}
 
 	return TRUE;

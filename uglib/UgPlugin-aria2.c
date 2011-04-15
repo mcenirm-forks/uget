@@ -287,8 +287,8 @@ static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpo
 		return UG_RESULT_UNSUPPORT;
 
 	progress = data;
-	progress->download_speed = (gdouble) plugin->downloadSpeed;
-	progress->upload_speed = (gdouble) plugin->uploadSpeed;
+	progress->download_speed = plugin->downloadSpeed;
+	progress->upload_speed = plugin->uploadSpeed;
 	progress->complete = plugin->completedLength;
 	progress->uploaded = plugin->uploadLength;
 	progress->total = plugin->totalLength;
@@ -305,7 +305,7 @@ static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpo
 		progress->percent = 0;
 	// If total size and average speed is unknown, don't calculate remain time.
 	if (progress->download_speed > 0 && progress->total > 0)
-		progress->remain_time = (progress->total - progress->complete) / progress->download_speed;
+		progress->remain_time = (gdouble) ((progress->total - progress->complete) / progress->download_speed);
 
 	return UG_RESULT_OK;
 }

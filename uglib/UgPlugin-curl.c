@@ -226,6 +226,7 @@ static UgResult	ug_plugin_curl_get (UgPluginCurl* plugin, guint parameter, gpoin
 	UgProgress*	progress;
 	gdouble		complete;
 	gdouble		total;
+	gdouble		speed;
 
 	if (parameter != UG_DATA_INSTANCE)
 		return UG_RESULT_UNSUPPORT;
@@ -234,8 +235,9 @@ static UgResult	ug_plugin_curl_get (UgPluginCurl* plugin, guint parameter, gpoin
 
 	progress = data;
 	curl_easy_getinfo (plugin->curl, CURLINFO_TOTAL_TIME, &progress->consume_time);
-	curl_easy_getinfo (plugin->curl, CURLINFO_SPEED_DOWNLOAD, &progress->download_speed);
 	curl_easy_getinfo (plugin->curl, CURLINFO_SIZE_DOWNLOAD, &complete);
+	curl_easy_getinfo (plugin->curl, CURLINFO_SPEED_DOWNLOAD, &speed);
+	progress->download_speed = (gint64) speed;
 	complete = plugin->file_beg + complete;
 	total    = plugin->file_end;
 	// if total size is unknown, use completed size.
@@ -248,7 +250,7 @@ static UgResult	ug_plugin_curl_get (UgPluginCurl* plugin, guint parameter, gpoin
 		progress->percent = 0;
 	// If total size and average speed is unknown, don't calculate remain time.
 	if (progress->download_speed > 0 && total > 0)
-		progress->remain_time = (total - complete) / progress->download_speed;
+		progress->remain_time = (gdouble) ((total - complete) / progress->download_speed);
 	// others
 	progress->complete = (gint64) complete;
 	progress->total    = (gint64) total;

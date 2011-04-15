@@ -59,7 +59,9 @@ struct UgRunning
 {
 	GQueue		group;
 
-	guint64		speed_limit;
+	gint64		down_speed_limit;
+	gint64		up_speed_limit;
+
 	// global watch function
 	struct {
 		UgWatchFunc		func;
@@ -84,8 +86,8 @@ GList*		ug_running_get_inactive (UgRunning* running);
 
 guint		ug_running_get_n_tasks (UgRunning* running);
 
-gint64		ug_running_get_speed (UgRunning* running);
-void		ug_running_set_speed (UgRunning* running, guint64 speed_limit);
+void		ug_running_get_speed (UgRunning* running, gint64* down_speed, gint64* up_speed);
+void		ug_running_set_speed (UgRunning* running, gint64  down_limit, gint64  up_limit);
 
 // This is a GSourceFunc, you can use it with GSource.
 // It can adjust speed of all task.

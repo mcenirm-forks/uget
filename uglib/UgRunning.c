@@ -194,24 +194,30 @@ guint	ug_running_get_n_tasks (UgRunning* running)
 	return running->group.length;
 }
 
-gint64		ug_running_get_speed (UgRunning* running)
+void	ug_running_get_speed (UgRunning* running, gint64* down_speed, gint64* up_speed)
 {
 	UgProgress*		progress;
 	GList*			link;
-	gdouble			speed = 0.0;
+	gint64			down = 0;
+	gint64			up   = 0;
 
 	for (link = running->group.head;  link;  link = link->next) {
 		progress = UG_DATASET_PROGRESS ((UgDataset*)link->data);
 		if (progress == NULL)
 			continue;
-		speed += progress->download_speed;
+		down += progress->download_speed;
+		up   += progress->upload_speed;
 	}
-	return (gint64) speed;
+	if (down_speed)
+		*down_speed = down;
+	if (up_speed)
+		*up_speed = up;
 }
 
-void	ug_running_set_speed (UgRunning* running, guint64 speed_limit)
+void	ug_running_set_speed (UgRunning* running, gint64  down_limit, gint64  up_limit)
 {
-	running->speed_limit = speed_limit;
+	running->down_speed_limit = down_limit;
+	running->up_speed_limit = up_limit;
 }
 
 // This is a GSourceFunc, you can use it with GSource.
@@ -222,10 +228,10 @@ gboolean	ug_running_do_speed_limit (UgRunning* running)
 	gint64		average;
 	GList*		link;
 
-	if (running->speed_limit == 0)
+	if (running->down_speed_limit == 0)
 		return TRUE;
 
-	average = running->speed_limit / running->group.length;
+	average = running->down_speed_limit / running->group.length;
 	for (link = running->group.head;  link;  link = link->next) {
 		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
 		ug_plugin_set (relation->plugin, UG_DATA_INT64, &average);

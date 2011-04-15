@@ -427,12 +427,12 @@ static gboolean	ug_app_decide_schedule_state (UgAppGtk* app)
 
 		case UG_SCHEDULE_LIMITED_SPEED:
 			ug_running_set_speed (&app->running,
-					app->setting.scheduler.speed_limit);
+					app->setting.scheduler.speed_limit, 0);
 			break;
 
 		default:
 			// no speed limit
-			ug_running_set_speed (&app->running, 0);
+			ug_running_set_speed (&app->running, 0, 0);
 			break;
 		}
 	}
@@ -449,10 +449,11 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 	gboolean		changed;
 	static guint	n_before = 0;
 	guint			n_after;
+	gint64		down_speed;
+	gint64		up_speed;
 	union {
 		UgRelation*	relation;
 		gchar*		string;
-		gdouble		speed;
 	} temp;
 
 
@@ -516,7 +517,7 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 		// window title
 		if (n_after > 0) {
 			temp.string = g_strdup_printf (UG_APP_GTK_NAME " - %u %s",
-					n_after, _("downloading"));
+					n_after, _("tasks"));
 			gtk_window_set_title (app->window.self, temp.string);
 			g_free (temp.string);
 		}
@@ -529,15 +530,15 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 
 	// category or download status changed
 	if (changed || n_after) {
-		temp.speed = ug_running_get_speed (&app->running);
+		ug_running_get_speed (&app->running, &down_speed, &up_speed);
 		gtk_widget_queue_draw (app->cwidget.current.widget->self);
 		// summary
 		ug_summary_show (&app->summary,
 				ug_download_widget_get_cursor (app->cwidget.current.widget));
 		// status bar
-		ug_statusbar_set_speed (&app->statusbar, temp.speed);
+		ug_statusbar_set_speed (&app->statusbar, down_speed, up_speed);
 		// tray icon
-		ug_trayicon_set_info (&app->trayicon, n_after, temp.speed);
+		ug_trayicon_set_info (&app->trayicon, n_after, down_speed, up_speed);
 	}
 	// category status changed
 	if (changed)
