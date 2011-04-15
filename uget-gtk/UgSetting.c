@@ -398,8 +398,10 @@ void	ug_setting_init (UgSetting* setting)
 	setting->download_column.left         = TRUE;
 	setting->download_column.speed        = TRUE;
 	setting->download_column.upload_speed = TRUE;
+	setting->download_column.uploaded     = FALSE;
+	setting->download_column.ratio        = TRUE;
 	setting->download_column.retry        = TRUE;
-	setting->download_column.category     = TRUE;
+	setting->download_column.category     = FALSE;
 	setting->download_column.url          = FALSE;
 	setting->download_column.added_on     = TRUE;
 	setting->download_column.completed_on = FALSE;
