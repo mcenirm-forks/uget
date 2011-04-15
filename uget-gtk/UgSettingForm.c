@@ -360,9 +360,9 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	psform->enable = (GtkToggleButton*) widget;
 
 	// aria2 plug-in hints
-	widget = gtk_label_new (_("Please make sure that all of tasks have been completed."));
+	widget = gtk_label_new (_("Before you modify the settings:"));
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 3);
-	widget = gtk_label_new ("");
+	widget = gtk_label_new (_("Please make sure that all of tasks have been completed."));
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 3);
 
 	// URI entry
