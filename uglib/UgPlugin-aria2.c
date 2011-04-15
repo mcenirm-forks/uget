@@ -326,11 +326,8 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 	startingTime = time (NULL);
 	redirection  = TRUE;
 
-	if (ug_plugin_aria2_get_version (plugin) == FALSE) {
-		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2.getVersion failed.");
-		ug_plugin_post ((UgPlugin*) plugin, message);
+	if (ug_plugin_aria2_get_version (plugin) == FALSE)
 		goto exit;
-	}
 
 	// create folder
 	if (plugin->common->folder)
