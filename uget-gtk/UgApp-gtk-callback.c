@@ -422,7 +422,7 @@ static void	on_delete_download (GtkWidget* widget, UgAppGtk* app)
 	for (link = list;  link;  link = link->next) {
 		// set status "stop by user"
 		app->user_action = TRUE;
-		// stop job
+		// stop task
 		ug_running_remove (&app->running, link->data);
 		// delete data or move it to recycled
 		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
@@ -455,7 +455,7 @@ static void	on_delete_download_file_response (GtkWidget* widget, gint response_i
 	for (link = list;  link;  link = link->next) {
 		// set status "stop by user"
 		app->user_action = TRUE;
-		// stop job
+		// stop task
 		ug_running_remove (&app->running, link->data);
 		// delete file
 		common = UG_DATASET_COMMON ((UgDataset*) link->data);
@@ -647,7 +647,7 @@ static void	on_set_download_runnable (GtkWidget* widget, UgAppGtk* app)
 	for (link = list;  link;  link = link->next) {
 		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
 		relation->hints &= ~UG_HINT_UNRUNNABLE;
-		// If job is in Finished or Recycled, move it to Queuing.
+		// If task is in Finished or Recycled, move it to Queuing.
 		ug_category_gtk_changed (relation->category, link->data);
 	}
 	g_list_free (list);
@@ -671,7 +671,7 @@ static void	on_set_download_to_pause (GtkWidget* widget, UgAppGtk* app)
 		relation->hints |=  UG_HINT_PAUSED;
 		// set status "stop by user"
 		app->user_action = TRUE;
-		// stop job
+		// stop task
 		ug_running_remove (&app->running, link->data);
 	}
 	g_list_free (list);
@@ -978,7 +978,7 @@ static void	on_offline_mode (GtkWidget* widget, UgAppGtk* app)
 	if (app->setting.offline_mode == TRUE) {
 		// set status "stop by user"
 		app->user_action = TRUE;
-		// stop all active jobs
+		// stop all active tasks
 		ug_running_clear (&app->running);
 		// refresh
 		gtk_widget_queue_draw (app->cwidget.self);

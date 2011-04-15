@@ -170,30 +170,30 @@ static gboolean ug_app_cmd_timer_ipc (UgAppCmd* app)
 
 static gboolean	ug_app_cmd_timer_queuing (UgAppCmd* app)
 {
-	GList*			jobs;
+	GList*			tasks;
 	GList*			link;
 	gdouble			speed;
 
-	// do something for inactive jobs
-	jobs = ug_running_get_inactive (&app->running);
-	for (link = jobs;  link;  link = link->next) {
-		// remove inactive jobs from group
+	// do something for inactive tasks
+	tasks = ug_running_get_inactive (&app->running);
+	for (link = tasks;  link;  link = link->next) {
+		// remove inactive tasks from group
 		ug_running_remove (&app->running, link->data);
 	}
-	g_list_free (jobs);
+	g_list_free (tasks);
 
-	// get queuing jobs from categories and activate them
+	// get queuing tasks from categories and activate them
 	for (link = app->category_list;  link;  link = link->next) {
-		jobs = ug_category_cmd_get_jobs (link->data);
-		ug_running_add_jobs (&app->running, jobs);
-		g_list_free (jobs);
+		tasks = ug_category_cmd_get_tasks (link->data);
+		ug_running_add_tasks (&app->running, tasks);
+		g_list_free (tasks);
 	}
 
-	// display number of jobs and speed
-	if (ug_running_get_n_jobs (&app->running) > 0) {
+	// display number of tasks and speed
+	if (ug_running_get_n_tasks (&app->running) > 0) {
 		speed = ug_running_get_speed (&app->running);
-		g_print ("%u jobs, %.2f KiB\n",
-				ug_running_get_n_jobs (&app->running),
+		g_print ("%u tasks, %.2f KiB\n",
+				ug_running_get_n_tasks (&app->running),
 				speed / 1024.0);
 	}
 

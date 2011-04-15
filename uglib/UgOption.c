@@ -115,7 +115,7 @@ GList*	ug_option_parse (UgOption* uopt, GPtrArray* args)
 	strings = g_list_concat (strings, ug_arg_get_rest (temp_args));
 	ug_arg_free (temp_args, FALSE);
 
-	// get argument data and create jobs
+	// get argument data and create tasks
 	downloads = NULL;
 	for (strings = g_list_last (strings);  strings;  strings = strings->prev) {
 		dataset = ug_dataset_new ();

@@ -66,7 +66,7 @@ const UgCategoryFuncs	cgtk_funcs =
 {
 	ug_category_gtk_add,
 	ug_category_gtk_get_all,
-	ug_category_gtk_get_jobs,
+	ug_category_gtk_get_tasks,
 	ug_category_gtk_changed,
 };
 
@@ -134,7 +134,7 @@ static void	ug_category_gtk_free (UgCategoryGtk* cgtk)
 	ug_download_widget_finalize (&cgtk->queuing);
 	ug_download_widget_finalize (&cgtk->finished);
 	ug_download_widget_finalize (&cgtk->recycled);
-	// free all jobs
+	// free all tasks
 	model = cgtk->filter;
 	while (gtk_tree_model_get_iter_first (model, &iter)) {
 		gtk_tree_model_get (model, &iter, 0, &dataset, -1);
@@ -293,15 +293,15 @@ GList*	ug_category_gtk_get_all (UgCategory* category)
 	return g_list_reverse (list);
 }
 
-GList*	ug_category_gtk_get_jobs (UgCategory* category)
+GList*	ug_category_gtk_get_tasks (UgCategory* category)
 {
 	UgCategoryGtk*	cgtk;
 	UgDataset*		dataset;
 	UgRelation*		relation;
 	GtkTreeIter		iter;
 	gboolean		valid;
-	GList*			jobs;
-	guint			jobs_len;
+	GList*			tasks;
+	guint			tasks_len;
 	guint			temp_len;
 
 	cgtk = category->user.category;
@@ -309,8 +309,8 @@ GList*	ug_category_gtk_get_jobs (UgCategory* category)
 	if (category->active_limit <= temp_len)
 		return NULL;
 
-	jobs = NULL;
-	jobs_len = 0;
+	tasks = NULL;
+	tasks_len = 0;
 	temp_len = category->active_limit - temp_len;
 
 	valid = gtk_tree_model_get_iter_first (cgtk->queuing.model, &iter);
@@ -321,13 +321,13 @@ GList*	ug_category_gtk_get_jobs (UgCategory* category)
 		relation = UG_DATASET_RELATION (dataset);
 		if (relation->hints & UG_HINT_UNRUNNABLE)
 			continue;
-		jobs = g_list_prepend (jobs, dataset);
-		jobs_len++;
-		if (jobs_len >= temp_len)
+		tasks = g_list_prepend (tasks, dataset);
+		tasks_len++;
+		if (tasks_len >= temp_len)
 			break;
 	}
 
-	return g_list_reverse (jobs);
+	return g_list_reverse (tasks);
 }
 
 void	ug_category_gtk_changed	(UgCategory* category, UgDataset* dataset)
@@ -354,7 +354,7 @@ void	ug_category_gtk_changed	(UgCategory* category, UgDataset* dataset)
 	else
 		dlwidget = &cgtk->queuing;
 
-	// Don't move job to the same UgDownloadWidget.
+	// Don't move task to the same UgDownloadWidget.
 	if (relation->user.data == &cgtk->active  &&  dlwidget == &cgtk->queuing) {
 		relation->user.data = dlwidget;
 		gtk_list_store_move_after (relation->user.storage,
@@ -415,7 +415,7 @@ void	ug_category_gtk_clear (UgCategory* category, UgCategoryHints hint, guint fr
 	else
 		model = cgtk->queuing.model;
 
-	// get jobs to clear
+	// get tasks to clear
 	list = NULL;
 	valid = gtk_tree_model_iter_nth_child (model, &iter, NULL, from_nth);
 	while (valid) {
@@ -423,7 +423,7 @@ void	ug_category_gtk_clear (UgCategory* category, UgCategoryHints hint, guint fr
 		list = g_list_prepend (list, dataset);
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
-	// remove jobs
+	// remove tasks
 	for (link = list;  link;  link = link->next)
 		ug_category_gtk_remove (category, link->data);
 	g_list_free (list);
@@ -555,7 +555,7 @@ gboolean	ug_category_gtk_move_selected_to_top (UgCategory* category, UgDownloadW
 	gint			index;
 	gint			index_top;
 
-	// get movable jobs
+	// get movable tasks
 	relation_top = NULL;
 	index_top = 0;
 	list = ug_download_widget_get_selected_indices (dwidget);
@@ -605,7 +605,7 @@ gboolean	ug_category_gtk_move_selected_to_bottom (UgCategory* category, UgDownlo
 	gint			index;
 	gint			index_bottom;
 
-	// get movable jobs
+	// get movable tasks
 	relation_bottom = NULL;
 	index_bottom = gtk_tree_model_iter_n_children (dwidget->model, NULL) - 1;
 	list = ug_download_widget_get_selected_indices (dwidget);

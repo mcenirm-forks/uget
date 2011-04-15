@@ -55,7 +55,7 @@ const UgCategoryFuncs	ccmd_funcs =
 {
 	ug_category_cmd_add,
 	ug_category_cmd_get_all,
-	ug_category_cmd_get_jobs,
+	ug_category_cmd_get_tasks,
 	ug_category_cmd_changed,
 };
 
@@ -118,7 +118,7 @@ void	ug_category_cmd_add (UgCategory* category, UgDataset* dataset)
 	relation->category = category;
 	relation->user.category = ccmd;
 
-	// select queue & add job to it
+	// select queue & add task to it
 	if (relation->hints & UG_HINT_RECYCLED) {
 		g_queue_push_head (&ccmd->recycled, dataset);
 		relation->user.storage  = &ccmd->recycled;
@@ -136,7 +136,7 @@ void	ug_category_cmd_add (UgCategory* category, UgDataset* dataset)
 	}
 }
 
-// get all jobs(UgDataset) in this category.
+// get all tasks(UgDataset) in this category.
 // To free the returned value, use g_list_free (list).
 GList*	ug_category_cmd_get_all (UgCategory* category)
 {
@@ -158,37 +158,37 @@ GList*	ug_category_cmd_get_all (UgCategory* category)
 	return list;
 }
 
-// get queuing jobs(UgDataset) in this category/
+// get queuing tasks(UgDataset) in this category/
 // This function should be noticed UgCategory::active_limit, because
 // application will try to activate all returned dataset.
 // To free the returned value, use g_list_free (list).
-GList*	ug_category_cmd_get_jobs (UgCategory* category)
+GList*	ug_category_cmd_get_tasks (UgCategory* category)
 {
 	UgCategoryCmd*	ccmd;
 	UgRelation*		relation;
 	GList*			link;
-	GList*			jobs;
-	guint			jobs_len;
+	GList*			tasks;
+	guint			tasks_len;
 
 	ccmd = category->user.category;
 	if (category->active_limit <= ccmd->active.length)
 		return NULL;
 
-	jobs = NULL;
-	jobs_len = 0;
+	tasks = NULL;
+	tasks_len = 0;
 
 	for (link = ccmd->queuing.head;  link;  link = link->next) {
 		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
 		if (relation->hints & UG_HINT_UNRUNNABLE)
 			continue;
 
-		jobs = g_list_prepend (jobs, link->data);
-		jobs_len++;
-		if (jobs_len >= (category->active_limit - ccmd->active.length))
+		tasks = g_list_prepend (tasks, link->data);
+		tasks_len++;
+		if (tasks_len >= (category->active_limit - ccmd->active.length))
 			break;
 	}
 
-	return g_list_reverse (jobs);
+	return g_list_reverse (tasks);
 }
 
 // used to notify category that it's dataset was changed.
@@ -215,9 +215,9 @@ void	ug_category_cmd_changed (UgCategory* category, UgDataset* dataset)
 	else
 		queue = &ccmd->queuing;
 
-	// Don't switch job to the same queue.
+	// Don't switch task to the same queue.
 	if (queue != relation->user.storage) {
-		// switch job to new queue
+		// switch task to new queue
 		g_queue_delete_link (relation->user.storage, relation->user.position);
 		if (queue == &ccmd->finished || queue == &ccmd->recycled) {
 			g_queue_push_head (queue, dataset);

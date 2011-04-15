@@ -34,7 +34,7 @@
  *
  */
 
-// a group contains all running jobs
+// a group contains all running tasks
 
 
 #ifndef UG_RUNNING_H
@@ -53,7 +53,7 @@ typedef gboolean (*UgWatchFunc)	(gpointer instance, UgMessage* message, UgDatase
 
 
 // ----------------------------------------------------------------------------
-// UgRunning: a group for active jobs (UgDataset)
+// UgRunning: a group for active tasks (UgDataset)
 //
 struct UgRunning
 {
@@ -76,26 +76,26 @@ void		ug_running_free (UgRunning* running);
 gboolean	ug_running_add (UgRunning* running, UgDataset* dataset);
 void		ug_running_remove (UgRunning* running, UgDataset* dataset);
 
-gboolean	ug_running_add_jobs (UgRunning* running, GList* list);
-void		ug_running_remove_jobs (UgRunning* running, GList* list);
+gboolean	ug_running_add_tasks (UgRunning* running, GList* list);
+void		ug_running_remove_tasks (UgRunning* running, GList* list);
 void		ug_running_clear (UgRunning* running);
 
 GList*		ug_running_get_inactive (UgRunning* running);
 
-guint		ug_running_get_n_jobs (UgRunning* running);
+guint		ug_running_get_n_tasks (UgRunning* running);
 
 gint64		ug_running_get_speed (UgRunning* running);
 void		ug_running_set_speed (UgRunning* running, guint64 speed_limit);
 
 // This is a GSourceFunc, you can use it with GSource.
-// It can adjust speed of all job.
+// It can adjust speed of all task.
 gboolean	ug_running_do_speed_limit (UgRunning* running);
 
 // This is a GSourceFunc, you can use it with GSource.
-// It can dispatch all messages from all jobs.
+// It can dispatch all messages from all tasks.
 gboolean	ug_running_dispatch (UgRunning* running);
 
-// It only dispatch messages from one of jobs.
+// It only dispatch messages from one of tasks.
 void		ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset);
 
 //void		ug_running_foreach(UgRunning* running, GFunc func, gpointer data);

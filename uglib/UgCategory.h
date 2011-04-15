@@ -53,10 +53,10 @@ typedef struct	UgCategoryFuncs		UgCategoryFuncs;
 typedef enum	UgCategoryHints		UgCategoryHints;
 typedef struct	UgRelation			UgRelation;
 
-typedef void	(*UgCategoryAddFunc)	(UgCategory* category, UgDataset* dataset);
-typedef GList*	(*UgCategoryGetAllFunc)	(UgCategory* category);
-typedef GList*	(*UgCategoryGetJobsFunc)(UgCategory* category);
-typedef void	(*UgCategoryChangedFunc)(UgCategory* category, UgDataset* dataset);
+typedef void	(*UgCategoryAddFunc)     (UgCategory* category, UgDataset* dataset);
+typedef GList*	(*UgCategoryGetAllFunc)  (UgCategory* category);
+typedef GList*	(*UgCategoryGetTasksFunc)(UgCategory* category);
+typedef void	(*UgCategoryChangedFunc) (UgCategory* category, UgDataset* dataset);
 
 extern const	UgDataInterface		ug_category_iface;
 extern const	UgDataInterface		ug_relation_iface;
@@ -111,7 +111,7 @@ struct UgCategoryFuncs
 {
 	UgCategoryAddFunc		add;		// used by ug_category_list_link()
 	UgCategoryGetAllFunc	get_all;	// used by ug_category_list_save()
-	UgCategoryGetJobsFunc	get_jobs;	// used to get runnable jobs
+	UgCategoryGetTasksFunc	get_tasks;	// used to get runnable tasks
 	UgCategoryChangedFunc	changed;	// notify category that it's dataset was changed.
 };
 
@@ -122,17 +122,17 @@ void		ug_category_init     (UgCategory* category);
 void		ug_category_finalize (UgCategory* category);
 
 // add dataset to category and increase reference count of dataset.
-void	ug_category_add     (UgCategory* category, UgDataset* dataset);
+void	ug_category_add (UgCategory* category, UgDataset* dataset);
 
-// get all jobs(UgDataset) in this category.
+// get all tasks(UgDataset) in this category.
 // To free the returned value, use g_list_free (list).
 GList*	ug_category_get_all (UgCategory* category);
 
-// get queuing jobs(UgDataset) in this category.
+// get queuing tasks(UgDataset) in this category.
 // This function should be noticed UgCategory::active_limit, because
 // application will try to activate all returned dataset.
 // To free the returned value, use g_list_free (list).
-GList*	ug_category_get_jobs (UgCategory* category);
+GList*	ug_category_get_tasks (UgCategory* category);
 
 // used to notify category that it's dataset was changed.
 // It may change hints and switch dataset to another internal queue of category.

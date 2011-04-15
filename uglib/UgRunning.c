@@ -92,7 +92,7 @@ gboolean	ug_running_add (UgRunning* running, UgDataset* dataset)
 			// notify
 			if (category)
 				ug_category_changed (category, dataset);
-			// If this job can't activate, return FALSE.
+			// If this task can't activate, return FALSE.
 			return FALSE;
 		}
 	}
@@ -104,10 +104,10 @@ gboolean	ug_running_add (UgRunning* running, UgDataset* dataset)
 	// add to group
 	ug_dataset_ref (dataset);
 	g_queue_push_tail (&running->group, dataset);
-	// activate job
+	// activate task
 	ug_plugin_set_state (relation->plugin, UG_STATE_ACTIVE);
 	ug_running_do_speed_limit (running);
-	// If this job can activate, return TRUE.
+	// If this task can activate, return TRUE.
 	return TRUE;
 }
 
@@ -121,7 +121,7 @@ void	ug_running_remove (UgRunning* running, UgDataset* dataset)
 	link = g_queue_find (&running->group, dataset);
 	if (link == NULL)
 		return;
-	// stop job
+	// stop task
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation->plugin) {
 		ug_plugin_set_state (relation->plugin, UG_STATE_NULL);
@@ -142,7 +142,7 @@ void	ug_running_remove (UgRunning* running, UgDataset* dataset)
 	ug_dataset_unref (dataset);
 }
 
-gboolean	ug_running_add_jobs (UgRunning* running, GList* list)
+gboolean	ug_running_add_tasks (UgRunning* running, GList* list)
 {
 	gboolean	retval = FALSE;
 
@@ -154,7 +154,7 @@ gboolean	ug_running_add_jobs (UgRunning* running, GList* list)
 	return retval;
 }
 
-void	ug_running_remove_jobs (UgRunning* running, GList* list)
+void	ug_running_remove_tasks (UgRunning* running, GList* list)
 {
 	for (;  list;  list = list->next)
 		ug_running_remove (running, list->data);
@@ -165,7 +165,7 @@ void	ug_running_clear (UgRunning* running)
 	GList*	list;
 
 	list = g_list_copy (running->group.head);
-	ug_running_remove_jobs (running, list);
+	ug_running_remove_tasks (running, list);
 	g_list_free (list);
 }
 
@@ -189,7 +189,7 @@ GList*	ug_running_get_inactive (UgRunning* running)
 	return list;
 }
 
-guint	ug_running_get_n_jobs (UgRunning* running)
+guint	ug_running_get_n_tasks (UgRunning* running)
 {
 	return running->group.length;
 }
@@ -215,7 +215,7 @@ void	ug_running_set_speed (UgRunning* running, guint64 speed_limit)
 }
 
 // This is a GSourceFunc, you can use it with GSource.
-// It can adjust speed of all job.
+// It can adjust speed of all task.
 gboolean	ug_running_do_speed_limit (UgRunning* running)
 {
 	UgRelation*	relation;
@@ -236,7 +236,7 @@ gboolean	ug_running_do_speed_limit (UgRunning* running)
 }
 
 // This is a GSourceFunc, you can use it with GSource.
-// It can dispatch all messages from all jobs.
+// It can dispatch all messages from all tasks.
 gboolean	ug_running_dispatch (UgRunning* running)
 {
 	GList*	link;
@@ -250,7 +250,7 @@ gboolean	ug_running_dispatch (UgRunning* running)
 	return TRUE;
 }
 
-// It only dispatch messages from one of jobs.
+// It only dispatch messages from one of tasks.
 void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 {
 	UgCategory*		category;

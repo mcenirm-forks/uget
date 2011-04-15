@@ -440,10 +440,10 @@ static gboolean	ug_app_decide_schedule_state (UgAppGtk* app)
 	return changed;
 }
 
-// start, stop jobs and refresh information.
+// start, stop tasks and refresh information.
 static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 {
-	GList*		jobs;
+	GList*		tasks;
 	GList*		list;
 	GList*		link;
 	gboolean		changed;
@@ -458,9 +458,9 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 
 	// If changed is TRUE, it will refresh all category-related data.
 	changed = ug_app_decide_schedule_state (app);
-	// do something for inactive jobs
-	jobs = ug_running_get_inactive (&app->running);
-	for (link = jobs;  link;  link = link->next) {
+	// do something for inactive tasks
+	tasks = ug_running_get_inactive (&app->running);
+	for (link = tasks;  link;  link = link->next) {
 		temp.relation = UG_DATASET_RELATION ((UgDataset*) link->data);
 		// This will change tray icon.
 		if (temp.relation->hints & UG_HINT_ERROR)
@@ -468,11 +468,11 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 		// launch default application
 		if ((temp.relation->hints & UG_HINT_COMPLETED) && app->setting.launch.active)
 			ug_app_launch_default_app (link->data, app->launch_regex);
-		// remove inactive jobs from group
+		// remove inactive tasks from group
 		ug_running_remove (&app->running, link->data);
 		changed = TRUE;
 	}
-	g_list_free (jobs);
+	g_list_free (tasks);
 
 	// category list
 	list = ug_category_widget_get_list (&app->cwidget);
@@ -480,20 +480,20 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 		// clear excess downloads
 		if (ug_category_gtk_clear_excess (link->data))
 			changed = TRUE;
-		// Don't activate jobs if offline mode was enabled or schedule turns off jobs.
+		// Don't activate tasks if offline mode was enabled or schedule turns off tasks.
 		if (app->setting.offline_mode || app->schedule_state == UG_SCHEDULE_TURN_OFF)
 			continue;
-		// get queuing jobs from categories and activate them
-		jobs = ug_category_gtk_get_jobs (link->data);
-		if (ug_running_add_jobs (&app->running, jobs))
+		// get queuing tasks from categories and activate them
+		tasks = ug_category_gtk_get_tasks (link->data);
+		if (ug_running_add_tasks (&app->running, tasks))
 			changed = TRUE;
-		g_list_free (jobs);
+		g_list_free (tasks);
 	}
 	g_list_free (list);
 
-	// get number of jobs after queuing
-	n_after = ug_running_get_n_jobs (&app->running);
-	// some jobs was start or stop
+	// get number of tasks after queuing
+	n_after = ug_running_get_n_tasks (&app->running);
+	// some tasks was start or stop
 	if (n_before != n_after) {
 		// downloading start
 		if (n_before == 0  &&  n_after > 0) {

@@ -446,7 +446,7 @@ GtkTreeView* ug_category_view_new (void)
 //	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_append_column (view, column);
 
-	// column jobs
+	// column Quantity = number of tasks
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, _("Quantity"));
 	renderer = gtk_cell_renderer_text_new ();

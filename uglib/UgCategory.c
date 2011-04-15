@@ -132,20 +132,20 @@ void	ug_category_add (UgCategory* category, UgDataset* dataset)
 	category->funcs->add (category, dataset);
 }
 
-// get all jobs(UgDataset) in this category.
+// get all tasks(UgDataset) in this category.
 // To free the returned value, use g_list_free (list).
 GList*	ug_category_get_all (UgCategory* category)
 {
 	return category->funcs->get_all (category);
 }
 
-// get queuing jobs(UgDataset) in this category/
+// get queuing tasks(UgDataset) in this category/
 // This function should be noticed UgCategory::active_limit, because
 // application will try to activate all returned dataset.
 // To free the returned value, use g_list_free (list).
-GList*	ug_category_get_jobs (UgCategory* category)
+GList*	ug_category_get_tasks (UgCategory* category)
 {
-	return category->funcs->get_jobs (category);
+	return category->funcs->get_tasks (category);
 }
 
 // used to notify category that it's dataset was changed.
@@ -332,11 +332,11 @@ void	ug_category_list_link (GList* list, GList* download_list)
 	for (link = download_list;  link;  link = link->next)
 		array->pdata[array->len++] = link->data;
 
-	// link jobs in category
+	// link tasks in category
 	for (;  list;  list = list->next) {
 		category = list->data;
 		add_func = category->funcs->add;
-		// get jobs from array by index
+		// get tasks from array by index
 		for (link = category->indices;  link;  link = link->next) {
 			index = GPOINTER_TO_INT (link->data);
 			if (index < array->len)

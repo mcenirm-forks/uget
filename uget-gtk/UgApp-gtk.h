@@ -86,7 +86,7 @@ struct UgAppGtk
 	UgRunning		running;
 
 	UgSetting		setting;		// UgSetting.h
-	gboolean		user_action;	// some job stop by user
+	gboolean		user_action;	// some task stop by user
 	UgScheduleState	schedule_state;
 
 	// Launch application

@@ -53,9 +53,9 @@ extern "C" {
 // ----------------------------------------------------------------------------
 // UgCategoryCmd: additional data for UgCategory and command-line
 //
-typedef struct	UgCategoryCmd_			UgCategoryCmd;
+typedef struct	UgCategoryCmd			UgCategoryCmd;
 
-struct UgCategoryCmd_
+struct UgCategoryCmd
 {
 	GQueue			active;
 	GQueue			queuing;
@@ -67,13 +67,13 @@ struct UgCategoryCmd_
 UgCategory*		ug_category_new_with_cmd (void);
 
 // set additional data and functions to UgCategory.
-void	ug_category_use_cmd		(UgCategory* category);
+void	ug_category_use_cmd	(UgCategory* category);
 
 // functions will be used by UgCategoryFuncs (UgCategory::funcs)
-void	ug_category_cmd_add		(UgCategory* category, UgDataset* dataset);
-GList*	ug_category_cmd_get_all	(UgCategory* category);
-GList*	ug_category_cmd_get_jobs(UgCategory* category);
-void	ug_category_cmd_changed	(UgCategory* category, UgDataset* dataset);
+void	ug_category_cmd_add (UgCategory* category, UgDataset* dataset);
+GList*	ug_category_cmd_get_all (UgCategory* category);
+GList*	ug_category_cmd_get_tasks (UgCategory* category);
+void	ug_category_cmd_changed (UgCategory* category, UgDataset* dataset);
 
 // other functions used by uget-cmd
 void	ug_category_cmd_remove	(UgCategory* category, UgDataset* dataset);

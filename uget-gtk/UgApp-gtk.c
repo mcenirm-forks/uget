@@ -151,7 +151,7 @@ void	ug_app_save (UgAppGtk* app)
 			UG_APP_GTK_DIR, UG_APP_GTK_SETTING_FILE, NULL);
 	ug_setting_save (&app->setting, file);
 	g_free (file);
-	// get and save all jobs from primary category
+	// get and save all tasks from primary category
 	list = ug_category_gtk_get_all (app->cwidget.primary.category);
 	file = g_build_filename (g_get_user_config_dir (),
 			UG_APP_GTK_DIR, UG_APP_GTK_DOWNLOAD_FILE, NULL);
@@ -179,7 +179,7 @@ void	ug_app_load (UgAppGtk* app)
 			UG_APP_GTK_DIR, UG_APP_GTK_SETTING_FILE, NULL);
 	ug_setting_load (&app->setting, file);
 	g_free (file);
-	// load all jobs from file
+	// load all tasks from file
 	file = g_build_filename (g_get_user_config_dir (),
 			UG_APP_GTK_DIR, UG_APP_GTK_DOWNLOAD_FILE, NULL);
 	download_list = ug_download_list_load (file);
@@ -192,14 +192,14 @@ void	ug_app_load (UgAppGtk* app)
 	// set primary category
 	for (link = category_list;  link;  link = link->next)
 		ug_category_use_gtk (link->data, app->cwidget.primary.category);
-	// add jobs to primary category
+	// add tasks to primary category
 	for (link = download_list;  link;  link = link->next)
 		ug_category_add (app->cwidget.primary.category, link->data);
-	// link and add jobs to categories
+	// link and add tasks to categories
 	ug_category_list_link (category_list, download_list);
 	ug_category_widget_add_list (&app->cwidget, category_list);
 	g_list_free (category_list);
-	// free unused jobs and list
+	// free unused tasks and list
 	g_list_foreach (download_list, (GFunc) ug_dataset_unref, NULL);
 	g_list_free (download_list);
 }

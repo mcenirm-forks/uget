@@ -85,10 +85,10 @@ UgCategory*		ug_category_new_with_gtk (UgCategory* primary);
 void	ug_category_use_gtk		(UgCategory* category, UgCategory* primary);
 
 // functions will be used by UgCategoryFuncs (UgCategory::funcs)
-void	ug_category_gtk_add		(UgCategory* category, UgDataset* dataset);
-GList*	ug_category_gtk_get_all	(UgCategory* category);
-GList*	ug_category_gtk_get_jobs(UgCategory* category);
-void	ug_category_gtk_changed	(UgCategory* category, UgDataset* dataset);
+void	ug_category_gtk_add (UgCategory* category, UgDataset* dataset);
+GList*	ug_category_gtk_get_all (UgCategory* category);
+GList*	ug_category_gtk_get_tasks (UgCategory* category);
+void	ug_category_gtk_changed (UgCategory* category, UgDataset* dataset);
 
 // other functions used by uget-gtk
 void	ug_category_gtk_remove (UgCategory* category, UgDataset* dataset);
