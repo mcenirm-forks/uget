@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-10 18:18+0800\n"
+"POT-Creation-Date: 2011-04-15 21:43+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Yiğit Ateş <yigitates52@gmail.com>\n"
 "Language-Team: \n"
@@ -118,59 +118,59 @@ msgstr ""
 msgid "No plug-in support this scheme or file."
 msgstr ""
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:492
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:519
-msgid "downloading"
-msgstr "indiriliyor"
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:496
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:520
+msgid "tasks"
+msgstr ""
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:531
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:537
 #, c-format
 msgid "Selected %d items"
 msgstr "%d öğe seçildi"
 
 #. create confirmation dialog
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:597
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:612
 msgid "Really Quit?"
 msgstr "Gerçekten Çıkılsın mı?"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:614
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:629
 msgid "Are you sure you want to quit?"
 msgstr "Çıkmak istediğinizden emin misiniz?"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:619
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:634
 msgid "Remember this action"
 msgstr "Eylemi hatırla"
 
 #. radio button
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:624
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:639
 msgid "Minimize to tray"
 msgstr "Tepsiye küçült"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:626
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:641
 msgid "Exit uGet"
 msgstr "uGet'ten Çık"
 
 #. create confirmation dialog
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:681
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:696
 msgid "Really delete files?"
 msgstr "Dosyaları gerçekten silmek istediğinize emin misiniz?"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:699
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:714
 msgid "Are you sure you want to delete files?"
 msgstr "Dosyaları silmek istediğinizden emin misiniz."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:704
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:719
 msgid "Do not ask me again"
 msgstr ""
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:746
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:761
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:511
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:544
 msgid "Error"
 msgstr "Hata"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:753
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:162
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:768
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:163
 msgid "Message"
 msgstr "İleti"
 
@@ -292,34 +292,34 @@ msgstr "Ayarlar"
 #. New Download
 #. New Download (accelerators)
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:99
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:271
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:275
 msgid "New _Download..."
 msgstr "Yeni _İndirme..."
 
 #. New Download from Clipboard
 #. New from Clipboard
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:106
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:291
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:295
 msgid "New _from Clipboard..."
 msgstr "_Panodan yeni indirme..."
 
 #. New Torrent
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:115
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:301
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:305
 #, fuzzy
 msgid "New Torrent..."
 msgstr "Yeni _İndirme..."
 
 #. New Metalink
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:122
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:308
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:312
 msgid "New Metalink..."
 msgstr ""
 
 #. Settings
 #. menu_item = gtk_menu_item_new_with_mnemonic (_("_Settings..."));
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:131
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:495
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:499
 msgid "_Settings..."
 msgstr "_Ayarlar..."
 
@@ -330,161 +330,161 @@ msgstr ""
 
 #. Offline mode
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:150
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:464
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:468
 msgid "_Offline Mode"
 msgstr "_Çevrimdışı Kip"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:261
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:265
 msgid "Create new download"
 msgstr "Yeni indirme oluştur"
 
 #. New Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:278
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:282
 msgid "New _Category..."
 msgstr "Yeni _Bölüm..."
 
 #. New Batch download
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:284
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:288
 msgid "New _Batch download..."
 msgstr "Yeni _Çoklu indirme..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:317
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:321
 msgid "Save all"
 msgstr "Tümünü Kaydet"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:325
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:329
 msgid "Set selected download runnable"
 msgstr "Seçili indirmeyi çalıştır"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:330
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:334
 msgid "Set selected download to pause"
 msgstr "Seçili indirmeyi duraklat"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:335
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:339
 msgid "Set selected download properties"
 msgstr "Seçili indirmenin özellikleri"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:343
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:347
 msgid "Move selected download up"
 msgstr "Seçili indirmeyi yukarı taşı"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:348
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:352
 msgid "Move selected download down"
 msgstr "Seçili indirmeyi aşağı taşı"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:353
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:357
 msgid "Move selected download to top"
 msgstr "Seçili indirmeyi en üste taşı"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:358
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:362
 msgid "Move selected download to bottom"
 msgstr "Seçili indirmeyi en alta taşı"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:381
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:385
 msgid "_File"
 msgstr "_Dosya"
 
 #. New - Download (accelerators)
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:393
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:397
 msgid "_Download..."
 msgstr "_İndirme"
 
 #. New - Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:400
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:404
 msgid "_Category..."
 msgstr "_Bölüm..."
 
 #. New - Batch download
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:406
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:410
 msgid "_Batch download..."
 msgstr "_Çoklu indirme..."
 
 #. New - from clipboard
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:412
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:416
 msgid "_From Clipboard..."
 msgstr "_Panodan..."
 
 #. New - Torrent
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:421
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:425
 msgid "Torrent..."
 msgstr ""
 
 #. New - Metalink
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:427
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:431
 msgid "Metalink..."
 msgstr ""
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:443
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:447
 msgid "Import _HTML file..."
 msgstr "_HTML dosyasını içe aktar ..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:449
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:453
 msgid "_Import text file..."
 msgstr "_Metin dosyasını içe aktar..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:455
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:459
 msgid "_Export text file..."
 msgstr "Metin dosyasını dışa aktar"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:475
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:479
 msgid "_Edit"
 msgstr "_Düzenle"
 
 #. menu.gtk_menu_shell_append((GtkMenuShell*)menu, gtk_tearoff_menu_item_new() );
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:480
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:484
 msgid "Clipboard _Monitor"
 msgstr "Pano _İzleyici"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:484
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:488
 msgid "_Clipboard Option..."
 msgstr "_Pano Seçenekleri..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:490
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:494
 #, fuzzy
 msgid "Shutdown when downloads complete"
 msgstr "İndirme tamamlandı"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:504
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:508
 msgid "_View"
 msgstr "_Görünüm"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:508
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:512
 msgid "_Toolbar"
 msgstr "_Araç Çubuğu"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:513
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:517
 msgid "Statusbar"
 msgstr "Durum Çubuğu"
 
 #. Summary Items - Category
 #. Download Columns - Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:518
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:546
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:631
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:128
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:429
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:522
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:550
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:635
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:129
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:430
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadDialog.c:205
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:852
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:129
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:130
 msgid "Category"
 msgstr "Bölüm"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:523
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:527
 msgid "_Summary"
 msgstr "_Özet"
 
 #. Summary Items --- start ---
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:531
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:535
 msgid "Summary _Items"
 msgstr "Özet _Öğeleri"
 
 #. Summary Items - Name
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:536
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:540
 msgid "_Name"
 msgstr "_Ad"
 
 #. Summary Items - Folder
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:541
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:545
 msgid "_Folder"
 msgstr "_Dizin"
 
@@ -495,125 +495,125 @@ msgstr "_Dizin"
 #. menubar->view.summary_items.elapsed = menu_item;
 #. Summary Items - URL
 #. Download Columns - URL
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:556
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:636
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:560
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:640
 msgid "_URL"
 msgstr "_URL"
 
 #. Summary Items - Message
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:561
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:565
 msgid "_Message"
 msgstr "_İleti"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:576
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:580
 msgid "Download _Columns"
 msgstr "_Sütunları İndir"
 
 #. Download Columns - Completed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:581
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:585
 msgid "_Complete"
 msgstr "_Tamamlandı"
 
 #. Download Columns - Total
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:586
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:590
 msgid "_Size"
 msgstr "_Boyut"
 
 #. Download Columns - Percent (%)
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:591
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:595
 msgid "_Percent '%'"
 msgstr "_Yüzde '%'"
 
 #. Download Columns - Elapsed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:596
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:600
 msgid "_Elapsed"
 msgstr "_Geçen"
 
 #. Download Columns - Left
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:601
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:605
 msgid "_Left"
 msgstr "_Kalan"
 
 #. Download Columns - Speed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:606
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:610
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:781
 msgid "Speed"
 msgstr "Hız"
 
 #. Download Columns - Up Speed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:611
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:615
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:795
 #, fuzzy
 msgid "Up Speed"
 msgstr "Hız"
 
 #. Download Columns - Uploaded
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:616
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:620
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:809
 msgid "Uploaded"
 msgstr ""
 
 #. Download Columns - Ratio
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:621
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:625
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:823
 msgid "Ratio"
 msgstr ""
 
 #. Download Columns - Retry
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:626
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:630
 msgid "_Retry"
 msgstr "_Yeniden dene"
 
 #. Download Columns - Added On
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:641
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:645
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:880
 msgid "Added On"
 msgstr ""
 
 #. Download Columns - Completed On
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:646
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:650
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:894
 #, fuzzy
 msgid "Completed On"
 msgstr "Fertig"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:655
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:659
 msgid "_Category"
 msgstr "_Bölüm"
 
 #. New Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:660
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:664
 msgid "_New Category..."
 msgstr "_Yeni Bölüm..."
 
 #. Delete Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:666
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:670
 msgid "_Delete Category"
 msgstr "_Bölümü Sil"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:679
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:683
 msgid "_Download"
 msgstr "_İndirme"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:697
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:701
 msgid "Delete _File and Data"
 msgstr "_Dosya Ve Veriyi Sil"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:710
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:714
 msgid "Open _containing folder"
 msgstr "Depolama _konumunu aç"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:718
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:722
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:208
 msgid "_Runnable"
 msgstr "_Çalıştırılabilir"
 
 #. Move to --- start ---
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:734
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:738
 msgid "_Move To"
 msgstr "_Taşı"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:785
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:789
 msgid "_Help"
 msgstr "_Yardım"
 
@@ -625,19 +625,19 @@ msgstr "yalnızca tek eşleşme"
 msgid "Command line"
 msgstr "Komut satırı"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:716
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:717
 msgid "Download Starting"
 msgstr "İndirme Başlatılııyor"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:717
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:718
 msgid "Starting download queue."
 msgstr "İndirme kuyruğu başlatılıyor."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:718
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:719
 msgid "Download Completed"
 msgstr "İndirme Tamamlandı"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:719
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:720
 msgid "All queuing downloads have been completed."
 msgstr "Kuyruktaki bütün indirmeler tamamlandı."
 
@@ -724,7 +724,7 @@ msgid "Capacity of Recycled:"
 msgstr "Geri Dönüşüm Kapasitesi:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:42
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:329
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:284
 msgid "All"
 msgstr "Tümü"
 
@@ -740,7 +740,7 @@ msgstr "Kuyrukta"
 msgid "Recycled"
 msgstr "Geri dönüştürüldü"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:450
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:451
 msgid "Quantity"
 msgstr "Miktar"
 
@@ -879,7 +879,7 @@ msgid "unnamed"
 msgstr "adlandırılmamış"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:686
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:101
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:102
 msgid "Name"
 msgstr "Ad"
 
@@ -909,8 +909,8 @@ msgid "Left"
 msgstr "Kalan"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:866
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:478
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:140
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:479
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:141
 msgid "URL"
 msgstr "URL"
 
@@ -1017,32 +1017,32 @@ msgstr "İşaretlemeyi _Kaldır"
 msgid "_Mark by filter..."
 msgstr "Süzgece göre _işaretle..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:268
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:289
+msgid "None"
+msgstr "Boş"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:306
 msgid "Mark by filter"
 msgstr "Süzgece göre işaretle"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:286
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:324
 msgid "Mark URLs by host AND filename extension."
 msgstr "URL'leri ana makine ve dosya uzantısına göre işaretle"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:289
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:327
 msgid "This will reset all marks of URLs."
 msgstr "Bu, tüm işaretli URL'leri sıfırlayacak."
 
 #. filter view -----------------------
 #. left side
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:297
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:335
 msgid "Host"
 msgstr "Ana Makine"
 
 #. right side (filename extension)
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:301
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:339
 msgid "File Ext."
 msgstr "Dosya Uzantısı"
-
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:334
-msgid "None"
-msgstr "Boş"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:71
 msgid "UI Settings"
@@ -1136,6 +1136,10 @@ msgstr ""
 
 #. aria2 plug-in hints
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:363
+msgid "Before you modify the settings:"
+msgstr ""
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:365
 #, fuzzy
 msgid "Please make sure that all of tasks have been completed."
 msgstr "Kuyruktaki bütün indirmeler tamamlandı."
@@ -1156,26 +1160,29 @@ msgstr ""
 msgid "Arguments"
 msgstr ""
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:105
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:106
 msgid "File"
 msgstr "Dosya"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:118
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:119
 msgid "Folder"
 msgstr "Dizin"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:248
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:249
 msgid "Item"
 msgstr "Öğe"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:253
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:254
 msgid "Value"
 msgstr "Değer"
 
 #. Copy All
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:285
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:286
 msgid "Copy _All"
 msgstr "Tümünü _Kopyala"
+
+#~ msgid "downloading"
+#~ msgstr "indiriliyor"
 
 #, fuzzy
 #~ msgid "Not resumable"

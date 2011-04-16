@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-10 18:18+0800\n"
+"POT-Creation-Date: 2011-04-15 21:43+0800\n"
 "PO-Revision-Date: 2010-11-13 09:49-0500\n"
 "Last-Translator: Vico <vicokoby@gmail.com>\n"
 "Language-Team: Victor Emmanuel <vicokoby@gmail.com>\n"
@@ -125,59 +125,59 @@ msgstr ""
 msgid "No plug-in support this scheme or file."
 msgstr ""
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:492
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:519
-msgid "downloading"
-msgstr "descargando"
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:496
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:520
+msgid "tasks"
+msgstr ""
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:531
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:537
 #, c-format
 msgid "Selected %d items"
 msgstr "%d elementos seleccionados"
 
 #. create confirmation dialog
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:597
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:612
 msgid "Really Quit?"
 msgstr "¿Salir realmente?"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:614
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:629
 msgid "Are you sure you want to quit?"
 msgstr "¿Está seguro que quiere salir?"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:619
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:634
 msgid "Remember this action"
 msgstr "Recordar esta acción"
 
 #. radio button
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:624
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:639
 msgid "Minimize to tray"
 msgstr "Minimizar a la bandeja"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:626
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:641
 msgid "Exit uGet"
 msgstr "Salir de uGet"
 
 #. create confirmation dialog
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:681
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:696
 msgid "Really delete files?"
 msgstr "¿Realmente eliminar archivos?"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:699
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:714
 msgid "Are you sure you want to delete files?"
 msgstr "¿Está seguro que quiere eliminar los archivos?"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:704
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:719
 msgid "Do not ask me again"
 msgstr ""
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:746
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:761
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:511
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:544
 msgid "Error"
 msgstr "Error"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:753
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:162
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:768
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:163
 msgid "Message"
 msgstr "Mensaje"
 
@@ -299,34 +299,34 @@ msgstr "Configuración"
 #. New Download
 #. New Download (accelerators)
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:99
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:271
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:275
 msgid "New _Download..."
 msgstr "Nueva _descarga..."
 
 #. New Download from Clipboard
 #. New from Clipboard
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:106
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:291
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:295
 msgid "New _from Clipboard..."
 msgstr "Nuevo desde el _portapapeles..."
 
 #. New Torrent
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:115
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:301
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:305
 #, fuzzy
 msgid "New Torrent..."
 msgstr "Nueva _descarga..."
 
 #. New Metalink
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:122
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:308
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:312
 msgid "New Metalink..."
 msgstr ""
 
 #. Settings
 #. menu_item = gtk_menu_item_new_with_mnemonic (_("_Settings..."));
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:131
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:495
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:499
 msgid "_Settings..."
 msgstr "_Configuración..."
 
@@ -337,160 +337,160 @@ msgstr ""
 
 #. Offline mode
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:150
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:464
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:468
 msgid "_Offline Mode"
 msgstr "Modo _fuera de línea"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:261
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:265
 msgid "Create new download"
 msgstr "Crea una nueva descarga"
 
 #. New Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:278
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:282
 msgid "New _Category..."
 msgstr "Nueva _categoría..."
 
 #. New Batch download
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:284
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:288
 msgid "New _Batch download..."
 msgstr "Nuevo _lote de descargas..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:317
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:321
 msgid "Save all"
 msgstr "Guardar todo"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:325
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:329
 msgid "Set selected download runnable"
 msgstr "Ejecutar las descargas seleccionadas"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:330
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:334
 msgid "Set selected download to pause"
 msgstr "Pausar las descargas seleccionadas"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:335
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:339
 msgid "Set selected download properties"
 msgstr "Establecer las propiedades de las descargas seleccionadas"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:343
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:347
 msgid "Move selected download up"
 msgstr "Mover las descargas seleccionadas hacia arriba"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:348
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:352
 msgid "Move selected download down"
 msgstr "Mover las descargas seleccionadas hacia abajo"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:353
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:357
 msgid "Move selected download to top"
 msgstr "Mover las descargas seleccionadas al principio"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:358
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:362
 msgid "Move selected download to bottom"
 msgstr "Mover las descargas seleccionadas al final"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:381
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:385
 msgid "_File"
 msgstr "_Archivo"
 
 #. New - Download (accelerators)
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:393
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:397
 msgid "_Download..."
 msgstr "_Descarga..."
 
 #. New - Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:400
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:404
 msgid "_Category..."
 msgstr "_Categoría..."
 
 #. New - Batch download
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:406
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:410
 msgid "_Batch download..."
 msgstr "_Lote de descargas..."
 
 #. New - from clipboard
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:412
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:416
 msgid "_From Clipboard..."
 msgstr "_Desde el portapapeles..."
 
 #. New - Torrent
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:421
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:425
 msgid "Torrent..."
 msgstr ""
 
 #. New - Metalink
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:427
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:431
 msgid "Metalink..."
 msgstr ""
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:443
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:447
 msgid "Import _HTML file..."
 msgstr "Importar archivo _HTML..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:449
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:453
 msgid "_Import text file..."
 msgstr "_Importar archivo de texto..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:455
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:459
 msgid "_Export text file..."
 msgstr "_Exportar archivo de texto..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:475
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:479
 msgid "_Edit"
 msgstr "_Editar"
 
 #. menu.gtk_menu_shell_append((GtkMenuShell*)menu, gtk_tearoff_menu_item_new() );
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:480
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:484
 msgid "Clipboard _Monitor"
 msgstr "_Monitoreo del portapapeles"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:484
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:488
 msgid "_Clipboard Option..."
 msgstr "Opciones del _portapapeles..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:490
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:494
 msgid "Shutdown when downloads complete"
 msgstr "Apagar al completar las descargas"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:504
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:508
 msgid "_View"
 msgstr "_Ver"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:508
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:512
 msgid "_Toolbar"
 msgstr "_Barra de herramientas"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:513
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:517
 msgid "Statusbar"
 msgstr "Barra de estado"
 
 #. Summary Items - Category
 #. Download Columns - Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:518
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:546
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:631
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:128
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:429
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:522
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:550
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:635
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:129
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:430
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadDialog.c:205
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:852
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:129
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:130
 msgid "Category"
 msgstr "Categoría"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:523
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:527
 msgid "_Summary"
 msgstr "_Resumen"
 
 #. Summary Items --- start ---
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:531
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:535
 msgid "Summary _Items"
 msgstr "Resumen de Í_tems"
 
 #. Summary Items - Name
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:536
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:540
 msgid "_Name"
 msgstr "_Nombre"
 
 #. Summary Items - Folder
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:541
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:545
 msgid "_Folder"
 msgstr "_Carpeta"
 
@@ -501,125 +501,125 @@ msgstr "_Carpeta"
 #. menubar->view.summary_items.elapsed = menu_item;
 #. Summary Items - URL
 #. Download Columns - URL
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:556
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:636
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:560
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:640
 msgid "_URL"
 msgstr "_URL"
 
 #. Summary Items - Message
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:561
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:565
 msgid "_Message"
 msgstr "_Mensaje"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:576
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:580
 msgid "Download _Columns"
 msgstr "_Columnas de descarga"
 
 #. Download Columns - Completed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:581
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:585
 msgid "_Complete"
 msgstr "_Completado"
 
 #. Download Columns - Total
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:586
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:590
 msgid "_Size"
 msgstr "_Tamaño"
 
 #. Download Columns - Percent (%)
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:591
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:595
 msgid "_Percent '%'"
 msgstr "_Porcentaje '%'"
 
 #. Download Columns - Elapsed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:596
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:600
 msgid "_Elapsed"
 msgstr "_Transcurrido"
 
 #. Download Columns - Left
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:601
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:605
 msgid "_Left"
 msgstr "_Restante"
 
 #. Download Columns - Speed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:606
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:610
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:781
 msgid "Speed"
 msgstr "Velocidad"
 
 #. Download Columns - Up Speed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:611
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:615
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:795
 #, fuzzy
 msgid "Up Speed"
 msgstr "Velocidad"
 
 #. Download Columns - Uploaded
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:616
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:620
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:809
 msgid "Uploaded"
 msgstr ""
 
 #. Download Columns - Ratio
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:621
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:625
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:823
 msgid "Ratio"
 msgstr ""
 
 #. Download Columns - Retry
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:626
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:630
 msgid "_Retry"
 msgstr "_Reintentos"
 
 #. Download Columns - Added On
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:641
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:645
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:880
 msgid "Added On"
 msgstr ""
 
 #. Download Columns - Completed On
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:646
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:650
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:894
 #, fuzzy
 msgid "Completed On"
 msgstr "Completado"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:655
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:659
 msgid "_Category"
 msgstr "_Categoría"
 
 #. New Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:660
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:664
 msgid "_New Category..."
 msgstr "_Nueva categoría..."
 
 #. Delete Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:666
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:670
 msgid "_Delete Category"
 msgstr "_Eliminar categoría"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:679
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:683
 msgid "_Download"
 msgstr "_Descarga"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:697
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:701
 msgid "Delete _File and Data"
 msgstr "Eliminar _archivo y datos"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:710
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:714
 msgid "Open _containing folder"
 msgstr "Abrir carpeta _contenedora"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:718
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:722
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:208
 msgid "_Runnable"
 msgstr "_Ejecutar"
 
 #. Move to --- start ---
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:734
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:738
 msgid "_Move To"
 msgstr "_Mover a"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:785
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:789
 msgid "_Help"
 msgstr "Ay_uda"
 
@@ -631,19 +631,19 @@ msgstr "sólo una coincidencia"
 msgid "Command line"
 msgstr "Línea de comandos"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:716
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:717
 msgid "Download Starting"
 msgstr "Iniciando descarga"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:717
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:718
 msgid "Starting download queue."
 msgstr "Iniciando cola de descargas."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:718
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:719
 msgid "Download Completed"
 msgstr "Descarga completa"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:719
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:720
 msgid "All queuing downloads have been completed."
 msgstr "Todas las descargas en cola se han completado."
 
@@ -730,7 +730,7 @@ msgid "Capacity of Recycled:"
 msgstr "Capacidad de reciclados:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:42
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:329
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:284
 msgid "All"
 msgstr "Todo"
 
@@ -746,7 +746,7 @@ msgstr "Cola"
 msgid "Recycled"
 msgstr "Reciclados"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:450
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:451
 msgid "Quantity"
 msgstr "Cantidad"
 
@@ -885,7 +885,7 @@ msgid "unnamed"
 msgstr "sin nombre"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:686
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:101
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:102
 msgid "Name"
 msgstr "Nombre"
 
@@ -910,8 +910,8 @@ msgid "Left"
 msgstr "Restante"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:866
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:478
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:140
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:479
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:141
 msgid "URL"
 msgstr "URL"
 
@@ -1018,32 +1018,32 @@ msgstr "_Desmarcar todo"
 msgid "_Mark by filter..."
 msgstr "_Marcar por filtro..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:268
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:289
+msgid "None"
+msgstr "Ninguno"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:306
 msgid "Mark by filter"
 msgstr "Marcar por filtro"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:286
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:324
 msgid "Mark URLs by host AND filename extension."
 msgstr "Marcar URLs por host Y por extensión de archivo."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:289
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:327
 msgid "This will reset all marks of URLs."
 msgstr "Esto retablecerá todas las marcas de las URLs."
 
 #. filter view -----------------------
 #. left side
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:297
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:335
 msgid "Host"
 msgstr "Host"
 
 #. right side (filename extension)
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:301
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:339
 msgid "File Ext."
 msgstr "Ext. archivo"
-
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:334
-msgid "None"
-msgstr "Ninguno"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:71
 msgid "UI Settings"
@@ -1137,6 +1137,10 @@ msgstr ""
 
 #. aria2 plug-in hints
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:363
+msgid "Before you modify the settings:"
+msgstr ""
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:365
 #, fuzzy
 msgid "Please make sure that all of tasks have been completed."
 msgstr "Todas las descargas en cola se han completado."
@@ -1157,26 +1161,29 @@ msgstr ""
 msgid "Arguments"
 msgstr ""
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:105
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:106
 msgid "File"
 msgstr "Archivo"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:118
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:119
 msgid "Folder"
 msgstr "Carpeta"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:248
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:249
 msgid "Item"
 msgstr "Ítem"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:253
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:254
 msgid "Value"
 msgstr "Valor"
 
 #. Copy All
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:285
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:286
 msgid "Copy _All"
 msgstr "Copiar _todo"
+
+#~ msgid "downloading"
+#~ msgstr "descargando"
 
 #, fuzzy
 #~ msgid "Not resumable"

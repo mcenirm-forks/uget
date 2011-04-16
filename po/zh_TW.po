@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-10 18:18+0800\n"
+"POT-Creation-Date: 2011-04-15 21:43+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -118,61 +118,61 @@ msgstr ""
 
 #: /home/ch2/workspace/uget/po/../uglib/UgRunning.c:91
 msgid "No plug-in support this scheme or file."
-msgstr ""
+msgstr "沒有插件支援這種方案或檔案."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:492
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:519
-msgid "downloading"
-msgstr "下載中"
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:496
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:520
+msgid "tasks"
+msgstr "任務"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:531
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:537
 #, c-format
 msgid "Selected %d items"
 msgstr "已選擇 %d 個項目"
 
 #. create confirmation dialog
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:597
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:612
 msgid "Really Quit?"
 msgstr "真的要離開?"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:614
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:629
 msgid "Are you sure you want to quit?"
 msgstr "你確定要離開?"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:619
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:634
 msgid "Remember this action"
 msgstr "記住這個設定"
 
 #. radio button
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:624
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:639
 msgid "Minimize to tray"
 msgstr "縮小到系統列"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:626
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:641
 msgid "Exit uGet"
 msgstr "離開 uGet"
 
 #. create confirmation dialog
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:681
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:696
 msgid "Really delete files?"
 msgstr "真的要刪除文件？"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:699
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:714
 msgid "Are you sure you want to delete files?"
 msgstr "你確定要刪除檔案?"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:704
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:719
 msgid "Do not ask me again"
 msgstr "下次別問我"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:746
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:761
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:511
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:544
 msgid "Error"
 msgstr "錯誤"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:753
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:162
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:768
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:163
 msgid "Message"
 msgstr "訊息"
 
@@ -291,33 +291,33 @@ msgstr "設定"
 #. New Download
 #. New Download (accelerators)
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:99
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:271
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:275
 msgid "New _Download..."
 msgstr "新增下載(_D)..."
 
 #. New Download from Clipboard
 #. New from Clipboard
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:106
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:291
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:295
 msgid "New _from Clipboard..."
 msgstr "從剪貼簿新增(_F)..."
 
 #. New Torrent
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:115
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:301
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:305
 msgid "New Torrent..."
 msgstr "新增 Torrent..."
 
 #. New Metalink
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:122
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:308
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:312
 msgid "New Metalink..."
 msgstr "新增 Metalink..."
 
 #. Settings
 #. menu_item = gtk_menu_item_new_with_mnemonic (_("_Settings..."));
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:131
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:495
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:499
 msgid "_Settings..."
 msgstr "設定(_S)..."
 
@@ -328,160 +328,160 @@ msgstr "顯示視窗"
 
 #. Offline mode
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:150
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:464
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:468
 msgid "_Offline Mode"
 msgstr "離線模式(_O)"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:261
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:265
 msgid "Create new download"
 msgstr "建立新的下載"
 
 #. New Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:278
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:282
 msgid "New _Category..."
 msgstr "新增分類(_C)..."
 
 #. New Batch download
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:284
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:288
 msgid "New _Batch download..."
 msgstr "新增批次下載(_B)..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:317
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:321
 msgid "Save all"
 msgstr "全部儲存"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:325
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:329
 msgid "Set selected download runnable"
 msgstr "選擇的項目設定為可運行的"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:330
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:334
 msgid "Set selected download to pause"
 msgstr "選擇的項目設定為暫停"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:335
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:339
 msgid "Set selected download properties"
 msgstr "設定選擇的項目的內容"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:343
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:347
 msgid "Move selected download up"
 msgstr "選擇的項目向上移"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:348
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:352
 msgid "Move selected download down"
 msgstr "選擇的項目向下移"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:353
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:357
 msgid "Move selected download to top"
 msgstr "選擇的項目向上移到頂"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:358
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:362
 msgid "Move selected download to bottom"
 msgstr "選擇的項目向下移到底"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:381
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:385
 msgid "_File"
 msgstr "檔案(_F)"
 
 #. New - Download (accelerators)
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:393
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:397
 msgid "_Download..."
 msgstr "下載(_D)..."
 
 #. New - Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:400
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:404
 msgid "_Category..."
 msgstr "分類(_C)..."
 
 #. New - Batch download
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:406
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:410
 msgid "_Batch download..."
 msgstr "批次下載(_B)..."
 
 #. New - from clipboard
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:412
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:416
 msgid "_From Clipboard..."
 msgstr "從剪貼簿(_F)..."
 
 #. New - Torrent
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:421
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:425
 msgid "Torrent..."
 msgstr ""
 
 #. New - Metalink
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:427
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:431
 msgid "Metalink..."
 msgstr ""
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:443
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:447
 msgid "Import _HTML file..."
 msgstr "匯入 HTML 檔案(_H)..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:449
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:453
 msgid "_Import text file..."
 msgstr "匯入文字檔(_I)..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:455
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:459
 msgid "_Export text file..."
 msgstr "匯出文字檔(_E)..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:475
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:479
 msgid "_Edit"
 msgstr "編輯(_E)"
 
 #. menu.gtk_menu_shell_append((GtkMenuShell*)menu, gtk_tearoff_menu_item_new() );
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:480
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:484
 msgid "Clipboard _Monitor"
 msgstr "監視剪貼簿(_M)"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:484
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:488
 msgid "_Clipboard Option..."
 msgstr "剪貼簿選項(_C)..."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:490
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:494
 msgid "Shutdown when downloads complete"
 msgstr "下載完成時關機"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:504
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:508
 msgid "_View"
 msgstr "檢視(_V)"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:508
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:512
 msgid "_Toolbar"
 msgstr "工具列(_T)"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:513
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:517
 msgid "Statusbar"
 msgstr "狀態列"
 
 #. Summary Items - Category
 #. Download Columns - Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:518
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:546
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:631
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:128
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:429
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:522
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:550
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:635
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:129
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:430
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadDialog.c:205
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:852
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:129
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:130
 msgid "Category"
 msgstr "分類"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:523
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:527
 msgid "_Summary"
 msgstr "摘要(_S)"
 
 #. Summary Items --- start ---
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:531
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:535
 msgid "Summary _Items"
 msgstr "摘要項目(_I)"
 
 #. Summary Items - Name
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:536
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:540
 msgid "_Name"
 msgstr "名稱(_N)"
 
 #. Summary Items - Folder
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:541
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:545
 msgid "_Folder"
 msgstr "資料夾(_F)"
 
@@ -492,123 +492,123 @@ msgstr "資料夾(_F)"
 #. menubar->view.summary_items.elapsed = menu_item;
 #. Summary Items - URL
 #. Download Columns - URL
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:556
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:636
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:560
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:640
 msgid "_URL"
 msgstr "網址(_U)"
 
 #. Summary Items - Message
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:561
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:565
 msgid "_Message"
 msgstr "訊息(_M)"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:576
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:580
 msgid "Download _Columns"
 msgstr "下載欄位(_C)"
 
 #. Download Columns - Completed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:581
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:585
 msgid "_Complete"
 msgstr "完成(_C)"
 
 #. Download Columns - Total
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:586
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:590
 msgid "_Size"
 msgstr "大小(_S)"
 
 #. Download Columns - Percent (%)
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:591
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:595
 msgid "_Percent '%'"
 msgstr "百分比 '%' (_P)"
 
 #. Download Columns - Elapsed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:596
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:600
 msgid "_Elapsed"
 msgstr "經過時間(_E)"
 
 #. Download Columns - Left
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:601
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:605
 msgid "_Left"
 msgstr "剩餘時間(_L)"
 
 #. Download Columns - Speed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:606
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:610
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:781
 msgid "Speed"
 msgstr "速度"
 
 #. Download Columns - Up Speed
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:611
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:615
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:795
 msgid "Up Speed"
 msgstr "上傳速度"
 
 #. Download Columns - Uploaded
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:616
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:620
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:809
 msgid "Uploaded"
 msgstr "上傳大小"
 
 #. Download Columns - Ratio
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:621
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:625
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:823
 msgid "Ratio"
 msgstr "分享比"
 
 #. Download Columns - Retry
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:626
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:630
 msgid "_Retry"
 msgstr "重試(_R)"
 
 #. Download Columns - Added On
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:641
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:645
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:880
 msgid "Added On"
 msgstr "加入時間"
 
 #. Download Columns - Completed On
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:646
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:650
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:894
 msgid "Completed On"
 msgstr "完成時間"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:655
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:659
 msgid "_Category"
 msgstr "分類(_C)"
 
 #. New Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:660
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:664
 msgid "_New Category..."
 msgstr "新增分類(_N)..."
 
 #. Delete Category
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:666
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:670
 msgid "_Delete Category"
 msgstr "刪除分類(_D)"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:679
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:683
 msgid "_Download"
 msgstr "下載(_D)"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:697
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:701
 msgid "Delete _File and Data"
 msgstr "刪除檔案和資料(F)"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:710
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:714
 msgid "Open _containing folder"
 msgstr "開啟所在的資料夾(_C)"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:718
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:722
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:208
 msgid "_Runnable"
 msgstr "可運行(_R)"
 
 #. Move to --- start ---
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:734
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:738
 msgid "_Move To"
 msgstr "搬移到(_M)"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:785
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:789
 msgid "_Help"
 msgstr "說明(_H)"
 
@@ -620,19 +620,19 @@ msgstr "只有一個符合條件"
 msgid "Command line"
 msgstr "命令列"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:716
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:717
 msgid "Download Starting"
 msgstr "開始下載"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:717
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:718
 msgid "Starting download queue."
 msgstr "開始下載佇列"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:718
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:719
 msgid "Download Completed"
 msgstr "下載完成"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:719
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:720
 msgid "All queuing downloads have been completed."
 msgstr "所有排隊中的檔案下載完成."
 
@@ -717,7 +717,7 @@ msgid "Capacity of Recycled:"
 msgstr "'回收區'的容量:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:42
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:329
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:284
 msgid "All"
 msgstr "全部"
 
@@ -733,7 +733,7 @@ msgstr "排隊中"
 msgid "Recycled"
 msgstr "回收區"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:450
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:451
 msgid "Quantity"
 msgstr "數量"
 
@@ -869,7 +869,7 @@ msgid "unnamed"
 msgstr "未命名"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:686
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:101
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:102
 msgid "Name"
 msgstr "名稱"
 
@@ -894,8 +894,8 @@ msgid "Left"
 msgstr "剩餘時間"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:866
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:478
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:140
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:479
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:141
 msgid "URL"
 msgstr "網址"
 
@@ -1001,32 +1001,32 @@ msgstr "清除標記(_N)"
 msgid "_Mark by filter..."
 msgstr "條件標記(_M)"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:268
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:289
+msgid "None"
+msgstr "清除"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:306
 msgid "Mark by filter"
 msgstr "條件標記"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:286
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:324
 msgid "Mark URLs by host AND filename extension."
 msgstr "用主機名稱和副檔名來標記網址."
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:289
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:327
 msgid "This will reset all marks of URLs."
 msgstr "這個功能會重新設定所有的標記."
 
 #. filter view -----------------------
 #. left side
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:297
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:335
 msgid "Host"
 msgstr "主機名稱"
 
 #. right side (filename extension)
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:301
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:339
 msgid "File Ext."
 msgstr "副檔名"
-
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:334
-msgid "None"
-msgstr "清除"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:71
 msgid "UI Settings"
@@ -1115,10 +1115,14 @@ msgstr "間隔(_I):"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:355
 msgid "_Enable aria2 plug-in"
-msgstr "開啟 aria2 插件"
+msgstr "啟用 aria2 插件"
 
 #. aria2 plug-in hints
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:363
+msgid "Before you modify the settings:"
+msgstr "在你修改設定前："
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:365
 msgid "Please make sure that all of tasks have been completed."
 msgstr "請確定所有的任務都已經完成。"
 
@@ -1138,24 +1142,24 @@ msgstr "路徑"
 msgid "Arguments"
 msgstr "參數"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:105
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:106
 msgid "File"
 msgstr "檔案"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:118
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:119
 msgid "Folder"
 msgstr "資料夾"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:248
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:249
 msgid "Item"
 msgstr "項目"
 
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:253
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:254
 msgid "Value"
 msgstr "值"
 
 #. Copy All
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:285
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:286
 msgid "Copy _All"
 msgstr "複製全部(_A)"
 
