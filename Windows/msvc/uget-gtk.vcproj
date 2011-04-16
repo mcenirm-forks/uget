@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="glib-2.0.lib gmodule-2.0.lib gthread-2.0.lib gobject-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib gtk-win32-2.0.lib pango-1.0.lib pangowin32-1.0.lib atk-1.0.lib cairo.lib intl.lib libcurl.lib Ws2_32.lib winmm.lib uglib.lib"
+				AdditionalDependencies="glib-2.0.lib gmodule-2.0.lib gthread-2.0.lib gobject-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib gtk-win32-2.0.lib pango-1.0.lib pangocairo-1.0.lib pangowin32-1.0.lib atk-1.0.lib cairo.lib intl.lib libcurl.lib Ws2_32.lib winmm.lib uglib.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="D:\devpack\gtk2\lib;&quot;D:\devpack\curl-msvc&quot;;Debug"
 				GenerateDebugInformation="true"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="glib-2.0.lib gmodule-2.0.lib gthread-2.0.lib gobject-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib gtk-win32-2.0.lib pango-1.0.lib pangowin32-1.0.lib atk-1.0.lib cairo.lib intl.lib libcurl.lib Ws2_32.lib winmm.lib uglib.lib"
+				AdditionalDependencies="glib-2.0.lib gmodule-2.0.lib gthread-2.0.lib gobject-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib gtk-win32-2.0.lib pango-1.0.lib pangocairo-1.0.lib pangowin32-1.0.lib atk-1.0.lib cairo.lib intl.lib libcurl.lib Ws2_32.lib winmm.lib uglib.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="D:\devpack\gtk2\lib;&quot;D:\devpack\curl-msvc\&quot;;Release"
 				GenerateDebugInformation="true"

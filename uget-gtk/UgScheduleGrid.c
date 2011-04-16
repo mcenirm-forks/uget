@@ -226,28 +226,38 @@ static void	on_enable_toggled (GtkToggleButton* togglebutton, struct UgScheduleG
 
 static gboolean	on_expose_event (GtkWidget* widget, GdkEventExpose* event, struct UgScheduleGrid* sgrid)
 {
-	gchar*		string;
 	gboolean	sensitive;
-	guint		y, x;
+	gint		y, x;
 	gdouble		cy, cx, ox;
 	cairo_t*	cr;
-	cairo_text_extents_t	extents;
+	PangoContext*			context;
+	PangoLayout*			layout;
+	PangoFontDescription*	desc;
 
 	cr = gdk_cairo_create (gtk_widget_get_window (widget));
 	cairo_set_line_width (cr, 1);
 	sensitive = gtk_widget_get_sensitive (widget);
 
+	// setup Pango
+	context = gtk_widget_get_pango_context (widget);
+	desc = pango_context_get_font_description (context);
+	layout = pango_cairo_create_layout (cr);
+	pango_layout_set_font_description (layout, desc);
+
 	// week days
-	ox = 0.0;		// x offset
-	cairo_set_font_size (cr, GRID_FONT_SIZE);
-	for (cy = 2.5, y = 0;  y < 7;  y++, cy+=GRID_HEIGHT_LINE) {
-		string = gettext (week_days[y]);
-		cairo_text_extents (cr, string, &extents);
-		cairo_move_to (cr, 1 + 0.5, cy + extents.height);
-		cairo_show_text (cr, string);
-		if (extents.width + 4 > ox)
-			ox = extents.width + 4;
+	// ox = x offset
+	for (ox = 0, cy = 0.5, y = 0;  y < 7;  y++, cy+=GRID_HEIGHT_LINE) {
+		cairo_move_to (cr, 1, cy);
+		pango_layout_set_text (layout, gettext (week_days[y]), -1);
+		pango_cairo_update_layout (cr, layout);
+		pango_cairo_show_layout (cr, layout);
+		pango_layout_get_size (layout, &x, NULL);
+		x /= PANGO_SCALE;
+		if (x + 4 > ox)
+			ox = x + 4;
 	}
+	g_object_unref (layout);
+
 	if (sgrid->grid_offset == 0)
 		sgrid->grid_offset = ox;
 	// draw grid columns
@@ -411,8 +421,8 @@ static gboolean		ug_grid_one_expose (GtkWidget* widget, GdkEventExpose* event, c
 	gtk_widget_get_allocation (widget, &allocation);
 	x = (gdouble) allocation.x + 0.5;
 	y = (gdouble) allocation.y + 0.5;
-	width  = (gdouble) allocation.width;
-	height = (gdouble) allocation.height;
+	width  = (gdouble) (allocation.width - 1);
+	height = (gdouble) (allocation.height - 1);
 	cairo_set_line_width (cr, 1);
 	cairo_rectangle (cr, x, y, width, height);
 	cairo_stroke (cr);
