@@ -498,7 +498,7 @@ static void col_set_speed (GtkTreeViewColumn *tree_column,
 	relation = UG_DATASET_RELATION (dataset);
 
 	if (progress && relation && relation->plugin)
-		string = ug_str_dtoa_unit (progress->download_speed, 1, "/s");
+		string = ug_str_dtoa_unit ((gdouble) progress->download_speed, 1, "/s");
 	else
 		string = NULL;
 
@@ -522,7 +522,7 @@ static void col_set_upload_speed (GtkTreeViewColumn *tree_column,
 	relation = UG_DATASET_RELATION (dataset);
 
 	if (progress && relation && relation->plugin && progress->upload_speed)
-		string = ug_str_dtoa_unit (progress->upload_speed, 1, "/s");
+		string = ug_str_dtoa_unit ((gdouble) progress->upload_speed, 1, "/s");
 	else
 		string = NULL;
 
@@ -545,7 +545,7 @@ static void col_set_uploaded (GtkTreeViewColumn *tree_column,
 	progress = UG_DATASET_PROGRESS (dataset);
 	relation = UG_DATASET_RELATION (dataset);
 
-	if (progress && relation && relation->plugin && progress->uploaded)
+	if (progress && progress->uploaded)
 		string = ug_str_dtoa_unit ((gdouble) progress->uploaded, 1, NULL);
 	else
 		string = NULL;
@@ -569,8 +569,8 @@ static void col_set_ratio (GtkTreeViewColumn *tree_column,
 	progress = UG_DATASET_PROGRESS (dataset);
 	relation = UG_DATASET_RELATION (dataset);
 
-	if (progress && relation && relation->plugin && progress->ratio)
-		string = g_strdup_printf ("%.*f", 2, progress->ratio);
+	if (progress && progress->ratio)
+		string = g_strdup_printf ("%.2f", progress->ratio);
 	else
 		string = NULL;
 
@@ -827,7 +827,7 @@ GtkTreeView*	ug_download_view_new (void)
 	                                         col_set_ratio,
 	                                         NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
-	gtk_tree_view_column_set_min_width (column, 40);
+	gtk_tree_view_column_set_min_width (column, 45);
 	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_column_set_alignment (column, 1.0);
 	gtk_tree_view_append_column (tview, column);
@@ -884,7 +884,7 @@ GtkTreeView*	ug_download_view_new (void)
 	                                         col_set_added_on,
 	                                         NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
-	gtk_tree_view_column_set_min_width (column, 130);
+	gtk_tree_view_column_set_min_width (column, 140);
 	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_append_column (tview, column);
 
@@ -898,7 +898,7 @@ GtkTreeView*	ug_download_view_new (void)
 	                                         col_set_completed_on,
 	                                         NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
-	gtk_tree_view_column_set_min_width (column, 130);
+	gtk_tree_view_column_set_min_width (column, 140);
 	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_append_column (tview, column);
 
