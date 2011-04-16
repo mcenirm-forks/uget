@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-15 21:43+0800\n"
+"POT-Creation-Date: 2011-04-16 14:43+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -178,7 +178,7 @@ msgstr "訊息"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-aria2.c:115
 msgid "failed to launch aria2."
-msgstr ""
+msgstr "aria2 啟動失敗。"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:70
 msgid "Download Manager"
@@ -960,7 +960,7 @@ msgstr "日"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:99
 msgid "_Enable Scheduler"
-msgstr "啟用排程器"
+msgstr "啟用排程器(_E)"
 
 #. label - Turn off
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:140
@@ -1115,16 +1115,14 @@ msgstr "間隔(_I):"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:355
 msgid "_Enable aria2 plug-in"
-msgstr "啟用 aria2 插件"
+msgstr "啟用 aria2 插件(_E)"
 
 #. aria2 plug-in hints
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:363
-msgid "Before you modify the settings:"
-msgstr "在你修改設定前："
-
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:365
-msgid "Please make sure that all of tasks have been completed."
-msgstr "請確定所有的任務都已經完成。"
+msgid ""
+"Please make sure that all tasks have been completed\n"
+"before you modify settings."
+msgstr "在你修改設定前請確定所有的任務都已經完成。"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:379
 msgid "_Launch aria2 on startup"
@@ -1148,7 +1146,7 @@ msgstr "檔案"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:119
 msgid "Folder"
-msgstr "資料夾"
+msgstr "目錄"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:249
 msgid "Item"
@@ -1162,5 +1160,3 @@ msgstr "值"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:286
 msgid "Copy _All"
 msgstr "複製全部(_A)"
-
-

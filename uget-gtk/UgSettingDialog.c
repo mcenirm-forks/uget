@@ -58,7 +58,7 @@ UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent)
 			NULL);
 	gtk_dialog_set_default_response (dialog->self, GTK_RESPONSE_OK);
 	widget = gtk_notebook_new ();
-	gtk_widget_set_size_request (widget, 430, 300);
+	gtk_widget_set_size_request (widget, 430, 320);
 	vbox = (GtkBox*) gtk_dialog_get_content_area (dialog->self);
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
 	dialog->notebook = (GtkNotebook*) widget;

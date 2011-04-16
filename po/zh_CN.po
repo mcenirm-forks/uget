@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-15 21:43+0800\n"
+"POT-Creation-Date: 2011-04-16 14:43+0800\n"
 "PO-Revision-Date: 2009-09-17 13:33+0800\n"
 "Last-Translator: lh<jason AT gamil.com>\n"
 "Language-Team: \n"
@@ -124,7 +124,7 @@ msgstr ""
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:496
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:520
 msgid "tasks"
-msgstr ""
+msgstr "任务"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:537
 #, c-format
@@ -179,7 +179,7 @@ msgstr "信息"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-aria2.c:115
 msgid "failed to launch aria2."
-msgstr ""
+msgstr "aria2 启动失败。"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:70
 msgid "Download Manager"
@@ -309,9 +309,8 @@ msgstr "从剪切板中新建下载(_F)..."
 #. New Torrent
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:115
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:305
-#, fuzzy
 msgid "New Torrent..."
-msgstr "新下载(_D)..."
+msgstr ""
 
 #. New Metalink
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:122
@@ -329,7 +328,7 @@ msgstr "设置(_S)..."
 #. Show window
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:145
 msgid "Show window"
-msgstr ""
+msgstr "显示视窗"
 
 #. Offline mode
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:150
@@ -443,9 +442,8 @@ msgid "_Clipboard Option..."
 msgstr "剪切板选项(_C)..."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:494
-#, fuzzy
 msgid "Shutdown when downloads complete"
-msgstr "下载完成"
+msgstr "下载完成关机"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:508
 msgid "_View"
@@ -546,21 +544,20 @@ msgstr "速度"
 #. Download Columns - Up Speed
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:615
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:795
-#, fuzzy
 msgid "Up Speed"
-msgstr "速度"
+msgstr "上传速度"
 
 #. Download Columns - Uploaded
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:620
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:809
 msgid "Uploaded"
-msgstr ""
+msgstr "已上传"
 
 #. Download Columns - Ratio
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:625
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:823
 msgid "Ratio"
-msgstr ""
+msgstr "分享率"
 
 #. Download Columns - Retry
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:630
@@ -571,14 +568,13 @@ msgstr "重试(_R)"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:645
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:880
 msgid "Added On"
-msgstr ""
+msgstr "添加时间"
 
 #. Download Columns - Completed On
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:650
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:894
-#, fuzzy
 msgid "Completed On"
-msgstr "已完成"
+msgstr "完成时间"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:659
 msgid "_Category"
@@ -701,14 +697,12 @@ msgid "Category settings"
 msgstr "分类设置"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryDialog.c:64
-#, fuzzy
 msgid "Default for new download 1"
-msgstr "新下载的默认设置"
+msgstr "新下载的默认设置 1"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryDialog.c:66
-#, fuzzy
 msgid "Default 2"
-msgstr "默认"
+msgstr "默认 2"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryForm.c:53
 msgid "Category _name:"
@@ -749,11 +743,11 @@ msgstr "数量"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:99
 msgid "General"
-msgstr ""
+msgstr "一般"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:100
 msgid "Advanced"
-msgstr ""
+msgstr "进阶"
 
 #. File - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:151
@@ -821,7 +815,7 @@ msgstr "重试上限(_L)"
 #. counts - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:270
 msgid "counts"
-msgstr ""
+msgstr "计数"
 
 #. Retry delay - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:281
@@ -831,24 +825,22 @@ msgstr "重试延时(_D)"
 #. seconds - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:286
 msgid "seconds"
-msgstr ""
+msgstr "秒"
 
 #. "Connections per server" - title label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:296
 msgid "Connections per server"
-msgstr ""
+msgstr "每台服务器连接数"
 
 #. connections - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:307
-#, fuzzy
 msgid "connections"
-msgstr "连接中..."
+msgstr "连接数"
 
 #. label - cookie file
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:331
-#, fuzzy
 msgid "Cookie file:"
-msgstr "选择Cookie文件"
+msgstr "Cookie 文件"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:342
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:886
@@ -944,56 +936,55 @@ msgstr ""
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:66
 msgid "Mon"
-msgstr ""
+msgstr "一"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:67
 msgid "Tue"
-msgstr ""
+msgstr "二"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:68
 msgid "Wed"
-msgstr ""
+msgstr "三"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:69
 msgid "Thu"
-msgstr ""
+msgstr "四"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:70
 msgid "Fri"
-msgstr ""
+msgstr "五"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:71
-#, fuzzy
 msgid "Sat"
-msgstr "状态"
+msgstr "六"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:72
 msgid "Sun"
-msgstr ""
+msgstr "日"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:99
 msgid "_Enable Scheduler"
-msgstr ""
+msgstr "启用调度(_E)"
 
 #. label - Turn off
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:140
 msgid "Turn off"
-msgstr ""
+msgstr "关闭"
 
 #. label - Help for Turn off
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:145
 msgid "- stop all task"
-msgstr ""
+msgstr "- 停止所有的任务"
 
 #. label - Normal
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:154
 msgid "Normal"
-msgstr ""
+msgstr "正常"
 
 #. label - Help for Normal
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:159
 msgid "- run task normally"
-msgstr ""
+msgstr "- 正常运行任务"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:97
 msgid "Base hypertext reference"
@@ -1047,11 +1038,11 @@ msgstr "界面设置"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:87
 msgid "Scheduler"
-msgstr ""
+msgstr "调度"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:95
 msgid "Plug-in"
-msgstr ""
+msgstr "插件"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:103
 msgid "Others"
@@ -1090,7 +1081,7 @@ msgstr "删除文件时需要确认"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:153
 msgid "Always show tray icon"
-msgstr ""
+msgstr "始终显示托盘图标"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:156
 msgid "Minimize to tray on startup"
@@ -1128,25 +1119,22 @@ msgstr "间隔(_I)"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:355
 msgid "_Enable aria2 plug-in"
-msgstr ""
+msgstr "啟用 aria2 插件(_E)"
 
 #. aria2 plug-in hints
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:363
-msgid "Before you modify the settings:"
-msgstr ""
-
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:365
-#, fuzzy
-msgid "Please make sure that all of tasks have been completed."
-msgstr "队列里所有下载都已完成."
+msgid ""
+"Please make sure that all tasks have been completed\n"
+"before you modify settings."
+msgstr "在你修改设定前请确定所有的任务都已经完成。"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:379
 msgid "_Launch aria2 on startup"
-msgstr ""
+msgstr "启动时执行 aria2"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:385
 msgid "_Shutdown aria2 on exit"
-msgstr ""
+msgstr "离开时关闭 aria2"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:392
 msgid "Path"
@@ -1176,28 +1164,3 @@ msgstr "值"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:286
 msgid "Copy _All"
 msgstr "全部复制(_A)"
-
-#~ msgid "downloading"
-#~ msgstr "正在下载"
-
-#, fuzzy
-#~ msgid "Not resumable"
-#~ msgstr "不可恢复"
-
-#~ msgid "Default for new Category"
-#~ msgstr "新分类的默认设置"
-
-#~ msgid "Default for new Category..."
-#~ msgstr "新分类的预设值..."
-
-#~ msgid "Type:"
-#~ msgstr "类型:"
-
-#~ msgid "C_ategory"
-#~ msgstr "分类(_A)"
-
-#~ msgid "Capacity of Completed:"
-#~ msgstr "子分类\"已完成\"的容量:"
-
-#~ msgid "Total"
-#~ msgstr "全部"

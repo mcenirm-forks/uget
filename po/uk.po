@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uget-1.7.2a\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-15 21:43+0800\n"
+"POT-Creation-Date: 2011-04-16 14:43+0800\n"
 "PO-Revision-Date: 2011-03-17 11:01+0300\n"
 "Last-Translator: Serhij Dubyk <serhijdubyk@gmail.com>\n"
 "Language-Team: Ikrainian Linux Team <translation@linux.org.ua>\n"
@@ -1141,12 +1141,10 @@ msgstr ""
 
 #. aria2 plug-in hints
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:363
-msgid "Before you modify the settings:"
-msgstr ""
-
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:365
 #, fuzzy
-msgid "Please make sure that all of tasks have been completed."
+msgid ""
+"Please make sure that all tasks have been completed\n"
+"before you modify settings."
 msgstr "Усі файли з черги успішно звантажено."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:379

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-15 21:43+0800\n"
+"POT-Creation-Date: 2011-04-16 14:43+0800\n"
 "PO-Revision-Date: 2009-09-17 18:29+0800\n"
 "Last-Translator: \n"
 "Language-Team: Italiano <it@li.org>\n"
@@ -1130,11 +1130,9 @@ msgstr ""
 
 #. aria2 plug-in hints
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:363
-msgid "Before you modify the settings:"
-msgstr ""
-
-#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:365
-msgid "Please make sure that all of tasks have been completed."
+msgid ""
+"Please make sure that all tasks have been completed\n"
+"before you modify settings."
 msgstr ""
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:379
