@@ -542,19 +542,14 @@ void	ug_statusbar_set_info (struct UgStatusbar* statusbar, UgDownloadWidget* dwi
 
 void	ug_statusbar_set_speed (struct UgStatusbar* statusbar, gint64 down_speed, gint64 up_speed)
 {
-	gchar*		string_speed;
 	gchar*		string;
 
-	string_speed = ug_str_dtoa_unit ((gdouble) down_speed, 1, "/s");
-	string = g_strconcat ("D: ", string_speed, NULL);
+	string = ug_str_dtoa_unit ((gdouble) down_speed, 1, "/s");
 	gtk_label_set_text (statusbar->down_speed, string);
-	g_free (string_speed);
 	g_free (string);
 
-	string_speed = ug_str_dtoa_unit ((gdouble) up_speed, 1, "/s");
-	string = g_strconcat ("U: ", string_speed, NULL);
+	string = ug_str_dtoa_unit ((gdouble) up_speed, 1, "/s");
 	gtk_label_set_text (statusbar->up_speed, string);
-	g_free (string_speed);
 	g_free (string);
 }
 
