@@ -56,8 +56,6 @@ struct UgSelector
 	GtkWidget*		self;		// GtkVBox
 	GtkWindow*		parent;		// parent window of UgSelector.self
 
-	GArray*			pages;		// array of UgSelectorPage
-
 	GtkNotebook*	notebook;
 	// <base href>
 	GtkWidget*		href_label;
@@ -68,6 +66,10 @@ struct UgSelector
 	GtkWidget*		select_none;
 	GtkWidget*		select_filter;	// select by filter
 
+	// UgSelectorPage is placed in array
+	GArray*			pages;
+
+	// UgSelectorFilter use UgSelectorFilterData in UgSelectorPage
 	struct UgSelectorFilter
 	{
 		GtkDialog*		dialog;
@@ -110,16 +112,16 @@ struct UgSelectorPage
 	GtkTreeView*	view;
 	GtkListStore*	store;
 
+	// total marked count
+	gint			n_marked;
+
 	// used by UgSelectorFilter
-	struct
+	struct UgSelectorFilterData
 	{
 		GHashTable*		hash;
 		GtkListStore*	host;
 		GtkListStore*	ext;
 	} filter;
-
-	// total marked count
-	gint			n_marked;
 };
 
 void	ug_selector_page_init (UgSelectorPage* page);

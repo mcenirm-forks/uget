@@ -86,9 +86,6 @@ void	ug_selector_init (UgSelector* selector, GtkWindow* parent)
 	gchar*		string;
 
 	selector->parent = parent;
-	selector->pages = g_array_new (FALSE, FALSE, sizeof (UgSelectorPage));
-	ug_selector_filter_init (&selector->filter, selector);
-
 	selector->self = gtk_vbox_new (FALSE, 2);
 	vbox = (GtkBox*) selector->self;
 
@@ -129,6 +126,12 @@ void	ug_selector_init (UgSelector* selector, GtkWindow* parent)
 	selector->select_filter = widget;
 
 	gtk_widget_show_all ((GtkWidget*) vbox);
+
+	// UgSelectorPage initialize
+	selector->pages = g_array_new (FALSE, FALSE, sizeof (UgSelectorPage));
+
+	// UgSelectorFilter initialize
+	ug_selector_filter_init (&selector->filter, selector);
 }
 
 void	ug_selector_finalize (UgSelector* selector)
@@ -137,6 +140,7 @@ void	ug_selector_finalize (UgSelector* selector)
 	GArray*			array;
 	guint			index;
 
+	// UgSelectorPage finalize
 	array = selector->pages;
 	for (index=0; index < array->len; index++) {
 		page = &g_array_index (array, UgSelectorPage, index);
@@ -144,7 +148,7 @@ void	ug_selector_finalize (UgSelector* selector)
 	}
 	g_array_free (selector->pages, TRUE);
 
-	// UgSelectorFilter
+	// UgSelectorFilter finalize
 	gtk_widget_destroy (GTK_WIDGET (selector->filter.dialog));
 }
 
@@ -260,6 +264,10 @@ UgSelectorPage*	ug_selector_get_page (UgSelector* selector, gint nth_page)
 	return page;
 }
 
+
+// ----------------------------------------------------------------------------
+// UgSelectorFilter use UgSelectorFilterData in UgSelectorPage
+//
 static GtkWidget*	ug_selector_filter_view_init (GtkTreeView* item_view)
 {
 	GtkSizeGroup*	sizegroup;
@@ -487,23 +495,25 @@ void	ug_selector_page_init (UgSelectorPage* page)
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (page->view));
 	gtk_widget_show (page->self);
 
+	// total marked count
+	page->n_marked = 0;
+
+	// UgSelectorFilterData initialize
 	page->filter.hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 			NULL, (GDestroyNotify) g_list_free);
 	page->filter.host = gtk_list_store_new (1, G_TYPE_POINTER);
 	page->filter.ext  = gtk_list_store_new (1, G_TYPE_POINTER);
-	page->n_marked = 0;
 }
 
 void	ug_selector_page_finalize (UgSelectorPage* page)
 {
-	g_hash_table_destroy (page->filter.hash);
-
 	ug_selector_store_clear (page->store);
 	g_object_unref (page->store);
 
+	// UgSelectorFilterData finalize
+	g_hash_table_destroy (page->filter.hash);
 	ug_selector_store_clear (page->filter.host);
 	g_object_unref (page->filter.host);
-
 	ug_selector_store_clear (page->filter.ext);
 	g_object_unref (page->filter.ext);
 }
