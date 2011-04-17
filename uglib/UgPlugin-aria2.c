@@ -419,6 +419,9 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 		ug_plugin_delay ((UgPlugin*) plugin, 500);
 	}
 break_while:
+	// clear followed list if task is stopped by user or error occurred.
+	g_list_free (plugin->followed);
+	plugin->followed = NULL;
 
 exit:
 	if (plugin->state == UG_STATE_ACTIVE)
