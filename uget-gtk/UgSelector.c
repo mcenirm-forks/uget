@@ -313,7 +313,7 @@ static void	ug_selector_filter_init (struct UgSelectorFilter* filter, UgSelector
 
 	title  = g_strconcat (UG_APP_GTK_NAME " - ", _("Mark by filter"), NULL);
 	dialog = (GtkDialog*) gtk_dialog_new_with_buttons (title, selector->parent,
-			GTK_DIALOG_DESTROY_WITH_PARENT,
+			0,
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 			GTK_STOCK_OK,     GTK_RESPONSE_OK,
 			NULL);
