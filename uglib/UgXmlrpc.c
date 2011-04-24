@@ -70,7 +70,15 @@ static void		ug_xmltag_parse_struct_member (UgXmltag* xmltag, UgXmlrpcValue* val
 
 void	ug_xmlrpc_init (UgXmlrpc* xmlrpc)
 {
+	struct curl_slist*	clist;
+
+	// libcurl
+	clist = NULL;
+	clist = curl_slist_append (clist, "Content-Type: text/xml; charset=utf-8");
+	xmlrpc->curl_slist = clist;
 	xmlrpc->curl = curl_easy_init ();
+	curl_easy_setopt (xmlrpc->curl, CURLOPT_HTTPHEADER, clist);
+
 	xmlrpc->uri        = NULL;
 	xmlrpc->user_agent = NULL;
 
@@ -83,7 +91,10 @@ void	ug_xmlrpc_init (UgXmlrpc* xmlrpc)
 
 void	ug_xmlrpc_finalize (UgXmlrpc* xmlrpc)
 {
+	// libcurl
 	curl_easy_cleanup (xmlrpc->curl);
+	curl_slist_free_all (xmlrpc->curl_slist);
+
 	g_free (xmlrpc->uri);
 	g_free (xmlrpc->user_agent);
 
@@ -125,7 +136,7 @@ UgXmlrpcResponse	ug_xmlrpc_call (UgXmlrpc* xmlrpc, const gchar* methodName, ...)
 
 	buffer = xmlrpc->buffer;
 	g_string_assign (buffer,
-					"<?xml version='1.0'?>"
+					"<?xml version='1.0' encoding='UTF-8'?>"
 					"<methodCall>"
 					"<methodName>");
 	g_string_append (buffer,

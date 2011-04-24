@@ -216,6 +216,8 @@ struct UgXmlrpc
 {
 //	CURL*			curl;
 	gpointer		curl;
+	gpointer		curl_slist;
+
 	char*			uri;
 	char*			user_agent;
 
