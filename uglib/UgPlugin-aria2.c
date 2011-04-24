@@ -51,6 +51,8 @@
 #include "pwmd.h"
 #endif
 
+#include <glib/gi18n.h>
+
 #define ARIA2_XMLRPC_URI		"http://localhost:6800/rpc"
 
 // functions for UgPluginInterface
@@ -79,6 +81,7 @@ static gboolean	ug_plugin_aria2_get_servers	(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_tell_status	(UgPluginAria2* plugin);
 static gboolean	ug_plugin_aria2_change_option(UgPluginAria2* plugin, UgXmlrpcValue* options);
 static gboolean	ug_plugin_aria2_response	(UgPluginAria2* plugin, UgXmlrpcResponse response, const gchar* method);
+static void		ug_plugin_aria2_post_error  (UgPluginAria2* plugin, int code);
 
 // setup functions
 static void		ug_plugin_aria2_set_scheme	(UgPluginAria2* plugin, UgXmlrpcValue* options);
@@ -103,17 +106,6 @@ enum Aria2Status
 	ARIA2_ERROR,
 	ARIA2_COMPLETE,
 	ARIA2_REMOVED,
-};
-
-enum Aria2ErrorCode
-{
-	ARIA2_ERROR_NONE,
-	ARIA2_ERROR_UNKNOW,
-	ARIA2_ERROR_TIME_OUT,
-	ARIA2_ERROR_RESOURCE_NOT_FOUND,
-	ARIA2_ERROR_TOO_MANY_RESOURCE_NOT_FOUND,
-	ARIA2_ERROR_SPEED_TOO_SLOW,
-	ARIA2_ERROR_NETWORK,
 };
 
 // static data for UgPluginInterface
@@ -329,10 +321,6 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 	if (ug_plugin_aria2_get_version (plugin) == FALSE)
 		goto exit;
 
-	// create folder
-	if (plugin->common->folder)
-		ug_create_dir_all (plugin->common->folder, -1);
-
 	// uri, torrent, or metalink
 	string = plugin->common->url;
 	if (strncmp (string, "file:", 5) == 0) {
@@ -408,10 +396,7 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 
 		case ARIA2_ERROR:
 			ug_plugin_aria2_remove (plugin);
-			string = g_strdup_printf ("aria2 error code: %u", plugin->errorCode);
-			message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, string);
-			g_free (string);
-			ug_plugin_post ((UgPlugin*) plugin, message);
+			ug_plugin_aria2_post_error (plugin, plugin->errorCode);
 			goto break_while;
 		}
 
@@ -802,6 +787,61 @@ static gboolean	ug_plugin_aria2_response (UgPluginAria2* plugin, UgXmlrpcRespons
 	}
 
 	return TRUE;
+}
+
+static void	ug_plugin_aria2_post_error (UgPluginAria2* plugin, int code)
+{
+	UgMessage*		message;
+	gchar*			string;
+
+	switch (code) {
+	case 3:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: resource was not found.");
+		break;
+
+	case 5:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: speed was too slow.");
+		break;
+
+	case 6:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: network problem occurred.");
+		break;
+
+	case 7:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: unfinished downloads.");
+		break;
+
+	case 8:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, _("Not Resumable"));
+		break;
+
+	case 9:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_OUT_OF_RESOURCE, NULL);
+		break;
+
+	case 11:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2 was downloading same file.");
+		break;
+
+	case 12:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2 was downloading same info hash torrent.");
+		break;
+
+	case 14:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, _("Output file can't be renamed."));
+		break;
+
+	case 18:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_FOLDER_CREATE_FAILED, NULL);
+		break;
+
+	default:
+		string = g_strdup_printf ("aria2 error code: %u", plugin->errorCode);
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, string);
+		g_free (string);
+	}
+
+	ug_plugin_post ((UgPlugin*) plugin, message);
 }
 
 
