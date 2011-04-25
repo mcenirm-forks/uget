@@ -179,7 +179,6 @@ void	ug_download_dialog_set_category (UgDownloadDialog* ddialog, UgCategoryWidge
 	ug_category_view_set_icon_visible (ddialog->category_view, FALSE);
 	model = cwidget->filter;
 	gtk_tree_view_set_model (ddialog->category_view, model);
-	gtk_widget_set_size_request ((GtkWidget*) ddialog->category_view, 165, 100);
 	// signal
 	g_signal_connect (ddialog->category_view, "cursor-changed",
 			G_CALLBACK (on_category_cursor_changed), ddialog);
@@ -193,6 +192,7 @@ void	ug_download_dialog_set_category (UgDownloadDialog* ddialog, UgCategoryWidge
 	gtk_tree_path_free (path);
 	// scrolled window
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_set_size_request (scrolled, 165, 100);
 	gtk_widget_show (scrolled);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
 			GTK_SHADOW_IN);

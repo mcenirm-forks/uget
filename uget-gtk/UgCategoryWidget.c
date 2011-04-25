@@ -108,9 +108,9 @@ void	ug_category_widget_init (UgCategoryWidget* cwidget)
 	cwidget->store = gtk_tree_store_new (UG_CATEGORY_N_COLUMN, G_TYPE_POINTER, G_TYPE_POINTER);
 	cwidget->view = ug_category_view_new ();
 	gtk_tree_view_set_model (cwidget->view, GTK_TREE_MODEL (cwidget->store));
-	gtk_widget_set_size_request (GTK_WIDGET (cwidget->view), 165, 100);
 	// secondary categories: scrolled for view
 	cwidget->scroll = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_set_size_request (cwidget->scroll, 165, 100);
 	scroll = GTK_SCROLLED_WINDOW (cwidget->scroll);
 	gtk_scrolled_window_set_shadow_type (scroll, GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy (scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
