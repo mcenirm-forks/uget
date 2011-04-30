@@ -776,7 +776,10 @@ void	ug_app_window_close (UgAppGtk* app)
 	{
 	default:
 	case 1:		// Minimize to tray.
+#ifndef HAVE_APP_INDICATOR
+		// This may cause Ubuntu Unity crash
 		gtk_window_iconify (app->window.self);
+#endif
 		gtk_widget_hide ((GtkWidget*) app->window.self);
 		ug_app_trayicon_decide_visible (app);
 		break;
