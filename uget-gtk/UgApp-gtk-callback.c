@@ -635,6 +635,27 @@ static void	on_config_download (GtkWidget* widget, UgAppGtk* app)
 	gtk_widget_show (GTK_WIDGET (ddialog->self));
 }
 
+static void	on_set_download_force_start (GtkWidget* widget, UgAppGtk* app)
+{
+	UgDownloadWidget*	dwidget;
+	UgRelation*			relation;
+	GList*				list;
+	GList*				link;
+
+	dwidget = app->cwidget.current.widget;
+	list = ug_download_widget_get_selected (dwidget);
+	for (link = list;  link;  link = link->next) {
+		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
+		relation->hints &= ~UG_HINT_UNRUNNABLE;
+		ug_running_add (&app->running, link->data);
+	}
+	g_list_free (list);
+	// refresh other data & status
+	gtk_widget_queue_draw (app->cwidget.self);
+	gtk_widget_queue_draw (GTK_WIDGET (dwidget->view));
+	ug_summary_show (&app->summary, ug_download_widget_get_cursor (dwidget));
+}
+
 static void	on_set_download_runnable (GtkWidget* widget, UgAppGtk* app)
 {
 	UgDownloadWidget*	dwidget;
@@ -1786,6 +1807,8 @@ static void ug_menubar_init_callback (struct UgMenubar* menubar, UgAppGtk* app)
 	g_signal_connect (menubar->download.open_folder, "activate",
 			G_CALLBACK (on_open_download_folder), app);
 	// change status
+	g_signal_connect (menubar->download.force_start, "activate",
+			G_CALLBACK (on_set_download_force_start), app);
 	g_signal_connect (menubar->download.runnable, "activate",
 			G_CALLBACK (on_set_download_runnable), app);
 	g_signal_connect (menubar->download.pause, "activate",

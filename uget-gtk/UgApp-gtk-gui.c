@@ -735,6 +735,12 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
 
+	menu_item = gtk_image_menu_item_new_with_mnemonic(_("Force Start"));
+//	image = gtk_image_new_from_stock (GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_MENU);
+//	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	menubar->download.force_start = menu_item;
+
 	menu_item = gtk_image_menu_item_new_with_mnemonic(_("_Runnable"));
 	image = gtk_image_new_from_stock (GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);

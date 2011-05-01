@@ -294,6 +294,7 @@ struct UgAppGtk
 			GtkWidget*	delete_file;	// delete file and data.
 			GtkWidget*	open;
 			GtkWidget*	open_folder;	// open containing folder
+			GtkWidget*	force_start;
 			GtkWidget*	runnable;
 			GtkWidget*	pause;
 
