@@ -1,0 +1,1171 @@
+# Belarusian translation of uGet.
+# This file is distributed under the same license as the PACKAGE package.
+# Mihas Varantsou <meequz@gmail.com>, 2011.
+# ШОС:)
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: uGet-1.7.5 (Testing)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-05-06 08:10+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: be\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. UG_MESSAGE_INFO_CUSTOM
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:52
+msgid "Connecting..."
+msgstr "Злучэнне..."
+
+#. UG_MESSAGE_INFO_CONNECT
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:53
+msgid "Transmitting..."
+msgstr "Перадача..."
+
+#. UG_MESSAGE_INFO_TRANSMIT,
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:54
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:837
+msgid "Retry"
+msgstr "Спробы"
+
+#. UG_MESSAGE_INFO_RETRY,
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:55
+msgid "Download completed"
+msgstr "Запампоўка скончана"
+
+#. UG_MESSAGE_INFO_COMPLETE,
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:56
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:45
+msgid "Finished"
+msgstr "Скончана"
+
+#. UG_MESSAGE_INFO_FINISH,
+#. resumable
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:58
+msgid "Resumable"
+msgstr "Узнаўляема"
+
+#. UG_MESSAGE_INFO_RESUMABLE,
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:59
+msgid "Not Resumable"
+msgstr "Не узнаўляема"
+
+#. UG_MESSAGE_WARNING_CUSTOM
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:67
+msgid "Output file can't be renamed."
+msgstr "Немагчыма перайменаваць выхадны файл."
+
+#. UG_MESSAGE_ERROR_CUSTOM
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:75
+msgid "couldn't connect to host."
+msgstr "немагчыма падлучыцца да хоста"
+
+#. UG_MESSAGE_ERROR_CONNECT_FAILED
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:76
+msgid "Folder can't be created."
+msgstr "Немагчыма стварыць тэчку."
+
+#. UG_MESSAGE_ERROR_FOLDER_CREATE_FAILED
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:77
+msgid "File can't be created (bad filename or file exist)."
+msgstr "Файл не можа быць створаны (няправільнае імя файла ці файл існуе)."
+
+#. UG_MESSAGE_ERROR_FILE_CREATE_FAILED
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:78
+msgid "File can't be opened."
+msgstr "Немагчыма адкрыць файл."
+
+#. UG_MESSAGE_ERROR_FILE_OPEN_FAILED
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:79
+msgid "Out of resource (disk full or run out of memory)."
+msgstr "Не хапае рэсурсаў (дыск перапоўнены або недастаткова памяці)."
+
+#. UG_MESSAGE_ERROR_OUT_OF_RESOURCE
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:80
+msgid "No output file."
+msgstr "Няма выхаднога файлу."
+
+#. UG_MESSAGE_ERROR_NO_OUTPUT_FILE
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:81
+msgid "No output setting."
+msgstr "Няма выхадных установак."
+
+#. UG_MESSAGE_ERROR_NO_OUTPUT_SETTING
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:82
+msgid "Too many retries."
+msgstr "Занадта шмат спробаў."
+
+#. UG_MESSAGE_ERROR_TOO_MANY_RETRIES
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:83
+msgid "Unsupported scheme (protocol)."
+msgstr "Непадтрымліваймая схема (пратакол)."
+
+#. UG_MESSAGE_ERROR_UNSUPPORTED_SCHEME
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:84
+msgid "Unsupported file."
+msgstr "Непадтрымліваймы файл."
+
+#. UG_MESSAGE_ERROR_HTTP_MEMBER_CUSTOM
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:102
+msgid "Too many redirections."
+msgstr "Занадта шмат перанакіраванняў."
+
+#. UG_MESSAGE_ERROR_HTTP_MEMBER_TOO_MANY_REDIRECTIONS
+#: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:103
+msgid "Failed to open posted file."
+msgstr "Не атрымалася адкрыць размешчаны файл."
+
+#: /home/ch2/workspace/uget/po/../uglib/UgRunning.c:91
+msgid "No plug-in support this scheme or file."
+msgstr "Няма плагінаў для падтрымкі гэтай схемы ці файла."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:496
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:520
+msgid "tasks"
+msgstr "задачы"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:537
+#, c-format
+msgid "Selected %d items"
+msgstr "Абраныя %d элементаў"
+
+#. create confirmation dialog
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:607
+msgid "Really Quit?"
+msgstr "Сапраўды выйсці?"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:624
+msgid "Are you sure you want to quit?"
+msgstr "Вы упэўнены, што хочаце выйсці?"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:629
+msgid "Remember this action"
+msgstr "Запомніць гэта дзеянне"
+
+#. radio button
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:634
+msgid "Minimize to tray"
+msgstr "Згарнуць у трэй"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:636
+msgid "Exit uGet"
+msgstr "Выйсці з uGet"
+
+#. create confirmation dialog
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:691
+msgid "Really delete files?"
+msgstr "Сапраўды выдаліць файлы?"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:709
+msgid "Are you sure you want to delete files?"
+msgstr "Вы упэўнены, что хочаце выдаліць файлы?"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:714
+msgid "Do not ask me again"
+msgstr "Не пытацца зноў"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:756
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:511
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:544
+msgid "Error"
+msgstr "Памылка"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:763
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:163
+msgid "Message"
+msgstr "Паведамленне"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-aria2.c:115
+msgid "failed to launch aria2."
+msgstr "не атрымалася запусціць aria2."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:70
+msgid "Download Manager"
+msgstr "Менеджэр Запамповак"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:72
+msgid "translator-credits"
+msgstr "Міхась Варанцоў <meequz@gmail.com>"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:122
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:135
+msgid "New Category"
+msgstr "Новая катэгорыя"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:130
+msgid "Copy - "
+msgstr "Скапіяваць - "
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:185
+msgid "Category Properties"
+msgstr "Уласцівасці катэгорыі"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:232
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:258
+msgid "New Download"
+msgstr "Новая запампоўка"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:258
+msgid "New Batch Download"
+msgstr "Новая партыя запамповак"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:282
+msgid "No URLs found in clipboard."
+msgstr "Не знойдзена URL'аў у буферы абмену"
+
+#. only 1 url matched
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:286
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:153
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:162
+msgid "New from Clipboard"
+msgstr "Новая з буферу абмену"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:294
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:168
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:80
+msgid "Clipboard"
+msgstr "Буфер абмену"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:318
+msgid "New Torrent"
+msgstr "Новы торрэнт"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:340
+msgid "Open Torrent file"
+msgstr "Адкрыць торрэнт-файл"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:363
+msgid "New Metalink"
+msgstr "Новая мета-спасылка"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:386
+msgid "Open Metalink file"
+msgstr "Адкрыць файл мета-спасылкі"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:505
+#, c-format
+msgid "Can't launch default application for file '%s'."
+msgstr "Немагчыма запусціць прыкладанне па змоўчванні для файлу '%s'."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:538
+#, c-format
+msgid "'%s' - This folder does not exist."
+msgstr "Гэтая тэчка не існуе."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:618
+msgid "Download Properties"
+msgstr "Уласцівасці запампоўкі"
+
+#. add link
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:849
+msgid "Link <A>"
+msgstr "Спасылка <A>"
+
+#. add image
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:854
+msgid "Image <IMG>"
+msgstr "Выява <IMG>"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:870
+msgid "Import URLs from HTML file"
+msgstr "Імпартаваць URL'ы з HTML-файлу"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:911
+msgid "Text File"
+msgstr "Тэкставы файл"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:927
+msgid "Import URLs from text file"
+msgstr "Імпартаваць URL'ы з тэкставага файлу"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:973
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:974
+msgid "Export to"
+msgstr "Экспартаваць ў"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:1070
+msgid "Settings"
+msgstr "Налады"
+
+#. New Download
+#. New Download (accelerators)
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:99
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:291
+msgid "New _Download..."
+msgstr "Новая _запампоўка..."
+
+#. New Download from Clipboard
+#. New from Clipboard
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:106
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:311
+msgid "New _from Clipboard..."
+msgstr "Новая _з буферу абмену..."
+
+#. New Torrent
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:115
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:321
+msgid "New Torrent..."
+msgstr "Новы торрэнт..."
+
+#. New Metalink
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:122
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:328
+msgid "New Metalink..."
+msgstr "Новая мета-спасылка..."
+
+#. Settings
+#. menu_item = gtk_menu_item_new_with_mnemonic (_("_Settings..."));
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:131
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:515
+msgid "_Settings..."
+msgstr "_Налады..."
+
+#. Show window
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:145
+msgid "Show window"
+msgstr "Паказаць вакно"
+
+#. Offline mode
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:150
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:484
+msgid "_Offline Mode"
+msgstr "_Офлайн рэжым"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:281
+msgid "Create new download"
+msgstr "Стварыць новую запампоўку"
+
+#. New Category
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:298
+msgid "New _Category..."
+msgstr "Новая катэгорыя..."
+
+#. New Batch download
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:304
+msgid "New _Batch download..."
+msgstr "Новая _партыя запамповак..."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:337
+msgid "Save all"
+msgstr "Захаваць усё"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:345
+msgid "Set selected download runnable"
+msgstr "Запусціць вылучаныя запампоўкі"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:350
+msgid "Set selected download to pause"
+msgstr "Паўза для вылучаных запамповак"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:355
+msgid "Set selected download properties"
+msgstr "Ўсталяваць ўласцівасці вылучаных запамповак"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:363
+msgid "Move selected download up"
+msgstr "Падняць вылучанае"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:368
+msgid "Move selected download down"
+msgstr "Апусціць вылучанае"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:373
+msgid "Move selected download to top"
+msgstr "Зрушыць вылучанае уверх"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:378
+msgid "Move selected download to bottom"
+msgstr "Зрушыць вылучанае уніз"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:401
+msgid "_File"
+msgstr "_Файл"
+
+#. New - Download (accelerators)
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:413
+msgid "_Download..."
+msgstr "_Запампоўка..."
+
+#. New - Category
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:420
+msgid "_Category..."
+msgstr "_Катэгорыя..."
+
+#. New - Batch download
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:426
+msgid "_Batch download..."
+msgstr "_Партыя запамповак..."
+
+#. New - from clipboard
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:432
+msgid "_From Clipboard..."
+msgstr "_З буферу абмену..."
+
+#. New - Torrent
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:441
+msgid "Torrent..."
+msgstr "Торрэнт..."
+
+#. New - Metalink
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:447
+msgid "Metalink..."
+msgstr "Мета-спасылка..."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:463
+msgid "Import _HTML file..."
+msgstr "Імпартаваць _HTML-файл..."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:469
+msgid "_Import text file..."
+msgstr "_Імпартаваць текставы файл..."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:475
+msgid "_Export text file..."
+msgstr "_Экспартаваць тэкставы файл..."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:495
+msgid "_Edit"
+msgstr "_Рэдагаваць"
+
+#. menu.gtk_menu_shell_append((GtkMenuShell*)menu, gtk_tearoff_menu_item_new() );
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:500
+msgid "Clipboard _Monitor"
+msgstr "Паказаць _буфер абмену"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:504
+msgid "_Clipboard Option..."
+msgstr "_Налады буферу абмену"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:510
+msgid "Shutdown when downloads complete"
+msgstr "Выключыць кампутар пасля заканчэння усіх запамповак"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:524
+msgid "_View"
+msgstr "_Выгляд"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:528
+msgid "_Toolbar"
+msgstr "Паліца _інструментаў"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:533
+msgid "Statusbar"
+msgstr "Радок статусу"
+
+#. Summary Items - Category
+#. Download Columns - Category
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:538
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:566
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:651
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:129
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:430
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadDialog.c:205
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:852
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:130
+msgid "Category"
+msgstr "Катэгорыя"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:543
+msgid "_Summary"
+msgstr "_Падрабязнасці"
+
+#. Summary Items --- start ---
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:551
+msgid "Summary _Items"
+msgstr "Паказваць у _падрабязнасцях"
+
+#. Summary Items - Name
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:556
+msgid "_Name"
+msgstr "_Імя"
+
+#. Summary Items - Folder
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:561
+msgid "_Folder"
+msgstr "_Тэчка"
+
+#. Summary Items - Elapsed
+#. menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Elapsed"));
+#. gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
+#. gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+#. menubar->view.summary_items.elapsed = menu_item;
+#. Summary Items - URL
+#. Download Columns - URL
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:576
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:656
+msgid "_URL"
+msgstr "_URL"
+
+#. Summary Items - Message
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:581
+msgid "_Message"
+msgstr "_Паведамленне"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:596
+msgid "Download _Columns"
+msgstr "Слупкі _спіса запамповак"
+
+#. Download Columns - Completed
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:601
+msgid "_Complete"
+msgstr "Ужо _спампавана"
+
+#. Download Columns - Total
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:606
+msgid "_Size"
+msgstr "_Памер"
+
+#. Download Columns - Percent (%)
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:611
+msgid "_Percent '%'"
+msgstr "_Адсоткі '%'"
+
+#. Download Columns - Elapsed
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:616
+msgid "_Elapsed"
+msgstr "_Прайшло часу"
+
+#. Download Columns - Left
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:621
+msgid "_Left"
+msgstr "_Засталося"
+
+#. Download Columns - Speed
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:626
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:781
+msgid "Speed"
+msgstr "Хуткасць"
+
+#. Download Columns - Up Speed
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:631
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:795
+msgid "Up Speed"
+msgstr "Хуткасць аддачы"
+
+#. Download Columns - Uploaded
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:636
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:809
+msgid "Uploaded"
+msgstr "Аддадзена"
+
+#. Download Columns - Ratio
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:641
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:823
+msgid "Ratio"
+msgstr "Рэйтынг"
+
+#. Download Columns - Retry
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:646
+msgid "_Retry"
+msgstr "_Паўторы"
+
+#. Download Columns - Added On
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:661
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:880
+msgid "Added On"
+msgstr "Калі дабаўлена"
+
+#. Download Columns - Completed On
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:666
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:894
+msgid "Completed On"
+msgstr "Калі завершана"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:675
+msgid "_Category"
+msgstr "_Катэгорыя"
+
+#. New Category
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:680
+msgid "_New Category..."
+msgstr "_Новая катэгорыя..."
+
+#. Delete Category
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:686
+msgid "_Delete Category"
+msgstr "_Выдаліць катэгорыю"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:699
+msgid "_Download"
+msgstr "_Запампоўка"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:717
+msgid "Delete _File and Data"
+msgstr "Выдаліць файлы і дадзеныя"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:730
+msgid "Open _containing folder"
+msgstr "Адкрыць змяшчальную тэчку"
+
+# Added
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:738
+msgid "Force Start"
+msgstr "Хуткі старт"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:744
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:208
+msgid "_Runnable"
+msgstr "_Запусціць"
+
+#. Move to --- start ---
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:760
+msgid "_Move To"
+msgstr "_Перамясціць у"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:811
+msgid "_Help"
+msgstr "_Дапамога"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:154
+msgid "only one matched"
+msgstr "толькі адно супадзенне"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:266
+msgid "Command line"
+msgstr "Камандны радок"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:717
+msgid "Download Starting"
+msgstr "Пачатак запампоўкі"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:718
+msgid "Starting download queue."
+msgstr "Пачатак запампоўкі па чарзе."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:719
+msgid "Download Completed"
+msgstr "Запампоўка скончана"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:720
+msgid "All queuing downloads have been completed."
+msgstr "Уся чарга запамповак скончана."
+
+#. URL - label
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:61
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:136
+msgid "_URL:"
+msgstr "_URL:"
+
+#. e.g.
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:72
+msgid "e.g."
+msgstr "напрыклад"
+
+#. -------------------------------------------------------
+#. radio "From"
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:83
+msgid "_From:"
+msgstr "З:"
+
+#. label "To"
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:106
+msgid "To:"
+msgstr "_Па:"
+
+#. label "digits"
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:120
+msgid "digits:"
+msgstr "лічбаў:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:128
+msgid "F_rom:"
+msgstr "_З:"
+
+#. label case-sensitive
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:158
+msgid "case-sensitive"
+msgstr "з улікам рэгістра"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:183
+msgid "No wildcard(*) character in URL entry."
+msgstr "Няма знака шаблону(*) у URL запісу."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:187
+msgid "URL is not valid."
+msgstr "URL недапушчальны."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:191
+msgid "No character in 'From' or 'To' entry."
+msgstr "У палях 'З' ці 'Па' нічога няма"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:300
+msgid "Preview"
+msgstr "Перадпрагляд"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryDialog.c:62
+msgid "Category settings"
+msgstr "Налады катэгорыі"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryDialog.c:64
+msgid "Default for new download 1"
+msgstr "Змоўчванні для новай катэгорыі"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryDialog.c:66
+msgid "Default 2"
+msgstr "Дадатковыя змоўчванні"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryForm.c:53
+msgid "Category _name:"
+msgstr "Імя катэгорыі:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryForm.c:68
+msgid "Active _downloads:"
+msgstr "Актыўныя запампоўкі:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryForm.c:76
+msgid "Capacity of Finished:"
+msgstr "Спіс скончаных:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryForm.c:85
+msgid "Capacity of Recycled:"
+msgstr "Спіс выдаленых:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:42
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:292
+msgid "All"
+msgstr "Усе"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:43
+msgid "Active"
+msgstr "Актыўныя"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:44
+msgid "Queuing"
+msgstr "У чарзе"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:46
+msgid "Recycled"
+msgstr "Выдаленыя"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:451
+msgid "Quantity"
+msgstr "Колькасць"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:99
+msgid "General"
+msgstr "Галоўныя"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:100
+msgid "Advanced"
+msgstr "Дадатковыя"
+
+#. File - label
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:151
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:345
+msgid "File:"
+msgstr "Файл:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:165
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:830
+msgid "Select Folder"
+msgstr "Абярыце тэчку:"
+
+#. Folder - label
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:173
+msgid "_Folder:"
+msgstr "_Тэчка:"
+
+#. Referrer - label
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:188
+msgid "Referrer:"
+msgstr "Крыніца пераходу:"
+
+#. ----------------------------------------------------
+#. frame for Status (start mode)
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:202
+msgid "Status"
+msgstr "Статус"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:210
+msgid "P_ause"
+msgstr "П_аўза"
+
+#. ----------------------------------------------------
+#. frame for login
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:216
+msgid "Login"
+msgstr "Лагін"
+
+#. User - label
+#. user label & entry
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:230
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:152
+msgid "User:"
+msgstr "Карыстальнік:"
+
+#. Password - label
+#. password label & entry
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:245
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:162
+msgid "Password:"
+msgstr "Пароль:"
+
+#. dform->password_label = widget;
+#. ----------------------------------------------------
+#. frame for option
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:252
+msgid "Options"
+msgstr "Налады"
+
+#. Retry limit - label
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:265
+msgid "Retry _limit:"
+msgstr "Ліміт паўтораў:"
+
+#. counts - label
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:270
+msgid "counts"
+msgstr "разоў"
+
+#. Retry delay - label
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:281
+msgid "Retry _delay:"
+msgstr "Затрымка паўтора"
+
+#. seconds - label
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:286
+msgid "seconds"
+msgstr "секундаў"
+
+#. "Connections per server" - title label
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:296
+msgid "Connections per server"
+msgstr "Падлучэнняў да сервера"
+
+#. connections - label
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:307
+msgid "connections"
+msgstr "падключэнняў"
+
+#. label - cookie file
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:331
+msgid "Cookie file:"
+msgstr "Файл кукі:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:342
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:886
+msgid "Select Cookie File"
+msgstr "Абраць файл кукі"
+
+#. label - post file
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:351
+msgid "Post file:"
+msgstr "Адпраўляймы файл:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:362
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:942
+msgid "Select Post File"
+msgstr "Абярыце адпраўляемы файл"
+
+#. label - Max upload speed
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:372
+msgid "Max upload speed:"
+msgstr "Найбольшая хуткасць адпраўкі:"
+
+#. label - Max download speed
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:388
+msgid "Max download speed:"
+msgstr "Найбольшая хуткасць запампоўкі:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:362
+msgid "unnamed"
+msgstr "безназоўны"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:686
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:102
+msgid "Name"
+msgstr "Назва"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:710
+msgid "Complete"
+msgstr "Скончана"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:724
+msgid "Size"
+msgstr "Памер"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:739
+msgid "%"
+msgstr "%"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:753
+msgid "Elapsed"
+msgstr "Прайшло"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:767
+msgid "Left"
+msgstr "Засталося"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:866
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:487
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:141
+msgid "URL"
+msgstr "URL"
+
+#. proxy type label & combo box
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:71
+msgid "Proxy:"
+msgstr "Проксі:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:74
+msgid "Don't use"
+msgstr "Не выкарыстоўваць"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:76
+msgid "Default"
+msgstr "Па-змоўчванні"
+
+#. host label & entry
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:128
+msgid "Host:"
+msgstr "Хост:"
+
+#. port label & entry
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:138
+msgid "Port:"
+msgstr "Порт:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:336
+msgid "Socket:"
+msgstr "Сокет:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:357
+msgid "Element:"
+msgstr "Элемент:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:66
+msgid "Mon"
+msgstr "Пнд"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:67
+msgid "Tue"
+msgstr "Аўт"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:68
+msgid "Wed"
+msgstr "Срд"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:69
+msgid "Thu"
+msgstr "Чцв"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:70
+msgid "Fri"
+msgstr "Птн"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:71
+msgid "Sat"
+msgstr "Сбт"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:72
+msgid "Sun"
+msgstr "Ндз"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:107
+msgid "_Enable Scheduler"
+msgstr "Уключыць планавальнік"
+
+#. label - Turn off
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:153
+msgid "Turn off"
+msgstr "Выключыць"
+
+#. label - Help for Turn off
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:158
+msgid "- stop all task"
+msgstr "- спыніць усе задачы"
+
+#. label - Normal
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:167
+msgid "Normal"
+msgstr "Нармальна"
+
+#. label - Help for Normal
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:172
+msgid "- run task normally"
+msgstr "- запусціць задачу нармальна"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:94
+msgid "Base hypertext reference"
+msgstr "База спасылак"
+
+#. select all
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:110
+msgid "Mark _All"
+msgstr "Вылучыць _усё"
+
+#. select none
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:116
+msgid "Mark _None"
+msgstr "Зняць _усе вылучэнні"
+
+#. select by filter
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:122
+msgid "_Mark by filter..."
+msgstr "_Вылучыць па фільтру..."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:297
+msgid "None"
+msgstr "Нічога"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:314
+msgid "Mark by filter"
+msgstr "Вылучыць па фільтру"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:332
+msgid "Mark URLs by host AND filename extension."
+msgstr "Вылучыць URL'ы па хосту І ТАКСАМА тыпу файла."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:335
+msgid "This will reset all marks of URLs."
+msgstr "Гэта зніме усе вылучэнні URL'аў."
+
+#. filter view -----------------------
+#. left side
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:343
+msgid "Host"
+msgstr "Хост"
+
+#. right side (filename extension)
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:347
+msgid "File Ext."
+msgstr "Тып файлу."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:71
+msgid "UI Settings"
+msgstr "Налады інтэрфейсу"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:87
+msgid "Scheduler"
+msgstr "Планавальнік"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:95
+msgid "Plug-in"
+msgstr "Дадаткі"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:103
+msgid "Others"
+msgstr "Іншае"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:72
+msgid "_Monitor clipboard for specified file types:"
+msgstr "Сачыць за гэтымі тыпамі файлаў у буферы абмену:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:87
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:236
+msgid "Separate the types with character '|'."
+msgstr "Тыпы падзяляюцца сімвалам '|'."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:92
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:241
+msgid "You can use regular expressions here."
+msgstr "Вы можаце выкарыстоўваць рэгулярныя выразы."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:100
+msgid "_Quiet mode"
+msgstr "_Аўтаматычны рэжым"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:109
+msgid "Add URL to Nth category"
+msgstr "Дадаць URL да N-най катэгорыі"
+
+#. check button
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:147
+msgid "Show confirmation dialog on close"
+msgstr "Дыялог пацведжання пры закрыцці"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:150
+msgid "Confirm when deleting files"
+msgstr "Пацверджваць выдаленне файлаў"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:153
+msgid "Always show tray icon"
+msgstr "Заўсёды паказваць іконку ў трэе"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:156
+msgid "Minimize to tray on startup"
+msgstr "Згарнуць у трэй пры старце"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:159
+msgid "Enable offline mode on startup"
+msgstr "Увайсці ў офлайн-рэжым пры старце"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:162
+msgid "Download starting notification"
+msgstr "Запампаваць пачатковае паведамленне"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:165
+msgid "Sound when download is finished"
+msgstr "Гук, калі запампоўка скончана"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:223
+msgid "_Launch default application for specified file types:"
+msgstr "Запускаць стандартныя праграмы для наступных тыпаў файлаў:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:282
+msgid "_Auto save"
+msgstr "Аўта-захаванне"
+
+#. auto save spin & label (interval)
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:288
+msgid "minutes"
+msgstr "хвілін"
+
+#. auto save label
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:295
+msgid "_Interval:"
+msgstr "_Інтэрвал:"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:355
+msgid "_Enable aria2 plug-in"
+msgstr "_Уключыць aria2-дадатак"
+
+#. aria2 plug-in hints
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:363
+msgid ""
+"Please make sure that all tasks have been completed\n"
+"before you modify settings."
+msgstr ""
+"Перад тым, як змяняць налады,\n"
+"пераканайцеся, што усе задачы скончаныя."
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:379
+msgid "_Launch aria2 on startup"
+msgstr "_Запускаць aria2 пры старце"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:385
+msgid "_Shutdown aria2 on exit"
+msgstr "_Выключаць aria2 пры выхадзе"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:392
+msgid "Path"
+msgstr "Шлях"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:400
+msgid "Arguments"
+msgstr "Аргументы"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:106
+msgid "File"
+msgstr "Файл"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:119
+msgid "Folder"
+msgstr "Тэчка"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:249
+msgid "Item"
+msgstr "Элемент"
+
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:254
+msgid "Value"
+msgstr "Значэнне"
+
+#. Copy All
+#: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:286
+msgid "Copy _All"
+msgstr "Капіяваць _усё"
