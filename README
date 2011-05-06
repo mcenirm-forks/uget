@@ -1,8 +1,18 @@
-uGet 1.7.5 (testing)
+uGet 1.7.6 (testing)
 
 This version requires GTK+ version 2.18+ or 3.0+
 Warning: Don't compile uget with libcurl4-gnutls-dev in Ubuntu 11.04
          To use libcurl4-openssl-dev is better.
+
+Some features will not work if you use aria2 plug-in with aria2 <= 1.9.
+If you get message "aria2.getVersion failed", it mean uget can't connect to aria2 through XML-RPC.
+make sure that your aria2 enable XML-RPC in compiling time and check network configuration.
+
+What's new since 1.7.5:
+1. add "Force Start" to download menu.
+2. avoid Ubuntu Unity crash if user disable "Always show tray icon" and close window.
+3. fix display problems when uget is compiled with GTK+3
+4. add Belarusian translation file (Mihas Varantsou)
 
 What's new since 1.7.4:
 1. display upload speed in status bar and status icon. 
