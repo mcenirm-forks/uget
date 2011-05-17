@@ -835,6 +835,22 @@ static void	ug_plugin_aria2_post_error (UgPluginAria2* plugin, int code)
 		message = ug_message_new_error (UG_MESSAGE_ERROR_FOLDER_CREATE_FAILED, NULL);
 		break;
 
+	case 21:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: FTP command failed.");
+		break;
+
+	case 22:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: HTTP response header was bad or unexpected.");
+		break;
+
+	case 23:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_HTTP_TOO_MANY_REDIRECTIONS, NULL);
+		break;
+
+	case 24:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: HTTP authorization failed.");
+		break;
+
 	default:
 		string = g_strdup_printf ("aria2 error code: %u", plugin->errorCode);
 		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, string);
