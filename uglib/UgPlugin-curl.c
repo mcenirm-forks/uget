@@ -283,6 +283,7 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 
 	// Common option ----------------------------------------------------------
 	curl_easy_setopt (curl, CURLOPT_URL, common->url);
+	curl_easy_setopt (curl, CURLOPT_NOSIGNAL, 1);
 	// setup scheme and it's related data (user & password)
 	ug_plugin_curl_set_scheme (plugin, curl);
 	// check filename
