@@ -1,4 +1,14 @@
-uGet 1.7.6 (testing)
+uGet 1.8.0 (stable)
+
+Web site: http://uget.visuex.com/
+Facebook: http://www.facebook.com/pages/UGet/200151593363580
+Twitter : http://twitter.com/uget
+Myspace : http://myspace.com/ugetdm
+FriendFeed : http://friendfeed.com/uget
+Plurk : http://plurk.com/ugetdm
+
+E-Mail for developer: plushuang.tw@gmail.com
+E-Mail for web, facebook...etc: uget@visuex.com
 
 This version requires GTK+ version 2.18+ or 3.0+
 Warning: Don't compile uget with libcurl4-gnutls-dev in Ubuntu 11.04
@@ -8,59 +18,14 @@ Some features will not work if you use aria2 plug-in with aria2 <= 1.9.
 If you get message "aria2.getVersion failed", it mean uget can't connect to aria2 through XML-RPC.
 make sure that your aria2 enable XML-RPC in compiling time and check network configuration.
 
-What's new since 1.7.5:
-1. add "Force Start" to download menu.
-2. avoid Ubuntu Unity crash if user disable "Always show tray icon" and close window.
-3. fix display problems when uget is compiled with GTK+3
-4. add Belarusian translation file (Mihas Varantsou)
-
-What's new since 1.7.4:
-1. display upload speed in status bar and status icon. 
-2. fix memory leak.
-3. update Chinese translation files.
-
-What's new since 1.7.3:
-1. create new download from Torrent and Metalink file (with aria2 plug-in).
-2. save/restore sorted column.
-3. fix minor bugs.
-
-What's new since 1.7.2:
-1. support for application indicator.
-2. program can use absolute path to launch aria2c. 
-3. fix building error.
-
-What's new since 1.7.1:
-1. add setting - "Always show tray icon".
-2. add more setting, column, and view for aria2.
-3. enable aria2 plug-in by default. (remove --enable-plugin-aria2)
-4. add configure option "--with-gtk3" to enable GTK+3 support.
-5. fix minor bugs.
-
-What's new since 1.7.0:
-For user:
-1. Add scheduler.
-2. Add new timestamp columns - "Added On" and "Completed On"
-3. It can sort downloads by column in "All" category.
-4. It can do speed limit control per download. (global speed control? not ready.)
-5. It can handle HTTP header "Accept-Ranges:" and send message to notify resumable or not resumable.
-6. The layout of main window was changed.
-
-For developer:
-A new aria2 plug-in. If you want to test it, run configure with --enable-plugin-aria2 --disable-plugin-curl
-and run "aria2c --enable-xml-rpc" in commandline.
-All related sourcecode place in uglib/UgXmlrpc.c, uglib/UgPlugin-aria2.c
-
------------------------------
-What's new since 1.6.x:
-For user:
-1. You can see new icons and "Active" subcategory.
-2. It also can refresh progress more fast than 1.6.
-3. Program will rename config directory from "Uget" to "uGet" automatically.
-4. Program can change tray icon if an error occurred or downloading start.
-
-For developer:
-1. The UgCategory becomes a independent structure and removes watch and dispatch functions.
-2. New UgRunning is a group contains all running jobs, all watch and dispatch functions move to here.
-3. New UgDataLog is used for log. It only has two members currently.
-4. I implement a simple average speed limit in ug_running_do_speed_limit(). I hope anyone can improve it.
-
+What's new since 1.6:
+1. support for Torrent and Metalink file (with aria2 plug-in).
+2. support for application indicator.
+3. It can do speed limit control per download.
+4. It can sort downloads by column in "All" category.
+5. add scheduler.
+6. add new plug-in that support aria2 version >= 1.10.
+7. add new timestamp columns - "Added On" and "Completed On".
+8. add configure option "--with-gtk3" to enable GTK+3 support.
+9. add Belarusian translation file (Mihas Varantsou)
+10. move web site from http://urlget.sourceforge.net/ to http://uget.visuex.com/
