@@ -9,6 +9,7 @@ uglib/UgMarkup.c
 uglib/UgMessage.c
 uglib/UgOption.c
 uglib/UgPlugin.c
+uglib/UgPlugin-aria2.c
 uglib/UgPlugin-curl.c
 uglib/UgRegistry.c
 uglib/UgRunning.c
