@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-07 08:02+0800\n"
-"PO-Revision-Date: 2011-07-06 14:52+0200\n"
+"PO-Revision-Date: 2011-07-23 15:32+0200\n"
 "Last-Translator: wastingdouglas <adminkonsoleshop@volny.cz>\n"
 "Language-Team: WastingDouglas translated\n"
 "Language: cs\n"
@@ -20,12 +20,12 @@ msgstr ""
 #. UG_MESSAGE_INFO_CUSTOM
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:52
 msgid "Connecting..."
-msgstr "Připojuji...."
+msgstr "Připojování..."
 
 #. UG_MESSAGE_INFO_CONNECT
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:53
 msgid "Transmitting..."
-msgstr "Přenáším......"
+msgstr "Přenášení..."
 
 #. UG_MESSAGE_INFO_TRANSMIT,
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:54
@@ -36,7 +36,7 @@ msgstr "Opakovat"
 #. UG_MESSAGE_INFO_RETRY,
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:55
 msgid "Download completed"
-msgstr "Stahovani dokonceno"
+msgstr "Stahování dokončeno"
 
 #. UG_MESSAGE_INFO_COMPLETE,
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:56
@@ -63,7 +63,7 @@ msgstr "Výstupní soubor nemohl být přejmenován."
 #. UG_MESSAGE_ERROR_CUSTOM
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:75
 msgid "couldn't connect to host."
-msgstr "Není možné se připojit na hosta\t"
+msgstr "Není možné se připojit na hosta."
 
 #. UG_MESSAGE_ERROR_CONNECT_FAILED
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:76
@@ -73,17 +73,17 @@ msgstr "Složka nemohla být vytvořena"
 #. UG_MESSAGE_ERROR_FOLDER_CREATE_FAILED
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:77
 msgid "File can't be created (bad filename or file exist)."
-msgstr "Soubor nemohl být vytvořen(špatné jméno souboru nebo soubor existuje)"
+msgstr "Soubor nemohl být vytvořen (špatné jméno souboru nebo soubor již existuje)."
 
 #. UG_MESSAGE_ERROR_FILE_CREATE_FAILED
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:78
 msgid "File can't be opened."
-msgstr "Soubor nemohl být otevřen"
+msgstr "Soubor nemohl být otevřen."
 
 #. UG_MESSAGE_ERROR_FILE_OPEN_FAILED
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:79
 msgid "Out of resource (disk full or run out of memory)."
-msgstr " Bez prostředků (Disk je plný nebo běží mimo pamět).\""
+msgstr "Nedostatek prostředků (plný disk nebo nedostatek paměti)."
 
 #. UG_MESSAGE_ERROR_OUT_OF_RESOURCE
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:80
@@ -93,17 +93,17 @@ msgstr "Žádný výstupní soubor."
 #. UG_MESSAGE_ERROR_NO_OUTPUT_FILE
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:81
 msgid "No output setting."
-msgstr "Žádný výstupní nastavení"
+msgstr "Chybí nastavení výstupu."
 
 #. UG_MESSAGE_ERROR_NO_OUTPUT_SETTING
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:82
 msgid "Too many retries."
-msgstr "Příliš mnoho opakování"
+msgstr "Příliš mnoho opakování."
 
 #. UG_MESSAGE_ERROR_TOO_MANY_RETRIES
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:83
 msgid "Unsupported scheme (protocol)."
-msgstr "Nepodporované schema(protokol)"
+msgstr "Nepodporované schéma (protokol)"
 
 #. UG_MESSAGE_ERROR_UNSUPPORTED_SCHEME
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:84
@@ -118,11 +118,11 @@ msgstr "Příliš mnoho přesměrování."
 #. UG_MESSAGE_ERROR_HTTP_MEMBER_TOO_MANY_REDIRECTIONS
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:103
 msgid "Failed to open posted file."
-msgstr "Chyba při otevření publikovaného souboru."
+msgstr "Nepodařilo se otevřít soubor."
 
 #: /home/ch2/workspace/uget/po/../uglib/UgRunning.c:91
 msgid "No plug-in support this scheme or file."
-msgstr "žadný plugin podporující toto tema nebo soubor"
+msgstr "Chybí zásuvný modul podporující toto schéma nebo soubor."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:496
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:520
@@ -132,7 +132,7 @@ msgstr "úkoly"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:537
 #, c-format
 msgid "Selected %d items"
-msgstr "Vyberte %d soubor/y"
+msgstr "Vybráno %d položek"
 
 #. create confirmation dialog
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:607
@@ -141,7 +141,7 @@ msgstr "Opravdu skončit?"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:624
 msgid "Are you sure you want to quit?"
-msgstr "Jste si jisti,že chcete skončit?"
+msgstr "Jste si jisti, že chcete skončit?"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:629
 msgid "Remember this action"
@@ -150,11 +150,11 @@ msgstr "Pamatovat si tuto akci."
 #. radio button
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:634
 msgid "Minimize to tray"
-msgstr "Minimalizovat do lišty"
+msgstr "Minimalizovat do oznamovací oblasti"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:636
 msgid "Exit uGet"
-msgstr "Ukončit ugGet"
+msgstr "Ukončit uGet"
 
 #. create confirmation dialog
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:691
@@ -163,11 +163,11 @@ msgstr "Opravdu smazat soubory?"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:709
 msgid "Are you sure you want to delete files?"
-msgstr "Jste si jisti,že chcete smazat soubor?"
+msgstr "Jste si jisti, že chcete smazat soubory?"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:714
 msgid "Do not ask me again"
-msgstr "Znovu se neptat?"
+msgstr "Znovu se neptat"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:756
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:511
@@ -178,15 +178,15 @@ msgstr "Chyba"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk.c:763
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:163
 msgid "Message"
-msgstr "Zpráva:"
+msgstr "Zpráva"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-aria2.c:115
 msgid "failed to launch aria2."
-msgstr "Chyba spuštění  aria 2."
+msgstr "chyba při spouštění aria2."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:70
 msgid "Download Manager"
-msgstr "Stahovaci manažer"
+msgstr "Správce stahování"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:72
 msgid "translator-credits"
@@ -197,20 +197,20 @@ msgstr ""
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:122
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:135
 msgid "New Category"
-msgstr "Nová Kategorie"
+msgstr "Nová kategorie"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:130
 msgid "Copy - "
-msgstr "Kopírovat-"
+msgstr "Kopírovat - "
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:185
 msgid "Category Properties"
-msgstr "Vlastnosti Kategorie"
+msgstr "Vlastnosti kategorie"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:232
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:258
 msgid "New Download"
-msgstr "Nové stahovani"
+msgstr "Nové stahování"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:258
 msgid "New Batch Download"
@@ -218,7 +218,7 @@ msgstr "Nové dávkové stahování"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:282
 msgid "No URLs found in clipboard."
-msgstr "žádné URL nebylo nalezeno ve schránce"
+msgstr "Ve schránce nebyla nalezena žádná URL adresa."
 
 #. only 1 url matched
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:286
@@ -235,24 +235,24 @@ msgstr "Schránka"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:318
 msgid "New Torrent"
-msgstr "Nový Torrent"
+msgstr "Nový torrent"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:340
 msgid "Open Torrent file"
-msgstr "Otevřít Torrent soubor "
+msgstr "Otevřít torrent soubor"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:363
 msgid "New Metalink"
-msgstr "Nový Metalink"
+msgstr "Nový metalink"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:386
 msgid "Open Metalink file"
-msgstr "Otevřít soubor Metalinku"
+msgstr "Otevřít soubor metalinku"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:505
 #, c-format
 msgid "Can't launch default application for file '%s'."
-msgstr "Není možné spustit defaultní aplikaci pro soubor '%s'."
+msgstr "Není možné spustit výchozí aplikaci pro soubor %s'."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:538
 #, c-format
@@ -261,17 +261,17 @@ msgstr "'%s' - Tato složka neexistuje."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:618
 msgid "Download Properties"
-msgstr "Vlastnosti Stahování"
+msgstr "Vlastnosti stahování"
 
 #. add link
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:849
 msgid "Link <A>"
-msgstr "Link <A>"
+msgstr "Odkaz <A>"
 
 #. add image
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:854
 msgid "Image <IMG>"
-msgstr "Obrazek <IMG>"
+msgstr "Obrázek <IMG>"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:870
 msgid "Import URLs from HTML file"
@@ -279,11 +279,11 @@ msgstr "Importovat URL z HTML souboru"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:911
 msgid "Text File"
-msgstr "Textový soubor "
+msgstr "Textový soubor"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:927
 msgid "Import URLs from text file"
-msgstr "Importovat URL z textoveho souboru"
+msgstr "Importovat URL z textového souboru"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:973
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-callback.c:974
@@ -299,26 +299,26 @@ msgstr "Nastavení"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:99
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:291
 msgid "New _Download..."
-msgstr "Nové_stahování"
+msgstr "Nové _stahování..."
 
 #. New Download from Clipboard
 #. New from Clipboard
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:106
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:311
 msgid "New _from Clipboard..."
-msgstr "Nové stahování ze schránky"
+msgstr "Nové stahování _ze schránky..."
 
 #. New Torrent
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:115
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:321
 msgid "New Torrent..."
-msgstr "Nový Torrent..."
+msgstr "Nový torrent..."
 
 #. New Metalink
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:122
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:328
 msgid "New Metalink..."
-msgstr "Nový Metalink.."
+msgstr "Nový metalink..."
 
 #. Settings
 #. menu_item = gtk_menu_item_new_with_mnemonic (_("_Settings..."));
@@ -336,7 +336,7 @@ msgstr "Zobrazit okno"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:150
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:484
 msgid "_Offline Mode"
-msgstr "_offlie Režim"
+msgstr "_Offline režim"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:281
 msgid "Create new download"
@@ -345,12 +345,12 @@ msgstr "Vytvořit nové stahování"
 #. New Category
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:298
 msgid "New _Category..."
-msgstr "Nová_Kategorie..."
+msgstr "Nová _kategorie..."
 
 #. New Batch download
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:304
 msgid "New _Batch download..."
-msgstr "Nové dávkové stahování.."
+msgstr "Nové _dávkové stahování..."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:337
 msgid "Save all"
@@ -366,7 +366,7 @@ msgstr "Nastavit vybrané stahovaní na pozastaveno"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:355
 msgid "Set selected download properties"
-msgstr "Nastavit vlastnosti vybraného stahování "
+msgstr "Nastavit vlastnosti vybraného stahování"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:363
 msgid "Move selected download up"
@@ -382,7 +382,7 @@ msgstr "Posunout vybrané stahování na vrchol"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:378
 msgid "Move selected download to bottom"
-msgstr "Posunout vybrané stahování uplne nahoru"
+msgstr "Posunout vybrané stahování na spod"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:401
 msgid "_File"
@@ -391,7 +391,7 @@ msgstr "_Soubor"
 #. New - Download (accelerators)
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:413
 msgid "_Download..."
-msgstr "_Stahování"
+msgstr "_Stahování..."
 
 #. New - Category
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:420
@@ -401,7 +401,7 @@ msgstr "_Kategorie..."
 #. New - Batch download
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:426
 msgid "_Batch download..."
-msgstr "_Dávkové stahování.."
+msgstr "_Dávkové stahování..."
 
 #. New - from clipboard
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:432
@@ -411,12 +411,12 @@ msgstr "_Ze schránky..."
 #. New - Torrent
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:441
 msgid "Torrent..."
-msgstr "Torrent"
+msgstr "Torrent..."
 
 #. New - Metalink
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:447
 msgid "Metalink..."
-msgstr "Metalink"
+msgstr "Metalink..."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:463
 msgid "Import _HTML file..."
@@ -432,24 +432,24 @@ msgstr "_Exportovat textový soubor..."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:495
 msgid "_Edit"
-msgstr "_Editace"
+msgstr "_Editovat"
 
 #. menu.gtk_menu_shell_append((GtkMenuShell*)menu, gtk_tearoff_menu_item_new() );
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:500
 msgid "Clipboard _Monitor"
-msgstr "Monitor schránky."
+msgstr "_Monitor schránky"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:504
 msgid "_Clipboard Option..."
-msgstr "_Možnosti schránky..."
+msgstr "Mož_nosti schránky..."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:510
 msgid "Shutdown when downloads complete"
-msgstr "Vyponout po dokončení stahování"
+msgstr "Vypnout po dokončení stahování"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:524
 msgid "_View"
-msgstr "_Pohled"
+msgstr "_Zobrazit"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:528
 msgid "_Toolbar"
@@ -457,7 +457,7 @@ msgstr "_Panel nástrojů"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:533
 msgid "Statusbar"
-msgstr "Statusbar"
+msgstr "Stavový řádek"
 
 #. Summary Items - Category
 #. Download Columns - Category
@@ -479,12 +479,12 @@ msgstr "_Shrnutí"
 #. Summary Items --- start ---
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:551
 msgid "Summary _Items"
-msgstr "Shrnutí_Předmětů"
+msgstr "Shrnutí _položek"
 
 #. Summary Items - Name
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:556
 msgid "_Name"
-msgstr "_Jméno"
+msgstr "_Název"
 
 #. Summary Items - Folder
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:561
@@ -506,11 +506,11 @@ msgstr "_URL"
 #. Summary Items - Message
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:581
 msgid "_Message"
-msgstr "_Zpráva:"
+msgstr "_Zpráva"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:596
 msgid "Download _Columns"
-msgstr "Sloupec stahování\t"
+msgstr "Slou_pec stahování"
 
 #. Download Columns - Completed
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:601
@@ -547,13 +547,13 @@ msgstr "Rychlost"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:631
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:795
 msgid "Up Speed"
-msgstr "Nejvyšší Rychlost"
+msgstr "Rychl. odes."
 
 #. Download Columns - Uploaded
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:636
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:809
 msgid "Uploaded"
-msgstr "Nahráno"
+msgstr "Odesláno"
 
 #. Download Columns - Ratio
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:641
@@ -564,7 +564,7 @@ msgstr "Poměr"
 #. Download Columns - Retry
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:646
 msgid "_Retry"
-msgstr "_Opakování\t"
+msgstr "_Opakování"
 
 #. Download Columns - Added On
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:661
@@ -585,28 +585,28 @@ msgstr "_Kategorie"
 #. New Category
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:680
 msgid "_New Category..."
-msgstr "_Nová_Kategorie..."
+msgstr "_Nová kategorie..."
 
 #. Delete Category
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:686
 msgid "_Delete Category"
-msgstr "_Smazat Kategorii"
+msgstr "_Smazat kategorii"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:699
 msgid "_Download"
-msgstr "_Staho"
+msgstr "_Stahování"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:717
 msgid "Delete _File and Data"
-msgstr "Smazat _Soubor&Data"
+msgstr "Smazat soubor a _data"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:730
 msgid "Open _containing folder"
-msgstr "Otevřít_cílovou složku"
+msgstr "Otevřít _cílovou složku"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:738
 msgid "Force Start"
-msgstr "Vynutit Start"
+msgstr "Vynutit start"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:744
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:208
@@ -620,11 +620,11 @@ msgstr "_Přesunout do"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:811
 msgid "_Help"
-msgstr "_Napověda"
+msgstr "_Nápověda"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:154
 msgid "only one matched"
-msgstr "Pouze jeden "
+msgstr "pouze jeden"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:266
 msgid "Command line"
@@ -636,15 +636,15 @@ msgstr "Stahování začalo"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:718
 msgid "Starting download queue."
-msgstr "Začínám stahovat frontu."
+msgstr "Začíná se stahovat fronta."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:719
 msgid "Download Completed"
-msgstr "Stahování Dokončeno"
+msgstr "Stahování dokončeno"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-timeout.c:720
 msgid "All queuing downloads have been completed."
-msgstr "Všechna stahovaní fronty byla dokončena"
+msgstr "Všechna stahovaní fronty byla dokončena."
 
 #. URL - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:61
@@ -655,13 +655,13 @@ msgstr "_URL:"
 #. e.g.
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:72
 msgid "e.g."
-msgstr "Například"
+msgstr "například"
 
 #. -------------------------------------------------------
 #. radio "From"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:83
 msgid "_From:"
-msgstr "_Z:"
+msgstr "_Od:"
 
 #. label "To"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:106
@@ -675,16 +675,16 @@ msgstr "číslice:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:128
 msgid "F_rom:"
-msgstr "Od:"
+msgstr "O_d:"
 
 #. label case-sensitive
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:158
 msgid "case-sensitive"
-msgstr "velká a malá písmena"
+msgstr "citlivé na velikost písmen"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:183
 msgid "No wildcard(*) character in URL entry."
-msgstr "Žádné wildcard(*)znaky v URL adrese."
+msgstr "Žádné wildcard(*) znaky v URL adrese."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:187
 msgid "URL is not valid."
@@ -692,7 +692,7 @@ msgstr "URL není platné."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:191
 msgid "No character in 'From' or 'To' entry."
-msgstr "Žádné znaky v řádce\"Od\" nebo \"Do\""
+msgstr "Žádné znaky v položkách 'Od' nebo 'Do'."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgBatchForm.c:300
 msgid "Preview"
@@ -704,19 +704,19 @@ msgstr "Nastavení kategorie"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryDialog.c:64
 msgid "Default for new download 1"
-msgstr "Nastavení pro nove stahování 1"
+msgstr "Výchozí pro nové stahování 1"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryDialog.c:66
 msgid "Default 2"
-msgstr "Nastavení 2"
+msgstr "Výchozí 2"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryForm.c:53
 msgid "Category _name:"
-msgstr "Jmeno _Kategorie"
+msgstr "_Název kategorie:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryForm.c:68
 msgid "Active _downloads:"
-msgstr "Aktivní_stahování"
+msgstr "Aktivní _stahování:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryForm.c:76
 msgid "Capacity of Finished:"
@@ -724,7 +724,7 @@ msgstr "Kapacita dokončeného:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryForm.c:85
 msgid "Capacity of Recycled:"
-msgstr "Kapacita Koše:"
+msgstr "Kapacita koše:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:42
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:292
@@ -741,7 +741,7 @@ msgstr "Ve frontě"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:46
 msgid "Recycled"
-msgstr "V Koši"
+msgstr "V koši"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgCategoryWidget.c:451
 msgid "Quantity"
@@ -764,7 +764,7 @@ msgstr "Soubor:"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:165
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:830
 msgid "Select Folder"
-msgstr "Vyber Složku"
+msgstr "Vybrat složku"
 
 #. Folder - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:173
@@ -780,11 +780,11 @@ msgstr "Doporučující:"
 #. frame for Status (start mode)
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:202
 msgid "Status"
-msgstr "Status:"
+msgstr "Stav"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:210
 msgid "P_ause"
-msgstr "Pozastaveno"
+msgstr "Pozast_aveno"
 
 #. ----------------------------------------------------
 #. frame for login
@@ -811,12 +811,12 @@ msgstr "Heslo:"
 #. frame for option
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:252
 msgid "Options"
-msgstr "Možnosti:"
+msgstr "Možnosti"
 
 #. Retry limit - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:265
 msgid "Retry _limit:"
-msgstr "Limit opakování:"
+msgstr "_Limit opakování:"
 
 #. counts - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:270
@@ -826,7 +826,7 @@ msgstr "počet"
 #. Retry delay - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:281
 msgid "Retry _delay:"
-msgstr "Zpoždění _opakování:"
+msgstr "Zpož_dění opakování:"
 
 #. seconds - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:286
@@ -851,7 +851,7 @@ msgstr "Soubor cookie:"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:342
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:886
 msgid "Select Cookie File"
-msgstr "Vyberte Soubor Cookie"
+msgstr "Vyberte soubor cookie"
 
 #. label - post file
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:351
@@ -861,17 +861,17 @@ msgstr "Publikovat soubor:"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:362
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:942
 msgid "Select Post File"
-msgstr "Vyberte Publikovaný soubor"
+msgstr "Vyberte publikovaný soubor"
 
 #. label - Max upload speed
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:372
 msgid "Max upload speed:"
-msgstr "Max.rychlost odesílání:"
+msgstr "Max. rychlost odesílání:"
 
 #. label - Max download speed
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:388
 msgid "Max download speed:"
-msgstr "Max.rychlost stahování:"
+msgstr "Max. rychlost stahování:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:362
 msgid "unnamed"
@@ -880,7 +880,7 @@ msgstr "bezejmenný"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:686
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:102
 msgid "Name"
-msgstr "Jméno"
+msgstr "Název"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:710
 msgid "Complete"
@@ -919,7 +919,7 @@ msgstr "Nepoužít"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:76
 msgid "Default"
-msgstr "Standartní nastavení"
+msgstr "Výchozí"
 
 #. host label & entry
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:128
@@ -937,11 +937,11 @@ msgstr "Socket:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgProxyForm.c:357
 msgid "Element:"
-msgstr "Element"
+msgstr "Element:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:66
 msgid "Mon"
-msgstr "Měs."
+msgstr "Pon."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:67
 msgid "Tue"
@@ -969,17 +969,17 @@ msgstr "Ned."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:107
 msgid "_Enable Scheduler"
-msgstr "_Aktivovat Plánovač"
+msgstr "_Aktivovat plánovač"
 
 #. label - Turn off
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:153
 msgid "Turn off"
-msgstr "Vpnout"
+msgstr "Vypnout"
 
 #. label - Help for Turn off
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:158
 msgid "- stop all task"
-msgstr "- zastavit všechny ůkoly"
+msgstr "- zastavit všechny úkoly"
 
 #. label - Normal
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:167
@@ -989,7 +989,7 @@ msgstr "Normální"
 #. label - Help for Normal
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:172
 msgid "- run task normally"
-msgstr "- spusť úkoly normálně"
+msgstr "- spustit úkoly normálně"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:94
 msgid "Base hypertext reference"
@@ -998,12 +998,12 @@ msgstr "Základ hypertextových odkazů"
 #. select all
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:110
 msgid "Mark _All"
-msgstr "Označit_Vše"
+msgstr "Ozn_ačit vše"
 
 #. select none
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:116
 msgid "Mark _None"
-msgstr "Neoznačit Nic"
+msgstr "Neoznačit _nic"
 
 #. select by filter
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:122
@@ -1016,15 +1016,15 @@ msgstr "Nic"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:314
 msgid "Mark by filter"
-msgstr "Označit podle filtru..."
+msgstr "Označit podle filtru"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:332
 msgid "Mark URLs by host AND filename extension."
-msgstr "Označit URL podle hosta A připony souborů"
+msgstr "Označit URL podle hosta a připony souboru."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSelector.c:335
 msgid "This will reset all marks of URLs."
-msgstr "Toto resetuje všechna označena URL."
+msgstr "Toto resetuje všechna označená URL."
 
 #. filter view -----------------------
 #. left side
@@ -1047,7 +1047,7 @@ msgstr "Plánovač"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:95
 msgid "Plug-in"
-msgstr "Rozšíření"
+msgstr "Zásuvný modul"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingDialog.c:103
 msgid "Others"
@@ -1055,17 +1055,17 @@ msgstr "Ostatní"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:72
 msgid "_Monitor clipboard for specified file types:"
-msgstr "_Motitoruj schránku pro specifcké typy souborů:"
+msgstr "_Monitorovat schránku pro stanovené typy souboru:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:87
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:236
 msgid "Separate the types with character '|'."
-msgstr "Sloučit typy se znaky '|'."
+msgstr "Rozdělte typy znakem '|'."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:92
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:241
 msgid "You can use regular expressions here."
-msgstr "Můžeš použít regulérní výrazy zde."
+msgstr "Můžete použít regulární výrazy."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:100
 msgid "_Quiet mode"
@@ -1073,7 +1073,7 @@ msgstr "_Tichý režim"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:109
 msgid "Add URL to Nth category"
-msgstr "Přidat URL do Nth kategorii"
+msgstr "Přidat URL do n-té kategorie"
 
 #. check button
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:147
@@ -1086,11 +1086,11 @@ msgstr "Potvrdit při mazání souborů"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:153
 msgid "Always show tray icon"
-msgstr "Vždycky zobrazit ikonu v liště"
+msgstr "Vždy zobrazit ikonu v oznamovací oblasti"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:156
 msgid "Minimize to tray on startup"
-msgstr "Minimalizovat do lišty při startu"
+msgstr "Při startu minimalizovat do oznamovací oblasti"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:159
 msgid "Enable offline mode on startup"
@@ -1106,7 +1106,7 @@ msgstr "Zvuk po skončení stahování"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:223
 msgid "_Launch default application for specified file types:"
-msgstr "_Spusť vybranou aplikaci pro specifický typ souborů:"
+msgstr "_Spustit výchozí aplikaci pro specifické typy souboru:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:282
 msgid "_Auto save"
@@ -1124,7 +1124,7 @@ msgstr "_Interval:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:355
 msgid "_Enable aria2 plug-in"
-msgstr "_Aktivovat aria2 plugin"
+msgstr "_Aktivovat aria2 zásuvný modul"
 
 #. aria2 plug-in hints
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:363
@@ -1132,7 +1132,8 @@ msgid ""
 "Please make sure that all tasks have been completed\n"
 "before you modify settings."
 msgstr ""
-"Prosím ujistěte se,že jsou všechny úlohy dokončeny před úpravou nastavení"
+"Prosím ujistěte se, že jsou před úpravou nastavení\n"
+"všechny úlohy dokončeny."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:379
 msgid "_Launch aria2 on startup"
@@ -1148,7 +1149,7 @@ msgstr "Cesta"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:400
 msgid "Arguments"
-msgstr "Armumenty"
+msgstr "Argumenty"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:106
 msgid "File"
@@ -1160,7 +1161,7 @@ msgstr "Složka"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:249
 msgid "Item"
-msgstr "Předmět"
+msgstr "Položka"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:254
 msgid "Value"
@@ -1169,4 +1170,4 @@ msgstr "Hodnota"
 #. Copy All
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSummary.c:286
 msgid "Copy _All"
-msgstr "Kopírovat Vše"
+msgstr "Kopírov_at vše"
