@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-07 08:02+0800\n"
-"PO-Revision-Date: 2011-07-23 15:32+0200\n"
+"PO-Revision-Date: 2011-09-25 19:00+0200\n"
 "Last-Translator: wastingdouglas <adminkonsoleshop@volny.cz>\n"
 "Language-Team: WastingDouglas translated\n"
 "Language: cs\n"
@@ -31,7 +31,7 @@ msgstr "Přenášení..."
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:54
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:837
 msgid "Retry"
-msgstr "Opakovat"
+msgstr "Opakování"
 
 #. UG_MESSAGE_INFO_RETRY,
 #: /home/ch2/workspace/uget/po/../uglib/UgMessage.c:55
@@ -358,11 +358,11 @@ msgstr "Uložit vše"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:345
 msgid "Set selected download runnable"
-msgstr "Nastavit vybrané stahování na běžící"
+msgstr "Spustit vybrané stahování"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:350
 msgid "Set selected download to pause"
-msgstr "Nastavit vybrané stahovaní na pozastaveno"
+msgstr "Pozastavit vybrané stahování"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:355
 msgid "Set selected download properties"
@@ -432,7 +432,7 @@ msgstr "_Exportovat textový soubor..."
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:495
 msgid "_Edit"
-msgstr "_Editovat"
+msgstr "_Upravit"
 
 #. menu.gtk_menu_shell_append((GtkMenuShell*)menu, gtk_tearoff_menu_item_new() );
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:500
@@ -570,13 +570,13 @@ msgstr "_Opakování"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:661
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:880
 msgid "Added On"
-msgstr "Přidání zapnuto"
+msgstr "Přidáno"
 
 #. Download Columns - Completed On
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:666
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadWidget.c:894
 msgid "Completed On"
-msgstr "Dokončení zapnuto"
+msgstr "Dokončeno"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:675
 msgid "_Category"
@@ -611,7 +611,7 @@ msgstr "Vynutit start"
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:744
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:208
 msgid "_Runnable"
-msgstr "_Běžicí"
+msgstr "_Běžící"
 
 #. Move to --- start ---
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgApp-gtk-gui.c:760
@@ -774,7 +774,7 @@ msgstr "_Složka:"
 #. Referrer - label
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgDownloadForm.c:188
 msgid "Referrer:"
-msgstr "Doporučující:"
+msgstr "Referrer:"
 
 #. ----------------------------------------------------
 #. frame for Status (start mode)
@@ -941,31 +941,31 @@ msgstr "Element:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:66
 msgid "Mon"
-msgstr "Pon."
+msgstr "Po"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:67
 msgid "Tue"
-msgstr "Út."
+msgstr "Út"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:68
 msgid "Wed"
-msgstr "Stř."
+msgstr "St"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:69
 msgid "Thu"
-msgstr "Čtv."
+msgstr "Čt"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:70
 msgid "Fri"
-msgstr "Pá."
+msgstr "Pá"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:71
 msgid "Sat"
-msgstr "Sob."
+msgstr "So"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:72
 msgid "Sun"
-msgstr "Ned."
+msgstr "Ne"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgScheduleGrid.c:107
 msgid "_Enable Scheduler"
@@ -1106,7 +1106,7 @@ msgstr "Zvuk po skončení stahování"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:223
 msgid "_Launch default application for specified file types:"
-msgstr "_Spustit výchozí aplikaci pro specifické typy souboru:"
+msgstr "_Spustit výchozí aplikaci pro stanovené typy souboru:"
 
 #: /home/ch2/workspace/uget/po/../uget-gtk/UgSettingForm.c:282
 msgid "_Auto save"
