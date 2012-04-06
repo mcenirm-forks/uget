@@ -1,6 +1,6 @@
 static const char	uget_license[] =
 {
-" Copyright (C) 2005-2011 by C.H. Huang"								"\n"
+" Copyright (C) 2005-2012 by C.H. Huang"								"\n"
 " plushuang.tw@gmail.com"												"\n"
 																		"\n"
 "This library is free software; you can redistribute it and/or"			"\n"
@@ -68,7 +68,7 @@ static const gchar*	uget_artists[] =
 };
 static const gchar*	uget_version   = UG_APP_GTK_VERSION;
 static const gchar*	uget_comments  = N_("Download Manager");
-static const gchar*	uget_copyright = "Copyright (C) 2005-2011 C.H. Huang";
+static const gchar*	uget_copyright = "Copyright (C) 2005-2012 C.H. Huang";
 static const gchar*	translator_credits = N_("translator-credits");
 
 // static functions

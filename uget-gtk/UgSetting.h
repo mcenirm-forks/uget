@@ -1,6 +1,6 @@
 /*
  *
- *   Copyright (C) 2005-2011 by C.H. Huang
+ *   Copyright (C) 2005-2012 by C.H. Huang
  *   plushuang.tw@gmail.com
  *
  *  This library is free software; you can redistribute it and/or
@@ -41,7 +41,7 @@
 #include <config.h>
 #endif
 #ifndef PACKAGE_VERSION
-#define PACKAGE_VERSION					"1.8.0"
+#define PACKAGE_VERSION					"1.8.1"
 #endif
 
 #include <UgData.h>

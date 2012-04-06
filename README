@@ -1,3 +1,13 @@
+uGet 1.8.1 (stable)
+1. avoid problem that file size larger than 2GB in some 32bit system.
+2. fix build failure on gtk 3.3
+3. change aria2 default arguments from --enable-xml-rpc to --enable-rpc
+4. add and update some translations.
+
+If you use aria2 >= 1.11.0, set aria2 arguments "--enable-rpc" in setting dialog.
+If you use aria2 <  1.11.0, set aria2 arguments "--enable-xml-rpc"  in setting dialog.
+
+
 uGet 1.8.0 (stable)
 
 Web site: http://uget.visuex.com/
@@ -15,8 +25,11 @@ Warning: Don't compile uget with libcurl4-gnutls-dev in Ubuntu 11.04
          To use libcurl4-openssl-dev is better.
 
 Some features will not work if you use aria2 plug-in with aria2 <= 1.9.
+uGet use TCP port 6800 in loopback network interface to connect to aria2.
 If you get message "aria2.getVersion failed", it mean uget can't connect to aria2 through XML-RPC.
-make sure that your aria2 enable XML-RPC in compiling time and check network configuration.
+In this case, you can:
+1. make sure that your aria2 enable XML-RPC in compiling time.
+2. check your network and firewall configuration, or disable all firewall.
 
 What's new since 1.6:
 1. support for Torrent and Metalink file (with aria2 plug-in).
