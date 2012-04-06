@@ -87,8 +87,10 @@ struct UgPluginCurl
 	guint			path_folder_len;		// folder length for path
 	gchar*			path_tmp;
 	FILE*			file_stream;			// ug_plugin_curl_open_file ()
-	curl_off_t		file_offset;
-	curl_off_t		file_offset_old;
+//	curl_off_t		file_offset;
+//	curl_off_t		file_offset_old;
+	gint64			file_offset;			// avoid problem that file size larger than 2GB in some 32bit system.
+	gint64			file_offset_old;
 	// file input
 	FILE*			file_stream_in;
 
