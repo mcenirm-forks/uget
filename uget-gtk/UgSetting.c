@@ -455,7 +455,7 @@ void	ug_setting_init (UgSetting* setting)
 	setting->plugin.aria2.launch = TRUE;
 	setting->plugin.aria2.shutdown = TRUE;
 	setting->plugin.aria2.path = g_strdup ("aria2c");
-	setting->plugin.aria2.args = g_strdup ("--enable-xml-rpc");
+	setting->plugin.aria2.args = g_strdup ("--enable-rpc");
 	setting->plugin.aria2.uri  = g_strdup ("http://localhost:6800/rpc");
 
 	// "FolderList"
