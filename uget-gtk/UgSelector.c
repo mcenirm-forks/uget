@@ -86,10 +86,10 @@ void	ug_selector_init (UgSelector* selector, GtkWindow* parent)
 	gchar*		string;
 
 	selector->parent = parent;
-	selector->self = gtk_vbox_new (FALSE, 2);
+	selector->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 	vbox = (GtkBox*) selector->self;
 
-	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
+	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 1);
 	string = g_strconcat (_("Base hypertext reference"), " <base href> :", NULL);
 	selector->href_label = gtk_label_new (string);
@@ -98,13 +98,13 @@ void	ug_selector_init (UgSelector* selector, GtkWindow* parent)
 
 	selector->href_entry = (GtkEntry*) gtk_entry_new ();
 	gtk_box_pack_start (vbox, (GtkWidget*) selector->href_entry, FALSE, FALSE, 1);
-	selector->href_separator = gtk_hseparator_new ();
+	selector->href_separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start (vbox, selector->href_separator, FALSE, FALSE, 1);
 
 	selector->notebook = (GtkNotebook*) gtk_notebook_new ();
 	gtk_box_pack_start (vbox, (GtkWidget*) selector->notebook, TRUE, TRUE, 1);
 
-	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
+	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 1);
 	// select all
 	widget = gtk_button_new_with_mnemonic (_("Mark _All"));
@@ -275,7 +275,7 @@ static GtkWidget*	ug_selector_filter_view_init (GtkTreeView* item_view)
 	GtkBox*			vbox;
 	GtkBox*			hbox;
 
-	vbox = (GtkBox*) gtk_vbox_new (FALSE, 2);
+	vbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 	// filter view and it's scrolled window
 	gtk_widget_set_size_request ((GtkWidget*) item_view, 120, 120);
 	widget = gtk_scrolled_window_new (NULL, NULL);
@@ -287,7 +287,7 @@ static GtkWidget*	ug_selector_filter_view_init (GtkTreeView* item_view)
 	gtk_box_pack_start (vbox, widget, TRUE, TRUE, 2);
 	// button
 	sizegroup = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
-	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
+	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 2);
 	widget = gtk_button_new_with_label (_("All"));
 	gtk_size_group_add_widget (sizegroup, widget);
@@ -335,7 +335,7 @@ static void	ug_selector_filter_init (struct UgSelectorFilter* filter, UgSelector
 			gtk_label_new (_("This will reset all marks of URLs.")),
 			FALSE, FALSE, 3);
 
-	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
+	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, TRUE, TRUE, 1);
 
 	// filter view -----------------------

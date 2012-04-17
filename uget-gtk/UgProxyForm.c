@@ -80,13 +80,13 @@ void	ug_proxy_form_init (UgProxyForm* pform, gboolean integrated)
 			UG_DATA_PROXY_SOCKS4, "SOCKS v4");
 	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
 			UG_DATA_PROXY_SOCKS5, "SOCKS v5");
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 1);
 	gtk_box_pack_start (GTK_BOX (hbox), pform->type, FALSE, FALSE, 2);
 	g_signal_connect (pform->type, "changed",
 			G_CALLBACK (on_type_changed), pform);
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	ug_proxy_form_std_init (pform);
 	gtk_box_pack_end (GTK_BOX (vbox), pform->std, TRUE, TRUE, 0);
 
@@ -139,14 +139,14 @@ static void	ug_proxy_form_std_init (UgProxyForm* pform)
 	pform->port  = gtk_spin_button_new_with_range (0.0, 65535.0, 1.0);
 	gtk_entry_set_width_chars (GTK_ENTRY (pform->port), 5);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pform->port);
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), pform->port, FALSE, FALSE, 0);
 	gtk_table_attach (table, widget, 0, 1, 1, 2,
 			GTK_SHRINK, GTK_SHRINK, 3, 1);
 	gtk_table_attach (table, hbox, 1, 2, 1, 2,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
 	// center separator
-	gtk_table_attach (table, gtk_vseparator_new (), 2, 3, 0, 2,
+	gtk_table_attach (table, gtk_separator_new (GTK_ORIENTATION_VERTICAL), 2, 3, 0, 2,
 	                  GTK_FILL, GTK_FILL, 2, 1);
 	// user label & entry
 	widget = gtk_label_new_with_mnemonic (_("User:"));
@@ -351,7 +351,7 @@ static void	ug_proxy_form_pwmd_init (struct UgProxyFormPwmd* pfp, UgProxyForm* p
 	gtk_table_attach (table, pfp->file, 1, 2, 1, 2,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 1);
 
-	gtk_table_attach (table, gtk_vseparator_new (), 2, 3, 0, 2,
+	gtk_table_attach (table, gtk_separator_new (GTK_ORIENTATION_VERTICAL), 2, 3, 0, 2,
 			GTK_FILL, GTK_FILL, 2, 1);
 
 	widget = gtk_label_new_with_mnemonic (_("Element:"));

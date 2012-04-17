@@ -59,7 +59,7 @@ UgDownloadDialog*	ug_download_dialog_new (const gchar* title, GtkWindow* parent)
 	ddialog->self = (GtkDialog*) gtk_dialog_new_with_buttons (title, parent,
 			GTK_DIALOG_DESTROY_WITH_PARENT, NULL);
 	box = (GtkBox*) gtk_dialog_get_content_area (ddialog->self);
-	widget = gtk_hbox_new (FALSE, 2);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 	ddialog->hbox = (GtkBox*) widget;
 	gtk_widget_show_all (GTK_WIDGET (box));
@@ -201,7 +201,7 @@ void	ug_download_dialog_set_category (UgDownloadDialog* ddialog, UgCategoryWidge
 	gtk_container_add (GTK_CONTAINER (scrolled),
 			GTK_WIDGET (ddialog->category_view));
 	// pack vbox
-	vbox = (GtkBox*) gtk_vbox_new (FALSE, 2);
+	vbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 	gtk_box_pack_start (vbox, gtk_label_new (_("Category")), FALSE, FALSE, 0);
 	gtk_box_pack_start (vbox, (GtkWidget*) scrolled, TRUE, TRUE, 0);
 	gtk_widget_show_all ((GtkWidget*) vbox);
