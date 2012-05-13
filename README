@@ -1,3 +1,7 @@
+uGet 1.8.2 (stable)
+1. Fix: aria2 plug-in can't use user and password.
+2. update Polish translation file.
+
 uGet 1.8.1 (stable)
 1. avoid problem that file size larger than 2GB in some 32bit system.
 2. fix build failure on gtk 3.3
