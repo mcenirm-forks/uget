@@ -43,6 +43,7 @@
 #include <string.h>
 #include <stdlib.h>
 // uglib
+#include <UgUri.h>
 #include <UgUtils.h>
 #include <UgStdio.h>
 #include <UgPlugin-aria2.h>
@@ -84,7 +85,7 @@ static gboolean	ug_plugin_aria2_response	(UgPluginAria2* plugin, UgXmlrpcRespons
 static void		ug_plugin_aria2_post_error  (UgPluginAria2* plugin, int code);
 
 // setup functions
-static void		ug_plugin_aria2_set_scheme	(UgPluginAria2* plugin, UgXmlrpcValue* options);
+static void		ug_plugin_aria2_set_scheme	(UgPluginAria2* plugin);
 static void		ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* options);
 static void		ug_plugin_aria2_set_http	(UgPluginAria2* plugin, UgXmlrpcValue* options);
 static gboolean	ug_plugin_aria2_set_proxy	(UgPluginAria2* plugin, UgXmlrpcValue* options);
@@ -430,13 +431,13 @@ static gboolean	ug_plugin_aria2_add_uri	(UgPluginAria2* plugin)
 
 	common = plugin->common;
 	// URIs array
+	ug_plugin_aria2_set_scheme (plugin);
 	uris = ug_xmlrpc_value_new_array (1);
 	value = ug_xmlrpc_value_alloc (uris);
 	value->type = UG_XMLRPC_STRING;
 	value->c.string = common->url;
 	// options struct
 	options = ug_xmlrpc_value_new_struct (16);
-	ug_plugin_aria2_set_scheme (plugin, options);
 	ug_plugin_aria2_set_common (plugin, options);
 	ug_plugin_aria2_set_proxy (plugin, options);
 	ug_plugin_aria2_set_http (plugin, options);
@@ -517,7 +518,7 @@ static gboolean	ug_plugin_aria2_add_metalink (UgPluginAria2* plugin)
 
 	// options struct
 	options = ug_xmlrpc_value_new_struct (16);
-	ug_plugin_aria2_set_scheme (plugin, options);
+	ug_plugin_aria2_set_scheme (plugin);
 	ug_plugin_aria2_set_common (plugin, options);
 	ug_plugin_aria2_set_proxy (plugin, options);
 	ug_plugin_aria2_set_http (plugin, options);
@@ -864,12 +865,13 @@ static void	ug_plugin_aria2_post_error (UgPluginAria2* plugin, int code)
 // ----------------------------------------------------------------------------
 // aria2 setup functions
 //
-static void	ug_plugin_aria2_set_scheme (UgPluginAria2* plugin, UgXmlrpcValue* options)
+static void	ug_plugin_aria2_set_scheme (UgPluginAria2* plugin)
 {
-	UgXmlrpcValue*	value;
 	UgDataCommon*	common;
 	UgDataHttp*		http;
 	UgDataFtp*		ftp;
+	UgUriFull*		uri;
+	GString*		str_uri;
 	gchar*			user;
 	gchar*			password;
 
@@ -882,62 +884,35 @@ static void	ug_plugin_aria2_set_scheme (UgPluginAria2* plugin, UgXmlrpcValue* op
 	if (http && (http->user || http->password) ) {
 		user     = http->user     ? http->user     : "";
 		password = http->password ? http->password : "";
-		// http-user
-		value = ug_xmlrpc_value_alloc (options);
-		value->name = "http-user";
-		value->type = UG_XMLRPC_STRING;
-		value->c.string = user;
-		// http-password
-		value = ug_xmlrpc_value_alloc (options);
-		value->name = "http-password";
-		value->type = UG_XMLRPC_STRING;
-		value->c.string = password;
 	}
 
 	if (ftp && (ftp->user || ftp->password)) {
 		user     = ftp->user     ? ftp->user     : "";
 		password = ftp->password ? ftp->password : "";
-		// ftp-user
-		value = ug_xmlrpc_value_alloc (options);
-		value->name = "ftp-user";
-		value->type = UG_XMLRPC_STRING;
-		value->c.string = user;
-		// ftp-password
-		value = ug_xmlrpc_value_alloc (options);
-		value->name = "ftp-password";
-		value->type = UG_XMLRPC_STRING;
-		value->c.string = password;
 	}
 
 	if (user == NULL) {
 		if (common->user || common->password) {
 			user     = common->user     ? common->user     : "";
 			password = common->password ? common->password : "";
-			if (g_ascii_strncasecmp (common->url, "http", 4) == 0) {
-				// http-user
-				value = ug_xmlrpc_value_alloc (options);
-				value->name = "http-user";
-				value->type = UG_XMLRPC_STRING;
-				value->c.string = user;
-				// http-password
-				value = ug_xmlrpc_value_alloc (options);
-				value->name = "http-password";
-				value->type = UG_XMLRPC_STRING;
-				value->c.string = password;
-			}
-			else if (g_ascii_strncasecmp (common->url, "ftp", 3) == 0) {
-				// ftp-user
-				value = ug_xmlrpc_value_alloc (options);
-				value->name = "ftp-user";
-				value->type = UG_XMLRPC_STRING;
-				value->c.string = user;
-				// ftp-password
-				value = ug_xmlrpc_value_alloc (options);
-				value->name = "ftp-password";
-				value->type = UG_XMLRPC_STRING;
-				value->c.string = password;
-			}
 		}
+	}
+
+	if (user && common->url) {
+		uri = g_slice_new (UgUriFull);
+		ug_uri_full_init (uri, common->url);
+		if (uri->authority) {
+			str_uri = g_string_sized_new (100);
+			g_string_append_len (str_uri, common->url, uri->authority - common->url);
+			g_string_append (str_uri, user);
+			g_string_append_c (str_uri, ':');
+			g_string_append (str_uri, password);
+			g_string_append_c (str_uri, '@');
+			g_string_append (str_uri, uri->host);
+			g_free (common->url);
+			common->url = g_string_free (str_uri, FALSE);
+		}
+		g_slice_free (UgUriFull, uri);
 	}
 }
 
