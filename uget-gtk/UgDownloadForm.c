@@ -193,14 +193,14 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 
 	// ----------------------------------------------------
 	// HBox for "Status" and "Login"
-	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_table_attach (top_table, hbox, 0, 3, 4, 5,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
 
 	// ----------------------------------------------------
 	// frame for Status (start mode)
 	frame = gtk_frame_new (_("Status"));
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
+	vbox = gtk_vbox_new (FALSE, 2);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 2);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
 	gtk_box_pack_start (GTK_BOX (hbox), frame, FALSE, FALSE, 0);
@@ -290,7 +290,7 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 
 	// Connections per server
 	// separator
-	gtk_table_attach (table, gtk_separator_new (GTK_ORIENTATION_VERTICAL), 3, 4, 0, 2,
+	gtk_table_attach (table, gtk_vseparator_new (), 3, 4, 0, 2,
 			GTK_FILL | GTK_EXPAND, GTK_FILL, 2, 1);
 	// "Connections per server" - title label
 	widget = gtk_label_new (_("Connections per server"));

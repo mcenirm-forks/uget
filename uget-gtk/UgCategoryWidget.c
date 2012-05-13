@@ -123,7 +123,7 @@ void	ug_category_widget_init (UgCategoryWidget* cwidget)
 			ug_category_model_filter, NULL, NULL);
 
 	// container widget
-	cwidget->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
+	cwidget->self = gtk_vbox_new (FALSE, 2);
 	vbox = GTK_BOX (cwidget->self);
 	gtk_box_pack_start (vbox, GTK_WIDGET (cwidget->primary.view), FALSE, FALSE, 0);
 	gtk_box_pack_start (vbox, gtk_label_new (_("Category")), FALSE, FALSE, 0);

@@ -618,14 +618,14 @@ void	ug_app_confirm_to_quit (UgAppGtk* app)
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 4);
 	vbox = (GtkBox*) gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	// image and label
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start (hbox, gtk_image_new_from_stock (GTK_STOCK_DIALOG_QUESTION, GTK_ICON_SIZE_DIALOG),
 	                    FALSE, FALSE, 8);
 	gtk_box_pack_start (hbox, gtk_label_new (_("Are you sure you want to quit?")),
 	                    FALSE, FALSE, 4);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 6);
 	// check button
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
 	button = gtk_check_button_new_with_label (_("Remember this action"));
 	gtk_box_pack_end (hbox, button, TRUE, TRUE, 20);
 	gtk_box_pack_end (vbox, (GtkWidget*) hbox, FALSE, FALSE, 10);
@@ -703,14 +703,14 @@ void	ug_app_confirm_to_delete (UgAppGtk* app, GCallback response, gpointer respo
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 4);
 	vbox = (GtkBox*) gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	// image and label
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start (hbox, gtk_image_new_from_stock (GTK_STOCK_DIALOG_QUESTION, GTK_ICON_SIZE_DIALOG),
 	                    FALSE, FALSE, 8);
 	gtk_box_pack_start (hbox, gtk_label_new (_("Are you sure you want to delete files?")),
 	                    FALSE, FALSE, 4);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 6);
 	// check button
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
 	button = gtk_check_button_new_with_label (_("Do not ask me again"));
 	gtk_box_pack_end (hbox, button, TRUE, TRUE, 20);
 	gtk_box_pack_end (vbox, (GtkWidget*) hbox, FALSE, FALSE, 10);

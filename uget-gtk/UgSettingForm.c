@@ -65,7 +65,7 @@ void	ug_clipboard_setting_form_init (struct UgClipboardSettingForm* csform)
 	GtkBox*				vbox;
 	GtkBox*				hbox;
 
-	csform->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	csform->self = gtk_vbox_new (FALSE, 0);
 	vbox = (GtkBox*) csform->self;
 	// Monitor button
 	widget = gtk_check_button_new_with_mnemonic (
@@ -81,12 +81,12 @@ void	ug_clipboard_setting_form_init (struct UgClipboardSettingForm* csform)
 	csform->pattern = (GtkEntry*) entry;
 
 	// tips
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 1);
 	gtk_box_pack_end (hbox,
 			gtk_label_new (_("Separate the types with character '|'.")),
 			FALSE, FALSE, 2);
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 1);
 	gtk_box_pack_end (hbox,
 			gtk_label_new (_("You can use regular expressions here.")),
@@ -95,7 +95,7 @@ void	ug_clipboard_setting_form_init (struct UgClipboardSettingForm* csform)
 	gtk_box_pack_start (vbox, gtk_label_new (""),
 			FALSE, FALSE, 2);
 	// quiet mode
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 2);
 	widget = gtk_check_button_new_with_mnemonic (_("_Quiet mode"));
 	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 0);
@@ -141,7 +141,7 @@ void	ug_user_interface_form_init (struct UgUserInterfaceForm* uiform)
 	GtkWidget*	widget;
 	GtkBox*		vbox;
 
-	uiform->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	uiform->self = gtk_vbox_new (FALSE, 0);
 	vbox = (GtkBox*) uiform->self;
 	// check button
 	widget = gtk_check_button_new_with_label (_("Show confirmation dialog on close"));
@@ -214,10 +214,10 @@ void	ug_launch_setting_form_init (struct UgLaunchSettingForm* lsform)
 	GtkBox*				vbox;
 	GtkBox*				hbox;
 
-	lsform->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	lsform->self = gtk_vbox_new (FALSE, 0);
 	vbox = (GtkBox*) lsform->self;
 	// active button
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 1);
 	widget = gtk_check_button_new_with_mnemonic (
 			_("_Launch default application for specified file types:"));
@@ -230,12 +230,12 @@ void	ug_launch_setting_form_init (struct UgLaunchSettingForm* lsform)
 	gtk_box_pack_start (vbox, entry, FALSE, FALSE, 2);
 	lsform->types = (GtkEntry*) entry;
 	// Launch app tips
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 1);
 	gtk_box_pack_end (hbox,
 			gtk_label_new (_("Separate the types with character '|'.")),
 			FALSE, FALSE, 2);
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 1);
 	gtk_box_pack_end (hbox,
 			gtk_label_new (_("You can use regular expressions here.")),
@@ -277,7 +277,7 @@ void	ug_auto_save_form_init (struct UgAutoSaveForm* asform)
 	GtkBox*				hbox;
 	GtkWidget*			widget;
 
-	asform->self = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	asform->self = gtk_hbox_new (FALSE, 0);
 	hbox = (GtkBox*) asform->self;
 	widget = gtk_check_button_new_with_mnemonic (_("_Auto save"));
 	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 0);
@@ -346,15 +346,15 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	GtkBox*				hbox;
 	GtkWidget*			widget;
 
-	psform->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	psform->self = gtk_vbox_new (FALSE, 0);
 	vbox = (GtkBox*) psform->self;
 
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
 
 	widget = gtk_check_button_new_with_mnemonic (_("_Enable aria2 plug-in"));
 	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
-	gtk_box_pack_start (hbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), TRUE, TRUE, 2);
+	gtk_box_pack_start (hbox, gtk_hseparator_new (), TRUE, TRUE, 2);
 	g_signal_connect (widget, "toggled",
 			G_CALLBACK (on_plugin_aria2_toggled), psform);
 	psform->enable = (GtkToggleButton*) widget;
@@ -366,7 +366,7 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 3);
 
 	// URI entry
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
 	widget = gtk_label_new ("URI");
 	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
@@ -374,7 +374,7 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	gtk_box_pack_start (hbox, widget, TRUE,  TRUE,  4);
 	psform->uri = (GtkEntry*) widget;
 
-	gtk_box_pack_start (vbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), FALSE, FALSE, 6);
+	gtk_box_pack_start (vbox, gtk_hseparator_new (), FALSE, FALSE, 6);
 
 	widget = gtk_check_button_new_with_mnemonic (_("_Launch aria2 on startup"));
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 2);
@@ -387,7 +387,7 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	psform->shutdown = (GtkToggleButton*) widget;
 
 	// path
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
 	widget = gtk_label_new (_("Path"));
 	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
@@ -395,7 +395,7 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	gtk_box_pack_start (hbox, widget, TRUE,  TRUE,  4);
 	psform->path = (GtkEntry*) widget;
 	// argument
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	hbox = (GtkBox*) gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
 	widget = gtk_label_new (_("Arguments"));
 	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
