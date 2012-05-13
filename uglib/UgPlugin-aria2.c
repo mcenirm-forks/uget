@@ -518,7 +518,6 @@ static gboolean	ug_plugin_aria2_add_metalink (UgPluginAria2* plugin)
 
 	// options struct
 	options = ug_xmlrpc_value_new_struct (16);
-	ug_plugin_aria2_set_scheme (plugin);
 	ug_plugin_aria2_set_common (plugin, options);
 	ug_plugin_aria2_set_proxy (plugin, options);
 	ug_plugin_aria2_set_http (plugin, options);
@@ -881,24 +880,27 @@ static void	ug_plugin_aria2_set_scheme (UgPluginAria2* plugin)
 	user     = NULL;
 	password = NULL;
 
-	if (http && (http->user || http->password) ) {
-		user     = http->user     ? http->user     : "";
-		password = http->password ? http->password : "";
+	if (common->user || common->password) {
+		user     = common->user     ? common->user     : "";
+		password = common->password ? common->password : "";
 	}
 
-	if (ftp && (ftp->user || ftp->password)) {
-		user     = ftp->user     ? ftp->user     : "";
-		password = ftp->password ? ftp->password : "";
+	if (g_ascii_strncasecmp (common->url, "http", 4) == 0) {
+		// set HTTP user & password
+		if (http && (http->user || http->password) ) {
+			user     = http->user     ? http->user     : "";
+			password = http->password ? http->password : "";
+		}
 	}
-
-	if (user == NULL) {
-		if (common->user || common->password) {
-			user     = common->user     ? common->user     : "";
-			password = common->password ? common->password : "";
+	else if (g_ascii_strncasecmp (common->url, "ftp", 3) == 0) {
+		// set FTP user & password
+		if (ftp && (ftp->user || ftp->password)) {
+			user     = ftp->user     ? ftp->user     : "";
+			password = ftp->password ? ftp->password : "";
 		}
 	}
 
-	if (user && common->url) {
+	if (user) {
 		uri = g_slice_new (UgUriFull);
 		ug_uri_full_init (uri, common->url);
 		if (uri->authority) {
