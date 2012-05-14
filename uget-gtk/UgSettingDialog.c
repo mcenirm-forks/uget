@@ -65,7 +65,7 @@ UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent)
 
 	// ------------------------------------------------------------------------
 	// UI settings page
-	vbox = (GtkBox*) gtk_vbox_new (FALSE, 2);
+	vbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 2);
 	gtk_notebook_append_page (dialog->notebook, (GtkWidget*) vbox,
 			gtk_label_new (_("UI Settings")));
@@ -97,13 +97,13 @@ UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent)
 
 	// ------------------------------------------------------------------------
 	// Others settings page
-	vbox = (GtkBox*) gtk_vbox_new (FALSE, 2);
+	vbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 2);
 	gtk_notebook_append_page (dialog->notebook, (GtkWidget*) vbox,
 			gtk_label_new (_("Others")));
 	ug_auto_save_form_init (&dialog->auto_save);
 	gtk_box_pack_start (vbox, dialog->auto_save.self, FALSE, FALSE, 2);
-	gtk_box_pack_start (vbox, gtk_hseparator_new (), FALSE, FALSE, 2);
+	gtk_box_pack_start (vbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), FALSE, FALSE, 2);
 	ug_launch_setting_form_init (&dialog->launch);
 	gtk_box_pack_start (vbox, dialog->launch.self, FALSE, FALSE, 2);
 

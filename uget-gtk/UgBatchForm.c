@@ -75,7 +75,7 @@ void	ug_batch_form_init (UgBatchForm* bform)
 	label = gtk_label_new ("http://for.example/path/pre*.jpg");
 	gtk_table_attach (table, label, 1, 6, 1, 2,
 			GTK_SHRINK, GTK_SHRINK, 3, 3);
-	gtk_table_attach (table, gtk_hseparator_new (), 0, 6, 2, 3,
+	gtk_table_attach (table, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), 0, 6, 2, 3,
 			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 3);
 
 	// -------------------------------------------------------

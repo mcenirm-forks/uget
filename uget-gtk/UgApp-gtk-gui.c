@@ -200,19 +200,19 @@ static void ug_window_init  (struct UgWindow* window, UgAppGtk* app)
 	gtk_window_set_default_icon_name (UG_APP_GTK_ICON_NAME);
 
 	// top container for Main Window
-	vbox = (GtkBox*) gtk_vbox_new (FALSE, 0);
+	vbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (window->self), GTK_WIDGET (vbox));
 	gtk_box_pack_start (vbox, app->menubar.self, FALSE, FALSE, 0);
 	// right side vbox
-	rbox = (GtkBox*) gtk_vbox_new (FALSE, 0);
+	rbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start (rbox, app->toolbar.self, FALSE, FALSE, 0);
 	// hpaned
-	window->hpaned = (GtkPaned*) gtk_hpaned_new ();
+	window->hpaned = (GtkPaned*) gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start (vbox, GTK_WIDGET (window->hpaned), TRUE, TRUE, 0);
 	gtk_paned_pack1 (window->hpaned, app->cwidget.self, FALSE, TRUE);
 	gtk_paned_pack2 (window->hpaned, GTK_WIDGET (rbox), TRUE, FALSE);
 	// vpaned
-	window->vpaned = (GtkPaned*) gtk_vpaned_new ();
+	window->vpaned = (GtkPaned*) gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_box_pack_start (rbox, (GtkWidget*) window->vpaned, TRUE, TRUE, 0);
 //	gtk_paned_pack1 (window->vpaned, GTK_WIDGET (app->cwidget.primary->all.self), TRUE, TRUE);
 	gtk_paned_pack2 (window->vpaned, GTK_WIDGET (app->summary.self), FALSE, TRUE);
@@ -245,7 +245,7 @@ static void ug_statusbar_init (struct UgStatusbar* sbar)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
 	gtk_box_pack_end (hbox, gtk_label_new ("U:"), FALSE, TRUE, 2);
 
-	gtk_box_pack_end (hbox, gtk_vseparator_new (), FALSE, TRUE, 8);
+	gtk_box_pack_end (hbox, gtk_separator_new (GTK_ORIENTATION_VERTICAL), FALSE, TRUE, 8);
 
 	// download speed label
 	widget = gtk_label_new ("");

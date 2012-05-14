@@ -98,15 +98,15 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 	GtkBox*		hbox;
 	GtkBox*		vbox;
 
-	sgrid->self = gtk_vbox_new (FALSE, 0);
+	sgrid->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	vbox = (GtkBox*) sgrid->self;
 
 	// Enable Scheduler
-	hbox = (GtkBox*) gtk_hbox_new (FALSE, 2);
+	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start (vbox, (GtkWidget*)hbox, FALSE, FALSE, 2);
 	widget = gtk_check_button_new_with_mnemonic (_("_Enable Scheduler"));
 	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
-	gtk_box_pack_start (hbox, gtk_hseparator_new (), TRUE, TRUE, 2);
+	gtk_box_pack_start (hbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), TRUE, TRUE, 2);
 	g_signal_connect (widget, "toggled",
 			G_CALLBACK (on_enable_toggled), sgrid);
 	sgrid->enable = widget;
