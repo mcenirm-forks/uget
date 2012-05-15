@@ -309,6 +309,12 @@ void	ug_app_set_setting (UgAppGtk* app, UgSetting* setting)
 			(GtkCheckMenuItem*) app->menubar.view.columns.completed_on,
 			setting->download_column.completed_on);
 
+#ifdef HAVE_APP_INDICATOR
+	// AppIndicator
+	if (setting->ui.app_indicator == FALSE)
+		app->trayicon.indicator = NULL;
+#endif	// HAVE_APP_INDICATOR
+
 	// get setting of download column
 	app->cwidget.sort.nth   = app->setting.download_column.sort.nth;
 	app->cwidget.sort.order = app->setting.download_column.sort.order;
@@ -445,11 +451,6 @@ void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gint64 d
 	gchar*	string_up_speed;
 	guint	current_status;
 
-#ifdef HAVE_APP_INDICATOR
-	if (trayicon->indicator == NULL)
-		return;
-	trayicon->error_occurred = FALSE;
-#endif
 	// change tray icon
 	if (trayicon->error_occurred) {
 		string = UG_APP_GTK_ICON_ERROR_NAME;
@@ -467,22 +468,25 @@ void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gint64 d
 	if (trayicon->last_status != current_status) {
 		trayicon->last_status  = current_status;
 #ifdef HAVE_APP_INDICATOR
-		if (app_indicator_get_status (trayicon->indicator) != APP_INDICATOR_STATUS_PASSIVE) {
-			if (current_status == 0) {
-				app_indicator_set_status (trayicon->indicator,
-						APP_INDICATOR_STATUS_ACTIVE);
-			}
-			else {
-				app_indicator_set_attention_icon (trayicon->indicator, string);
-//				app_indicator_set_attention_icon_full (trayicon->indicator,
-//						string, "attention");
-				app_indicator_set_status (trayicon->indicator,
-						APP_INDICATOR_STATUS_ATTENTION);
+		if (trayicon->indicator) {
+			trayicon->error_occurred = FALSE;
+			if (app_indicator_get_status (trayicon->indicator) != APP_INDICATOR_STATUS_PASSIVE) {
+				if (current_status == 0) {
+					app_indicator_set_status (trayicon->indicator,
+							APP_INDICATOR_STATUS_ACTIVE);
+				}
+				else {
+					app_indicator_set_attention_icon (trayicon->indicator, string);
+	//				app_indicator_set_attention_icon_full (trayicon->indicator,
+	//						string, "attention");
+					app_indicator_set_status (trayicon->indicator,
+							APP_INDICATOR_STATUS_ATTENTION);
+				}
 			}
 		}
-#else
+		else
+#endif	// HAVE_APP_INDICATOR
 		gtk_status_icon_set_from_icon_name (trayicon->self, string);
-#endif
 	}
 
 	// change tooltip
@@ -497,11 +501,14 @@ void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gint64 d
 			string_down_speed,
 			string_up_speed);
 #ifdef HAVE_APP_INDICATOR
-//	g_object_set (trayicon->indicator, "icon-desc", string, NULL);
-//	g_object_set (trayicon->indicator, "attention-icon-desc", string, NULL);
-#else
+	if (trayicon->indicator) {
+//		g_object_set (trayicon->indicator, "icon-desc", string, NULL);
+//		g_object_set (trayicon->indicator, "attention-icon-desc", string, NULL);
+	}
+	else
+#endif	// HAVE_APP_INDICATOR
 	gtk_status_icon_set_tooltip_text (trayicon->self, string);
-#endif
+
 	g_free (string_down_speed);
 	g_free (string_up_speed);
 	g_free (string);
@@ -510,16 +517,17 @@ void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gint64 d
 void	ug_trayicon_set_visible (struct UgTrayIcon* trayicon, gboolean visible)
 {
 #ifdef HAVE_APP_INDICATOR
-	if (trayicon->indicator == NULL)
-		return;
-
-	if (visible)
-		app_indicator_set_status (trayicon->indicator, APP_INDICATOR_STATUS_ACTIVE);
+	if (trayicon->indicator) {
+		if (visible)
+			app_indicator_set_status (trayicon->indicator,
+					APP_INDICATOR_STATUS_ACTIVE);
+		else
+			app_indicator_set_status (trayicon->indicator,
+					APP_INDICATOR_STATUS_PASSIVE);
+	}
 	else
-		app_indicator_set_status (trayicon->indicator, APP_INDICATOR_STATUS_PASSIVE);
-#else
+#endif	// HAVE_APP_INDICATOR
 	gtk_status_icon_set_visible (trayicon->self, visible);
-#endif
 }
 
 void	ug_statusbar_set_info (struct UgStatusbar* statusbar, UgDownloadWidget* dwidget)

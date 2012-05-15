@@ -128,9 +128,8 @@ struct UgAppGtk
 	{
 #ifdef HAVE_APP_INDICATOR
 		AppIndicator*	indicator;
-#else
-		GtkStatusIcon*	self;
 #endif
+		GtkStatusIcon*	self;
 		gboolean		error_occurred;
 		guint			last_status;
 

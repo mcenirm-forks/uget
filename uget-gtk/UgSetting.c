@@ -136,6 +136,9 @@ static const UgDataEntry	ug_user_interface_setting_entry[] =
 	{"StartInOfflineMode",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	start_in_offline_mode),	UG_DATA_INT,	NULL,	NULL},
 	{"StartNotification",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	start_notification),	UG_DATA_INT,	NULL,	NULL},
 	{"SoundNotification",	G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	sound_notification),	UG_DATA_INT,	NULL,	NULL},
+#ifdef HAVE_APP_INDICATOR
+	{"AppIndicator",		G_STRUCT_OFFSET (struct UgUserInterfaceSetting,	app_indicator),			UG_DATA_INT,	NULL,	NULL},
+#endif
 	{NULL},			// null-terminated
 };
 
@@ -431,6 +434,9 @@ void	ug_setting_init (UgSetting* setting)
 	setting->ui.start_in_offline_mode = FALSE;
 	setting->ui.start_notification = TRUE;
 	setting->ui.sound_notification = TRUE;
+#ifdef HAVE_APP_INDICATOR
+	setting->ui.app_indicator = TRUE;
+#endif
 
 	// "ClipboardSetting"
 	setting->clipboard.iface = &ug_clipboard_setting_iface;

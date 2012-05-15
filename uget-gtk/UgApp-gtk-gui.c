@@ -167,17 +167,18 @@ static void ug_trayicon_init (struct UgTrayIcon* trayicon)
 #ifdef HAVE_APP_INDICATOR
 	trayicon->indicator = app_indicator_new ("uget-gtk", icon_name,
 			APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
-	if (trayicon->indicator == NULL)
-		return;
-	app_indicator_set_menu (trayicon->indicator, GTK_MENU (trayicon->menu.self));
-//	app_indicator_set_attention_icon_full (trayicon->indicator,
-//			UG_APP_GTK_ICON_ACTIVE_NAME, NULL);
-	app_indicator_set_attention_icon (trayicon->indicator,
-			UG_APP_GTK_ICON_ACTIVE_NAME);
-#else
+	if (trayicon->indicator) {
+		app_indicator_set_menu (trayicon->indicator, GTK_MENU (trayicon->menu.self));
+//		app_indicator_set_attention_icon_full (trayicon->indicator,
+//				UG_APP_GTK_ICON_ACTIVE_NAME, NULL);
+		app_indicator_set_attention_icon (trayicon->indicator,
+				UG_APP_GTK_ICON_ACTIVE_NAME);
+		app_indicator_set_status (trayicon->indicator,
+				APP_INDICATOR_STATUS_PASSIVE);
+	}
+#endif	// HAVE_APP_INDICATOR
 	trayicon->self = gtk_status_icon_new_from_icon_name (icon_name);
 	gtk_status_icon_set_visible (trayicon->self, FALSE);
-#endif
 	ug_trayicon_set_info (trayicon, 0, 0, 0);
 }
 

@@ -1274,7 +1274,6 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 // ----------------------------------------------------------------------------
 // UgTrayIcon
 //
-#ifndef HAVE_APP_INDICATOR
 static void	on_trayicon_activate (GtkStatusIcon* status_icon, UgAppGtk* app)
 {
 	if (gtk_widget_get_visible ((GtkWidget*) app->window.self) == TRUE) {
@@ -1316,7 +1315,6 @@ static void	on_trayicon_popup_menu (GtkStatusIcon* status_icon, guint button, gu
 			button, activate_time);
 #endif
 }
-#endif	// HAVE_APP_INDICATOR
 
 static void	on_trayicon_show_window (GtkWidget* widget, UgAppGtk* app)
 {
@@ -1613,12 +1611,10 @@ static gboolean	tray_menu_leave_enter (GtkWidget* menu, GdkEventCrossing* event,
 // UgTrayIcon
 static void ug_trayicon_init_callback (struct UgTrayIcon* icon, UgAppGtk* app)
 {
-#ifndef HAVE_APP_INDICATOR
 	g_signal_connect (icon->self, "activate",
 			G_CALLBACK (on_trayicon_activate), app);
 	g_signal_connect (icon->self, "popup-menu",
 			G_CALLBACK (on_trayicon_popup_menu), app);
-#endif
 
 #ifdef _WIN32
 	g_signal_connect (icon->menu.self, "leave-notify-event",
