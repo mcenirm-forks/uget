@@ -1,3 +1,21 @@
+uGet 1.8.2-gtk3+ubuntu (stable)
+1. Use AppIndicator3 for Ubuntu 11.10+ with GTK+3
+2. remove GTK2 dependency
+3. remove gtk_[hv].*_new calls (deprecated in gtk 3.1.x)
+4. Add a setting to disable AppIndicator for Ubuntu users.
+
+Search <AppIndicator value='1'/> in $HOME/.config/uGet/Setting.xml
+and set value='0' to disable AppIndicator. This is function is for
+Ubuntu GNOME users who want to use original tray icon logic.
+
+Ubuntu packages for 11.10+ 
+https://launchpad.net/~plushuang-tw/+archive/uget-stable
+OR use below command to add source:
+sudo add-apt-repository ppa:plushuang-tw/uget-stable
+
+This source package release for Ubuntu 11.10+ with AppIndicator3.
+Of course other GTK3.2+ base system can use it.
+
 uGet 1.8.2 (stable)
 1. Fix: aria2 plug-in can't use user and password.
 2. update Polish translation file.
