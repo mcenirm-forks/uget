@@ -50,13 +50,6 @@ static void	ug_proxy_form_pwmd_init (struct UgProxyFormPwmd* pfp, UgProxyForm* p
 static void on_entry_pwmd_changed (GtkEditable* editable, UgProxyForm* pform);
 #endif
 
-// for GTK+ 2.18
-#ifndef GTK_COMBO_BOX_TEXT
-#define	GTK_COMBO_BOX_TEXT					GTK_COMBO_BOX
-#define	gtk_combo_box_text_new				gtk_combo_box_new_text
-#define	gtk_combo_box_text_insert_text		gtk_combo_box_insert_text
-#endif	// GTK_COMBO_BOX_TEXT
-
 
 void	ug_proxy_form_init (UgProxyForm* pform, gboolean integrated)
 {

@@ -38,11 +38,6 @@ static const char	uget_license[] =
 #endif
 
 #include <gdk/gdkkeysyms.h>    // for GDK_KEY_xxx...
-// for GTK+ 2.18
-#ifndef GDK_KEY_Menu
-#define GDK_KEY_Menu		GDK_Menu
-#define GDK_KEY_Delete		GDK_Delete
-#endif
 
 // uglib
 #include <UgHtml.h>

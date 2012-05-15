@@ -45,15 +45,6 @@
 
 #include <glib/gi18n.h>
 
-// for GTK+ 2.18
-#ifndef GTK_COMBO_BOX_TEXT
-#define	GTK_COMBO_BOX_TEXT					GTK_COMBO_BOX
-#define	GtkComboBoxText						GtkComboBox
-#define	gtk_combo_box_text_new				gtk_combo_box_new_text
-#define	gtk_combo_box_text_new_with_entry	gtk_combo_box_entry_new_text
-#define	gtk_combo_box_text_append_text		gtk_combo_box_append_text
-#endif	// GTK_COMBO_BOX_TEXT
-
 
 static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* proxy);
 static void	ug_download_form_init_page2 (UgDownloadForm* dform);

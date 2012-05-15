@@ -35,10 +35,6 @@
  */
 
 #include <gdk/gdkkeysyms.h>    // for GDK_KEY_key...
-// for GTK+ 2.18
-#ifndef GDK_KEY_n
-#define GDK_KEY_n			GDK_n
-#endif
 
 #ifdef	HAVE_CONFIG_H
 #include <config.h>

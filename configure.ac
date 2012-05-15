@@ -42,24 +42,25 @@ AM_GLIB_DEFINE_LOCALEDIR(LOCALEDIR)
 
 ## ----------------------------------------------
 ## GTK+ 3.x or 2.18+
-AC_ARG_WITH(
-	[gtk3],
-	AC_HELP_STRING([--with-gtk3], [Enable GTK+3 support.]),
-	[with_gtk3="$withval"],
-	[with_gtk3="no"]
-)
-AS_IF(
-	[test "x$with_gtk3" = "xyes"],
-	[PKG_CHECK_MODULES(GTK, gtk+-3.0) AC_SUBST(GTK_CFLAGS) AC_SUBST(GTK_LIBS)]
-)
-AS_IF(
-	[test "x$with_gtk3" = "xno"],
-	[PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.18) AC_SUBST(GTK_CFLAGS) AC_SUBST(GTK_LIBS)]
-)
+#AC_ARG_WITH(
+#	[gtk3],
+#	AC_HELP_STRING([--with-gtk3], [Enable GTK+3 support.]),
+#	[with_gtk3="$withval"],
+#	[with_gtk3="yes"]
+#)
+#AS_IF(
+#	[test "x$with_gtk3" = "xyes"],
+#	[PKG_CHECK_MODULES(GTK, gtk+-3.0) AC_SUBST(GTK_CFLAGS) AC_SUBST(GTK_LIBS)]
+#)
+#AS_IF(
+#	[test "x$with_gtk3" = "xno"],
+#	[PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.18) AC_SUBST(GTK_CFLAGS) AC_SUBST(GTK_LIBS)]
+#)
 
 ## ----------------------------------------------
 ## GTK+ related
-PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.22)
+PKG_CHECK_MODULES(GTK, gtk+-3.0 >= 3.2)
+PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.28)
 PKG_CHECK_MODULES(GTHREAD, gthread-2.0)
 PKG_CHECK_MODULES(GMODULE, gmodule-2.0)
 PKG_CHECK_MODULES(GIO, gio-2.0)
