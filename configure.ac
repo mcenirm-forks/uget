@@ -38,26 +38,6 @@ AM_GLIB_DEFINE_LOCALEDIR(LOCALEDIR)
 
 
 ## ----------------------------------------------
-## checks for requirements.
-
-## ----------------------------------------------
-## GTK+ 3.x or 2.18+
-#AC_ARG_WITH(
-#	[gtk3],
-#	AC_HELP_STRING([--with-gtk3], [Enable GTK+3 support.]),
-#	[with_gtk3="$withval"],
-#	[with_gtk3="yes"]
-#)
-#AS_IF(
-#	[test "x$with_gtk3" = "xyes"],
-#	[PKG_CHECK_MODULES(GTK, gtk+-3.0) AC_SUBST(GTK_CFLAGS) AC_SUBST(GTK_LIBS)]
-#)
-#AS_IF(
-#	[test "x$with_gtk3" = "xno"],
-#	[PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.18) AC_SUBST(GTK_CFLAGS) AC_SUBST(GTK_LIBS)]
-#)
-
-## ----------------------------------------------
 ## GTK+ related
 PKG_CHECK_MODULES(GTK, gtk+-3.0 >= 3.2)
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.28)
@@ -90,12 +70,12 @@ AC_ARG_ENABLE(
 	[enable_appindicator="auto"]
 )
 if test x$enable_appindicator = xauto ; then
-	PKG_CHECK_EXISTS([appindicator-0.1 >= 0.0.7],
+	PKG_CHECK_EXISTS([appindicator3-0.1],
 	                 [enable_appindicator="yes"],
 	                 [enable_appindicator="no"])
 fi
 if test x$enable_appindicator = xyes ; then
-	PKG_CHECK_MODULES(APP_INDICATOR, appindicator-0.1 >= 0.0.7)
+	PKG_CHECK_MODULES(APP_INDICATOR, appindicator3-0.1)
 	AC_SUBST(APP_INDICATOR_CFLAGS)
 	AC_SUBST(APP_INDICATOR_LIBS)
 	AC_DEFINE(HAVE_APP_INDICATOR, 1, [Have AppIndicator])
