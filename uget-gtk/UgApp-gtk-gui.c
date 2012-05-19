@@ -229,10 +229,6 @@ static void ug_statusbar_init (struct UgStatusbar* sbar)
 	sbar->self = (GtkStatusbar*) gtk_statusbar_new ();
 	hbox = GTK_BOX (sbar->self);
 
-#if GTK_MAJOR_VERSION < 3
-	gtk_statusbar_set_has_resize_grip (sbar->self, FALSE);
-#endif
-
 	// upload speed label
 	widget = gtk_label_new ("");
 	sbar->up_speed = (GtkLabel*) widget;

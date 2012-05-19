@@ -74,18 +74,10 @@ static const gchar*	week_days[7] =
 
 // grid one
 static GtkWidget*	ug_grid_one_new (const gdouble* rgb_array);
-#if GTK_MAJOR_VERSION >= 3
 static gboolean	ug_grid_one_draw (GtkWidget* widget, cairo_t* cr, const gdouble* rgb_array);
-#else
-static gboolean	ug_grid_one_expose (GtkWidget* widget, GdkEventExpose* event, const gdouble* rgb_array);
-#endif
 // signal handler
 static void		on_enable_toggled (GtkToggleButton* togglebutton, struct UgScheduleGrid* sgrid);
-#if GTK_MAJOR_VERSION >= 3
 static gboolean on_draw_callback (GtkWidget* widget, cairo_t* cr, struct UgScheduleGrid* sgrid);
-#else
-static gboolean	on_expose_event (GtkWidget* widget, GdkEventExpose* event, struct UgScheduleGrid* sgrid);
-#endif
 static gboolean on_button_press_event (GtkWidget* widget, GdkEventMotion* event, struct UgScheduleGrid* sgrid);
 static gboolean on_motion_notify_event (GtkWidget* widget, GdkEventMotion* event, struct UgScheduleGrid* sgrid);
 static gboolean	on_leave_notify_event (GtkWidget* menu, GdkEventCrossing* event, struct UgScheduleGrid* sgrid);
@@ -119,13 +111,8 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 			GRID_WIDTH_ALL + 32, GRID_HEIGHT_ALL);
 	gtk_widget_add_events (widget,
 			GDK_BUTTON_PRESS_MASK | GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK);
-#if GTK_MAJOR_VERSION >= 3
 	g_signal_connect (widget, "draw",
 			G_CALLBACK (on_draw_callback), sgrid);
-#else
-	g_signal_connect (widget, "expose-event",
-			G_CALLBACK (on_expose_event), sgrid);
-#endif
 	g_signal_connect (widget, "button-press-event",
 			G_CALLBACK (on_button_press_event), sgrid);
 	g_signal_connect (widget, "motion-notify-event",
@@ -237,11 +224,7 @@ static void	on_enable_toggled (GtkToggleButton* togglebutton, struct UgScheduleG
 	gtk_widget_set_sensitive (sgrid->table, active);
 }
 
-#if GTK_MAJOR_VERSION >= 3
 static gboolean on_draw_callback (GtkWidget* widget, cairo_t* cr, struct UgScheduleGrid* sgrid)
-#else
-static gboolean	on_expose_event (GtkWidget* widget, GdkEventExpose* event, struct UgScheduleGrid* sgrid)
-#endif
 {
 	gboolean	sensitive;
 	gint		y, x;
@@ -249,11 +232,7 @@ static gboolean	on_expose_event (GtkWidget* widget, GdkEventExpose* event, struc
 	PangoContext*			context;
 	PangoLayout*			layout;
 	PangoFontDescription*	desc;
-#if GTK_MAJOR_VERSION < 3
-	cairo_t*	cr;
 
-	cr = gdk_cairo_create (gtk_widget_get_window (widget));
-#endif
 	cairo_set_line_width (cr, 1);
 	sensitive = gtk_widget_get_sensitive (widget);
 
@@ -315,12 +294,7 @@ static gboolean	on_expose_event (GtkWidget* widget, GdkEventExpose* event, struc
 		}
 	}
 
-#if GTK_MAJOR_VERSION >= 3
 	return FALSE;
-#else
-	cairo_destroy (cr);
-	return TRUE;
-#endif
 }
 
 static gboolean on_button_press_event (GtkWidget *widget, GdkEventMotion *event, struct UgScheduleGrid* sgrid)
@@ -369,7 +343,7 @@ static gboolean on_motion_notify_event (GtkWidget *widget, GdkEventMotion *event
 	UgScheduleState	state;
 
 	gdkwin = gtk_widget_get_window (widget);
-	gdk_window_get_pointer (gdkwin, &x, &y, &mod);
+	gdk_window_get_device_position (gdkwin, event->device, &x, &y, &mod);
 	x -= sgrid->grid_offset;
 	x /= GRID_WIDTH_LINE;
 	y /= GRID_HEIGHT_LINE;
@@ -428,30 +402,17 @@ static GtkWidget*	ug_grid_one_new (const gdouble* rgb_array)
 	gtk_widget_set_size_request (widget, GRID_WIDTH + 2, GRID_HEIGHT + 2);
 	gtk_widget_add_events (widget, GDK_POINTER_MOTION_MASK);
 
-#if GTK_MAJOR_VERSION >=3
 	g_signal_connect (widget, "draw",
 			G_CALLBACK (ug_grid_one_draw), (gpointer) rgb_array);
-#else
-	g_signal_connect (widget, "expose-event",
-			G_CALLBACK (ug_grid_one_expose), (gpointer) rgb_array);
-#endif
 
 	return widget;
 }
 
-#if GTK_MAJOR_VERSION >= 3
 static gboolean	ug_grid_one_draw (GtkWidget* widget, cairo_t* cr, const gdouble* rgb_array)
-#else
-static gboolean	ug_grid_one_expose (GtkWidget* widget, GdkEventExpose* event, const gdouble* rgb_array)
-#endif
 {
 	GtkAllocation	allocation;
 	gdouble			x, y, width, height;
-#if GTK_MAJOR_VERSION < 3
-	cairo_t*		cr;
 
-	cr = gdk_cairo_create (gtk_widget_get_window (widget));
-#endif
 	gtk_widget_get_allocation (widget, &allocation);
 	x = 0.5;
 	y = 0.5;
@@ -475,11 +436,6 @@ static gboolean	ug_grid_one_expose (GtkWidget* widget, GdkEventExpose* event, co
 	cairo_rectangle (cr, x + 1.0, y + 1.0, width - 2.0, height - 2.0);
 	cairo_fill (cr);
 
-#if GTK_MAJOR_VERSION >= 3
 	return FALSE;
-#else
-	cairo_destroy (cr);
-	return TRUE;
-#endif
 }
 

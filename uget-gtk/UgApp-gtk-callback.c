@@ -406,12 +406,15 @@ static void	on_delete_download (GtkWidget* widget, UgAppGtk* app)
 	GList*				link;
 	// check shift key status
 	GdkWindow*			gdk_win;
+	GdkDevice*			dev_pointer;
 	GdkModifierType		mask;
 
 	dwidget = app->cwidget.current.widget;
 	// check shift key status
 	gdk_win = gtk_widget_get_parent_window ((GtkWidget*) dwidget->view);
-	gdk_window_get_pointer (gdk_win, NULL, NULL, &mask);
+	dev_pointer = gdk_device_manager_get_client_pointer (
+			gdk_display_get_device_manager (gdk_window_get_display (gdk_win)));
+	gdk_window_get_device_position (gdk_win, dev_pointer, NULL, NULL, &mask);
 
 	list = ug_download_widget_get_selected (dwidget);
 	for (link = list;  link;  link = link->next) {
