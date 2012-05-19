@@ -57,7 +57,7 @@ UgDownloadDialog*	ug_download_dialog_new (const gchar* title, GtkWindow* parent)
 
 	ddialog = g_malloc0 (sizeof (UgDownloadDialog));
 	ddialog->self = (GtkDialog*) gtk_dialog_new_with_buttons (title, parent,
-			GTK_DIALOG_DESTROY_WITH_PARENT, NULL);
+			GTK_DIALOG_DESTROY_WITH_PARENT, NULL, NULL);
 	box = (GtkBox*) gtk_dialog_get_content_area (ddialog->self);
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
@@ -131,7 +131,7 @@ void	ug_download_dialog_use_batch (UgDownloadDialog* ddialog)
 	// (Page 0)
 	ug_batch_form_init (&ddialog->batch);
 	ug_download_form_set_multiple (&ddialog->download, TRUE);
-	gtk_widget_size_request (ddialog->download.page1, &requisition);
+	gtk_widget_get_preferred_size (ddialog->download.page1, &requisition, NULL);
 	gtk_widget_set_size_request (ddialog->batch.self,
 			requisition.width, requisition.height);
 	// setup page and button
@@ -153,7 +153,7 @@ void	ug_download_dialog_use_selector (UgDownloadDialog* ddialog)
 	// (Page 0)
 	ug_selector_init (&ddialog->selector, (GtkWindow*) ddialog->self);
 	ug_download_form_set_multiple (&ddialog->download, TRUE);
-	gtk_widget_size_request (ddialog->download.page1, &requisition);
+	gtk_widget_get_preferred_size (ddialog->download.page1, &requisition, NULL);
 	gtk_widget_set_size_request (ddialog->selector.self,
 			requisition.width, requisition.height);
 	// setup page and button

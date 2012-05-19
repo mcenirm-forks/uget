@@ -1378,7 +1378,7 @@ static void menu_position_func (GtkMenu*	menu,
 
 	widget = user_data;
 	gdk_window_get_origin (gtk_widget_get_window (widget), x, y);
-	gtk_widget_size_request (GTK_WIDGET (menu), &menu_requisition);
+	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &menu_requisition, NULL);
 
 	gtk_widget_get_allocation (widget, &allocation);
 	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
