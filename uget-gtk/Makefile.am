@@ -9,7 +9,7 @@ uget_gtk_LDFLAGS  = @LFS_LDFLAGS@
 uget_gtk_LDADD    = $(top_builddir)/uglib/libuglib.a $(UGET_GTK_LIBS)
 
 uget_gtk_SOURCES  = UgSetting.c \
-	UgSelector.c  UgSummary.c  UgSettingForm.c  UgScheduleGrid.c \
+	UgSelector.c  UgSummary.c  UgSettingForm.c  UgScheduleForm.c \
 	UgDownloadForm.c    UgCategoryForm.c    UgProxyForm.c  UgBatchForm.c \
 	UgDownloadWidget.c  UgCategoryWidget.c  UgCategory-gtk.c \
 	UgDownloadDialog.c  UgCategoryDialog.c  UgSettingDialog.c \
@@ -18,7 +18,7 @@ uget_gtk_SOURCES  = UgSetting.c \
 	UgApp-gtk-main.c
 
 noinst_HEADERS    = UgSetting.h \
-	UgSelector.h  UgSummary.h  UgSettingForm.h  UgScheduleGrid.h \
+	UgSelector.h  UgSummary.h  UgSettingForm.h  UgScheduleForm.h \
 	UgDownloadForm.h    UgCategoryForm.h    UgProxyForm.h  UgBatchForm.h \
 	UgDownloadWidget.h  UgCategoryWidget.h  UgCategory-gtk.h \
 	UgDownloadDialog.h  UgCategoryDialog.h  UgSettingDialog.h \

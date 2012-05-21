@@ -237,7 +237,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\uget-gtk\UgScheduleGrid.c"
+				RelativePath="..\..\uget-gtk\UgScheduleForm.c"
 				>
 			</File>
 			<File
@@ -307,7 +307,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\uget-gtk\UgScheduleGrid.h"
+				RelativePath="..\..\uget-gtk\UgScheduleForm.h"
 				>
 			</File>
 			<File

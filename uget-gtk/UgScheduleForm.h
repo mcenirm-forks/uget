@@ -34,8 +34,8 @@
  *
  */
 
-#ifndef UG_SCHEDULE_GRID_H
-#define UG_SCHEDULE_GRID_H
+#ifndef UG_SCHEDULE_FORM_H
+#define UG_SCHEDULE_FORM_H
 
 #include <UgSetting.h>
 #include <gtk/gtk.h>
@@ -45,7 +45,7 @@ extern "C" {
 #endif
 
 
-struct UgScheduleGrid
+struct UgScheduleForm
 {
 	GtkWidget*		self;
 
@@ -62,14 +62,14 @@ struct UgScheduleGrid
 	UgScheduleState	last_state;
 };
 
-void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid);
-void	ug_schedule_grid_get  (struct UgScheduleGrid* sgrid, UgSetting* setting);
-void	ug_schedule_grid_set  (struct UgScheduleGrid* sgrid, UgSetting* setting);
+void	ug_schedule_form_init (struct UgScheduleForm* sform);
+void	ug_schedule_form_get  (struct UgScheduleForm* sform, UgSetting* setting);
+void	ug_schedule_form_set  (struct UgScheduleForm* sform, UgSetting* setting);
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif  // End of UG_SCHEDULE_GRID_H
+#endif  // End of UG_SCHEDULE_FORM_H
 

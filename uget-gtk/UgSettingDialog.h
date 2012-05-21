@@ -39,7 +39,7 @@
 
 #include <gtk/gtk.h>
 #include <UgSettingForm.h>
-#include <UgScheduleGrid.h>
+#include <UgScheduleForm.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -67,7 +67,7 @@ struct UgSettingDialog
 	struct UgUserInterfaceForm		ui;
 	struct UgLaunchSettingForm		launch;
 	struct UgAutoSaveForm			auto_save;
-	struct UgScheduleGrid			scheduler;
+	struct UgScheduleForm			scheduler;
 	struct UgPluginSettingForm		plugin;
 
 	gpointer		user_data;

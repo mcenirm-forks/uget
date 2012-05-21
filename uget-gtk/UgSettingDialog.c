@@ -81,7 +81,7 @@ UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent)
 
 	// ------------------------------------------------------------------------
 	// Scheduler settings page
-	ug_schedule_grid_init (&dialog->scheduler);
+	ug_schedule_form_init (&dialog->scheduler);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog->scheduler.self), 2);
 	gtk_notebook_append_page (dialog->notebook, dialog->scheduler.self,
 			gtk_label_new (_("Scheduler")));
@@ -122,7 +122,7 @@ void	ug_setting_dialog_free (UgSettingDialog* dialog)
 
 void	ug_setting_dialog_set (UgSettingDialog* dialog, UgSetting* setting)
 {
-	ug_schedule_grid_set (&dialog->scheduler, setting);
+	ug_schedule_form_set (&dialog->scheduler, setting);
 	ug_clipboard_setting_form_set (&dialog->clipboard, setting);
 	ug_user_interface_form_set (&dialog->ui, setting);
 	ug_launch_setting_form_set (&dialog->launch, setting);
@@ -134,7 +134,7 @@ void	ug_setting_dialog_set (UgSettingDialog* dialog, UgSetting* setting)
 
 void	ug_setting_dialog_get (UgSettingDialog* dialog, UgSetting* setting)
 {
-	ug_schedule_grid_get (&dialog->scheduler, setting);
+	ug_schedule_form_get (&dialog->scheduler, setting);
 	ug_clipboard_setting_form_get (&dialog->clipboard, setting);
 	ug_user_interface_form_get (&dialog->ui, setting);
 	ug_launch_setting_form_get (&dialog->launch, setting);

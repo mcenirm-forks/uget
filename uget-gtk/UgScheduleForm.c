@@ -35,7 +35,7 @@
  */
 
 #include <memory.h>
-#include <UgScheduleGrid.h>
+#include <UgScheduleForm.h>
 
 #include <glib/gi18n.h>
 
@@ -76,22 +76,22 @@ static const gchar*	week_days[7] =
 static GtkWidget*	ug_grid_one_new (const gdouble* rgb_array);
 static gboolean	ug_grid_one_draw (GtkWidget* widget, cairo_t* cr, const gdouble* rgb_array);
 // signal handler
-static void		on_enable_toggled (GtkToggleButton* togglebutton, struct UgScheduleGrid* sgrid);
-static gboolean on_draw_callback (GtkWidget* widget, cairo_t* cr, struct UgScheduleGrid* sgrid);
-static gboolean on_button_press_event (GtkWidget* widget, GdkEventMotion* event, struct UgScheduleGrid* sgrid);
-static gboolean on_motion_notify_event (GtkWidget* widget, GdkEventMotion* event, struct UgScheduleGrid* sgrid);
-static gboolean	on_leave_notify_event (GtkWidget* menu, GdkEventCrossing* event, struct UgScheduleGrid* sgrid);
+static void		on_enable_toggled (GtkToggleButton* togglebutton, struct UgScheduleForm* sform);
+static gboolean on_draw_callback (GtkWidget* widget, cairo_t* cr, struct UgScheduleForm* sform);
+static gboolean on_button_press_event (GtkWidget* widget, GdkEventMotion* event, struct UgScheduleForm* sform);
+static gboolean on_motion_notify_event (GtkWidget* widget, GdkEventMotion* event, struct UgScheduleForm* sform);
+static gboolean	on_leave_notify_event (GtkWidget* menu, GdkEventCrossing* event, struct UgScheduleForm* sform);
 
 
-void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
+void	ug_schedule_form_init (struct UgScheduleForm* sform)
 {
 	GtkWidget*	widget;
 	GtkTable*	table;
 	GtkBox*		hbox;
 	GtkBox*		vbox;
 
-	sgrid->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	vbox = (GtkBox*) sgrid->self;
+	sform->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	vbox = (GtkBox*) sform->self;
 
 	// Enable Scheduler
 	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
@@ -100,8 +100,8 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
 	gtk_box_pack_start (hbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), TRUE, TRUE, 2);
 	g_signal_connect (widget, "toggled",
-			G_CALLBACK (on_enable_toggled), sgrid);
-	sgrid->enable = widget;
+			G_CALLBACK (on_enable_toggled), sform);
+	sform->enable = widget;
 
 	// grid
 	widget = gtk_drawing_area_new ();
@@ -112,26 +112,26 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 	gtk_widget_add_events (widget,
 			GDK_BUTTON_PRESS_MASK | GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK);
 	g_signal_connect (widget, "draw",
-			G_CALLBACK (on_draw_callback), sgrid);
+			G_CALLBACK (on_draw_callback), sform);
 	g_signal_connect (widget, "button-press-event",
-			G_CALLBACK (on_button_press_event), sgrid);
+			G_CALLBACK (on_button_press_event), sform);
 	g_signal_connect (widget, "motion-notify-event",
-			G_CALLBACK (on_motion_notify_event), sgrid);
+			G_CALLBACK (on_motion_notify_event), sform);
 	g_signal_connect (widget, "leave-notify-event",
-			G_CALLBACK (on_leave_notify_event), sgrid);
-	sgrid->grid = widget;
+			G_CALLBACK (on_leave_notify_event), sform);
+	sform->grid = widget;
 
 	// table for tips, SpinButton
-	sgrid->table = gtk_table_new (5, 5, FALSE);
-	gtk_box_pack_start (vbox, sgrid->table, FALSE, FALSE, 2);
-//	gtk_container_set_border_width (GTK_CONTAINER (sgrid->table), 10);
-	table = (GtkTable*) sgrid->table;
+	sform->table = gtk_table_new (5, 5, FALSE);
+	gtk_box_pack_start (vbox, sform->table, FALSE, FALSE, 2);
+//	gtk_container_set_border_width (GTK_CONTAINER (sform->table), 10);
+	table = (GtkTable*) sform->table;
 	// time tips
 	widget = gtk_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (widget), (gfloat)0.4, (gfloat)0.5);	// left, center
 	gtk_table_attach (table, widget, 0, 5, 0, 1,
 			GTK_FILL, GTK_FILL, 5, 5);
-	sgrid->time_tips = GTK_LABEL (widget);
+	sform->time_tips = GTK_LABEL (widget);
 	// grid - Turn off
 	widget = ug_grid_one_new (colors[UG_SCHEDULE_TURN_OFF]);
 	gtk_table_attach (table, widget, 0, 1, 1, 2,
@@ -174,7 +174,7 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
 	widget = gtk_spin_button_new_with_range (5, 99999999, 1);
 	gtk_table_attach (table, widget, 2, 3, 3, 4,
 			GTK_SHRINK, GTK_SHRINK, 2, 2);
-	sgrid->spin_speed = (GtkSpinButton*) widget;
+	sform->spin_speed = (GtkSpinButton*) widget;
 	// label - KiB/s
 	widget = gtk_label_new ("KiB/s");
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
@@ -183,48 +183,48 @@ void	ug_schedule_grid_init (struct UgScheduleGrid* sgrid)
  */
 
 	// change sensitive state
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sgrid->enable), FALSE);
-	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (sgrid->enable));
-	gtk_widget_show_all (sgrid->self);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sform->enable), FALSE);
+	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (sform->enable));
+	gtk_widget_show_all (sform->self);
 }
 
-void	ug_schedule_grid_get (struct UgScheduleGrid* sgrid, UgSetting* setting)
+void	ug_schedule_form_get (struct UgScheduleForm* sform, UgSetting* setting)
 {
 //	gint	value;
 
-	memcpy (setting->scheduler.state, sgrid->state, sizeof (setting->scheduler.state));
-	setting->scheduler.enable = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (sgrid->enable));
+	memcpy (setting->scheduler.state, sform->state, sizeof (setting->scheduler.state));
+	setting->scheduler.enable = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (sform->enable));
 
-//	value = gtk_spin_button_get_value_as_int (sgrid->spin_speed);
+//	value = gtk_spin_button_get_value_as_int (sform->spin_speed);
 //	setting->scheduler.speed_limit = value * 1024;
 }
 
-void	ug_schedule_grid_set (struct UgScheduleGrid* sgrid, UgSetting* setting)
+void	ug_schedule_form_set (struct UgScheduleForm* sform, UgSetting* setting)
 {
 //	gint	value;
 
-	memcpy (sgrid->state, setting->scheduler.state, sizeof (sgrid->state));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sgrid->enable), setting->scheduler.enable);
-	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (sgrid->enable));
+	memcpy (sform->state, setting->scheduler.state, sizeof (sform->state));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sform->enable), setting->scheduler.enable);
+	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (sform->enable));
 
 //	value = setting->scheduler.speed_limit / 1024;
-//	gtk_spin_button_set_value (sgrid->spin_speed, value);
+//	gtk_spin_button_set_value (sform->spin_speed, value);
 }
 
 
 // ----------------------------------------------------------------------------
 // signal handler
 //
-static void	on_enable_toggled (GtkToggleButton* togglebutton, struct UgScheduleGrid* sgrid)
+static void	on_enable_toggled (GtkToggleButton* togglebutton, struct UgScheduleForm* sform)
 {
 	gboolean	active;
 
 	active = gtk_toggle_button_get_active (togglebutton);
-	gtk_widget_set_sensitive (sgrid->grid, active);
-	gtk_widget_set_sensitive (sgrid->table, active);
+	gtk_widget_set_sensitive (sform->grid, active);
+	gtk_widget_set_sensitive (sform->table, active);
 }
 
-static gboolean on_draw_callback (GtkWidget* widget, cairo_t* cr, struct UgScheduleGrid* sgrid)
+static gboolean on_draw_callback (GtkWidget* widget, cairo_t* cr, struct UgScheduleForm* sform)
 {
 	gboolean	sensitive;
 	gint		y, x;
@@ -256,8 +256,8 @@ static gboolean on_draw_callback (GtkWidget* widget, cairo_t* cr, struct UgSched
 	}
 	g_object_unref (layout);
 
-	if (sgrid->grid_offset == 0)
-		sgrid->grid_offset = ox;
+	if (sform->grid_offset == 0)
+		sform->grid_offset = ox;
 	// draw grid columns
 	for (cx = 0.5;  cx <= GRID_WIDTH_ALL;  cx += GRID_WIDTH_LINE) {
 		cairo_move_to (cr, ox + cx, 0 + 0.5);
@@ -281,9 +281,9 @@ static gboolean on_draw_callback (GtkWidget* widget, cairo_t* cr, struct UgSched
 		for (cx = 1.5+ox, x = 0;  x < 24;  x++, cx+=GRID_WIDTH_LINE) {
 			if (sensitive) {
 				cairo_set_source_rgb (cr,
-						colors [sgrid->state[y][x]][0],
-						colors [sgrid->state[y][x]][1],
-						colors [sgrid->state[y][x]][2]);
+						colors [sform->state[y][x]][0],
+						colors [sform->state[y][x]][1],
+						colors [sform->state[y][x]][2]);
 			}
 			cairo_rectangle (cr,
 					cx,
@@ -297,25 +297,25 @@ static gboolean on_draw_callback (GtkWidget* widget, cairo_t* cr, struct UgSched
 	return FALSE;
 }
 
-static gboolean on_button_press_event (GtkWidget *widget, GdkEventMotion *event, struct UgScheduleGrid* sgrid)
+static gboolean on_button_press_event (GtkWidget *widget, GdkEventMotion *event, struct UgScheduleForm* sform)
 {
 	gint			x, y;
 	cairo_t*		cr;
 	UgScheduleState	state;
 
-	x  = (event->x - sgrid->grid_offset) / GRID_WIDTH_LINE;
+	x  = (event->x - sform->grid_offset) / GRID_WIDTH_LINE;
 	y  =  event->y / GRID_HEIGHT_LINE;
 	if (x < 0 || y < 0 || x >= 24 || y >= 7)
 		return FALSE;
 
-	state = (sgrid->state[y][x] == UG_SCHEDULE_TURN_OFF) ? UG_SCHEDULE_NORMAL : UG_SCHEDULE_TURN_OFF;
-//	state = sgrid->state[y][x] + 1;
+	state = (sform->state[y][x] == UG_SCHEDULE_TURN_OFF) ? UG_SCHEDULE_NORMAL : UG_SCHEDULE_TURN_OFF;
+//	state = sform->state[y][x] + 1;
 //	if (state == UG_SCHEDULE_UPLOAD_ONLY)
 //		state++;
 //	if (state  > UG_SCHEDULE_NORMAL)
 //		state  = UG_SCHEDULE_TURN_OFF;
-	sgrid->state[y][x] = state;
-	sgrid->last_state = state;
+	sform->state[y][x] = state;
+	sform->last_state = state;
 	// cairo
 	cr = gdk_cairo_create (gtk_widget_get_window (widget));
 	cairo_set_source_rgb (cr,
@@ -323,7 +323,7 @@ static gboolean on_button_press_event (GtkWidget *widget, GdkEventMotion *event,
 			colors [state][1],
 			colors [state][2]);
 	cairo_rectangle (cr,
-			(gdouble)x * GRID_WIDTH_LINE  + 1.0 + 0.5 + sgrid->grid_offset,
+			(gdouble)x * GRID_WIDTH_LINE  + 1.0 + 0.5 + sform->grid_offset,
 			(gdouble)y * GRID_HEIGHT_LINE + 1.0 + 0.5,
 			GRID_WIDTH  - 0.5,
 			GRID_HEIGHT - 0.5);
@@ -333,7 +333,7 @@ static gboolean on_button_press_event (GtkWidget *widget, GdkEventMotion *event,
 	return TRUE;
 }
 
-static gboolean on_motion_notify_event (GtkWidget *widget, GdkEventMotion *event, struct UgScheduleGrid* sgrid)
+static gboolean on_motion_notify_event (GtkWidget *widget, GdkEventMotion *event, struct UgScheduleForm* sform)
 {
 	gint			x, y;
 	gchar*			string;
@@ -344,29 +344,29 @@ static gboolean on_motion_notify_event (GtkWidget *widget, GdkEventMotion *event
 
 	gdkwin = gtk_widget_get_window (widget);
 	gdk_window_get_device_position (gdkwin, event->device, &x, &y, &mod);
-	x -= sgrid->grid_offset;
+	x -= sform->grid_offset;
 	x /= GRID_WIDTH_LINE;
 	y /= GRID_HEIGHT_LINE;
 	if (x < 0 || y < 0 || x >= 24 || y >= 7) {
 		// clear time_tips
-		gtk_label_set_text (sgrid->time_tips, "");
+		gtk_label_set_text (sform->time_tips, "");
 		return FALSE;
 	}
 	// update time_tips
 	string = g_strdup_printf ("%s, %.2d:00 - %.2d:59",
 			gettext (week_days[y]), x, x);
-	gtk_label_set_text (sgrid->time_tips, string);
+	gtk_label_set_text (sform->time_tips, string);
 	g_free (string);
 	// if no button press
 	if ((mod & GDK_BUTTON1_MASK) == 0)
 		return FALSE;
 
-	state = sgrid->last_state;
-	sgrid->state[y][x] = state;
+	state = sform->last_state;
+	sform->state[y][x] = state;
 	// cairo
 	cr = gdk_cairo_create (gdkwin);
 	cairo_rectangle (cr,
-			sgrid->grid_offset, 0,
+			sform->grid_offset, 0,
 			GRID_WIDTH_ALL, GRID_HEIGHT_ALL);
 	cairo_clip (cr);
 	cairo_set_source_rgb (cr,
@@ -374,7 +374,7 @@ static gboolean on_motion_notify_event (GtkWidget *widget, GdkEventMotion *event
 			colors [state][1],
 			colors [state][2]);
 	cairo_rectangle (cr,
-			(gdouble)x * GRID_WIDTH_LINE  + 1.0 + 0.5 + sgrid->grid_offset,
+			(gdouble)x * GRID_WIDTH_LINE  + 1.0 + 0.5 + sform->grid_offset,
 			(gdouble)y * GRID_HEIGHT_LINE + 1.0 + 0.5,
 			GRID_WIDTH  - 0.5,
 			GRID_HEIGHT - 0.5);
@@ -384,9 +384,9 @@ static gboolean on_motion_notify_event (GtkWidget *widget, GdkEventMotion *event
 	return TRUE;
 }
 
-static gboolean	on_leave_notify_event (GtkWidget* menu, GdkEventCrossing* event, struct UgScheduleGrid* sgrid)
+static gboolean	on_leave_notify_event (GtkWidget* menu, GdkEventCrossing* event, struct UgScheduleForm* sform)
 {
-	gtk_label_set_text (sgrid->time_tips, "");
+	gtk_label_set_text (sform->time_tips, "");
 	return TRUE;
 }
 

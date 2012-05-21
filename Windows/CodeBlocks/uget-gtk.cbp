@@ -134,10 +134,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\uget-gtk\UgProxyForm.h" />
-		<Unit filename="..\..\uget-gtk\UgScheduleGrid.c">
+		<Unit filename="..\..\uget-gtk\UgScheduleForm.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\uget-gtk\UgScheduleGrid.h" />
+		<Unit filename="..\..\uget-gtk\UgScheduleForm.h" />
 		<Unit filename="..\..\uget-gtk\UgSelector.c">
 			<Option compilerVar="CC" />
 		</Unit>

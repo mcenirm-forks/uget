@@ -30,7 +30,7 @@ uget-gtk/UgDownloadDialog.c
 uget-gtk/UgDownloadForm.c
 uget-gtk/UgDownloadWidget.c
 uget-gtk/UgProxyForm.c
-uget-gtk/UgScheduleGrid.c
+uget-gtk/UgScheduleForm.c
 uget-gtk/UgSelector.c
 uget-gtk/UgSettingDialog.c
 uget-gtk/UgSettingForm.c
