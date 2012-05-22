@@ -42,55 +42,55 @@
 void	ug_category_form_init (UgCategoryForm* cform)
 {
 	GtkWidget*	label;
-	GtkTable*	top_table;
-	GtkTable*	table;
+	GtkGrid*	top_grid;
+	GtkGrid*	grid;
 
-	cform->self = gtk_table_new (3, 2, FALSE);
-	top_table  = (GtkTable*) cform->self;
-	gtk_container_set_border_width (GTK_CONTAINER (top_table), 2);
+	cform->self = gtk_grid_new ();
+	top_grid  = (GtkGrid*) cform->self;
+	gtk_container_set_border_width (GTK_CONTAINER (top_grid), 2);
 
 	cform->name_entry = gtk_entry_new ();
 	cform->name_label = gtk_label_new_with_mnemonic (_("Category _name:"));
 	gtk_entry_set_activates_default (GTK_ENTRY (cform->name_entry), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (cform->name_label), cform->name_entry);
-	gtk_table_attach (top_table, cform->name_label, 0, 1, 0, 1,
-			GTK_SHRINK, GTK_SHRINK, 2, 2);
-	gtk_table_attach (top_table, cform->name_entry, 1, 2, 0, 1,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 2, 2);
+	g_object_set (cform->name_label, "margin", 2, NULL);
+	g_object_set (cform->name_entry, "margin", 2, "hexpand", TRUE, NULL);
+	gtk_grid_attach (top_grid, cform->name_label, 0, 0, 1, 1);
+	gtk_grid_attach (top_grid, cform->name_entry, 1, 0, 1, 1);
 
 	// option table
-	table = (GtkTable*) gtk_table_new (3, 2, FALSE);
-	gtk_table_attach (top_table, GTK_WIDGET (table), 0, 2, 1, 2,
-			GTK_FILL, GTK_SHRINK, 0, 2);
+	grid = (GtkGrid*) gtk_grid_new ();
+	g_object_set (grid, "margin-top", 2, "margin-bottom", 2, NULL);
+	gtk_grid_attach (top_grid, GTK_WIDGET (grid), 0, 1, 2, 1);
 
 	cform->spin_active = gtk_spin_button_new_with_range (1.0, 20.0, 1.0);
 	gtk_entry_set_width_chars (GTK_ENTRY(cform->spin_active), 4);
 	label = gtk_label_new_with_mnemonic (_("Active _downloads:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL(label), cform->spin_active);
-	gtk_table_attach (table, label, 0, 1, 0, 1,
-			GTK_SHRINK, GTK_SHRINK, 2, 2);
-	gtk_table_attach (table, cform->spin_active, 1, 2, 0, 1,
-			GTK_SHRINK, GTK_SHRINK, 0, 2);
+	g_object_set (label, "margin", 2, NULL);
+	g_object_set (cform->spin_active, "margin-top", 2, "margin-bottom", 2, NULL);
+	gtk_grid_attach (grid, label, 0, 0, 1, 1);
+	gtk_grid_attach (grid, cform->spin_active, 1, 0, 1, 1);
 
 	cform->spin_finished = gtk_spin_button_new_with_range (0.0, 9999.0, 1.0);
 	label = gtk_label_new_with_mnemonic (_("Capacity of Finished:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL(label), cform->spin_finished);
 	gtk_entry_set_width_chars (GTK_ENTRY(cform->spin_finished), 4);
-	gtk_table_attach (table, label, 0, 1, 1, 2,
-			GTK_SHRINK, GTK_SHRINK, 2, 2);
-	gtk_table_attach (table, cform->spin_finished, 1, 2, 1, 2,
-			GTK_SHRINK, GTK_SHRINK, 0, 2);
+	g_object_set (label, "margin", 2, NULL);
+	g_object_set (cform->spin_finished, "margin-top", 2, "margin-bottom", 2, NULL);
+	gtk_grid_attach (grid, label, 0, 1, 1, 1);
+	gtk_grid_attach (grid, cform->spin_finished, 1, 1, 1, 1);
 
 	cform->spin_recycled = gtk_spin_button_new_with_range (0.0, 9999.0, 1.0);
 	label = gtk_label_new_with_mnemonic (_("Capacity of Recycled:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL(label), cform->spin_recycled);
 	gtk_entry_set_width_chars (GTK_ENTRY(cform->spin_recycled), 4);
-	gtk_table_attach (table, label, 0, 1, 2, 3,
-			GTK_SHRINK, GTK_SHRINK, 2, 2);
-	gtk_table_attach (table, cform->spin_recycled, 1, 2, 2, 3,
-			GTK_SHRINK, GTK_SHRINK, 0, 2);
+	g_object_set (label, "margin", 2, NULL);
+	g_object_set (cform->spin_recycled, "margin-top", 2, "margin-bottom", 2, NULL);
+	gtk_grid_attach (grid, label, 0, 2, 1, 1);
+	gtk_grid_attach (grid, cform->spin_recycled, 1, 2, 1, 1);
 
-	gtk_widget_show_all (GTK_WIDGET (top_table));
+	gtk_widget_show_all (GTK_WIDGET (top_grid));
 }
 
 void	ug_category_form_get  (UgCategoryForm*  cform, UgCategory* category)
