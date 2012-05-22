@@ -84,7 +84,7 @@ void	ug_proxy_form_init (UgProxyForm* pform, gboolean integrated)
 	gtk_box_pack_end (GTK_BOX (vbox), pform->std, TRUE, TRUE, 0);
 
 #ifdef HAVE_LIBPWMD
-	gtk_combo_box_insert_text (GTK_COMBO_BOX (pform->type),
+	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
 			UG_DATA_PROXY_PWMD, "PWMD");
 
 	ug_proxy_form_pwmd_init (&pform->pwmd, pform);
@@ -106,7 +106,7 @@ void	ug_proxy_form_init (UgProxyForm* pform, gboolean integrated)
 
 static void	ug_proxy_form_std_init (UgProxyForm* pform)
 {
-	GtkTable*	table;
+	GtkGrid*	grid;
 	GtkWidget*	widget;
 	GtkWidget*	hbox;
 
@@ -115,18 +115,19 @@ static void	ug_proxy_form_std_init (UgProxyForm* pform)
 	pform->changed.user = FALSE;
 	pform->changed.password = FALSE;
 
-	pform->std = gtk_table_new (2, 5, FALSE);
-	table      = (GtkTable*) pform->std;
+	pform->std = gtk_grid_new ();
+	grid       = (GtkGrid*) pform->std;
 	// host label & entry
 	widget = gtk_label_new_with_mnemonic (_("Host:"));
 	pform->host = gtk_entry_new ();
 	gtk_entry_set_width_chars (GTK_ENTRY (pform->host), 8);
 	gtk_entry_set_activates_default (GTK_ENTRY (pform->host), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pform->host);
-	gtk_table_attach (table, widget, 0, 1, 0, 1,
-			GTK_SHRINK, GTK_SHRINK, 3, 1);
-	gtk_table_attach (table, pform->host, 1, 2, 0, 1,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
+	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
+	g_object_set (pform->host, "margin", 1, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
+	gtk_grid_attach (grid, pform->host, 1, 0, 1, 1);
 	// port label & entry
 	widget = gtk_label_new_with_mnemonic (_("Port:"));
 	pform->port  = gtk_spin_button_new_with_range (0.0, 65535.0, 1.0);
@@ -134,23 +135,26 @@ static void	ug_proxy_form_std_init (UgProxyForm* pform)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pform->port);
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), pform->port, FALSE, FALSE, 0);
-	gtk_table_attach (table, widget, 0, 1, 1, 2,
-			GTK_SHRINK, GTK_SHRINK, 3, 1);
-	gtk_table_attach (table, hbox, 1, 2, 1, 2,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
+	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
+	g_object_set (hbox, "margin", 1, NULL);
+	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
+	gtk_grid_attach (grid, hbox, 1, 1, 1, 1);
 	// center separator
-	gtk_table_attach (table, gtk_separator_new (GTK_ORIENTATION_VERTICAL), 2, 3, 0, 2,
-	                  GTK_FILL, GTK_FILL, 2, 1);
+	widget = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+	g_object_set (widget, "margin", 1, NULL);
+	gtk_grid_attach (grid, widget, 2, 0, 1, 2);
 	// user label & entry
 	widget = gtk_label_new_with_mnemonic (_("User:"));
 	pform->user = gtk_entry_new ();
 	gtk_entry_set_width_chars (GTK_ENTRY (pform->user), 7);
 	gtk_entry_set_activates_default (GTK_ENTRY (pform->user), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pform->user);
-	gtk_table_attach (table, widget, 3, 4, 0, 1,
-			GTK_SHRINK, GTK_SHRINK, 3, 1);
-	gtk_table_attach (table, pform->user, 4, 5, 0, 1,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
+	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
+	g_object_set (pform->user, "margin", 1, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, widget, 3, 0, 1, 1);
+	gtk_grid_attach (grid, pform->user, 4, 0, 1, 1);
 	// password label & entry
 	widget = gtk_label_new_with_mnemonic (_("Password:"));
 	pform->password = gtk_entry_new ();
@@ -158,10 +162,11 @@ static void	ug_proxy_form_std_init (UgProxyForm* pform)
 	gtk_entry_set_width_chars (GTK_ENTRY (pform->password), 7);
 	gtk_entry_set_activates_default (GTK_ENTRY (pform->password), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pform->password);
-	gtk_table_attach (table, widget, 3, 4, 1, 2,
-			GTK_SHRINK, GTK_SHRINK, 3, 1);
-	gtk_table_attach (table, pform->password, 4, 5, 1, 2,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 1, 1);
+	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
+	g_object_set (pform->password, "margin", 1, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, widget, 3, 1, 1, 1);
+	gtk_grid_attach (grid, pform->password, 4, 1, 1, 1);
 
 	g_signal_connect (GTK_EDITABLE (pform->user), "changed",
 			G_CALLBACK (on_entry_std_changed), pform);
@@ -321,40 +326,44 @@ static void on_entry_std_changed (GtkEditable* editable, UgProxyForm* pform)
 #ifdef HAVE_LIBPWMD
 static void	ug_proxy_form_pwmd_init (struct UgProxyFormPwmd* pfp, UgProxyForm* pform)
 {
-	GtkTable*	table;
+	GtkGrid*	grid;
 	GtkWidget*	widget;
 
-	pfp->self = gtk_table_new (2, 5, FALSE);
-	table = (GtkTable*) pfp->self;
+	pfp->self = gtk_grid_new ();
+	grid = (GtkGrid*) pfp->self;
 	widget = gtk_label_new_with_mnemonic (_("Socket:"));
 	pfp->socket = gtk_entry_new ();
 	gtk_entry_set_width_chars (GTK_ENTRY (pfp->socket), 16);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pfp->socket);
-	gtk_table_attach (table, widget, 0, 1, 0, 1,
-			GTK_SHRINK, GTK_SHRINK, 3, 1);
-	gtk_table_attach (table, pfp->socket, 1, 2, 0, 1,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 1);
+	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
+	g_object_set (pfp->socket, "margin", 1, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
+	gtk_grid_attach (grid, pfp->socket, 1, 0, 1, 1);
 
 	widget = gtk_label_new_with_mnemonic (_("File:"));
 	pfp->file = gtk_entry_new ();
 	gtk_entry_set_width_chars (GTK_ENTRY (pfp->file), 16);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pfp->file);
-	gtk_table_attach (table, widget, 0, 1, 1, 2,
-			GTK_SHRINK, GTK_SHRINK, 3, 1);
-	gtk_table_attach (table, pfp->file, 1, 2, 1, 2,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 1);
+	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
+	g_object_set (pfp->file, "margin", 1, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
+	gtk_grid_attach (grid, pfp->file, 1, 1, 1, 1);
 
-	gtk_table_attach (table, gtk_separator_new (GTK_ORIENTATION_VERTICAL), 2, 3, 0, 2,
-			GTK_FILL, GTK_FILL, 2, 1);
+	widget = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+	g_object_set (widget, "margin", 1, NULL);
+	gtk_grid_attach (grid, widget, 2, 0, 1, 2);
 
 	widget = gtk_label_new_with_mnemonic (_("Element:"));
 	pfp->element = gtk_entry_new ();
 	gtk_entry_set_width_chars (GTK_ENTRY (pfp->element), 16);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pfp->element);
-	gtk_table_attach (table, widget, 3, 4, 0, 1,
-			GTK_SHRINK, GTK_SHRINK, 3, 1);
-	gtk_table_attach (table, pfp->element, 4, 5, 0, 1,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 1);
+	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
+	g_object_set (pfp->element, "margin", 1, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, widget, 3, 0, 1, 1);
+	gtk_grid_attach (grid, pfp->element, 4, 0, 1, 1);
 
 	g_signal_connect (GTK_EDITABLE (pform->pwmd.socket), "changed",
 			G_CALLBACK (on_entry_pwmd_changed), pform);
@@ -363,8 +372,8 @@ static void	ug_proxy_form_pwmd_init (struct UgProxyFormPwmd* pfp, UgProxyForm* p
 	g_signal_connect (GTK_EDITABLE (pform->pwmd.element), "changed",
 			G_CALLBACK (on_entry_pwmd_changed), pform);
 
-	gtk_widget_show_all ((GtkWidget*) table);
-	gtk_widget_hide ((GtkWidget*) table);
+	gtk_widget_show_all ((GtkWidget*) grid);
+	gtk_widget_hide ((GtkWidget*) grid);
 }
 
 static void on_entry_pwmd_changed (GtkEditable* editable, UgProxyForm* pform)

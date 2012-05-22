@@ -82,7 +82,7 @@ struct UgProxyForm
 	} changed;
 
 
-#ifdef HAVE_LIBPWMD
+//#ifdef HAVE_LIBPWMD
 	struct UgProxyFormPwmd
 	{
 		GtkWidget*		self;
@@ -98,7 +98,7 @@ struct UgProxyForm
 			gboolean		element:1;
 		} changed;
 	} pwmd;
-#endif	// HAVE_LIBPWMD
+//#endif	// HAVE_LIBPWMD
 };
 
 void	ug_proxy_form_init (UgProxyForm* pform, gboolean integrated);
