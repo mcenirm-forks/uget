@@ -123,7 +123,7 @@ static void	ug_proxy_form_std_init (UgProxyForm* pform)
 	gtk_entry_set_width_chars (GTK_ENTRY (pform->host), 8);
 	gtk_entry_set_activates_default (GTK_ENTRY (pform->host), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pform->host);
-	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
 	g_object_set (pform->host, "margin", 1, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
@@ -135,7 +135,7 @@ static void	ug_proxy_form_std_init (UgProxyForm* pform)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pform->port);
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), pform->port, FALSE, FALSE, 0);
-	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
 	g_object_set (hbox, "margin", 1, NULL);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
@@ -150,7 +150,7 @@ static void	ug_proxy_form_std_init (UgProxyForm* pform)
 	gtk_entry_set_width_chars (GTK_ENTRY (pform->user), 7);
 	gtk_entry_set_activates_default (GTK_ENTRY (pform->user), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pform->user);
-	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
 	g_object_set (pform->user, "margin", 1, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 3, 0, 1, 1);
@@ -162,7 +162,7 @@ static void	ug_proxy_form_std_init (UgProxyForm* pform)
 	gtk_entry_set_width_chars (GTK_ENTRY (pform->password), 7);
 	gtk_entry_set_activates_default (GTK_ENTRY (pform->password), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pform->password);
-	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
 	g_object_set (pform->password, "margin", 1, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 3, 1, 1, 1);
@@ -335,7 +335,7 @@ static void	ug_proxy_form_pwmd_init (struct UgProxyFormPwmd* pfp, UgProxyForm* p
 	pfp->socket = gtk_entry_new ();
 	gtk_entry_set_width_chars (GTK_ENTRY (pfp->socket), 16);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pfp->socket);
-	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
 	g_object_set (pfp->socket, "margin", 1, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
@@ -345,7 +345,7 @@ static void	ug_proxy_form_pwmd_init (struct UgProxyFormPwmd* pfp, UgProxyForm* p
 	pfp->file = gtk_entry_new ();
 	gtk_entry_set_width_chars (GTK_ENTRY (pfp->file), 16);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pfp->file);
-	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
 	g_object_set (pfp->file, "margin", 1, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
@@ -359,7 +359,7 @@ static void	ug_proxy_form_pwmd_init (struct UgProxyFormPwmd* pfp, UgProxyForm* p
 	pfp->element = gtk_entry_new ();
 	gtk_entry_set_width_chars (GTK_ENTRY (pfp->element), 16);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pfp->element);
-	g_object_set (widget, "margin-right", 3, "margin-left", 3, NULL);
+	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
 	g_object_set (pfp->element, "margin", 1, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 3, 0, 1, 1);
