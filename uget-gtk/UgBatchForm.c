@@ -48,49 +48,51 @@ static void	on_radio2_clicked (GtkWidget* widget, UgBatchForm* bform);
 
 void	ug_batch_form_init (UgBatchForm* bform)
 {
-	GtkTable*		table;
+	GtkGrid*		grid;
 	GtkWidget*		label;
 	GtkWidget*		entry;
+	GtkWidget*		widget;
 	GtkAdjustment*	spin_adj;
 
 	// top widget
-	bform->self = gtk_table_new (6, 6, FALSE);
-	table = (GtkTable*) bform->self;
+	bform->self = gtk_grid_new ();
+	grid = (GtkGrid*) bform->self;
+	gtk_grid_set_row_homogeneous (grid, FALSE);
 	// URL entry
 	entry = gtk_entry_new ();
 	label = gtk_label_new_with_mnemonic (_("_URL:"));
 	bform->entry = GTK_ENTRY (entry);
 	gtk_label_set_mnemonic_widget(GTK_LABEL (label), entry);
 	gtk_entry_set_activates_default (bform->entry, TRUE);
-	gtk_table_attach (table, label, 0, 1, 0, 1,
-			GTK_SHRINK, GTK_SHRINK, 3, 3);
-	gtk_table_attach (table, entry, 1, 6, 0, 1,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 3);
+	g_object_set (label, "margin", 3, NULL);
+	g_object_set (entry, "margin", 3, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, label, 0, 0, 1, 1);
+	gtk_grid_attach (grid, entry, 1, 0, 5, 1);
 	g_signal_connect_swapped (GTK_EDITABLE (entry), "changed",
 			G_CALLBACK (ug_batch_form_update_preview), bform);
 	// e.g.
 	label = gtk_label_new (_("e.g."));
-	gtk_table_attach (table, label, 0, 1, 1, 2,
-			GTK_SHRINK, GTK_SHRINK, 3, 3);
+	g_object_set (label, "margin", 3, NULL);
+	gtk_grid_attach (grid, label, 0, 1, 1, 1);
 	label = gtk_label_new ("http://for.example/path/pre*.jpg");
-	gtk_table_attach (table, label, 1, 6, 1, 2,
-			GTK_SHRINK, GTK_SHRINK, 3, 3);
-	gtk_table_attach (table, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), 0, 6, 2, 3,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 3);
+	g_object_set (label, "margin", 3, NULL);
+	gtk_grid_attach (grid, label, 1, 1, 5, 1);
+	widget = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_grid_attach (grid, widget, 0, 2, 6, 1);
 
 	// -------------------------------------------------------
 	// radio "From"
 	bform->radio = gtk_radio_button_new_with_mnemonic (NULL, _("_From:"));
+	g_object_set (bform->radio, "margin", 3, NULL);
+	gtk_grid_attach (grid, bform->radio, 0, 3, 1, 1);
 	g_signal_connect (bform->radio, "clicked",
 			G_CALLBACK (on_radio1_clicked), bform);
-	gtk_table_attach (table, bform->radio, 0, 1, 3, 4,
-			GTK_SHRINK, GTK_SHRINK, 3, 3);
 	// spin "From"
 	spin_adj = (GtkAdjustment *) gtk_adjustment_new (0.0, 0.0,
 				99999.0, 1.0, 5.0, 0.0);
 	bform->spin_from = gtk_spin_button_new (spin_adj, 1.0, 0);
-	gtk_table_attach (table, bform->spin_from, 1, 2, 3, 4,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 3);
+	g_object_set (bform->spin_from, "margin", 3, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, bform->spin_from, 1, 3, 1, 1);
 	g_signal_connect_swapped (bform->spin_from, "value-changed",
 			G_CALLBACK (ug_batch_form_update_preview), bform);
 
@@ -98,13 +100,14 @@ void	ug_batch_form_init (UgBatchForm* bform)
 	spin_adj = (GtkAdjustment *) gtk_adjustment_new (10.0, 1.0,
 				99999.0, 1.0, 5.0, 0.0);
 	bform->spin_to = gtk_spin_button_new (spin_adj, 1.0, 0);
-	gtk_table_attach (table, bform->spin_to, 3, 4, 3, 4,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 3);
+	g_object_set (bform->spin_to, "margin", 3, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, bform->spin_to, 3, 3, 1, 1);
 	g_signal_connect_swapped (bform->spin_to, "value-changed",
 			G_CALLBACK (ug_batch_form_update_preview), bform);
 	// label "To"
 	label = gtk_label_new_with_mnemonic (_("To:"));
-	gtk_table_attach (table, label, 2, 3, 3, 4, GTK_SHRINK, GTK_SHRINK, 3, 3);
+	g_object_set (label, "margin", 3, NULL);
+	gtk_grid_attach (grid, label, 2, 3, 1, 1);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), bform->spin_to);
 	bform->label_to = label;
 
@@ -112,13 +115,14 @@ void	ug_batch_form_init (UgBatchForm* bform)
 	spin_adj = (GtkAdjustment *) gtk_adjustment_new (2.0, 1.0,
 			20.0, 1.0, 5.0, 0.0);
 	bform->spin_digits = gtk_spin_button_new (spin_adj, 1.0, 0);
-	gtk_table_attach (table, bform->spin_digits, 5, 6, 3, 4,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 3);
+	g_object_set (bform->spin_digits, "margin", 3, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, bform->spin_digits, 5, 3, 1, 1);
 	g_signal_connect_swapped (bform->spin_digits, "value-changed",
 			G_CALLBACK (ug_batch_form_update_preview), bform);
 	// label "digits"
 	label = gtk_label_new_with_mnemonic (_("digits:"));
-	gtk_table_attach (table, label, 4, 5, 3, 4, GTK_SHRINK, GTK_SHRINK, 3, 3);
+	g_object_set (label, "margin", 3, NULL);
+	gtk_grid_attach (grid, label, 4, 3, 1, 1);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), bform->spin_digits);
 	bform->label_digits = label;
 
@@ -126,8 +130,8 @@ void	ug_batch_form_init (UgBatchForm* bform)
 	// radio "From"
 	bform->radio = gtk_radio_button_new_with_mnemonic_from_widget (
 			GTK_RADIO_BUTTON (bform->radio), _("F_rom:"));
-	gtk_table_attach (table, bform->radio, 0, 1, 4, 5,
-			GTK_SHRINK, GTK_SHRINK, 3, 3);
+	g_object_set (bform->radio, "margin", 3, NULL);
+	gtk_grid_attach (grid, bform->radio, 0, 4, 1, 1);
 	g_signal_connect (bform->radio, "clicked",
 			G_CALLBACK (on_radio2_clicked), bform);
 	// entry "From"
@@ -137,8 +141,8 @@ void	ug_batch_form_init (UgBatchForm* bform)
 	gtk_entry_set_max_length (bform->entry_from, 1);
 	gtk_entry_set_width_chars (bform->entry_from, 2);
 	gtk_widget_set_sensitive (entry, FALSE);
-	gtk_table_attach (table, entry, 1, 2, 4, 5,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 3);
+	g_object_set (entry, "margin", 3, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, entry, 1, 4, 1, 1);
 	g_signal_connect_swapped (GTK_EDITABLE (entry), "changed",
 			G_CALLBACK (ug_batch_form_update_preview), bform);
 
@@ -149,22 +153,23 @@ void	ug_batch_form_init (UgBatchForm* bform)
 	gtk_entry_set_max_length (bform->entry_to, 1);
 	gtk_entry_set_width_chars (bform->entry_to, 2);
 	gtk_widget_set_sensitive (entry, FALSE);
-	gtk_table_attach (table, entry, 3, 4, 4, 5,
-			GTK_FILL | GTK_EXPAND, GTK_SHRINK, 3, 3);
+	g_object_set (entry, "margin", 3, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, entry, 3, 4, 1, 1);
 	g_signal_connect_swapped (GTK_EDITABLE (bform->entry_to), "changed",
 			G_CALLBACK(ug_batch_form_update_preview), bform);
 
 	// label case-sensitive
 	label = gtk_label_new (_("case-sensitive"));
 	gtk_widget_set_sensitive (label, FALSE);
-	gtk_table_attach (table, label, 4, 6, 4, 5, GTK_FILL, GTK_SHRINK, 3, 3);
+	g_object_set (label, "margin", 3, NULL);
+	gtk_grid_attach (grid, label, 4, 4, 2, 1);
 	bform->label_case = label;
 
 	// -------------------------------------------------------
 	// preview
 	ug_batch_form_preview_init (&bform->preview);
-	gtk_table_attach (table, bform->preview.self, 0, 6, 7, 8,
-			GTK_FILL, GTK_FILL | GTK_EXPAND, 3, 3);
+	g_object_set (bform->preview.self, "margin", 3, "expand", TRUE, NULL);
+	gtk_grid_attach (grid, bform->preview.self, 0, 7, 6, 1);
 
 	ug_batch_form_update_preview (bform);
 	gtk_widget_show_all (bform->self);

@@ -48,7 +48,7 @@ typedef	void	(*UgBatchFormNotify) (gpointer user_data, gboolean completed);
 
 struct UgBatchForm
 {
-	GtkWidget*	self;		// GtkTable
+	GtkWidget*	self;		// GtkGrid
 
 	GtkEntry*	entry;		// URL, wildcard
 	GtkWidget*	radio;		// GtkRadioButton
