@@ -86,7 +86,7 @@ static gboolean	on_leave_notify_event (GtkWidget* menu, GdkEventCrossing* event,
 void	ug_schedule_form_init (struct UgScheduleForm* sform)
 {
 	GtkWidget*	widget;
-	GtkTable*	table;
+	GtkGrid*	caption;
 	GtkBox*		hbox;
 	GtkBox*		vbox;
 
@@ -103,7 +103,7 @@ void	ug_schedule_form_init (struct UgScheduleForm* sform)
 			G_CALLBACK (on_enable_toggled), sform);
 	sform->enable = widget;
 
-	// grid
+	// drawing area
 	widget = gtk_drawing_area_new ();
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 2);
 //	gtk_widget_set_has_window (widget, FALSE);
@@ -119,69 +119,70 @@ void	ug_schedule_form_init (struct UgScheduleForm* sform)
 			G_CALLBACK (on_motion_notify_event), sform);
 	g_signal_connect (widget, "leave-notify-event",
 			G_CALLBACK (on_leave_notify_event), sform);
-	sform->grid = widget;
+	sform->drawing = widget;
 
-	// table for tips, SpinButton
-	sform->table = gtk_table_new (5, 5, FALSE);
-	gtk_box_pack_start (vbox, sform->table, FALSE, FALSE, 2);
-//	gtk_container_set_border_width (GTK_CONTAINER (sform->table), 10);
-	table = (GtkTable*) sform->table;
+	// grid for tips, SpinButton
+	sform->caption = gtk_grid_new ();
+	gtk_box_pack_start (vbox, sform->caption, FALSE, FALSE, 2);
+//	gtk_container_set_border_width (GTK_CONTAINER (sform->caption), 10);
+	caption = (GtkGrid*) sform->caption;
 	// time tips
 	widget = gtk_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (widget), (gfloat)0.4, (gfloat)0.5);	// left, center
-	gtk_table_attach (table, widget, 0, 5, 0, 1,
-			GTK_FILL, GTK_FILL, 5, 5);
+	g_object_set (widget, "margin", 2, NULL);
+	gtk_grid_attach (caption, widget, 0, 0, 5, 1);
 	sform->time_tips = GTK_LABEL (widget);
-	// grid - Turn off
+
+	// Turn off - gridone
 	widget = ug_grid_one_new (colors[UG_SCHEDULE_TURN_OFF]);
-	gtk_table_attach (table, widget, 0, 1, 1, 2,
-			GTK_SHRINK, GTK_SHRINK, 3, 3);
-	// label - Turn off
+	g_object_set (widget, "margin", 3, NULL);
+	gtk_grid_attach (caption, widget, 0, 1, 1, 1);
+	// Turn off - label
 	widget = gtk_label_new (_("Turn off"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_table_attach (table, widget, 1, 2, 1, 2,
-			GTK_FILL, GTK_SHRINK, 2, 2);
-	// label - Help for Turn off
+	g_object_set (widget, "margin", 2, NULL);
+	gtk_grid_attach (caption, widget, 1, 1, 1, 1);
+	// Turn off - help label
 	widget = gtk_label_new (_("- stop all task"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_table_attach (table, widget, 2, 4, 1, 2,
-			GTK_FILL, GTK_SHRINK, 2, 2);
-	// grid - Normal
+	g_object_set (widget, "margin", 2, NULL);
+	gtk_grid_attach (caption, widget, 2, 1, 2, 1);
+
+	// Normal - gridone
 	widget = ug_grid_one_new (colors[UG_SCHEDULE_NORMAL]);
-	gtk_table_attach (table, widget, 0, 1, 2, 3,
-			GTK_SHRINK, GTK_SHRINK, 3, 3);
-	// label - Normal
+	g_object_set (widget, "margin", 3, NULL);
+	gtk_grid_attach (caption, widget, 0, 2, 1, 1);
+	// Normal - label
 	widget = gtk_label_new (_("Normal"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_table_attach (table, widget, 1, 2, 2, 3,
-			GTK_FILL, GTK_SHRINK, 2, 2);
-	// label - Help for Normal
+	g_object_set (widget, "margin", 2, NULL);
+	gtk_grid_attach (caption, widget, 1, 2, 1, 1);
+	// Normal - help label
 	widget = gtk_label_new (_("- run task normally"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_table_attach (table, widget, 2, 4, 2, 3,
-			GTK_FILL, GTK_SHRINK, 2, 2);
+	g_object_set (widget, "margin", 2, NULL);
+	gtk_grid_attach (caption, widget, 2, 2, 2, 1);
 /*
-	// grid - Speed limit
+	// Speed limit - gridone
 	widget = ug_grid_one_new (colors[UG_SCHEDULE_LIMITED_SPEED]);
-	gtk_table_attach (table, widget, 0, 1, 3, 4,
-			GTK_SHRINK, GTK_SHRINK, 3, 3);
-	// label - Speed limit
+	g_object_set (widget, "margin", 3, NULL);
+	gtk_grid_attach (caption, widget, 0, 3, 1, 1);
+	// Speed limit - label
 	widget = gtk_label_new (_("Limited speed"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_table_attach (table, widget, 1, 2, 3, 4,
-			GTK_FILL, GTK_SHRINK, 2, 2);
-	// SpinButton - Speed limit
+	g_object_set (widget, "margin", 2, NULL);
+	gtk_grid_attach (caption, widget, 1, 3, 1, 1);
+	// Speed limit - SpinButton
 	widget = gtk_spin_button_new_with_range (5, 99999999, 1);
-	gtk_table_attach (table, widget, 2, 3, 3, 4,
-			GTK_SHRINK, GTK_SHRINK, 2, 2);
+	g_object_set (widget, "margin", 2, NULL);
+	gtk_grid_attach (caption, widget, 2, 3, 1, 1);
 	sform->spin_speed = (GtkSpinButton*) widget;
-	// label - KiB/s
+	// Speed limit - KiB/s label
 	widget = gtk_label_new ("KiB/s");
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
-	gtk_table_attach (table, widget, 3, 4, 3, 4,
-			TK_FILL, GTK_SHRINK, 2, 2);
+	g_object_set (widget, "margin", 2, NULL);
+	gtk_grid_attach (caption, widget, 3, 3, 1, 1);
  */
-
 	// change sensitive state
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sform->enable), FALSE);
 	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (sform->enable));
@@ -220,8 +221,8 @@ static void	on_enable_toggled (GtkToggleButton* togglebutton, struct UgScheduleF
 	gboolean	active;
 
 	active = gtk_toggle_button_get_active (togglebutton);
-	gtk_widget_set_sensitive (sform->grid, active);
-	gtk_widget_set_sensitive (sform->table, active);
+	gtk_widget_set_sensitive (sform->drawing, active);
+	gtk_widget_set_sensitive (sform->caption, active);
 }
 
 static gboolean on_draw_callback (GtkWidget* widget, cairo_t* cr, struct UgScheduleForm* sform)
@@ -256,8 +257,8 @@ static gboolean on_draw_callback (GtkWidget* widget, cairo_t* cr, struct UgSched
 	}
 	g_object_unref (layout);
 
-	if (sform->grid_offset == 0)
-		sform->grid_offset = ox;
+	if (sform->drawing_offset == 0)
+		sform->drawing_offset = ox;
 	// draw grid columns
 	for (cx = 0.5;  cx <= GRID_WIDTH_ALL;  cx += GRID_WIDTH_LINE) {
 		cairo_move_to (cr, ox + cx, 0 + 0.5);
@@ -303,7 +304,7 @@ static gboolean on_button_press_event (GtkWidget *widget, GdkEventMotion *event,
 	cairo_t*		cr;
 	UgScheduleState	state;
 
-	x  = (event->x - sform->grid_offset) / GRID_WIDTH_LINE;
+	x  = (event->x - sform->drawing_offset) / GRID_WIDTH_LINE;
 	y  =  event->y / GRID_HEIGHT_LINE;
 	if (x < 0 || y < 0 || x >= 24 || y >= 7)
 		return FALSE;
@@ -323,7 +324,7 @@ static gboolean on_button_press_event (GtkWidget *widget, GdkEventMotion *event,
 			colors [state][1],
 			colors [state][2]);
 	cairo_rectangle (cr,
-			(gdouble)x * GRID_WIDTH_LINE  + 1.0 + 0.5 + sform->grid_offset,
+			(gdouble)x * GRID_WIDTH_LINE  + 1.0 + 0.5 + sform->drawing_offset,
 			(gdouble)y * GRID_HEIGHT_LINE + 1.0 + 0.5,
 			GRID_WIDTH  - 0.5,
 			GRID_HEIGHT - 0.5);
@@ -344,7 +345,7 @@ static gboolean on_motion_notify_event (GtkWidget *widget, GdkEventMotion *event
 
 	gdkwin = gtk_widget_get_window (widget);
 	gdk_window_get_device_position (gdkwin, event->device, &x, &y, &mod);
-	x -= sform->grid_offset;
+	x -= sform->drawing_offset;
 	x /= GRID_WIDTH_LINE;
 	y /= GRID_HEIGHT_LINE;
 	if (x < 0 || y < 0 || x >= 24 || y >= 7) {
@@ -366,7 +367,7 @@ static gboolean on_motion_notify_event (GtkWidget *widget, GdkEventMotion *event
 	// cairo
 	cr = gdk_cairo_create (gdkwin);
 	cairo_rectangle (cr,
-			sform->grid_offset, 0,
+			sform->drawing_offset, 0,
 			GRID_WIDTH_ALL, GRID_HEIGHT_ALL);
 	cairo_clip (cr);
 	cairo_set_source_rgb (cr,
@@ -374,7 +375,7 @@ static gboolean on_motion_notify_event (GtkWidget *widget, GdkEventMotion *event
 			colors [state][1],
 			colors [state][2]);
 	cairo_rectangle (cr,
-			(gdouble)x * GRID_WIDTH_LINE  + 1.0 + 0.5 + sform->grid_offset,
+			(gdouble)x * GRID_WIDTH_LINE  + 1.0 + 0.5 + sform->drawing_offset,
 			(gdouble)y * GRID_HEIGHT_LINE + 1.0 + 0.5,
 			GRID_WIDTH  - 0.5,
 			GRID_HEIGHT - 0.5);

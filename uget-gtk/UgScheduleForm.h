@@ -51,10 +51,10 @@ struct UgScheduleForm
 
 	GtkWidget*		enable;
 
-	GtkWidget*		grid;
-	guint			grid_offset;
+	GtkWidget*		drawing;
+	guint			drawing_offset;
 
-	GtkWidget*		table;
+	GtkWidget*		caption;
 	GtkLabel*		time_tips;
 	GtkSpinButton*	spin_speed;
 
