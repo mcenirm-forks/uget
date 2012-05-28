@@ -537,13 +537,11 @@ static void col_set_uploaded (GtkTreeViewColumn *tree_column,
                            gpointer           data)
 {
 	UgDataset*	dataset;
-	UgRelation*	relation;
 	UgProgress*	progress;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
 	progress = UG_DATASET_PROGRESS (dataset);
-	relation = UG_DATASET_RELATION (dataset);
 
 	if (progress && progress->uploaded)
 		string = ug_str_dtoa_unit ((gdouble) progress->uploaded, 1, NULL);
@@ -561,13 +559,11 @@ static void col_set_ratio (GtkTreeViewColumn *tree_column,
                            gpointer           data)
 {
 	UgDataset*	dataset;
-	UgRelation*	relation;
 	UgProgress*	progress;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
 	progress = UG_DATASET_PROGRESS (dataset);
-	relation = UG_DATASET_RELATION (dataset);
 
 	if (progress && progress->ratio)
 		string = g_strdup_printf ("%.2f", progress->ratio);

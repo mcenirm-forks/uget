@@ -380,10 +380,8 @@ void	ug_category_gtk_changed	(UgCategory* category, UgDataset* dataset)
 
 void	ug_category_gtk_remove (UgCategory* category, UgDataset* dataset)
 {
-	UgCategoryGtk* 	cgtk;
 	UgRelation*		relation;
 
-	cgtk = category->user.category;
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation->user.storage) {
 		gtk_list_store_remove (
