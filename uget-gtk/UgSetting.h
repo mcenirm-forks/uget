@@ -192,6 +192,7 @@ struct UgSetting
 		} aria2;
 	} plugin;
 
+	gboolean		cmd_quiet;			// command-line quiet
 	gboolean		offline_mode;
 	guint			shutdown;			// shutdown when downloads complete
 

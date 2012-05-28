@@ -223,6 +223,7 @@ static const UgDataEntry	uget_setting_data_entry[] =
 	{"Clipboard",		G_STRUCT_OFFSET (UgSetting, clipboard),			UG_DATA_STATIC,		NULL,	NULL},
 	{"Scheduler",		G_STRUCT_OFFSET (UgSetting, scheduler),			UG_DATA_STATIC,		NULL,	NULL},
 	{"Plug-in",			G_STRUCT_OFFSET (UgSetting, plugin),			UG_DATA_STATIC,		NULL,	NULL},
+	{"CommandLineQuiet",G_STRUCT_OFFSET (UgSetting, cmd_quiet),			UG_DATA_INT,		NULL,	NULL},
 //	{"OfflineMode",		G_STRUCT_OFFSET (UgSetting, offline_mode),		UG_DATA_INT,		NULL,	NULL},
 //	{"Shutdown",		G_STRUCT_OFFSET (UgSetting, shutdown),			UG_DATA_INT,		NULL,	NULL},
 	{"FolderList",		G_STRUCT_OFFSET (UgSetting, folder_list),		UG_DATA_CUSTOM,		ug_string_list_in_markup,	ug_string_list_to_markup},
@@ -468,6 +469,7 @@ void	ug_setting_init (UgSetting* setting)
 	setting->folder_list = NULL;
 
 	// Others
+	setting->cmd_quiet = FALSE;
 	setting->offline_mode = FALSE;
 	setting->shutdown = 0;
 	setting->launch.active = TRUE;
