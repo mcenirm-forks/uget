@@ -795,8 +795,20 @@ static void	ug_plugin_aria2_post_error (UgPluginAria2* plugin, int code)
 	gchar*			string;
 
 	switch (code) {
+	case 1:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: an unknown error occurred.");
+		break;
+
+	case 2:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: time out occurred.");
+		break;
+
 	case 3:
 		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: resource was not found.");
+		break;
+
+	case 4:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2 saw the specfied number of 'resource not found' error. See --max-file-not-found option");
 		break;
 
 	case 5:
@@ -819,6 +831,10 @@ static void	ug_plugin_aria2_post_error (UgPluginAria2* plugin, int code)
 		message = ug_message_new_error (UG_MESSAGE_ERROR_OUT_OF_RESOURCE, NULL);
 		break;
 
+	case 10:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: piece length was different from one in .aria2 control file.");
+		break;
+
 	case 11:
 		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2 was downloading same file.");
 		break;
@@ -827,12 +843,36 @@ static void	ug_plugin_aria2_post_error (UgPluginAria2* plugin, int code)
 		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2 was downloading same info hash torrent.");
 		break;
 
+	case 13:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: file already existed. See --allow-overwrite option.");
+		break;
+
 	case 14:
 		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, _("Output file can't be renamed."));
 		break;
 
+	case 15:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: could not open existing file.");
+		break;
+
+	case 16:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: could not create new file or truncate existing file.");
+		break;
+
+	case 17:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: file I/O error occurred.");
+		break;
+
 	case 18:
 		message = ug_message_new_error (UG_MESSAGE_ERROR_FOLDER_CREATE_FAILED, NULL);
+		break;
+
+	case 19:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: name resolution failed.");
+		break;
+
+	case 20:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: could not parse Metalink document.");
 		break;
 
 	case 21:
