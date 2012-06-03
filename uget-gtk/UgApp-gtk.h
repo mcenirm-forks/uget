@@ -86,7 +86,6 @@ struct UgAppGtk
 	UgRunning		running;
 
 	UgSetting		setting;		// UgSetting.h
-	gboolean		user_action;	// some task stop by user
 	UgScheduleState	schedule_state;
 
 	// Launch application
@@ -97,6 +96,12 @@ struct UgAppGtk
 		UgXmlrpc	xmlrpc;
 		gboolean	launched;
 	} aria2;
+
+	struct UgUserAction
+	{
+		gboolean	deleted;		// some task deleted by user
+		gboolean	stop;			// some task stop by user
+	} action;
 
 	// Clipboard
 	struct UgClipboard

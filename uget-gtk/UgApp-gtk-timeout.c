@@ -504,7 +504,7 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 		}
 		// downloading completed
 		else if (n_before > 0  &&  n_after == 0) {
-			if (app->user_action == FALSE) {
+			if (app->action.stop == FALSE) {
 				// completed notification
 				ug_app_notify_completed (app);
 				// shutdown

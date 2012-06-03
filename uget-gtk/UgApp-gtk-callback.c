@@ -419,7 +419,8 @@ static void	on_delete_download (GtkWidget* widget, UgAppGtk* app)
 	list = ug_download_widget_get_selected (dwidget);
 	for (link = list;  link;  link = link->next) {
 		// set status "stop by user"
-		app->user_action = TRUE;
+		app->action.stop = TRUE;
+		app->action.deleted = TRUE;
 		// stop task
 		ug_running_remove (&app->running, link->data);
 		// delete data or move it to recycled
@@ -452,7 +453,7 @@ static void	on_delete_download_file_response (GtkWidget* widget, gint response_i
 	list = ug_download_widget_get_selected (dwidget);
 	for (link = list;  link;  link = link->next) {
 		// set status "stop by user"
-		app->user_action = TRUE;
+		app->action.stop = TRUE;
 		// stop task
 		ug_running_remove (&app->running, link->data);
 		// delete file
@@ -689,7 +690,7 @@ static void	on_set_download_to_pause (GtkWidget* widget, UgAppGtk* app)
 		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
 		relation->hints |=  UG_HINT_PAUSED;
 		// set status "stop by user"
-		app->user_action = TRUE;
+		app->action.stop = TRUE;
 		// stop task
 		ug_running_remove (&app->running, link->data);
 	}
@@ -996,7 +997,7 @@ static void	on_offline_mode (GtkWidget* widget, UgAppGtk* app)
 	// into offline mode
 	if (app->setting.offline_mode == TRUE) {
 		// set status "stop by user"
-		app->user_action = TRUE;
+		app->action.stop = TRUE;
 		// stop all active tasks
 		ug_running_clear (&app->running);
 		// refresh
@@ -1477,9 +1478,22 @@ static void	on_download_cursor_changed (GtkTreeView* view, UgAppGtk* app)
 	UgDownloadWidget*	dwidget;
 	UgDataset*			dataset;
 
-	dwidget = app->cwidget.current.widget;
-	dataset = ug_download_widget_get_cursor (dwidget);
-	ug_summary_show (&app->summary, dataset);
+//	Add "action.deleted" to avoid crash in GTK+ 3.4. This maybe GTK+ bug.
+//	1. user delete an iter in GtkTreeModel.
+//	2. emit "cursor-changed" signal because cursor changed after deleting.
+//	3. call gtk_tree_view_get_cursor(view, &path)
+//	4. call gtk_tree_model_get_iter(model, &iter, path) and result TRUE.
+//	5. call gtk_tree_model_get(model, &iter, ...) may result invalid iter
+//	   and crash...
+	if (app->action.deleted == FALSE) {
+		dwidget = app->cwidget.current.widget;
+		dataset = ug_download_widget_get_cursor (dwidget);
+		ug_summary_show (&app->summary, dataset);
+	}
+	else {
+		ug_summary_show (&app->summary, NULL);
+		app->action.deleted = FALSE;
+	}
 }
 
 // UgCategoryWidget.view and primary_view "cursor-changed"
