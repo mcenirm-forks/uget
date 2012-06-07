@@ -63,12 +63,13 @@ struct UgSettingDialog
 
 	GtkNotebook*	notebook;
 
-	struct UgClipboardSettingForm	clipboard;
-	struct UgUserInterfaceForm		ui;
-	struct UgLaunchSettingForm		launch;
-	struct UgAutoSaveForm			auto_save;
-	struct UgScheduleForm			scheduler;
-	struct UgPluginSettingForm		plugin;
+	struct UgClipboardSettingForm		clipboard;
+	struct UgUserInterfaceForm			ui;
+	struct UgLaunchSettingForm			launch;
+	struct UgAutoSaveForm				auto_save;
+	struct UgScheduleForm				scheduler;
+	struct UgCommandlineSettingForm		commandline;
+	struct UgPluginSettingForm			plugin;
 
 	gpointer		user_data;
 };

@@ -101,6 +101,9 @@ UgSettingDialog*	ug_setting_dialog_new (const gchar* title, GtkWindow* parent)
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 2);
 	gtk_notebook_append_page (dialog->notebook, (GtkWidget*) vbox,
 			gtk_label_new (_("Others")));
+	ug_commandline_setting_form_init (&dialog->commandline);
+	gtk_box_pack_start (vbox, dialog->commandline.self, FALSE, FALSE, 2);
+	gtk_box_pack_start (vbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), FALSE, FALSE, 2);
 	ug_auto_save_form_init (&dialog->auto_save);
 	gtk_box_pack_start (vbox, dialog->auto_save.self, FALSE, FALSE, 2);
 	gtk_box_pack_start (vbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), FALSE, FALSE, 2);
@@ -127,6 +130,7 @@ void	ug_setting_dialog_set (UgSettingDialog* dialog, UgSetting* setting)
 	ug_user_interface_form_set (&dialog->ui, setting);
 	ug_launch_setting_form_set (&dialog->launch, setting);
 	ug_auto_save_form_set (&dialog->auto_save, setting);
+	ug_commandline_setting_form_set (&dialog->commandline, setting);
 #ifdef HAVE_PLUGIN_ARIA2
 	ug_plugin_setting_form_set (&dialog->plugin, setting);
 #endif
@@ -139,6 +143,7 @@ void	ug_setting_dialog_get (UgSettingDialog* dialog, UgSetting* setting)
 	ug_user_interface_form_get (&dialog->ui, setting);
 	ug_launch_setting_form_get (&dialog->launch, setting);
 	ug_auto_save_form_get (&dialog->auto_save, setting);
+	ug_commandline_setting_form_get (&dialog->commandline, setting);
 #ifdef HAVE_PLUGIN_ARIA2
 	ug_plugin_setting_form_get (&dialog->plugin, setting);
 #endif

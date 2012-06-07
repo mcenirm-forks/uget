@@ -113,6 +113,22 @@ void	ug_auto_save_form_init (struct UgAutoSaveForm* asform);
 void	ug_auto_save_form_set (struct UgAutoSaveForm* asform, UgSetting* setting);
 void	ug_auto_save_form_get (struct UgAutoSaveForm* asform, UgSetting* setting);
 
+// ----------------------------------------------------------------------------
+// UgCommandlineSettingForm
+struct UgCommandlineSettingForm
+{
+	GtkWidget*		self;
+
+	// --quiet
+	GtkToggleButton*	quiet;
+	// --category-index
+	GtkWidget*			index_label;
+	GtkSpinButton*		index_spin;
+};
+
+void	ug_commandline_setting_form_init (struct UgCommandlineSettingForm* csform);
+void	ug_commandline_setting_form_set (struct UgCommandlineSettingForm* csform, UgSetting* setting);
+void	ug_commandline_setting_form_get (struct UgCommandlineSettingForm* csform, UgSetting* setting);
 
 // ----------------------------------------------------------------------------
 // UgPluginSettingForm

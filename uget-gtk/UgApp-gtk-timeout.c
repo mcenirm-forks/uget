@@ -356,7 +356,9 @@ static gboolean	ug_app_timeout_ipc (UgAppGtk* app)
 		g_list_foreach (list->next, (GFunc) ug_download_assign_attachment, list->data);
 	// add downloads
 	category_index = app->option.data->category_index;
-	if (app->option.data->quiet || app->setting.cmd_quiet)
+	if (category_index == -1)
+		category_index = app->setting.commandline.category_index;
+	if (app->option.data->quiet || app->setting.commandline.quiet)
 		uget_add_download_quietly (app, list, category_index);
 	else
 		uget_add_download_selected (app, list, category_index);

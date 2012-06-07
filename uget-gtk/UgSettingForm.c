@@ -314,6 +314,47 @@ void	ug_auto_save_form_get (struct UgAutoSaveForm* asform, UgSetting* setting)
 }
 
 // ----------------------------------------------------------------------------
+// UgCommandlineSettingForm
+//
+void	ug_commandline_setting_form_init (struct UgCommandlineSettingForm* csform)
+{
+	GtkWidget*			widget;
+	GtkBox*				vbox;
+	GtkBox*				hbox;
+
+	csform->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	vbox = (GtkBox*) csform->self;
+
+	widget = gtk_label_new (_("Commandline Settings"));
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+	// --quiet
+	widget = gtk_check_button_new_with_mnemonic (_("Use '--quiet' by default"));
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+	csform->quiet = (GtkToggleButton*) widget;
+	// --category-index
+	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 2);
+	widget = gtk_label_new (_("'--category-index' default value"));
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	csform->index_label = widget;
+	widget = gtk_spin_button_new_with_range (-1.0, 100.0, 1.0);
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	csform->index_spin = (GtkSpinButton*) widget;
+}
+
+void	ug_commandline_setting_form_set (struct UgCommandlineSettingForm* csform, UgSetting* setting)
+{
+	gtk_toggle_button_set_active (csform->quiet, setting->commandline.quiet);
+	gtk_spin_button_set_value (csform->index_spin, setting->commandline.category_index);
+}
+
+void	ug_commandline_setting_form_get (struct UgCommandlineSettingForm* csform, UgSetting* setting)
+{
+	setting->commandline.quiet = gtk_toggle_button_get_active (csform->quiet);
+	setting->commandline.category_index = gtk_spin_button_get_value_as_int (csform->index_spin);
+}
+
+// ----------------------------------------------------------------------------
 // UgPluginSettingForm
 //
 static void	on_plugin_aria2_toggled (GtkWidget* widget, struct UgPluginSettingForm* psform)

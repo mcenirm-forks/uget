@@ -176,6 +176,15 @@ struct UgSetting
 		gint64		speed_limit;
 	} scheduler;
 
+	// "CommandlineSetting"
+	struct UgCommandlineSetting
+	{
+		const UgDataInterface*	iface;		// for UgMarkup parse/write
+
+		gboolean	quiet;			// --quiet
+		gint		category_index;	// --category-index
+	} commandline;
+
 	// "PluginSetting"
 	struct UgPluginSetting
 	{
@@ -192,7 +201,6 @@ struct UgSetting
 		} aria2;
 	} plugin;
 
-	gboolean		cmd_quiet;			// command-line quiet
 	gboolean		offline_mode;
 	guint			shutdown;			// shutdown when downloads complete
 

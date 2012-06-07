@@ -209,6 +209,23 @@ static const UgDataInterface	ug_plugin_setting_iface =
 };
 
 // ----------------------------------------------------------------------------
+// CommandlineSetting
+static const UgDataEntry	ug_commandline_setting_entry[] =
+{
+	{"quiet",			G_STRUCT_OFFSET (struct UgCommandlineSetting, quiet),			UG_DATA_INT,	NULL,	NULL},
+	{"CategoryIndex",	G_STRUCT_OFFSET (struct UgCommandlineSetting, category_index),	UG_DATA_INT,	NULL,	NULL},
+	{NULL},			// null-terminated
+};
+
+static const UgDataInterface	ug_commandline_setting_iface =
+{
+	sizeof (struct UgCommandlineSetting),
+	"CommandlineSetting",
+	ug_commandline_setting_entry,
+	NULL, NULL, NULL,
+};
+
+// ----------------------------------------------------------------------------
 // UgSetting
 static const UgDataEntry	uget_setting_data_entry[] =
 {
@@ -222,8 +239,8 @@ static const UgDataEntry	uget_setting_data_entry[] =
 	{"UserInterface",	G_STRUCT_OFFSET (UgSetting, ui),				UG_DATA_STATIC,		NULL,	NULL},
 	{"Clipboard",		G_STRUCT_OFFSET (UgSetting, clipboard),			UG_DATA_STATIC,		NULL,	NULL},
 	{"Scheduler",		G_STRUCT_OFFSET (UgSetting, scheduler),			UG_DATA_STATIC,		NULL,	NULL},
+	{"Commandline",		G_STRUCT_OFFSET (UgSetting, commandline),		UG_DATA_STATIC,		NULL,	NULL},
 	{"Plug-in",			G_STRUCT_OFFSET (UgSetting, plugin),			UG_DATA_STATIC,		NULL,	NULL},
-	{"CommandLineQuiet",G_STRUCT_OFFSET (UgSetting, cmd_quiet),			UG_DATA_INT,		NULL,	NULL},
 //	{"OfflineMode",		G_STRUCT_OFFSET (UgSetting, offline_mode),		UG_DATA_INT,		NULL,	NULL},
 //	{"Shutdown",		G_STRUCT_OFFSET (UgSetting, shutdown),			UG_DATA_INT,		NULL,	NULL},
 	{"FolderList",		G_STRUCT_OFFSET (UgSetting, folder_list),		UG_DATA_CUSTOM,		ug_string_list_in_markup,	ug_string_list_to_markup},
@@ -456,6 +473,11 @@ void	ug_setting_init (UgSetting* setting)
 	}
 	setting->scheduler.speed_limit = 5;
 
+	// "CommandlineSetting"
+	setting->commandline.iface = &ug_commandline_setting_iface;
+	setting->commandline.quiet = FALSE;
+	setting->commandline.category_index = -1;
+
 	// "PluginSetting"
 	setting->plugin.iface = &ug_plugin_setting_iface;
 	setting->plugin.aria2.enable = FALSE;
@@ -469,7 +491,6 @@ void	ug_setting_init (UgSetting* setting)
 	setting->folder_list = NULL;
 
 	// Others
-	setting->cmd_quiet = FALSE;
 	setting->offline_mode = FALSE;
 	setting->shutdown = 0;
 	setting->launch.active = TRUE;
