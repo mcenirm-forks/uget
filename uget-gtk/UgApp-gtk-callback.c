@@ -194,12 +194,34 @@ static void	on_config_category (GtkWidget* widget, UgAppGtk* app)
 // ----------------------------------------------------------------------------
 // Download
 //
+static void	ug_app_setup_download_dialog (UgAppGtk* app, UgDownloadDialog* ddialog)
+{
+	GtkTreePath*	path;
+	GtkTreeModel*	model;
+
+	ug_download_form_set_folder_list (&ddialog->download,
+			app->setting.folder_list);
+	ug_download_dialog_set_category (ddialog, &app->cwidget);
+
+	if (app->setting.ui.apply_recently && app->last.download) {
+		model = gtk_tree_view_get_model (ddialog->category_view);
+		if (app->last.category_index < gtk_tree_model_iter_n_children (model, NULL)) {
+			path = gtk_tree_path_new_from_indices (app->last.category_index, -1);
+			gtk_tree_view_set_cursor (ddialog->category_view, path, NULL, FALSE);
+			gtk_tree_path_free (path);
+		}
+
+		ug_download_dialog_set (ddialog, app->last.download);
+	}
+}
+
 static void	on_create_download_response (GtkDialog *dialog, gint response_id, UgDownloadDialog* ddialog)
 {
 	UgCategory*		category;
 	UgAppGtk*		app;
 	GList*			list;
 	GList*			link;
+	GtkTreePath*	path;
 
 	if (response_id == GTK_RESPONSE_OK) {
 		app = ddialog->user.app;
@@ -210,6 +232,20 @@ static void	on_create_download_response (GtkDialog *dialog, gint response_id, Ug
 			list = ug_download_dialog_get_downloads (ddialog);
 			for (link = list;  link;  link = link->next)
 				ug_category_add (category, link->data);
+			// get last download settings
+			if (list->data) {
+				if (app->last.download)
+					ug_dataset_unref (app->last.download);
+				ug_dataset_ref (list->data);
+				app->last.download = list->data;
+			}
+			// get last category index
+			gtk_tree_view_get_cursor (ddialog->category_view, &path, NULL);
+			if (path) {
+				app->last.category_index = *gtk_tree_path_get_indices (path);
+				gtk_tree_path_free (path);
+			}
+			// free unused
 			g_list_foreach (list, (GFunc) ug_dataset_unref, NULL);
 			g_list_free (list);
 			gtk_widget_queue_draw ((GtkWidget*) app->cwidget.self);
@@ -229,14 +265,15 @@ static void	on_create_download (GtkWidget* widget, UgAppGtk* app)
 	g_free (title);
 	if (gtk_widget_get_visible ((GtkWidget*) app->window.self) == FALSE)
 		gtk_window_set_transient_for ((GtkWindow*) ddialog->self, NULL);
-	ug_download_form_set_folder_list (&ddialog->download,
-			app->setting.folder_list);
-	ug_download_dialog_set_category (ddialog, &app->cwidget);
+	// setup download dialog
+	ug_app_setup_download_dialog (app, ddialog);
+	// use first URI from clipboard to set URL entry
 	list = ug_clipboard_get_uris (&app->clipboard);
 	if (list) {
 		gtk_entry_set_text ((GtkEntry*) ddialog->download.url_entry, list->data);
 		g_list_foreach (list, (GFunc) g_free, NULL);
 		g_list_free (list);
+		ug_download_form_complete_entry (&ddialog->download);
 	}
 	// connect signal and set data in download dialog
 	ddialog->user.app = app;
@@ -253,10 +290,9 @@ static void	on_create_batch (GtkWidget* widget, UgAppGtk* app)
 	title = g_strconcat (UG_APP_GTK_NAME " - ", _("New Batch Download"), NULL);
 	ddialog = ug_download_dialog_new (title, app->window.self);
 	g_free (title);
-	ug_download_form_set_folder_list (&ddialog->download,
-			app->setting.folder_list);
-	ug_download_dialog_set_category (ddialog, &app->cwidget);
 	ug_download_dialog_use_batch (ddialog);
+	// setup download dialog
+	ug_app_setup_download_dialog (app, ddialog);
 	// connect signal and set data in download dialog
 	ddialog->user.app = app;
 	g_signal_connect (ddialog->self, "response",
@@ -283,12 +319,14 @@ static void	on_create_from_clipboard (GtkWidget* widget, UgAppGtk* app)
 	g_free (title);
 	if (gtk_widget_get_visible ((GtkWidget*) app->window.self) == FALSE)
 		gtk_window_set_transient_for ((GtkWindow*) ddialog->self, NULL);
-	ug_download_dialog_set_category (ddialog, &app->cwidget);
 	ug_download_dialog_use_selector (ddialog);
+	// selector
 	ug_selector_hide_href (&ddialog->selector);
 	page = ug_selector_add_page (&ddialog->selector, _("Clipboard"));
 	ug_selector_page_add_uris (page, list);
 	g_list_free (list);
+	// setup download dialog
+	ug_app_setup_download_dialog (app, ddialog);
 	// connect signal and set data in download dialog
 	ddialog->user.app = app;
 	g_signal_connect (ddialog->self, "response",

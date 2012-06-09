@@ -76,6 +76,7 @@ struct UgUserInterfaceForm
 	GtkToggleButton*	start_in_offline_mode;
 	GtkToggleButton*	start_notification;
 	GtkToggleButton*	sound_notification;
+	GtkToggleButton*	apply_recently;
 };
 
 void	ug_user_interface_form_init (struct UgUserInterfaceForm* uiform);

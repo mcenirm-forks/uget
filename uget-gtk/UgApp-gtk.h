@@ -88,8 +88,15 @@ struct UgAppGtk
 	UgSetting		setting;		// UgSetting.h
 	UgScheduleState	schedule_state;
 
-	// Launch application
-	GRegex*			launch_regex;
+	GRegex*			launch_regex;	// for Launch application
+
+	// last download settings
+	struct LastDownloadSetting
+	{
+		UgDataset*		download;
+		gint			category_index;
+	} last;
+
 	// aria2 plug-in
 	struct
 	{

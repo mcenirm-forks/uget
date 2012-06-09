@@ -150,6 +150,7 @@ struct UgSetting
 		gboolean	start_in_offline_mode;
 		gboolean	start_notification;
 		gboolean	sound_notification;
+		gboolean	apply_recently;
 #ifdef HAVE_APP_INDICATOR
 		gboolean	app_indicator;
 #endif

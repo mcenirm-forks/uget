@@ -137,7 +137,7 @@ void	ug_app_quit (UgAppGtk* app)
 	gtk_widget_hide (GTK_WIDGET (app->window.self));
 	// aria2
 	ug_app_aria2_shutdown (app);
-	// This will quit  gtk_main()  to  main()  in  main-gtk.c
+	// This will quit gtk_main() in main()
 	gtk_main_quit ();
 }
 

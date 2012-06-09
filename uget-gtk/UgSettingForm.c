@@ -165,6 +165,9 @@ void	ug_user_interface_form_init (struct UgUserInterfaceForm* uiform)
 	widget = gtk_check_button_new_with_label (_("Sound when download is finished"));
 	uiform->sound_notification = (GtkToggleButton*) widget;
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 1);
+	widget = gtk_check_button_new_with_label (_("Apply recently download settings"));
+	uiform->apply_recently = (GtkToggleButton*) widget;
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 1);
 }
 
 void	ug_user_interface_form_set (struct UgUserInterfaceForm* uiform, UgSetting* setting)
@@ -183,6 +186,8 @@ void	ug_user_interface_form_set (struct UgUserInterfaceForm* uiform, UgSetting* 
 			setting->ui.start_notification);
 	gtk_toggle_button_set_active (uiform->sound_notification,
 			setting->ui.sound_notification);
+	gtk_toggle_button_set_active (uiform->apply_recently,
+			setting->ui.apply_recently);
 }
 
 void	ug_user_interface_form_get (struct UgUserInterfaceForm* uiform, UgSetting* setting)
@@ -194,6 +199,7 @@ void	ug_user_interface_form_get (struct UgUserInterfaceForm* uiform, UgSetting* 
 	setting->ui.start_in_offline_mode = gtk_toggle_button_get_active (uiform->start_in_offline_mode);
 	setting->ui.start_notification = gtk_toggle_button_get_active (uiform->start_notification);
 	setting->ui.sound_notification = gtk_toggle_button_get_active (uiform->sound_notification);
+	setting->ui.apply_recently = gtk_toggle_button_get_active (uiform->apply_recently);
 }
 
 // ----------------------------------------------------------------------------
