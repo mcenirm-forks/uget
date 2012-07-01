@@ -8,14 +8,16 @@ EXTRA_DIST = \
 	msvc/test-conf.vcproj \
 	msvc/test-download.vcproj \
 	msvc/test-ipc.vcproj \
+	msvc/test-xmlrpc.vcproj \
+	msvc/uget.sln \
 	msvc/uget-cmd.vcproj \
 	msvc/uget-gtk.vcproj \
-	msvc/uget.sln \
 	msvc/uglib.vcproj \
 	CodeBlocks/mingw-config.txt \
 	CodeBlocks/test-conf.cbp \
 	CodeBlocks/test-download.cbp \
 	CodeBlocks/test-ipc.cbp \
+	CodeBlocks/test-xmlrpc.cbp \
 	CodeBlocks/uget.workspace \
 	CodeBlocks/uget-cmd.cbp \
 	CodeBlocks/uget-gtk.cbp \
