@@ -409,6 +409,7 @@ static void	ug_xmltag_parse_response (UgXmltag* xmltag, UgXmlrpc* xmlrpc)
 
 	default:
 		ug_xmltag_push (xmltag, ug_xmltag_parse_unknown, NULL);
+		break;
 	}
 }
 
