@@ -45,25 +45,6 @@ typedef	struct	UgHtmlContextPrivate		UgHtmlContextPrivate;
 typedef	enum	UgHtmlContextState			UgHtmlContextState;
 typedef	enum	UgHtmlTagState				UgHtmlTagState;
 
-/* Called for open tags <foo bar="baz"> */
-static void	cb_start_element (UgHtmlContextPrivate* context,
-	                          const char*    element_name,
-	                          const char**   attribute_names,
-	                          const char**   attribute_values,
-	                          gpointer       user_data);
-
-/* Called for close tags </foo> */
-static void	cb_end_element   (UgHtmlContext* context,
-	                          const char*    element_name,
-	                          gpointer       user_data);
-
-/* Called for character data */
-/* text is not nul-terminated */
-static void	cb_text          (UgHtmlContext* context,
-	                          const  char*   text,
-	                          int            text_len,
-	                          gpointer       user_data);
-
 enum UgHtmlContextState
 {
 	UG_HTML_CONTEXT_NULL,
@@ -108,12 +89,9 @@ struct	UgHtmlContextPrivate
 	char	tag[TAG_LEN_MAX + 1];
 };
 
-static UgHtmlParser	default_parser =
-{
-	(gpointer) cb_start_element,
-	(gpointer) cb_end_element,
-	(gpointer) cb_text,
-};
+static UgHtmlParser	default_parser;
+static UgHtmlParser	script_parser;
+static UgHtmlParser	head_parser;
 
 UgHtmlContext*	ug_html_context_new (void)
 {
@@ -275,6 +253,8 @@ static void	ug_html_context_parse_tag (UgHtmlContextPrivate* context)
 					tag_cur++;
 					goto break_forLoop;
 				}
+				break;
+
 			default:
 				break;
 			}
@@ -361,6 +341,7 @@ gboolean	ug_html_context_parse (UgHtmlContext* context_pub, const char* buffer, 
 				else
 					context->tag[context->tag_len++] = *buffer_cur;
 			}
+			break;
 		}
 	}
 
@@ -436,18 +417,86 @@ void	ug_html_filter_unref (UgHtmlFilter* filter)
 
 
 // ----------------------------------------------------------------------------
-// parser
+// default parser
 
-/* Called for open tags <foo bar="baz"> */
 static void	cb_start_element (UgHtmlContextPrivate* context,
-	                          const char*    element_name,
-	                          const char**   attribute_names,
-	                          const char**   attribute_values,
-	                          gpointer       user_data)
+                              const char*    element_name,
+                              const char**   attribute_names,
+                              const char**   attribute_values,
+                              gpointer       user_data)
+{
+	UgHtmlFilter*	filter;
+	GList*			link;
+
+	if (g_ascii_strcasecmp (element_name, "script") == 0) {
+		ug_html_context_push_parser ((UgHtmlContext*) context, &script_parser, NULL);
+		return;
+	}
+
+	if (g_ascii_strcasecmp (element_name, "head") == 0) {
+		ug_html_context_push_parser ((UgHtmlContext*) context, &head_parser, NULL);
+		return;
+	}
+
+	// filter
+	for (link = context->filter;  link;  link = link->next) {
+		filter = link->data;
+		if (g_ascii_strcasecmp (element_name, filter->tag_name) != 0)
+			continue;
+		for (; *attribute_names; attribute_names++, attribute_values++) {
+			if (g_ascii_strcasecmp (*attribute_names, filter->attr_name) != 0)
+				continue;
+			if (filter->callback)
+				filter->callback (filter, *attribute_values, filter->callback_data);
+			else
+				filter->attr_values = g_list_prepend (filter->attr_values, g_strdup (*attribute_values));
+		}
+	}
+}
+
+static UgHtmlParser	default_parser =
+{
+	(gpointer) cb_start_element,
+	(gpointer) NULL,
+	(gpointer) NULL,
+};
+
+// ----------------------------------------------------------------------------
+// parser - <script></srcipt>
+
+static void	cb_end_script (UgHtmlContext* context,
+                           const char*    element_name,
+                           gpointer       user_data)
+{
+	if (g_ascii_strcasecmp (element_name, "script") == 0)
+		ug_html_context_pop_parser ((UgHtmlContext*) context);
+}
+
+static UgHtmlParser	script_parser =
+{
+	(gpointer) NULL,
+	(gpointer) cb_end_script,
+	(gpointer) NULL,
+};
+
+// ----------------------------------------------------------------------------
+// parser - <head></head>
+
+static void	cb_start_head (UgHtmlContextPrivate* context,
+                           const char*    element_name,
+                           const char**   attribute_names,
+                           const char**   attribute_values,
+                           gpointer       user_data)
 {
 	UgHtmlFilter*	filter;
 	GList*			link;
 	gchar*			string;
+
+	// <script>
+	if (g_ascii_strcasecmp (element_name, "script") == 0) {
+		ug_html_context_push_parser ((UgHtmlContext*) context, &script_parser, NULL);
+		return;
+	}
 
 	// get charset
 	if (context->charset == NULL && g_ascii_strcasecmp (element_name, "meta") == 0) {
@@ -492,19 +541,17 @@ static void	cb_start_element (UgHtmlContextPrivate* context,
 	}
 }
 
-/* Called for close tags </foo> */
-static void	cb_end_element   (UgHtmlContext* context,
-	                          const char*    element_name,
-	                          gpointer       user_data)
+static void	cb_end_head (UgHtmlContext* context,
+                         const char*    element_name,
+                         gpointer       user_data)
 {
+	if (g_ascii_strcasecmp (element_name, "head") == 0)
+		ug_html_context_pop_parser ((UgHtmlContext*) context);
 }
 
-/* Called for character data */
-/* text is not nul-terminated */
-static void	cb_text          (UgHtmlContext* context,
-	                          const  char*   text,
-	                          int            text_len,
-	                          gpointer       user_data)
+static UgHtmlParser	head_parser =
 {
-}
-
+	(gpointer) cb_start_head,
+	(gpointer) cb_end_head,
+	(gpointer) NULL,
+};
