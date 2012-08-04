@@ -103,6 +103,8 @@ struct UgDownloadForm
 	GtkWidget*	cookie_entry;
 	GtkWidget*	post_label;
 	GtkWidget*	post_entry;
+	GtkWidget*	agent_label;	// user agent
+	GtkWidget*	agent_entry;
 
 	GtkSpinButton*	spin_download_speed;
 	GtkSpinButton*	spin_upload_speed;
@@ -121,6 +123,7 @@ struct UgDownloadForm
 		gboolean	referrer:1;
 		gboolean	cookie:1;
 		gboolean	post:1;
+		gboolean	agent:1;
 		gboolean	retry:1;	// spin_retry
 		gboolean	delay:1;	// spin_delay
 		gboolean	connections:1;	// spin_connections

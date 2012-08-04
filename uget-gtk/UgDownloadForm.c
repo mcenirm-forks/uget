@@ -70,6 +70,7 @@ void	ug_download_form_init (UgDownloadForm* dform, UgProxyForm* proxy, GtkWindow
 	dform->changed.referrer = FALSE;
 	dform->changed.cookie   = FALSE;
 	dform->changed.post     = FALSE;
+	dform->changed.agent    = FALSE;
 	dform->changed.retry    = FALSE;
 	dform->changed.delay    = FALSE;
 	dform->parent = parent;
@@ -383,39 +384,55 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 			G_CALLBACK (on_http_entry_changed), dform);
 	dform->post_entry = widget;
 
+	// label - user agent
+	widget = gtk_label_new (_("User Agent:"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
+	g_object_set (widget, "margin-left", 2, "margin-right", 2, NULL);
+	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
+	gtk_grid_attach (grid, widget, 0, 2, 1, 1);
+	dform->agent_label = widget;
+	// entry - user agent
+	widget = gtk_entry_new ();
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	g_object_set (widget, "margin", 1, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, widget, 1, 2, 3, 1);
+	g_signal_connect (GTK_EDITABLE (widget), "changed",
+			G_CALLBACK (on_http_entry_changed), dform);
+	dform->agent_entry = widget;
+
 	// label - Max upload speed
 	widget = gtk_label_new (_("Max upload speed:"));
 	g_object_set (widget, "margin-left", 2, "margin-right", 2, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
-	gtk_grid_attach (grid, widget, 0, 2, 2, 1);
+	gtk_grid_attach (grid, widget, 0, 3, 2, 1);
 	// spin - Max upload speed
 	widget = gtk_spin_button_new_with_range (0, 99999999, 1);
 	gtk_entry_set_width_chars (GTK_ENTRY (widget), 8);
 	g_object_set (widget, "margin", 1, NULL);
-	gtk_grid_attach (grid, widget, 2, 2, 1, 1);
+	gtk_grid_attach (grid, widget, 2, 3, 1, 1);
 	dform->spin_upload_speed = (GtkSpinButton*) widget;
 	// label - "KiB/s"
 	widget = gtk_label_new ("KiB/s");
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	g_object_set (widget, "margin", 2, "hexpand", TRUE, NULL);
-	gtk_grid_attach (grid, widget, 3, 2, 1, 1);
+	gtk_grid_attach (grid, widget, 3, 3, 1, 1);
 
 	// label - Max download speed
 	widget = gtk_label_new (_("Max download speed:"));
 	g_object_set (widget, "margin-left", 2, "margin-right", 2, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
-	gtk_grid_attach (grid, widget, 0, 3, 2, 1);
+	gtk_grid_attach (grid, widget, 0, 4, 2, 1);
 	// spin - Max download speed
 	widget = gtk_spin_button_new_with_range (0, 99999999, 1);
 	gtk_entry_set_width_chars (GTK_ENTRY (widget), 8);
 	g_object_set (widget, "margin", 1, NULL);
-	gtk_grid_attach (grid, widget, 2, 3, 1, 1);
+	gtk_grid_attach (grid, widget, 2, 4, 1, 1);
 	dform->spin_download_speed = (GtkSpinButton*) widget;
 	// label - "KiB/s"
 	widget = gtk_label_new ("KiB/s");
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	g_object_set (widget, "margin", 2, "hexpand", TRUE, NULL);
-	gtk_grid_attach (grid, widget, 3, 3, 1, 1);
+	gtk_grid_attach (grid, widget, 3, 4, 1, 1);
 }
 
 static void ug_download_form_decide_sensitive (UgDownloadForm* dform)
@@ -510,6 +527,9 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	// post_file
 	text = gtk_entry_get_text ((GtkEntry*) dform->post_entry);
 	ug_str_set (&http->post_file, text, -1);
+	// user_agent
+	text = gtk_entry_get_text ((GtkEntry*) dform->agent_entry);
+	ug_str_set (&http->user_agent, text, -1);
 
 	// ------------------------------------------
 	// UgRelation
@@ -615,11 +635,16 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		gtk_entry_set_text ((GtkEntry*) dform->post_entry,
 				(http && http->post_file) ? http->post_file : "");
 	}
+	if (keep_changed==FALSE || dform->changed.agent==FALSE) {
+		gtk_entry_set_text ((GtkEntry*) dform->agent_entry,
+				(http && http->user_agent) ? http->user_agent : "");
+	}
 	// set changed flags
 	if (keep_changed==FALSE && http) {
 		dform->changed.referrer = http->keeping.referrer;
 		dform->changed.cookie   = http->keeping.cookie_file;
 		dform->changed.post     = http->keeping.post_file;
+		dform->changed.agent    = http->keeping.user_agent;
 	}
 
 	// ------------------------------------------
@@ -810,6 +835,8 @@ static void	on_http_entry_changed (GtkEditable* editable, UgDownloadForm* dform)
 			dform->changed.cookie = TRUE;
 		else if (editable == GTK_EDITABLE (dform->post_entry))
 			dform->changed.post = TRUE;
+		else if (editable == GTK_EDITABLE (dform->agent_entry))
+			dform->changed.agent = TRUE;
 	}
 }
 
