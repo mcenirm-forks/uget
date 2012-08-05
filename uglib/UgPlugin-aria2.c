@@ -895,6 +895,7 @@ static void	ug_plugin_aria2_post_error (UgPluginAria2* plugin, int code)
 		string = g_strdup_printf ("aria2 error code: %u", plugin->errorCode);
 		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, string);
 		g_free (string);
+		break;
 	}
 
 	ug_plugin_post ((UgPlugin*) plugin, message);
