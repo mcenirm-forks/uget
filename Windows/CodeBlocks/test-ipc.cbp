@@ -34,9 +34,9 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="D:\devpack\gtk2\include" />
-			<Add directory="D:\devpack\gtk2\include\glib-2.0" />
-			<Add directory="D:\devpack\gtk2\lib\glib-2.0\include" />
+			<Add directory="D:\devpack\gtk3\include" />
+			<Add directory="D:\devpack\gtk3\include\glib-2.0" />
+			<Add directory="D:\devpack\gtk3\lib\glib-2.0\include" />
 			<Add directory="D:\devpack\curl-mingw\include" />
 			<Add directory="..\..\uglib" />
 		</Compiler>
@@ -48,7 +48,7 @@
 			<Add library="intl.dll" />
 			<Add library="curldll" />
 			<Add library="ws2_32" />
-			<Add directory="D:\devpack\gtk2\lib" />
+			<Add directory="D:\devpack\gtk3\lib" />
 			<Add directory="D:\devpack\curl-mingw\lib" />
 		</Linker>
 		<Unit filename="..\..\tests\test-ipc.c">

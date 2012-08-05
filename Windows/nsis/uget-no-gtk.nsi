@@ -192,32 +192,32 @@ SectionEnd
 
 Function DetectAndSetupGTK
 
-  ReadRegStr $0 HKLM "Software\GTK\2.0" Version
+  ReadRegStr $0 HKLM "Software\GTK\3.0" Version
 
   ; StrCmp str1 str2 jump_if_equal [jump_if_not_equal]
   StrCmp $0 "" GtkNotInst GtkInst
 
   GtkNotInst:
-  MessageBox MB_OK|MB_ICONSTOP "GTK+ Runtime Environment version 2.18.x or newer is required to use uGet.$\n$\nYou can download it from http://gtk-win.sourceforge.net/"
+  MessageBox MB_OK|MB_ICONSTOP "GTK+ Runtime Environment version 3.4.x or newer is required to use uGet.$\n$\nYou can download it from http://gtk-win.sourceforge.net/"
   Quit
 
   GtkInst:
   ; StrCpy var1 var2 len position
   ; Check major version
   StrCpy $1 $0 1 0
-  ${If} $1 < 2
+  ${If} $1 < 3
     Goto GtkNotInst
   ${EndIf}
   ; Check minor version
   StrCpy $1 $0 2 2
-  ${If} $1 >= 18
+  ${If} $1 >= 4
     Goto DoReg
   ${Else}
     Goto GtkNotInst
   ${EndIf}
 
   DoReg:
-  ReadRegStr $2 HKLM "Software\GTK\2.0" DllPath
+  ReadRegStr $2 HKLM "Software\GTK\3.0" DllPath
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\App Paths\uget.exe" "" "$INSTDIR\uget.exe"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\App Paths\uget.exe" "Path" "$INSTDIR;$2"
 

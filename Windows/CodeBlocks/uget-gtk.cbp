@@ -44,22 +44,22 @@
 			<Add option="-DGDK_DISABLE_DEPRECATED" />
 			<Add option="-DGTK_DISABLE_DEPRECATED" />
 			<Add option="-DGSEAL_ENABLE" />
-			<Add directory="D:\devpack\gtk2\include" />
-			<Add directory="D:\devpack\gtk2\include\glib-2.0" />
-			<Add directory="D:\devpack\gtk2\include\gtk-2.0" />
-			<Add directory="D:\devpack\gtk2\include\gdk-pixbuf-2.0" />
-			<Add directory="D:\devpack\gtk2\include\pango-1.0" />
-			<Add directory="D:\devpack\gtk2\include\atk-1.0" />
-			<Add directory="D:\devpack\gtk2\include\cairo" />
-			<Add directory="D:\devpack\gtk2\lib\glib-2.0\include" />
-			<Add directory="D:\devpack\gtk2\lib\gtk-2.0\include" />
+			<Add directory="D:\devpack\gtk3\include" />
+			<Add directory="D:\devpack\gtk3\include\glib-2.0" />
+			<Add directory="D:\devpack\gtk3\include\gtk-3.0" />
+			<Add directory="D:\devpack\gtk3\include\gdk-pixbuf-2.0" />
+			<Add directory="D:\devpack\gtk3\include\pango-1.0" />
+			<Add directory="D:\devpack\gtk3\include\atk-1.0" />
+			<Add directory="D:\devpack\gtk3\include\cairo" />
+			<Add directory="D:\devpack\gtk3\lib\glib-2.0\include" />
+			<Add directory="D:\devpack\gtk3\lib\gtk-3.0\include" />
 			<Add directory="D:\devpack\curl-mingw\include" />
 			<Add directory="..\..\uglib" />
 			<Add directory="..\..\uget-gtk" />
 		</Compiler>
 		<Linker>
 			<Add library="uglib" />
-			<Add library="gtk-win32-2.0.dll" />
+			<Add library="gtk-win32-3.0.dll" />
 			<Add library="gobject-2.0.dll" />
 			<Add library="glib-2.0.dll" />
 			<Add library="gmodule-2.0.dll" />
@@ -73,7 +73,7 @@
 			<Add library="curldll" />
 			<Add library="ws2_32" />
 			<Add library="winmm" />
-			<Add directory="D:\devpack\gtk2\lib" />
+			<Add directory="D:\devpack\gtk3\lib" />
 			<Add directory="D:\devpack\curl-mingw\lib" />
 		</Linker>
 		<Unit filename="..\resources\uget.rc">

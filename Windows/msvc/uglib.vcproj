@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\uglib;D:\devpack\gtk2\include;&quot;D:\devpack\gtk2\lib\glib-2.0\include&quot;;&quot;D:\devpack\gtk2\include\glib-2.0&quot;;&quot;D:\devpack\curl-msvc\include&quot;"
+				AdditionalIncludeDirectories="..\..\uglib;D:\devpack\gtk3\include;D:\devpack\gtk3\lib\glib-2.0\include;D:\devpack\gtk3\include\glib-2.0;D:\devpack\curl-msvc\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;HAVE_PLUGIN_CURL;HAVE_PLUGIN_ARIA2"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -105,7 +105,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\..\uglib;D:\devpack\gtk2\include;&quot;D:\devpack\gtk2\lib\glib-2.0\include&quot;;&quot;D:\devpack\gtk2\include\glib-2.0&quot;;&quot;D:\devpack\curl-msvc\include&quot;"
+				AdditionalIncludeDirectories="..\..\uglib;D:\devpack\gtk3\include;D:\devpack\gtk3\lib\glib-2.0\include;D:\devpack\gtk3\include\glib-2.0;D:\devpack\curl-msvc\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;HAVE_PLUGIN_CURL;HAVE_PLUGIN_ARIA2"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"

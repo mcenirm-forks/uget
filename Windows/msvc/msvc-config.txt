@@ -1,35 +1,35 @@
 ﻿--- include dir --- (C/C++ - General - Additional Include Directories)
 uglib
-D:\devpack\gtk2\include
-D:\devpack\gtk2\include\glib-2.0
-D:\devpack\gtk2\lib\glib-2.0\include
+D:\devpack\gtk3\include
+D:\devpack\gtk3\include\glib-2.0
+D:\devpack\gtk3\lib\glib-2.0\include
 D:\devpack\curl-msvc\include
 ..\..\uglib
 
 uget-cmd
-D:\devpack\gtk2\include
-D:\devpack\gtk2\include\glib-2.0
-D:\devpack\gtk2\lib\glib-2.0\include
+D:\devpack\gtk3\include
+D:\devpack\gtk3\include\glib-2.0
+D:\devpack\gtk3\lib\glib-2.0\include
 D:\devpack\curl-msvc\include
 ..\..\uglib
 ..\..\uget-cmd
 
 uget-gtk
-D:\devpack\gtk2\include
-D:\devpack\gtk2\include\glib-2.0
-D:\devpack\gtk2\include\gtk-2.0
-D:\devpack\gtk2\include\gdk-pixbuf-2.0
-D:\devpack\gtk2\include\pango-1.0
-D:\devpack\gtk2\include\atk-1.0
-D:\devpack\gtk2\include\cairo
-D:\devpack\gtk2\lib\glib-2.0\include
-D:\devpack\gtk2\lib\gtk-2.0\include
+D:\devpack\gtk3\include
+D:\devpack\gtk3\include\glib-2.0
+D:\devpack\gtk3\include\gtk-3.0
+D:\devpack\gtk3\include\gdk-pixbuf-2.0
+D:\devpack\gtk3\include\pango-1.0
+D:\devpack\gtk3\include\atk-1.0
+D:\devpack\gtk3\include\cairo
+D:\devpack\gtk3\lib\glib-2.0\include
+D:\devpack\gtk3\lib\gtk-3.0\include
 D:\devpack\curl-msvc\include
 ..\..\uglib
 ..\..\uget-gtk
 
 --- lib dir --- (Linker - General - Additional Library Directories)
-D:\devpack\gtk2\lib
+D:\devpack\gtk3\lib
 D:\devpack\curl-msvc\lib
 Debug
 Release
@@ -41,7 +41,7 @@ gthread-2.0.lib
 gobject-2.0.lib
 gdk_pixbuf-2.0.lib
 gdk-win32-2.0.lib
-gtk-win32-2.0.lib
+gtk-win32-3.0.lib
 pango-1.0.lib
 pangowin32-1.0.lib
 atk-1.0.lib
@@ -81,6 +81,6 @@ Winmm.lib
    (C/C++ - Preprocessor - Preprocessor Definitions) - add "_LIB"
 
 --- debug ---
-   (Debug - Environment) - add "PATH=C:\Program Files\GTK2-Runtime\bin"
-                        or add "PATH=C:\Program Files\Common Files\GTK\2.0\bin"
+   (Debug - Environment) - add "PATH=C:\Program Files\gtk3-Runtime\bin"
+                        or add "PATH=C:\Program Files\Common Files\GTK\3.0\bin"
 
