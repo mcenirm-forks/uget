@@ -220,7 +220,7 @@ static UgResult	ug_plugin_aria2_set_state (UgPluginAria2* plugin, UgState  state
 		if (state == UG_STATE_ACTIVE && old_state < UG_STATE_ACTIVE) {
 			// call ug_plugin_unref () by ug_plugin_aria2_thread ()
 			ug_plugin_ref ((UgPlugin*) plugin);
-			g_thread_create ((GThreadFunc) ug_plugin_aria2_thread, plugin, FALSE, NULL);
+			g_thread_new ("uget-aria2", (GThreadFunc) ug_plugin_aria2_thread, plugin);
 		}
 
 		ug_plugin_post ((UgPlugin*) plugin, ug_message_new_state (state));

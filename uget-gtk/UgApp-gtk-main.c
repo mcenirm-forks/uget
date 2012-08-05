@@ -213,16 +213,11 @@ int main (int argc, char** argv)
 		ug_option_help (&app->option, argv[0], string);
 	}
 
-	// GLib: GThread
-	if (g_thread_supported () == FALSE)
-		g_thread_init (NULL);
 	// GTK+
 	gtk_init (&argc, &argv);
 
 	// GStreamer
 #ifdef HAVE_GSTREAMER
-	// initialize the GLib thread system using g_thread_init()
-	// before any other GLib functions are called.
 	gst_inited = gst_init_check (&argc, &argv, NULL);
 #endif
 

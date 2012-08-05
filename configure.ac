@@ -39,8 +39,8 @@ AM_GLIB_DEFINE_LOCALEDIR(LOCALEDIR)
 
 ## ----------------------------------------------
 ## GTK+ related
-PKG_CHECK_MODULES(GTK, gtk+-3.0 >= 3.2)
-PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.28)
+PKG_CHECK_MODULES(GTK, gtk+-3.0 >= 3.4)
+PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.32)
 PKG_CHECK_MODULES(GTHREAD, gthread-2.0)
 PKG_CHECK_MODULES(GMODULE, gmodule-2.0)
 PKG_CHECK_MODULES(GIO, gio-2.0)

@@ -100,10 +100,6 @@ int main (int argc, char** argv)
 	win32_winsock_init ();
 #endif  // _WIN32
 
-	// GLib: GThread
-	if (g_thread_supported () == FALSE)
-		g_thread_init (NULL);
-
 	// allocate memory for application
 	app = g_slice_alloc0 (sizeof (UgAppCmd));
 	// uglib options

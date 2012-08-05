@@ -94,17 +94,13 @@ int main (int argc, char* argv[])
 	WSAStartup (MAKEWORD (2, 2), &WSAData);
 #endif
 
-	// GLib: GThread
-	if (g_thread_supported () == FALSE)
-		g_thread_init (NULL);
-
 	main_loop = g_main_loop_new (NULL, FALSE);
 
 	// start server
 	server_timer (NULL);
 	g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 500, (GSourceFunc) server_timer, NULL, NULL);
 	// start client thread
-	g_thread_create ((GThreadFunc) client_thread, NULL, FALSE, NULL);
+	g_thread_new ("ipc-client", (GThreadFunc) client_thread, NULL);
 
 	g_main_loop_run (main_loop);
 

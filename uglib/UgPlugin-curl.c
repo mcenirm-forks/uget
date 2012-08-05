@@ -188,7 +188,7 @@ static UgResult	ug_plugin_curl_set_state (UgPluginCurl* plugin, UgState  state)
 	if (state != old_state) {
 		if (state == UG_STATE_ACTIVE && old_state < UG_STATE_ACTIVE) {
 			ug_plugin_ref ((UgPlugin*) plugin);		// call ug_plugin_unref () by ug_plugin_curl_thread ()
-			g_thread_create ((GThreadFunc) ug_plugin_curl_thread, plugin, FALSE, NULL);
+			g_thread_new ("uget-curl", (GThreadFunc) ug_plugin_curl_thread, plugin);
 		}
 
 		ug_plugin_post ((UgPlugin*) plugin, ug_message_new_state (state));

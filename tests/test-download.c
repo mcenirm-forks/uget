@@ -105,9 +105,6 @@ int main (int argc, char* argv[])
 	WSAStartup (MAKEWORD (2, 2), &WSAData);
 #endif
 
-	// GLib: GThread
-	if (g_thread_supported () == FALSE)
-		g_thread_init (NULL);
 	uglib_init ();
 
 	// parse command-line options
