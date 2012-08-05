@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uget-1.5.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-01 13:09+0800\n"
+"POT-Creation-Date: 2012-08-05 09:59+0800\n"
 "PO-Revision-Date: 2011-03-27 23:49+0300\n"
 "Last-Translator: neur0n <cobalt25@mail.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -28,7 +28,7 @@ msgstr "Передача..."
 
 #. UG_MESSAGE_INFO_TRANSMIT,
 #: ../../po/../uglib/UgMessage.c:54
-#: ../../po/../uget-gtk/UgDownloadWidget.c:837
+#: ../../po/../uget-gtk/UgDownloadWidget.c:833
 msgid "Retry"
 msgstr "Попытки"
 
@@ -49,12 +49,12 @@ msgid "Resumable"
 msgstr "Возобновляемо"
 
 #. UG_MESSAGE_INFO_RESUMABLE,
-#: ../../po/../uglib/UgMessage.c:59
+#: ../../po/../uglib/UgMessage.c:59 ../../po/../uglib/UgPlugin-aria2.c:827
 msgid "Not Resumable"
 msgstr "Не возобновляемо"
 
 #. UG_MESSAGE_WARNING_CUSTOM
-#: ../../po/../uglib/UgMessage.c:67
+#: ../../po/../uglib/UgMessage.c:67 ../../po/../uglib/UgPlugin-aria2.c:851
 msgid "Output file can't be renamed."
 msgstr "Исходящий файл невозможно переименовать."
 
@@ -122,58 +122,58 @@ msgstr "Не удалось открыть отправленный файл."
 msgid "No plug-in support this scheme or file."
 msgstr "Нет приложения для поддержки этой схемы или файла."
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:496
-#: ../../po/../uget-gtk/UgApp-gtk-timeout.c:520
+#: ../../po/../uget-gtk/UgApp-gtk.c:500
+#: ../../po/../uget-gtk/UgApp-gtk-timeout.c:522
 msgid "tasks"
 msgstr "задачи"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:537
+#: ../../po/../uget-gtk/UgApp-gtk.c:545
 #, c-format
 msgid "Selected %d items"
 msgstr "Выбран(о) %d пункт(а,ов)"
 
 #. create confirmation dialog
-#: ../../po/../uget-gtk/UgApp-gtk.c:607
+#: ../../po/../uget-gtk/UgApp-gtk.c:615
 msgid "Really Quit?"
 msgstr "Действительно выйти?"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:624
+#: ../../po/../uget-gtk/UgApp-gtk.c:632
 msgid "Are you sure you want to quit?"
 msgstr "Вы уверены, что хотите выйти?"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:629
+#: ../../po/../uget-gtk/UgApp-gtk.c:637
 msgid "Remember this action"
 msgstr "Запомнить действие"
 
 #. radio button
-#: ../../po/../uget-gtk/UgApp-gtk.c:634
+#: ../../po/../uget-gtk/UgApp-gtk.c:642
 msgid "Minimize to tray"
 msgstr "Минимизировать в трей"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:636
+#: ../../po/../uget-gtk/UgApp-gtk.c:644
 msgid "Exit uGet"
 msgstr "Выход"
 
 #. create confirmation dialog
-#: ../../po/../uget-gtk/UgApp-gtk.c:691
+#: ../../po/../uget-gtk/UgApp-gtk.c:699
 msgid "Really delete files?"
 msgstr "Действительно удалить файлы?"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:709
+#: ../../po/../uget-gtk/UgApp-gtk.c:717
 msgid "Are you sure you want to delete files?"
 msgstr "Вы уверены, что хотите удалить файлы?"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:714
+#: ../../po/../uget-gtk/UgApp-gtk.c:722
 msgid "Do not ask me again"
 msgstr "Не спрашивать более"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:756
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:511
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:544
+#: ../../po/../uget-gtk/UgApp-gtk.c:764
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:548
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:581
 msgid "Error"
 msgstr "Ошибка"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:763 ../../po/../uget-gtk/UgSummary.c:163
+#: ../../po/../uget-gtk/UgApp-gtk.c:771 ../../po/../uget-gtk/UgSummary.c:163
 msgid "Message"
 msgstr "Сообщение"
 
@@ -181,313 +181,314 @@ msgstr "Сообщение"
 msgid "failed to launch aria2."
 msgstr "не удалось запустить aria2."
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:70
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:65
 msgid "Download Manager"
 msgstr "Менеджер закачек"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:72
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:67
 msgid "translator-credits"
-msgstr "Павел Богмат <bohm@ukr.net>\n"
+msgstr ""
+"Павел Богмат <bohm@ukr.net>\n"
 "Михаил Воронцов <meequz@gmail.com>"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:122
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:135
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:117
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:130
 msgid "New Category"
 msgstr "Новая категория"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:130
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:125
 #, fuzzy
 msgid "Copy - "
 msgstr "Копировать - "
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:185
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:180
 msgid "Category Properties"
 msgstr "Свойства категории"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:232
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:263
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:258
 msgid "New Download"
 msgstr "Новая закачка"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:258
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:290
 msgid "New Batch Download"
 msgstr "Новая пакетная закачка"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:282
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:313
 msgid "No URLs found in clipboard."
 msgstr "В буфере обмена не найдено адресов."
 
 #. only 1 url matched
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:286
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:317
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:153
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:162
 msgid "New from Clipboard"
 msgstr "Новая из буфера обмена"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:294
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:325
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:168
 #: ../../po/../uget-gtk/UgSettingDialog.c:80
 msgid "Clipboard"
 msgstr "Буфер обмена"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:318
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:351
 msgid "New Torrent"
 msgstr "Новый торрент"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:340
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:373
 #, fuzzy
 msgid "Open Torrent file"
 msgstr "Открыть торрент-файл"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:363
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:396
 msgid "New Metalink"
 msgstr "Новая мета-ссылка"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:386
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:419
 #, fuzzy
 msgid "Open Metalink file"
 msgstr "Открыть файл мета-ссылки"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:505
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:542
 #, c-format
 msgid "Can't launch default application for file '%s'."
 msgstr "Не удается запустить приложение по умолчанию для файла '%s'"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:538
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:575
 #, c-format
 msgid "'%s' - This folder does not exist."
 msgstr "'%s' - каталог не существует."
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:618
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:655
 msgid "Download Properties"
 msgstr "Свойства закачки"
 
 #. add link
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:849
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:886
 msgid "Link <A>"
 msgstr "Ссылка <A>"
 
 #. add image
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:854
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:891
 msgid "Image <IMG>"
 msgstr "Изображение <IMG>"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:870
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:907
 msgid "Import URLs from HTML file"
 msgstr "Импорт адресов из HTML файла"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:911
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:948
 msgid "Text File"
 msgstr "Текстовый файл"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:927
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:964
 msgid "Import URLs from text file"
 msgstr "Импорт адресов из текстового файла"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:973
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:974
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:1010
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:1011
 msgid "Export to"
 msgstr "Экспортировать в"
 
-#: ../../po/../uget-gtk/UgApp-gtk-callback.c:1070
+#: ../../po/../uget-gtk/UgApp-gtk-callback.c:1107
 msgid "Settings"
 msgstr "Параметры"
 
 #. New Download
 #. New Download (accelerators)
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:99
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:291
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:95
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:284
 msgid "New _Download..."
 msgstr "Новая _закачка..."
 
 #. New Download from Clipboard
 #. New from Clipboard
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:106
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:311
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:102
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:304
 msgid "New _from Clipboard..."
 msgstr "Новая _из буфера обмена"
 
 #. New Torrent
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:115
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:321
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:111
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:314
 #, fuzzy
 msgid "New Torrent..."
 msgstr "Новый торрент..."
 
 #. New Metalink
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:122
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:328
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:118
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:321
 msgid "New Metalink..."
 msgstr "Новая мета-ссылка"
 
 #. Settings
 #. menu_item = gtk_menu_item_new_with_mnemonic (_("_Settings..."));
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:131
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:515
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:127
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:508
 msgid "_Settings..."
 msgstr "_Параметры..."
 
 #. Show window
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:145
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:141
 msgid "Show window"
 msgstr "Показать окно"
 
 #. Offline mode
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:150
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:484
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:146
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:477
 msgid "_Offline Mode"
 msgstr "_Автономный режим"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:281
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:274
 msgid "Create new download"
 msgstr "Создать новую закачку"
 
 #. New Category
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:298
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:291
 msgid "New _Category..."
 msgstr "Новая _категория"
 
 #. New Batch download
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:304
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:297
 msgid "New _Batch download..."
 msgstr "Новая _пакетная закачка..."
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:337
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:330
 msgid "Save all"
 msgstr "Сохранить всё"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:345
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:338
 msgid "Set selected download runnable"
 msgstr "Установить выбранные закачки на исполнение"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:350
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:343
 msgid "Set selected download to pause"
 msgstr "Установить выбранные закачки на паузу"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:355
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:348
 msgid "Set selected download properties"
 msgstr "Настройки выбранных закачек"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:363
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:356
 msgid "Move selected download up"
 msgstr "Поднять выбранное"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:368
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:361
 msgid "Move selected download down"
 msgstr "Опустить выбранное"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:373
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:366
 msgid "Move selected download to top"
 msgstr "Переместить выбранное вверх"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:378
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:371
 msgid "Move selected download to bottom"
 msgstr "Переместить выбранное вниз"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:401
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:394
 msgid "_File"
 msgstr "_Файл"
 
 #. New - Download (accelerators)
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:413
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:406
 msgid "_Download..."
 msgstr "_Закачка..."
 
 #. New - Category
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:420
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:413
 msgid "_Category..."
 msgstr "_Категория..."
 
 #. New - Batch download
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:426
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:419
 msgid "_Batch download..."
 msgstr "_Пакетная закачка..."
 
 #. New - from clipboard
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:432
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:425
 msgid "_From Clipboard..."
 msgstr "_Из буфера..."
 
 #. New - Torrent
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:441
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:434
 msgid "Torrent..."
 msgstr "Торрент..."
 
 #. New - Metalink
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:447
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:440
 msgid "Metalink..."
 msgstr "Мета-ссылка"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:463
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:456
 msgid "Import _HTML file..."
 msgstr "Импорт файла _HTML..."
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:469
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:462
 msgid "_Import text file..."
 msgstr "_Импорт текстового файла..."
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:475
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:468
 msgid "_Export text file..."
 msgstr "_Экспорт текстового файла..."
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:495
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:488
 msgid "_Edit"
 msgstr "_Правка"
 
 #. menu.gtk_menu_shell_append((GtkMenuShell*)menu, gtk_tearoff_menu_item_new() );
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:500
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:493
 msgid "Clipboard _Monitor"
 msgstr "_Следить за буфером обмена"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:504
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:497
 msgid "_Clipboard Option..."
 msgstr "Параметры _буфера обмена..."
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:510
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:503
 msgid "Shutdown when downloads complete"
 msgstr "Выключить компьютер по завершении всех закачек"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:524
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:517
 msgid "_View"
 msgstr "_Вид"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:528
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:521
 msgid "_Toolbar"
 msgstr "Панель _инструментов"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:533
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:526
 msgid "Statusbar"
 msgstr "Строка состояния"
 
 #. Summary Items - Category
 #. Download Columns - Category
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:538
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:566
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:651
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:531
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:559
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:644
 #: ../../po/../uget-gtk/UgCategoryWidget.c:129
 #: ../../po/../uget-gtk/UgCategoryWidget.c:430
 #: ../../po/../uget-gtk/UgDownloadDialog.c:205
-#: ../../po/../uget-gtk/UgDownloadWidget.c:852
+#: ../../po/../uget-gtk/UgDownloadWidget.c:848
 #: ../../po/../uget-gtk/UgSummary.c:130
 msgid "Category"
 msgstr "Категории"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:543
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:536
 msgid "_Summary"
 msgstr "_Подробности"
 
 #. Summary Items --- start ---
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:551
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:544
 msgid "Summary _Items"
 msgstr "_Показывать в подробностях"
 
 #. Summary Items - Name
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:556
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:549
 msgid "_Name"
 msgstr "_Имя"
 
 #. Summary Items - Folder
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:561
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:554
 msgid "_Folder"
 msgstr "_Каталог"
 
@@ -498,129 +499,129 @@ msgstr "_Каталог"
 #. menubar->view.summary_items.elapsed = menu_item;
 #. Summary Items - URL
 #. Download Columns - URL
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:576
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:656
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:569
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:649
 msgid "_URL"
 msgstr "_Адрес"
 
 #. Summary Items - Message
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:581
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:574
 msgid "_Message"
 msgstr "_Сообщение"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:596
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:589
 msgid "Download _Columns"
 msgstr "Колонки списка _закачек"
 
 #. Download Columns - Completed
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:601
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:594
 msgid "_Complete"
 msgstr "_Сколько скачано"
 
 #. Download Columns - Total
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:606
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:599
 msgid "_Size"
 msgstr "_Размер"
 
 #. Download Columns - Percent (%)
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:611
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:604
 msgid "_Percent '%'"
 msgstr "Про_цент '%'"
 
 #. Download Columns - Elapsed
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:616
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:609
 msgid "_Elapsed"
 msgstr "Прошло _времени"
 
 #. Download Columns - Left
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:621
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:614
 msgid "_Left"
 msgstr "_Осталось времени"
 
 #. Download Columns - Speed
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:626
-#: ../../po/../uget-gtk/UgDownloadWidget.c:781
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:619
+#: ../../po/../uget-gtk/UgDownloadWidget.c:777
 msgid "Speed"
 msgstr "Скорость скачивания"
 
 #. Download Columns - Up Speed
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:631
-#: ../../po/../uget-gtk/UgDownloadWidget.c:795
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:624
+#: ../../po/../uget-gtk/UgDownloadWidget.c:791
 #, fuzzy
 msgid "Up Speed"
 msgstr "Скорость отдачи"
 
 #. Download Columns - Uploaded
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:636
-#: ../../po/../uget-gtk/UgDownloadWidget.c:809
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:629
+#: ../../po/../uget-gtk/UgDownloadWidget.c:805
 msgid "Uploaded"
 msgstr "Отдано"
 
 #. Download Columns - Ratio
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:641
-#: ../../po/../uget-gtk/UgDownloadWidget.c:823
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:634
+#: ../../po/../uget-gtk/UgDownloadWidget.c:819
 msgid "Ratio"
 msgstr "Рейтинг"
 
 #. Download Columns - Retry
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:646
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:639
 msgid "_Retry"
 msgstr "_Повторные попытки"
 
 #. Download Columns - Added On
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:661
-#: ../../po/../uget-gtk/UgDownloadWidget.c:880
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:654
+#: ../../po/../uget-gtk/UgDownloadWidget.c:876
 msgid "Added On"
 msgstr "Когда добавлено"
 
 #. Download Columns - Completed On
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:666
-#: ../../po/../uget-gtk/UgDownloadWidget.c:894
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:659
+#: ../../po/../uget-gtk/UgDownloadWidget.c:890
 #, fuzzy
 msgid "Completed On"
 msgstr "Когда завершено"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:675
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:668
 msgid "_Category"
 msgstr "_Категория"
 
 #. New Category
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:680
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:673
 msgid "_New Category..."
 msgstr "Создать _категорию..."
 
 #. Delete Category
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:686
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:679
 msgid "_Delete Category"
 msgstr "_Удалить категорию"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:699
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:692
 msgid "_Download"
 msgstr "_Закачка"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:717
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:710
 msgid "Delete _File and Data"
 msgstr "Удалить _файл и данные"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:730
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:723
 msgid "Open _containing folder"
 msgstr "Открыть _содержащий каталог"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:738
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:731
 msgid "Force Start"
 msgstr "Быстрый старт"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:744
-#: ../../po/../uget-gtk/UgDownloadForm.c:208
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:737
+#: ../../po/../uget-gtk/UgDownloadForm.c:205
 msgid "_Runnable"
 msgstr "_Запустить"
 
 #. Move to --- start ---
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:760
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:753
 msgid "_Move To"
 msgstr "Пе_реместить в"
 
-#: ../../po/../uget-gtk/UgApp-gtk-gui.c:811
+#: ../../po/../uget-gtk/UgApp-gtk-gui.c:804
 msgid "_Help"
 msgstr "_Справка"
 
@@ -632,71 +633,71 @@ msgstr "только при соответствии"
 msgid "Command line"
 msgstr "Командная строка"
 
-#: ../../po/../uget-gtk/UgApp-gtk-timeout.c:717
+#: ../../po/../uget-gtk/UgApp-gtk-timeout.c:719
 msgid "Download Starting"
 msgstr "Закачка запущена"
 
-#: ../../po/../uget-gtk/UgApp-gtk-timeout.c:718
+#: ../../po/../uget-gtk/UgApp-gtk-timeout.c:720
 msgid "Starting download queue."
 msgstr "Запущена очередь закачки"
 
-#: ../../po/../uget-gtk/UgApp-gtk-timeout.c:719
+#: ../../po/../uget-gtk/UgApp-gtk-timeout.c:721
 msgid "Download Completed"
 msgstr "Закачка завершена"
 
-#: ../../po/../uget-gtk/UgApp-gtk-timeout.c:720
+#: ../../po/../uget-gtk/UgApp-gtk-timeout.c:722
 msgid "All queuing downloads have been completed."
 msgstr "Все очереди загрузки были завершены."
 
 #. URL - label
-#: ../../po/../uget-gtk/UgBatchForm.c:61
-#: ../../po/../uget-gtk/UgDownloadForm.c:136
+#: ../../po/../uget-gtk/UgBatchForm.c:63
+#: ../../po/../uget-gtk/UgDownloadForm.c:130
 msgid "_URL:"
 msgstr "_Адрес:"
 
 #. e.g.
-#: ../../po/../uget-gtk/UgBatchForm.c:72
+#: ../../po/../uget-gtk/UgBatchForm.c:74
 msgid "e.g."
 msgstr "Например:"
 
 #. -------------------------------------------------------
 #. radio "From"
-#: ../../po/../uget-gtk/UgBatchForm.c:83
+#: ../../po/../uget-gtk/UgBatchForm.c:85
 msgid "_From:"
 msgstr "_С:"
 
 #. label "To"
-#: ../../po/../uget-gtk/UgBatchForm.c:106
+#: ../../po/../uget-gtk/UgBatchForm.c:108
 msgid "To:"
 msgstr "По:"
 
 #. label "digits"
-#: ../../po/../uget-gtk/UgBatchForm.c:120
+#: ../../po/../uget-gtk/UgBatchForm.c:123
 msgid "digits:"
 msgstr "цифр:"
 
-#: ../../po/../uget-gtk/UgBatchForm.c:128
+#: ../../po/../uget-gtk/UgBatchForm.c:132
 msgid "F_rom:"
 msgstr "_с:"
 
 #. label case-sensitive
-#: ../../po/../uget-gtk/UgBatchForm.c:158
+#: ../../po/../uget-gtk/UgBatchForm.c:162
 msgid "case-sensitive"
 msgstr "с учётом регистра"
 
-#: ../../po/../uget-gtk/UgBatchForm.c:183
+#: ../../po/../uget-gtk/UgBatchForm.c:188
 msgid "No wildcard(*) character in URL entry."
 msgstr "Нет символа шаблона(*) в адресе."
 
-#: ../../po/../uget-gtk/UgBatchForm.c:187
+#: ../../po/../uget-gtk/UgBatchForm.c:192
 msgid "URL is not valid."
 msgstr "Недопустимый адрес."
 
-#: ../../po/../uget-gtk/UgBatchForm.c:191
+#: ../../po/../uget-gtk/UgBatchForm.c:196
 msgid "No character in 'From' or 'To' entry."
 msgstr "В полях 'С' или 'По' ничего нет."
 
-#: ../../po/../uget-gtk/UgBatchForm.c:300
+#: ../../po/../uget-gtk/UgBatchForm.c:305
 msgid "Preview"
 msgstr "Предпросмотр"
 
@@ -751,132 +752,138 @@ msgstr "Удалено"
 msgid "Quantity"
 msgstr "Количество"
 
-#: ../../po/../uget-gtk/UgDownloadForm.c:99
+#: ../../po/../uget-gtk/UgDownloadForm.c:91
 msgid "General"
 msgstr "Главные"
 
-#: ../../po/../uget-gtk/UgDownloadForm.c:100
+#: ../../po/../uget-gtk/UgDownloadForm.c:92
 msgid "Advanced"
 msgstr "Дополнительные"
 
 #. File - label
-#: ../../po/../uget-gtk/UgDownloadForm.c:151
-#: ../../po/../uget-gtk/UgProxyForm.c:345
+#: ../../po/../uget-gtk/UgDownloadForm.c:146
+#: ../../po/../uget-gtk/UgProxyForm.c:344
 msgid "File:"
 msgstr "Файл:"
 
-#: ../../po/../uget-gtk/UgDownloadForm.c:165
-#: ../../po/../uget-gtk/UgDownloadForm.c:830
+#: ../../po/../uget-gtk/UgDownloadForm.c:161
+#: ../../po/../uget-gtk/UgDownloadForm.c:872
 msgid "Select Folder"
 msgstr "Выбрать каталог"
 
 #. Folder - label
-#: ../../po/../uget-gtk/UgDownloadForm.c:173
+#: ../../po/../uget-gtk/UgDownloadForm.c:169
 msgid "_Folder:"
 msgstr "_Каталог:"
 
 #. Referrer - label
-#: ../../po/../uget-gtk/UgDownloadForm.c:188
+#: ../../po/../uget-gtk/UgDownloadForm.c:184
 msgid "Referrer:"
 msgstr "Источник перехода:"
 
 #. ----------------------------------------------------
 #. frame for Status (start mode)
-#: ../../po/../uget-gtk/UgDownloadForm.c:202
+#: ../../po/../uget-gtk/UgDownloadForm.c:199
 msgid "Status"
 msgstr "Статус"
 
-#: ../../po/../uget-gtk/UgDownloadForm.c:210
+#: ../../po/../uget-gtk/UgDownloadForm.c:207
 msgid "P_ause"
 msgstr "П_ауза"
 
 #. ----------------------------------------------------
 #. frame for login
-#: ../../po/../uget-gtk/UgDownloadForm.c:216
+#: ../../po/../uget-gtk/UgDownloadForm.c:213
 msgid "Login"
 msgstr "Вход"
 
 #. User - label
 #. user label & entry
-#: ../../po/../uget-gtk/UgDownloadForm.c:230
-#: ../../po/../uget-gtk/UgProxyForm.c:152
+#: ../../po/../uget-gtk/UgDownloadForm.c:227
+#: ../../po/../uget-gtk/UgProxyForm.c:148
 msgid "User:"
 msgstr "Пользователь:"
 
 #. Password - label
 #. password label & entry
-#: ../../po/../uget-gtk/UgDownloadForm.c:245
-#: ../../po/../uget-gtk/UgProxyForm.c:162
+#: ../../po/../uget-gtk/UgDownloadForm.c:243
+#: ../../po/../uget-gtk/UgProxyForm.c:159
 msgid "Password:"
 msgstr "Пароль:"
 
 #. dform->password_label = widget;
 #. ----------------------------------------------------
 #. frame for option
-#: ../../po/../uget-gtk/UgDownloadForm.c:252
+#: ../../po/../uget-gtk/UgDownloadForm.c:251
 msgid "Options"
 msgstr "Параметры"
 
 #. Retry limit - label
-#: ../../po/../uget-gtk/UgDownloadForm.c:265
+#: ../../po/../uget-gtk/UgDownloadForm.c:266
 msgid "Retry _limit:"
 msgstr "_Лимит повторов:"
 
 #. counts - label
-#: ../../po/../uget-gtk/UgDownloadForm.c:270
+#: ../../po/../uget-gtk/UgDownloadForm.c:272
 msgid "counts"
 msgstr "раз"
 
 #. Retry delay - label
-#: ../../po/../uget-gtk/UgDownloadForm.c:281
+#: ../../po/../uget-gtk/UgDownloadForm.c:286
 msgid "Retry _delay:"
 msgstr "_Задержка повтора:"
 
 #. seconds - label
-#: ../../po/../uget-gtk/UgDownloadForm.c:286
+#: ../../po/../uget-gtk/UgDownloadForm.c:292
 msgid "seconds"
 msgstr "секунд"
 
 #. "Connections per server" - title label
-#: ../../po/../uget-gtk/UgDownloadForm.c:296
+#: ../../po/../uget-gtk/UgDownloadForm.c:305
 msgid "Connections per server"
 msgstr "Подключений к серверу"
 
 #. connections - label
-#: ../../po/../uget-gtk/UgDownloadForm.c:307
+#: ../../po/../uget-gtk/UgDownloadForm.c:318
 #, fuzzy
 msgid "connections"
 msgstr "соединений"
 
 #. label - cookie file
-#: ../../po/../uget-gtk/UgDownloadForm.c:331
+#: ../../po/../uget-gtk/UgDownloadForm.c:345
 #, fuzzy
 msgid "Cookie file:"
 msgstr "Файл куки:"
 
-#: ../../po/../uget-gtk/UgDownloadForm.c:342
-#: ../../po/../uget-gtk/UgDownloadForm.c:886
+#: ../../po/../uget-gtk/UgDownloadForm.c:357
+#: ../../po/../uget-gtk/UgDownloadForm.c:928
 msgid "Select Cookie File"
 msgstr "Выберать куки-файл"
 
 #. label - post file
-#: ../../po/../uget-gtk/UgDownloadForm.c:351
+#: ../../po/../uget-gtk/UgDownloadForm.c:366
 #, fuzzy
 msgid "Post file:"
 msgstr "Отправляемый файл:"
 
-#: ../../po/../uget-gtk/UgDownloadForm.c:362
-#: ../../po/../uget-gtk/UgDownloadForm.c:942
+#: ../../po/../uget-gtk/UgDownloadForm.c:378
+#: ../../po/../uget-gtk/UgDownloadForm.c:984
 msgid "Select Post File"
 msgstr "Выберать отправляемый файл"
 
+#. label - user agent
+#: ../../po/../uget-gtk/UgDownloadForm.c:388
+#, fuzzy
+msgid "User Agent:"
+msgstr "Пользователь:"
+
 #. label - Max upload speed
-#: ../../po/../uget-gtk/UgDownloadForm.c:372
+#: ../../po/../uget-gtk/UgDownloadForm.c:404
 msgid "Max upload speed:"
 msgstr "Наибольшая скорость отправки:"
 
 #. label - Max download speed
-#: ../../po/../uget-gtk/UgDownloadForm.c:388
+#: ../../po/../uget-gtk/UgDownloadForm.c:421
 #, fuzzy
 msgid "Max download speed:"
 msgstr "Максимальная скорость закачки:"
@@ -885,117 +892,117 @@ msgstr "Максимальная скорость закачки:"
 msgid "unnamed"
 msgstr "безымянный"
 
-#: ../../po/../uget-gtk/UgDownloadWidget.c:686
+#: ../../po/../uget-gtk/UgDownloadWidget.c:682
 #: ../../po/../uget-gtk/UgSummary.c:102
 msgid "Name"
 msgstr "Имя"
 
-#: ../../po/../uget-gtk/UgDownloadWidget.c:710
+#: ../../po/../uget-gtk/UgDownloadWidget.c:706
 msgid "Complete"
 msgstr "Завершено"
 
-#: ../../po/../uget-gtk/UgDownloadWidget.c:724
+#: ../../po/../uget-gtk/UgDownloadWidget.c:720
 msgid "Size"
 msgstr "Размер"
 
-#: ../../po/../uget-gtk/UgDownloadWidget.c:739
+#: ../../po/../uget-gtk/UgDownloadWidget.c:735
 msgid "%"
 msgstr "%"
 
-#: ../../po/../uget-gtk/UgDownloadWidget.c:753
+#: ../../po/../uget-gtk/UgDownloadWidget.c:749
 msgid "Elapsed"
 msgstr "Прошло"
 
-#: ../../po/../uget-gtk/UgDownloadWidget.c:767
+#: ../../po/../uget-gtk/UgDownloadWidget.c:763
 msgid "Left"
 msgstr "Осталось"
 
-#: ../../po/../uget-gtk/UgDownloadWidget.c:866
+#: ../../po/../uget-gtk/UgDownloadWidget.c:862
 #: ../../po/../uget-gtk/UgSelector.c:487 ../../po/../uget-gtk/UgSummary.c:141
 msgid "URL"
 msgstr "Адрес"
 
 #. proxy type label & combo box
-#: ../../po/../uget-gtk/UgProxyForm.c:71
+#: ../../po/../uget-gtk/UgProxyForm.c:64
 msgid "Proxy:"
 msgstr "Прокси:"
 
-#: ../../po/../uget-gtk/UgProxyForm.c:74
+#: ../../po/../uget-gtk/UgProxyForm.c:67
 msgid "Don't use"
 msgstr "Не использовать"
 
-#: ../../po/../uget-gtk/UgProxyForm.c:76
+#: ../../po/../uget-gtk/UgProxyForm.c:69
 msgid "Default"
 msgstr "По умолчанию"
 
 #. host label & entry
-#: ../../po/../uget-gtk/UgProxyForm.c:128
+#: ../../po/../uget-gtk/UgProxyForm.c:121
 msgid "Host:"
 msgstr "Сервер:"
 
 #. port label & entry
-#: ../../po/../uget-gtk/UgProxyForm.c:138
+#: ../../po/../uget-gtk/UgProxyForm.c:132
 msgid "Port:"
 msgstr "Порт:"
 
-#: ../../po/../uget-gtk/UgProxyForm.c:336
+#: ../../po/../uget-gtk/UgProxyForm.c:334
 msgid "Socket:"
 msgstr "Сокет:"
 
-#: ../../po/../uget-gtk/UgProxyForm.c:357
+#: ../../po/../uget-gtk/UgProxyForm.c:358
 msgid "Element:"
 msgstr "Элемент:"
 
-#: ../../po/../uget-gtk/UgScheduleGrid.c:66
+#: ../../po/../uget-gtk/UgScheduleForm.c:66
 msgid "Mon"
 msgstr "Пнд"
 
-#: ../../po/../uget-gtk/UgScheduleGrid.c:67
+#: ../../po/../uget-gtk/UgScheduleForm.c:67
 msgid "Tue"
 msgstr "Втр"
 
-#: ../../po/../uget-gtk/UgScheduleGrid.c:68
+#: ../../po/../uget-gtk/UgScheduleForm.c:68
 msgid "Wed"
 msgstr "Срд"
 
-#: ../../po/../uget-gtk/UgScheduleGrid.c:69
+#: ../../po/../uget-gtk/UgScheduleForm.c:69
 msgid "Thu"
 msgstr "Чтв"
 
-#: ../../po/../uget-gtk/UgScheduleGrid.c:70
+#: ../../po/../uget-gtk/UgScheduleForm.c:70
 msgid "Fri"
 msgstr "Птн"
 
-#: ../../po/../uget-gtk/UgScheduleGrid.c:71
+#: ../../po/../uget-gtk/UgScheduleForm.c:71
 #, fuzzy
 msgid "Sat"
 msgstr "Суб"
 
-#: ../../po/../uget-gtk/UgScheduleGrid.c:72
+#: ../../po/../uget-gtk/UgScheduleForm.c:72
 msgid "Sun"
 msgstr "Вск"
 
-#: ../../po/../uget-gtk/UgScheduleGrid.c:107
+#: ../../po/../uget-gtk/UgScheduleForm.c:99
 msgid "_Enable Scheduler"
 msgstr "Включить планировщик"
 
-#. label - Turn off
-#: ../../po/../uget-gtk/UgScheduleGrid.c:153
+#. Turn off - label
+#: ../../po/../uget-gtk/UgScheduleForm.c:141
 msgid "Turn off"
 msgstr "Выключить"
 
-#. label - Help for Turn off
-#: ../../po/../uget-gtk/UgScheduleGrid.c:158
+#. Turn off - help label
+#: ../../po/../uget-gtk/UgScheduleForm.c:146
 msgid "- stop all task"
 msgstr "- остановить всё"
 
-#. label - Normal
-#: ../../po/../uget-gtk/UgScheduleGrid.c:167
+#. Normal - label
+#: ../../po/../uget-gtk/UgScheduleForm.c:156
 msgid "Normal"
 msgstr "Нормально"
 
-#. label - Help for Normal
-#: ../../po/../uget-gtk/UgScheduleGrid.c:172
+#. Normal - help label
+#: ../../po/../uget-gtk/UgScheduleForm.c:161
 msgid "- run task normally"
 msgstr "- запустить задачу нормально"
 
@@ -1066,12 +1073,12 @@ msgid "_Monitor clipboard for specified file types:"
 msgstr "_Следить за этими типами файлов в буфере обмена:"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:87
-#: ../../po/../uget-gtk/UgSettingForm.c:236
+#: ../../po/../uget-gtk/UgSettingForm.c:242
 msgid "Separate the types with character '|'."
 msgstr "Типы отделяются символом '|'."
 
 #: ../../po/../uget-gtk/UgSettingForm.c:92
-#: ../../po/../uget-gtk/UgSettingForm.c:241
+#: ../../po/../uget-gtk/UgSettingForm.c:247
 msgid "You can use regular expressions here."
 msgstr "Можно использовать регулярные выражения."
 
@@ -1116,52 +1123,71 @@ msgstr "Уведомление при запуске загрузки"
 msgid "Sound when download is finished"
 msgstr "Звуковое уведомление по окончании"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:223
+#: ../../po/../uget-gtk/UgSettingForm.c:168
+msgid "Apply recently download settings"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:229
 msgid "_Launch default application for specified file types:"
 msgstr ""
 "_Запуск приложения по умолчанию\n"
 " для определенных типов файлов:"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:282
+#: ../../po/../uget-gtk/UgSettingForm.c:288
 msgid "_Auto save"
 msgstr "_Автосохранение"
 
 #. auto save spin & label (interval)
-#: ../../po/../uget-gtk/UgSettingForm.c:288
+#: ../../po/../uget-gtk/UgSettingForm.c:294
 msgid "minutes"
 msgstr "минут"
 
 #. auto save label
-#: ../../po/../uget-gtk/UgSettingForm.c:295
+#: ../../po/../uget-gtk/UgSettingForm.c:301
 msgid "_Interval:"
 msgstr "_Интервал:"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:355
+#: ../../po/../uget-gtk/UgSettingForm.c:334
+#, fuzzy
+msgid "Commandline Settings"
+msgstr "Командная строка"
+
+#. --quiet
+#: ../../po/../uget-gtk/UgSettingForm.c:337
+msgid "Use '--quiet' by default"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:343
+msgid "'--category-index' default value"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:402
 msgid "_Enable aria2 plug-in"
 msgstr "Включить aria2-плагин"
 
 #. aria2 plug-in hints
-#: ../../po/../uget-gtk/UgSettingForm.c:363
+#: ../../po/../uget-gtk/UgSettingForm.c:410
 #, fuzzy
 msgid ""
 "Please make sure that all tasks have been completed\n"
 "before you modify settings."
-msgstr "Перед тем, какк изменять эти настройки\n"
+msgstr ""
+"Перед тем, какк изменять эти настройки\n"
 "убедитесь, что все задачи завершены."
 
-#: ../../po/../uget-gtk/UgSettingForm.c:379
+#: ../../po/../uget-gtk/UgSettingForm.c:426
 msgid "_Launch aria2 on startup"
 msgstr "_Запускать aria2 при старте"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:385
+#: ../../po/../uget-gtk/UgSettingForm.c:432
 msgid "_Shutdown aria2 on exit"
 msgstr "_Выключать aria2 при выходе"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:392
+#: ../../po/../uget-gtk/UgSettingForm.c:439
 msgid "Path"
 msgstr "Путь"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:400
+#: ../../po/../uget-gtk/UgSettingForm.c:447
 msgid "Arguments"
 msgstr "Аргументы"
 
