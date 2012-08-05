@@ -242,9 +242,7 @@ int main (int argc, char** argv)
 	// main program
 	ug_app_init (app);
 	signal (SIGTERM, term_signal_handler);
-	gdk_threads_enter ();
 	gtk_main ();
-	gdk_threads_leave ();
 
 	// libnotify
 #ifdef HAVE_LIBNOTIFY
