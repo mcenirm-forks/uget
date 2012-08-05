@@ -1,3 +1,7 @@
+uGet 1.9.1 (devel)
+1. Add new option "User Agent" in download dialog.
+2. Fix: Source package doesn't include some project files for Windows.
+
 uGet 1.9.0 (devel)
 1. Drop GTK+2, I suggest use uGet with GTK 3.4+. (avoid some GTK3 bugs)
 2. Avoid crash when user delete tasks and uGet run with GTK3. (GTK3 bug?)
