@@ -59,13 +59,13 @@
 		</Compiler>
 		<Linker>
 			<Add library="uglib" />
-			<Add library="gtk-win32-3.0.dll" />
-			<Add library="gobject-2.0.dll" />
 			<Add library="glib-2.0.dll" />
-			<Add library="gmodule-2.0.dll" />
 			<Add library="gthread-2.0.dll" />
+			<Add library="gmodule-2.0.dll" />
+			<Add library="gobject-2.0.dll" />
+			<Add library="gtk-3.dll" />
+			<Add library="gdk-3.dll" />
 			<Add library="gdk_pixbuf-2.0.dll" />
-			<Add library="gdk-win32-2.0.dll" />
 			<Add library="pango-1.0.dll" />
 			<Add library="pangocairo-1.0.dll" />
 			<Add library="cairo" />

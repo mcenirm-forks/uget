@@ -36,13 +36,13 @@ Release
 
 --- lib ---
 uglib
-gtk-win32-3.0.dll
-gobject-2.0.dll
 glib-2.0.dll
-gmodule-2.0.dll
 gthread-2.0.dll
+gmodule-2.0.dll
+gobject-2.0.dll
+gtk-3.dll
+gdk-3.dll
 gdk_pixbuf-2.0.dll
-gdk-win32-2.0.dll
 intl.dll
 curldll
 ws2_32

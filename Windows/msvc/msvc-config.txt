@@ -36,12 +36,12 @@ Release
 
 --- lib --- (Linker - Input - Additional Dependencies)
 glib-2.0.lib
-gmodule-2.0.lib
 gthread-2.0.lib
+gmodule-2.0.lib
 gobject-2.0.lib
+gtk-3.lib
+gdk-3.lib
 gdk_pixbuf-2.0.lib
-gdk-win32-2.0.lib
-gtk-win32-3.0.lib
 pango-1.0.lib
 pangowin32-1.0.lib
 atk-1.0.lib
