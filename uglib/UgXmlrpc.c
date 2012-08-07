@@ -107,6 +107,10 @@ void	ug_xmlrpc_finalize (UgXmlrpc* xmlrpc)
 
 void	ug_xmlrpc_use_client (UgXmlrpc* xmlrpc, const gchar* uri, const gchar* user_agent)
 {
+	if (xmlrpc->uri)
+		g_free (xmlrpc->uri);
+	if (xmlrpc->user_agent)
+		g_free (xmlrpc->user_agent);
 	xmlrpc->uri = g_strdup (uri);
 	xmlrpc->user_agent = g_strdup (user_agent ? user_agent : "uGet/1.7");
 
