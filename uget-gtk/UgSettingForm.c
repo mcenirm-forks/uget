@@ -331,8 +331,12 @@ void	ug_commandline_setting_form_init (struct UgCommandlineSettingForm* csform)
 	csform->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	vbox = (GtkBox*) csform->self;
 
+	// Commandline Settings
+	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 2);
 	widget = gtk_label_new (_("Commandline Settings"));
-	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	gtk_box_pack_start (hbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), TRUE, TRUE, 2);
 	// --quiet
 	widget = gtk_check_button_new_with_mnemonic (_("Use '--quiet' by default"));
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
