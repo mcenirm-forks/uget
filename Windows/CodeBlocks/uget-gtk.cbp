@@ -39,11 +39,8 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-mms-bitfields" />
+			<Add option="-DDATADIR_WIN_PROG" />
 			<Add option="-DHAVE_PLUGIN_ARIA2" />
-			<Add option="-DGTK_DISABLE_SINGLE_INCLUDES" />
-			<Add option="-DGDK_DISABLE_DEPRECATED" />
-			<Add option="-DGTK_DISABLE_DEPRECATED" />
-			<Add option="-DGSEAL_ENABLE" />
 			<Add directory="D:\devpack\gtk3\include" />
 			<Add directory="D:\devpack\gtk3\include\glib-2.0" />
 			<Add directory="D:\devpack\gtk3\include\gtk-3.0" />

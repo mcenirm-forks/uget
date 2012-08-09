@@ -134,7 +134,7 @@ gboolean	gst_inited	= FALSE;
 // ug_get_data_dir() defined in UgApp-gtk.h
 const gchar*	ug_get_data_dir (void)
 {
-#ifdef _WIN32
+#ifdef DATADIR_WIN_PROG		// change DATADIR to main program installed path.
 	static	gchar*	data_dir = NULL;
 
 	if (data_dir == NULL) {
@@ -156,7 +156,7 @@ const gchar*	ug_get_data_dir (void)
 	return DATADIR;
 #else
 	return "/usr/share";
-#endif  // _WIN32
+#endif  // DATADIR_WIN_PROG
 }
 
 // ----------------------------------------------------------------------------
