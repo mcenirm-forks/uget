@@ -375,6 +375,8 @@ static void	on_plugin_aria2_toggled (GtkWidget* widget, struct UgPluginSettingFo
 	gtk_widget_set_sensitive ((GtkWidget*) psform->launch, sensitive);
 	gtk_widget_set_sensitive ((GtkWidget*) psform->shutdown, sensitive);
 	gtk_widget_set_sensitive ((GtkWidget*) psform->uri, sensitive);
+	gtk_widget_set_sensitive ((GtkWidget*) psform->upload, sensitive);
+	gtk_widget_set_sensitive ((GtkWidget*) psform->download, sensitive);
 
 	if (sensitive)
 		sensitive = gtk_toggle_button_get_active (psform->launch);
@@ -400,9 +402,9 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	psform->self = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	vbox = (GtkBox*) psform->self;
 
+	// Enable aria2 plug-in
 	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
-
 	widget = gtk_check_button_new_with_mnemonic (_("_Enable aria2 plug-in"));
 	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
 	gtk_box_pack_start (hbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), TRUE, TRUE, 2);
@@ -412,9 +414,7 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 
 	// aria2 plug-in hints
 	widget = gtk_label_new (_("Please make sure that all tasks have been completed\n" "before you modify settings."));
-	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 3);
-	widget = gtk_label_new ("");
-	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 3);
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 2);
 
 	// URI entry
 	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -454,6 +454,35 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	gtk_box_pack_start (hbox, widget, TRUE,  TRUE,  4);
 	psform->args = (GtkEntry*) widget;
 
+	// Speed Limits
+	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
+	widget = gtk_label_new (_("Speed Limits"));
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	gtk_box_pack_start (hbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), TRUE, TRUE, 2);
+	// Upload
+	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 2);
+	widget = gtk_label_new (_("Upload"));
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	widget = gtk_label_new (_("KiB/s"));
+	gtk_box_pack_end (hbox, widget, FALSE, FALSE, 2);
+	widget = gtk_spin_button_new_with_range (0.0, 1000000000.0, 5.0);
+	gtk_entry_set_width_chars (GTK_ENTRY (widget), 15);
+	gtk_box_pack_end (hbox, widget, FALSE, FALSE, 2);
+	psform->upload = (GtkSpinButton*) widget;
+	// Download
+	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, FALSE, 2);
+	widget = gtk_label_new (_("Download"));
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	widget = gtk_label_new (_("KiB/s"));
+	gtk_box_pack_end (hbox, widget, FALSE, FALSE, 2);
+	widget = gtk_spin_button_new_with_range (0.0, 1000000000.0, 5.0);
+	gtk_entry_set_width_chars (GTK_ENTRY (widget), 15);
+	gtk_box_pack_end (hbox, widget, FALSE, FALSE, 2);
+	psform->download = (GtkSpinButton*) widget;
+
 	gtk_widget_show (psform->self);
 }
 
@@ -467,6 +496,9 @@ void	ug_plugin_setting_form_set (struct UgPluginSettingForm* psform, UgSetting* 
 	gtk_entry_set_text (psform->path, setting->plugin.aria2.path);
 	gtk_entry_set_text (psform->args, setting->plugin.aria2.args);
 
+	gtk_spin_button_set_value (psform->upload, setting->speed_limit.normal.upload);
+	gtk_spin_button_set_value (psform->download, setting->speed_limit.normal.download);
+
 	on_plugin_aria2_toggled ((GtkWidget*) psform->enable, psform);
 }
 
@@ -479,5 +511,8 @@ void	ug_plugin_setting_form_get (struct UgPluginSettingForm* psform, UgSetting* 
 	setting->plugin.aria2.uri  = g_strdup (gtk_entry_get_text (psform->uri));
 	setting->plugin.aria2.path = g_strdup (gtk_entry_get_text (psform->path));
 	setting->plugin.aria2.args = g_strdup (gtk_entry_get_text (psform->args));
+
+	setting->speed_limit.normal.upload = gtk_spin_button_get_value_as_int (psform->upload);
+	setting->speed_limit.normal.download = gtk_spin_button_get_value_as_int (psform->download);
 }
 

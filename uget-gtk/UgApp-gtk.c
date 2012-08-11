@@ -763,12 +763,14 @@ void	ug_app_show_message (UgAppGtk* app, GtkMessageType type, const gchar* messa
 		value = &app->dialogs.error;
 		title = g_strconcat (UG_APP_GTK_NAME " - ", _("Error"), NULL);
 		break;
+
 	default:
 		if (app->dialogs.message)
 			gtk_widget_destroy (app->dialogs.message);
 		app->dialogs.message = dialog;
 		value = &app->dialogs.message;
 		title = g_strconcat (UG_APP_GTK_NAME " - ", _("Message"), NULL);
+		break;
 	}
 	gtk_window_set_title ((GtkWindow*) dialog, title);
 	g_free (title);

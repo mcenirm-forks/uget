@@ -171,12 +171,30 @@ static const UgDataInterface	ug_clipboard_setting_iface =
 };
 
 // ----------------------------------------------------------------------------
+// UgSpeedLimitSetting
+static const UgDataEntry	ug_speed_limit_setting_entry[] =
+{
+	{"NormalUpload",	G_STRUCT_OFFSET (struct UgSpeedLimitSetting, normal.upload),	UG_DATA_INT,	NULL,	NULL},
+	{"NormalDownload",	G_STRUCT_OFFSET (struct UgSpeedLimitSetting, normal.download),	UG_DATA_INT,	NULL,	NULL},
+	{"SchedulerUpload",		G_STRUCT_OFFSET (struct UgSpeedLimitSetting, scheduler.upload),		UG_DATA_INT,	NULL,	NULL},
+	{"SchedulerDownload",	G_STRUCT_OFFSET (struct UgSpeedLimitSetting, scheduler.download),	UG_DATA_INT,	NULL,	NULL},
+	{NULL},			// null-terminated
+};
+
+static const UgDataInterface	ug_speed_limit_setting_iface =
+{
+	sizeof (struct UgSpeedLimitSetting),
+	"SpeedLimitSetting",
+	ug_speed_limit_setting_entry,
+	NULL, NULL, NULL,
+};
+
+// ----------------------------------------------------------------------------
 // SchedulerSetting
 static const UgDataEntry	ug_scheduler_setting_entry[] =
 {
 	{"enable",		G_STRUCT_OFFSET (struct UgSchedulerSetting, enable),	UG_DATA_INT,		NULL,	NULL},
 	{"state",		G_STRUCT_OFFSET (struct UgSchedulerSetting, state),		UG_DATA_CUSTOM,		ug_schedule_state_in_markup,	ug_schedule_state_to_markup},
-//	{"SpeedLimit",	G_STRUCT_OFFSET (struct UgSchedulerSetting, speed_limit),	UG_DATA_INT64,	NULL,	NULL},
 	{NULL},			// null-terminated
 };
 
@@ -239,6 +257,7 @@ static const UgDataEntry	uget_setting_data_entry[] =
 	{"Window",			G_STRUCT_OFFSET (UgSetting, window),			UG_DATA_STATIC,		NULL,	NULL},
 	{"UserInterface",	G_STRUCT_OFFSET (UgSetting, ui),				UG_DATA_STATIC,		NULL,	NULL},
 	{"Clipboard",		G_STRUCT_OFFSET (UgSetting, clipboard),			UG_DATA_STATIC,		NULL,	NULL},
+	{"SpeedLimit",		G_STRUCT_OFFSET (UgSetting, speed_limit),		UG_DATA_STATIC,		NULL,	NULL},
 	{"Scheduler",		G_STRUCT_OFFSET (UgSetting, scheduler),			UG_DATA_STATIC,		NULL,	NULL},
 	{"Commandline",		G_STRUCT_OFFSET (UgSetting, commandline),		UG_DATA_STATIC,		NULL,	NULL},
 	{"Plug-in",			G_STRUCT_OFFSET (UgSetting, plugin),			UG_DATA_STATIC,		NULL,	NULL},
@@ -466,6 +485,13 @@ void	ug_setting_init (UgSetting* setting)
 	setting->clipboard.quiet = FALSE;
 	setting->clipboard.nth_category = 0;
 
+	// "SpeedLimitSetting"
+	setting->speed_limit.iface = &ug_speed_limit_setting_iface;
+	setting->speed_limit.normal.upload = 0;
+	setting->speed_limit.normal.download = 0;
+	setting->speed_limit.scheduler.upload = 0;
+	setting->speed_limit.scheduler.download = 0;
+
 	// "SchedulerSetting"
 	setting->scheduler.iface = &ug_scheduler_setting_iface;
 	setting->scheduler.enable = FALSE;
@@ -473,7 +499,6 @@ void	ug_setting_init (UgSetting* setting)
 		for (dayhours = 0;  dayhours < 24;  dayhours++)
 			setting->scheduler.state[weekdays][dayhours] = UG_SCHEDULE_NORMAL;
 	}
-	setting->scheduler.speed_limit = 5;
 
 	// "CommandlineSetting"
 	setting->commandline.iface = &ug_commandline_setting_iface;

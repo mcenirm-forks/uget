@@ -144,6 +144,10 @@ struct UgPluginSettingForm
 	GtkEntry*			path;
 	GtkEntry*			args;
 	GtkEntry*			uri;
+
+	// Speed Limits
+	GtkSpinButton*		upload;		// KiB/s
+	GtkSpinButton*		download;	// KiB/s
 };
 
 void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform);

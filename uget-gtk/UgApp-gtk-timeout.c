@@ -428,8 +428,8 @@ static gboolean	ug_app_decide_schedule_state (UgAppGtk* app)
 			break;
 
 		case UG_SCHEDULE_LIMITED_SPEED:
-			ug_running_set_speed (&app->running,
-					app->setting.scheduler.speed_limit, 0);
+//			ug_running_set_speed (&app->running,
+//					app->setting.speed_limit.scheduler.download, 0);
 			break;
 
 		default:

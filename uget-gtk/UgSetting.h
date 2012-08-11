@@ -167,6 +167,22 @@ struct UgSetting
 		gint		nth_category;
 	} clipboard;
 
+	// "SpeedLimitSetting" - global speed limits
+	struct UgSpeedLimitSetting
+	{
+		const UgDataInterface*	iface;		// for UgMarkup parse/write
+
+		struct {
+			gint	upload;					// KiB / second
+			gint	download;				// KiB / second
+		} normal;
+
+		struct {
+			gint	upload;					// KiB / second
+			gint	download;				// KiB / second
+		} scheduler;
+	} speed_limit;
+
 	// "SchedulerSetting"
 	struct UgSchedulerSetting
 	{
@@ -174,7 +190,6 @@ struct UgSetting
 
 		gboolean	enable;
 		guint		state[7][24];	// 1 week, 7 days, 24 hours
-		gint64		speed_limit;
 	} scheduler;
 
 	// "CommandlineSetting"

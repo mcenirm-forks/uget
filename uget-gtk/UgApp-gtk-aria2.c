@@ -34,6 +34,7 @@
  *
  */
 
+#include <UgXmlrpc.h>
 #include <UgApp-gtk.h>
 #include <UgPlugin-aria2.h>
 
@@ -64,6 +65,7 @@ gboolean	ug_app_aria2_setup (UgAppGtk* app)
 		ug_plugin_interface_register (&ug_plugin_aria2_iface);
 		if (app->setting.plugin.aria2.launch)
 			ug_app_aria2_launch (app);
+		ug_app_aria2_setup_max_speed (app);
 	}
 
 	return TRUE;
@@ -122,6 +124,45 @@ void	ug_app_aria2_shutdown (UgAppGtk* app)
 		ug_xmlrpc_call (&app->aria2.xmlrpc, "aria2.shutdown", NULL);
 		app->aria2.launched = FALSE;
 	}
+}
+
+void	ug_app_aria2_setup_max_speed (UgAppGtk* app)
+{
+	UgXmlrpc*			xmlrpc;
+	UgXmlrpcValue*		options;
+	UgXmlrpcValue*		member;
+	UgXmlrpcResponse	response;
+
+	if (app->aria2.launched == FALSE)
+		return;
+
+	xmlrpc = &app->aria2.xmlrpc;
+//	ug_xmlrpc_use_client (xmlrpc, app->setting.plugin.aria2.uri, NULL);
+
+	options = ug_xmlrpc_value_new_struct (2);
+	// max-overall-download-limit
+	member = ug_xmlrpc_value_alloc (options);
+	member->name = "max-overall-download-limit";
+	member->type = UG_XMLRPC_STRING;
+	member->c.string = g_strdup_printf ("%dK",
+			app->setting.speed_limit.normal.download);
+	// max-overall-upload-limit
+	member = ug_xmlrpc_value_alloc (options);
+	member->name = "max-overall-upload-limit";
+	member->type = UG_XMLRPC_STRING;
+	member->c.string = g_strdup_printf ("%dK",
+			app->setting.speed_limit.normal.upload);
+
+	response = ug_xmlrpc_call (xmlrpc,
+			"aria2.changeGlobalOption",
+			UG_XMLRPC_STRUCT, options,
+			UG_XMLRPC_NONE);
+	if (response != UG_XMLRPC_OK) {
+		ug_app_show_message (app, GTK_MESSAGE_ERROR,
+				"aria2.changeGlobalOption response error.");
+	}
+
+	ug_xmlrpc_value_free (options);
 }
 
 #endif	// HAVE_PLUGIN_ARIA2
