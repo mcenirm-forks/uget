@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uget-1.5.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-05 09:59+0800\n"
+"POT-Creation-Date: 2012-08-11 08:43+0800\n"
 "PO-Revision-Date: 2011-03-27 23:49+0300\n"
 "Last-Translator: neur0n <cobalt25@mail.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -38,7 +38,8 @@ msgid "Download completed"
 msgstr "Закачка завершена"
 
 #. UG_MESSAGE_INFO_COMPLETE,
-#: ../../po/../uglib/UgMessage.c:56 ../../po/../uget-gtk/UgCategoryWidget.c:45
+#: ../../po/../uglib/UgMessage.c:56
+#: ../../po/../uget-gtk/UgCategoryWidget.c:45
 msgid "Finished"
 msgstr "Завершено"
 
@@ -49,12 +50,14 @@ msgid "Resumable"
 msgstr "Возобновляемо"
 
 #. UG_MESSAGE_INFO_RESUMABLE,
-#: ../../po/../uglib/UgMessage.c:59 ../../po/../uglib/UgPlugin-aria2.c:827
+#: ../../po/../uglib/UgMessage.c:59
+#: ../../po/../uglib/UgPlugin-aria2.c:827
 msgid "Not Resumable"
 msgstr "Не возобновляемо"
 
 #. UG_MESSAGE_WARNING_CUSTOM
-#: ../../po/../uglib/UgMessage.c:67 ../../po/../uglib/UgPlugin-aria2.c:851
+#: ../../po/../uglib/UgMessage.c:67
+#: ../../po/../uglib/UgPlugin-aria2.c:851
 msgid "Output file can't be renamed."
 msgstr "Исходящий файл невозможно переименовать."
 
@@ -173,11 +176,12 @@ msgstr "Не спрашивать более"
 msgid "Error"
 msgstr "Ошибка"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:771 ../../po/../uget-gtk/UgSummary.c:163
+#: ../../po/../uget-gtk/UgApp-gtk.c:772
+#: ../../po/../uget-gtk/UgSummary.c:163
 msgid "Message"
 msgstr "Сообщение"
 
-#: ../../po/../uget-gtk/UgApp-gtk-aria2.c:115
+#: ../../po/../uget-gtk/UgApp-gtk-aria2.c:117
 msgid "failed to launch aria2."
 msgstr "не удалось запустить aria2."
 
@@ -918,7 +922,8 @@ msgid "Left"
 msgstr "Осталось"
 
 #: ../../po/../uget-gtk/UgDownloadWidget.c:862
-#: ../../po/../uget-gtk/UgSelector.c:487 ../../po/../uget-gtk/UgSummary.c:141
+#: ../../po/../uget-gtk/UgSelector.c:487
+#: ../../po/../uget-gtk/UgSummary.c:141
 msgid "URL"
 msgstr "Адрес"
 
@@ -1147,26 +1152,26 @@ msgstr "минут"
 msgid "_Interval:"
 msgstr "_Интервал:"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:334
+#: ../../po/../uget-gtk/UgSettingForm.c:337
 #, fuzzy
 msgid "Commandline Settings"
 msgstr "Командная строка"
 
 #. --quiet
-#: ../../po/../uget-gtk/UgSettingForm.c:337
+#: ../../po/../uget-gtk/UgSettingForm.c:341
 msgid "Use '--quiet' by default"
 msgstr ""
 
-#: ../../po/../uget-gtk/UgSettingForm.c:343
+#: ../../po/../uget-gtk/UgSettingForm.c:347
 msgid "'--category-index' default value"
 msgstr ""
 
-#: ../../po/../uget-gtk/UgSettingForm.c:402
+#: ../../po/../uget-gtk/UgSettingForm.c:408
 msgid "_Enable aria2 plug-in"
 msgstr "Включить aria2-плагин"
 
 #. aria2 plug-in hints
-#: ../../po/../uget-gtk/UgSettingForm.c:410
+#: ../../po/../uget-gtk/UgSettingForm.c:416
 #, fuzzy
 msgid ""
 "Please make sure that all tasks have been completed\n"
@@ -1175,21 +1180,40 @@ msgstr ""
 "Перед тем, какк изменять эти настройки\n"
 "убедитесь, что все задачи завершены."
 
-#: ../../po/../uget-gtk/UgSettingForm.c:426
+#: ../../po/../uget-gtk/UgSettingForm.c:430
 msgid "_Launch aria2 on startup"
 msgstr "_Запускать aria2 при старте"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:432
+#: ../../po/../uget-gtk/UgSettingForm.c:436
 msgid "_Shutdown aria2 on exit"
 msgstr "_Выключать aria2 при выходе"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:439
+#: ../../po/../uget-gtk/UgSettingForm.c:443
 msgid "Path"
 msgstr "Путь"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:447
+#: ../../po/../uget-gtk/UgSettingForm.c:451
 msgid "Arguments"
 msgstr "Аргументы"
+
+#: ../../po/../uget-gtk/UgSettingForm.c:460
+msgid "Speed Limits"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:466
+#, fuzzy
+msgid "Upload"
+msgstr "Отдано"
+
+#: ../../po/../uget-gtk/UgSettingForm.c:468
+#: ../../po/../uget-gtk/UgSettingForm.c:479
+msgid "KiB/s"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:477
+#, fuzzy
+msgid "Download"
+msgstr "_Закачка"
 
 #: ../../po/../uget-gtk/UgSummary.c:106
 msgid "File"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-05 09:59+0800\n"
+"POT-Creation-Date: 2012-08-11 08:43+0800\n"
 "PO-Revision-Date: 2011-09-25 19:00+0200\n"
 "Last-Translator: wastingdouglas <adminkonsoleshop@volny.cz>\n"
 "Language-Team: WastingDouglas translated\n"
@@ -39,7 +39,8 @@ msgid "Download completed"
 msgstr "Stahování dokončeno"
 
 #. UG_MESSAGE_INFO_COMPLETE,
-#: ../../po/../uglib/UgMessage.c:56 ../../po/../uget-gtk/UgCategoryWidget.c:45
+#: ../../po/../uglib/UgMessage.c:56
+#: ../../po/../uget-gtk/UgCategoryWidget.c:45
 msgid "Finished"
 msgstr "Dokončeno"
 
@@ -50,12 +51,14 @@ msgid "Resumable"
 msgstr "Možno pokračovat"
 
 #. UG_MESSAGE_INFO_RESUMABLE,
-#: ../../po/../uglib/UgMessage.c:59 ../../po/../uglib/UgPlugin-aria2.c:827
+#: ../../po/../uglib/UgMessage.c:59
+#: ../../po/../uglib/UgPlugin-aria2.c:827
 msgid "Not Resumable"
 msgstr "Není možné pokračovat"
 
 #. UG_MESSAGE_WARNING_CUSTOM
-#: ../../po/../uglib/UgMessage.c:67 ../../po/../uglib/UgPlugin-aria2.c:851
+#: ../../po/../uglib/UgMessage.c:67
+#: ../../po/../uglib/UgPlugin-aria2.c:851
 msgid "Output file can't be renamed."
 msgstr "Výstupní soubor nemohl být přejmenován."
 
@@ -175,11 +178,12 @@ msgstr "Znovu se neptat"
 msgid "Error"
 msgstr "Chyba"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:771 ../../po/../uget-gtk/UgSummary.c:163
+#: ../../po/../uget-gtk/UgApp-gtk.c:772
+#: ../../po/../uget-gtk/UgSummary.c:163
 msgid "Message"
 msgstr "Zpráva"
 
-#: ../../po/../uget-gtk/UgApp-gtk-aria2.c:115
+#: ../../po/../uget-gtk/UgApp-gtk-aria2.c:117
 msgid "failed to launch aria2."
 msgstr "chyba při spouštění aria2."
 
@@ -908,7 +912,8 @@ msgid "Left"
 msgstr "Zbývá"
 
 #: ../../po/../uget-gtk/UgDownloadWidget.c:862
-#: ../../po/../uget-gtk/UgSelector.c:487 ../../po/../uget-gtk/UgSummary.c:141
+#: ../../po/../uget-gtk/UgSelector.c:487
+#: ../../po/../uget-gtk/UgSummary.c:141
 msgid "URL"
 msgstr "URL"
 
@@ -1130,26 +1135,26 @@ msgstr "minut"
 msgid "_Interval:"
 msgstr "_Interval:"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:334
+#: ../../po/../uget-gtk/UgSettingForm.c:337
 #, fuzzy
 msgid "Commandline Settings"
 msgstr "Příkazová řádka"
 
 #. --quiet
-#: ../../po/../uget-gtk/UgSettingForm.c:337
+#: ../../po/../uget-gtk/UgSettingForm.c:341
 msgid "Use '--quiet' by default"
 msgstr ""
 
-#: ../../po/../uget-gtk/UgSettingForm.c:343
+#: ../../po/../uget-gtk/UgSettingForm.c:347
 msgid "'--category-index' default value"
 msgstr ""
 
-#: ../../po/../uget-gtk/UgSettingForm.c:402
+#: ../../po/../uget-gtk/UgSettingForm.c:408
 msgid "_Enable aria2 plug-in"
 msgstr "_Aktivovat aria2 zásuvný modul"
 
 #. aria2 plug-in hints
-#: ../../po/../uget-gtk/UgSettingForm.c:410
+#: ../../po/../uget-gtk/UgSettingForm.c:416
 msgid ""
 "Please make sure that all tasks have been completed\n"
 "before you modify settings."
@@ -1157,21 +1162,40 @@ msgstr ""
 "Prosím ujistěte se, že jsou před úpravou nastavení\n"
 "všechny úlohy dokončeny."
 
-#: ../../po/../uget-gtk/UgSettingForm.c:426
+#: ../../po/../uget-gtk/UgSettingForm.c:430
 msgid "_Launch aria2 on startup"
 msgstr "_Spustit aria2 při startu"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:432
+#: ../../po/../uget-gtk/UgSettingForm.c:436
 msgid "_Shutdown aria2 on exit"
 msgstr "_Vypnout aria2 po ukončení"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:439
+#: ../../po/../uget-gtk/UgSettingForm.c:443
 msgid "Path"
 msgstr "Cesta"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:447
+#: ../../po/../uget-gtk/UgSettingForm.c:451
 msgid "Arguments"
 msgstr "Argumenty"
+
+#: ../../po/../uget-gtk/UgSettingForm.c:460
+msgid "Speed Limits"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:466
+#, fuzzy
+msgid "Upload"
+msgstr "Odesláno"
+
+#: ../../po/../uget-gtk/UgSettingForm.c:468
+#: ../../po/../uget-gtk/UgSettingForm.c:479
+msgid "KiB/s"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:477
+#, fuzzy
+msgid "Download"
+msgstr "_Stahování"
 
 #: ../../po/../uget-gtk/UgSummary.c:106
 msgid "File"

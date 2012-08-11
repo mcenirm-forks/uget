@@ -1104,7 +1104,7 @@ msgstr "下載完成時發出聲音"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:168
 msgid "Apply recently download settings"
-msgstr ""
+msgstr "套用上一次的下載設定"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:229
 msgid "_Launch default application for specified file types:"
@@ -1124,46 +1124,62 @@ msgstr "分鐘"
 msgid "_Interval:"
 msgstr "間隔(_I):"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:334
-#, fuzzy
+#: ../../po/../uget-gtk/UgSettingForm.c:337
 msgid "Commandline Settings"
-msgstr "命令列"
+msgstr "命令列設定"
 
 #. --quiet
-#: ../../po/../uget-gtk/UgSettingForm.c:337
+#: ../../po/../uget-gtk/UgSettingForm.c:341
 msgid "Use '--quiet' by default"
-msgstr ""
+msgstr "預設使用 '--quiet' 參數"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:343
+#: ../../po/../uget-gtk/UgSettingForm.c:347
 msgid "'--category-index' default value"
-msgstr ""
+msgstr "設定 '--category-index' 的預設值"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:402
+#: ../../po/../uget-gtk/UgSettingForm.c:408
 msgid "_Enable aria2 plug-in"
 msgstr "啟用 aria2 插件(_E)"
 
 #. aria2 plug-in hints
-#: ../../po/../uget-gtk/UgSettingForm.c:410
+#: ../../po/../uget-gtk/UgSettingForm.c:416
 msgid ""
 "Please make sure that all tasks have been completed\n"
 "before you modify settings."
 msgstr "在你修改設定前請確定所有的任務都已經完成。"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:426
+#: ../../po/../uget-gtk/UgSettingForm.c:430
 msgid "_Launch aria2 on startup"
 msgstr "啟動時執行 aria2"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:432
+#: ../../po/../uget-gtk/UgSettingForm.c:436
 msgid "_Shutdown aria2 on exit"
 msgstr "離開時關閉 aria2"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:439
+#: ../../po/../uget-gtk/UgSettingForm.c:443
 msgid "Path"
 msgstr "路徑"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:447
+#: ../../po/../uget-gtk/UgSettingForm.c:451
 msgid "Arguments"
 msgstr "參數"
+
+#: ../../po/../uget-gtk/UgSettingForm.c:460
+msgid "Speed Limits"
+msgstr "速度限制"
+
+#: ../../po/../uget-gtk/UgSettingForm.c:466
+msgid "Upload"
+msgstr "上傳"
+
+#: ../../po/../uget-gtk/UgSettingForm.c:468
+#: ../../po/../uget-gtk/UgSettingForm.c:479
+msgid "KiB/s"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:477
+msgid "Download"
+msgstr "下傳"
 
 #: ../../po/../uget-gtk/UgSummary.c:106
 msgid "File"

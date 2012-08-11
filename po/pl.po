@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uget-1.8.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-05 09:59+0800\n"
+"POT-Creation-Date: 2012-08-11 08:43+0800\n"
 "PO-Revision-Date: 2012-05-06 16:32+0100\n"
 "Last-Translator: Miś Uszatek <adres.email@ymail.com>\n"
 "Language-Team: Polski\n"
@@ -40,7 +40,8 @@ msgid "Download completed"
 msgstr "Pobieranie ukończone"
 
 #. UG_MESSAGE_INFO_COMPLETE,
-#: ../../po/../uglib/UgMessage.c:56 ../../po/../uget-gtk/UgCategoryWidget.c:45
+#: ../../po/../uglib/UgMessage.c:56
+#: ../../po/../uget-gtk/UgCategoryWidget.c:45
 msgid "Finished"
 msgstr "Ukończono"
 
@@ -51,12 +52,14 @@ msgid "Resumable"
 msgstr "Wznawialny"
 
 #. UG_MESSAGE_INFO_RESUMABLE,
-#: ../../po/../uglib/UgMessage.c:59 ../../po/../uglib/UgPlugin-aria2.c:827
+#: ../../po/../uglib/UgMessage.c:59
+#: ../../po/../uglib/UgPlugin-aria2.c:827
 msgid "Not Resumable"
 msgstr "Nie wznawialny"
 
 #. UG_MESSAGE_WARNING_CUSTOM
-#: ../../po/../uglib/UgMessage.c:67 ../../po/../uglib/UgPlugin-aria2.c:851
+#: ../../po/../uglib/UgMessage.c:67
+#: ../../po/../uglib/UgPlugin-aria2.c:851
 msgid "Output file can't be renamed."
 msgstr "Plik wyjściowy nie może być zmieniony."
 
@@ -175,11 +178,12 @@ msgstr "Nie pytaj mnie ponownie"
 msgid "Error"
 msgstr "Błąd"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:771 ../../po/../uget-gtk/UgSummary.c:163
+#: ../../po/../uget-gtk/UgApp-gtk.c:772
+#: ../../po/../uget-gtk/UgSummary.c:163
 msgid "Message"
 msgstr "Komunikaty"
 
-#: ../../po/../uget-gtk/UgApp-gtk-aria2.c:115
+#: ../../po/../uget-gtk/UgApp-gtk-aria2.c:117
 msgid "failed to launch aria2."
 msgstr "nie udało się uruchomić aria2."
 
@@ -908,7 +912,8 @@ msgid "Left"
 msgstr "Pozostało"
 
 #: ../../po/../uget-gtk/UgDownloadWidget.c:862
-#: ../../po/../uget-gtk/UgSelector.c:487 ../../po/../uget-gtk/UgSummary.c:141
+#: ../../po/../uget-gtk/UgSelector.c:487
+#: ../../po/../uget-gtk/UgSummary.c:141
 msgid "URL"
 msgstr "Adres"
 
@@ -1130,26 +1135,26 @@ msgstr "minut"
 msgid "_Interval:"
 msgstr "_Odstęp:"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:334
+#: ../../po/../uget-gtk/UgSettingForm.c:337
 #, fuzzy
 msgid "Commandline Settings"
 msgstr "linia poleceń"
 
 #. --quiet
-#: ../../po/../uget-gtk/UgSettingForm.c:337
+#: ../../po/../uget-gtk/UgSettingForm.c:341
 msgid "Use '--quiet' by default"
 msgstr ""
 
-#: ../../po/../uget-gtk/UgSettingForm.c:343
+#: ../../po/../uget-gtk/UgSettingForm.c:347
 msgid "'--category-index' default value"
 msgstr ""
 
-#: ../../po/../uget-gtk/UgSettingForm.c:402
+#: ../../po/../uget-gtk/UgSettingForm.c:408
 msgid "_Enable aria2 plug-in"
 msgstr "_Włącz wtyczkę  aria2"
 
 #. aria2 plug-in hints
-#: ../../po/../uget-gtk/UgSettingForm.c:410
+#: ../../po/../uget-gtk/UgSettingForm.c:416
 msgid ""
 "Please make sure that all tasks have been completed\n"
 "before you modify settings."
@@ -1157,21 +1162,40 @@ msgstr ""
 "Proszę upewnić się, że wszystkie zadania zostały zakończone\n"
 "Przed zmodyfikowaniem ustawień."
 
-#: ../../po/../uget-gtk/UgSettingForm.c:426
+#: ../../po/../uget-gtk/UgSettingForm.c:430
 msgid "_Launch aria2 on startup"
 msgstr "_Uruchom aria2 na starcie"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:432
+#: ../../po/../uget-gtk/UgSettingForm.c:436
 msgid "_Shutdown aria2 on exit"
 msgstr "_Zamknij aria2 przy wyjściu"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:439
+#: ../../po/../uget-gtk/UgSettingForm.c:443
 msgid "Path"
 msgstr "Ścieżka"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:447
+#: ../../po/../uget-gtk/UgSettingForm.c:451
 msgid "Arguments"
 msgstr "Argumenty"
+
+#: ../../po/../uget-gtk/UgSettingForm.c:460
+msgid "Speed Limits"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:466
+#, fuzzy
+msgid "Upload"
+msgstr "Wysłane"
+
+#: ../../po/../uget-gtk/UgSettingForm.c:468
+#: ../../po/../uget-gtk/UgSettingForm.c:479
+msgid "KiB/s"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:477
+#, fuzzy
+msgid "Download"
+msgstr "_Pobierz"
 
 #: ../../po/../uget-gtk/UgSummary.c:106
 msgid "File"

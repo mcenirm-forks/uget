@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uGet-1.7.5 (Testing)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-05 09:59+0800\n"
+"POT-Creation-Date: 2012-08-11 08:43+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -38,7 +38,8 @@ msgid "Download completed"
 msgstr "Запампоўка скончана"
 
 #. UG_MESSAGE_INFO_COMPLETE,
-#: ../../po/../uglib/UgMessage.c:56 ../../po/../uget-gtk/UgCategoryWidget.c:45
+#: ../../po/../uglib/UgMessage.c:56
+#: ../../po/../uget-gtk/UgCategoryWidget.c:45
 msgid "Finished"
 msgstr "Скончана"
 
@@ -49,12 +50,14 @@ msgid "Resumable"
 msgstr "Узнаўляема"
 
 #. UG_MESSAGE_INFO_RESUMABLE,
-#: ../../po/../uglib/UgMessage.c:59 ../../po/../uglib/UgPlugin-aria2.c:827
+#: ../../po/../uglib/UgMessage.c:59
+#: ../../po/../uglib/UgPlugin-aria2.c:827
 msgid "Not Resumable"
 msgstr "Не узнаўляема"
 
 #. UG_MESSAGE_WARNING_CUSTOM
-#: ../../po/../uglib/UgMessage.c:67 ../../po/../uglib/UgPlugin-aria2.c:851
+#: ../../po/../uglib/UgMessage.c:67
+#: ../../po/../uglib/UgPlugin-aria2.c:851
 msgid "Output file can't be renamed."
 msgstr "Немагчыма перайменаваць выхадны файл."
 
@@ -173,11 +176,12 @@ msgstr "Не пытацца зноў"
 msgid "Error"
 msgstr "Памылка"
 
-#: ../../po/../uget-gtk/UgApp-gtk.c:771 ../../po/../uget-gtk/UgSummary.c:163
+#: ../../po/../uget-gtk/UgApp-gtk.c:772
+#: ../../po/../uget-gtk/UgSummary.c:163
 msgid "Message"
 msgstr "Паведамленне"
 
-#: ../../po/../uget-gtk/UgApp-gtk-aria2.c:115
+#: ../../po/../uget-gtk/UgApp-gtk-aria2.c:117
 msgid "failed to launch aria2."
 msgstr "не атрымалася запусціць aria2."
 
@@ -907,7 +911,8 @@ msgid "Left"
 msgstr "Засталося"
 
 #: ../../po/../uget-gtk/UgDownloadWidget.c:862
-#: ../../po/../uget-gtk/UgSelector.c:487 ../../po/../uget-gtk/UgSummary.c:141
+#: ../../po/../uget-gtk/UgSelector.c:487
+#: ../../po/../uget-gtk/UgSummary.c:141
 msgid "URL"
 msgstr "URL"
 
@@ -1129,26 +1134,26 @@ msgstr "хвілін"
 msgid "_Interval:"
 msgstr "_Інтэрвал:"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:334
+#: ../../po/../uget-gtk/UgSettingForm.c:337
 #, fuzzy
 msgid "Commandline Settings"
 msgstr "Камандны радок"
 
 #. --quiet
-#: ../../po/../uget-gtk/UgSettingForm.c:337
+#: ../../po/../uget-gtk/UgSettingForm.c:341
 msgid "Use '--quiet' by default"
 msgstr ""
 
-#: ../../po/../uget-gtk/UgSettingForm.c:343
+#: ../../po/../uget-gtk/UgSettingForm.c:347
 msgid "'--category-index' default value"
 msgstr ""
 
-#: ../../po/../uget-gtk/UgSettingForm.c:402
+#: ../../po/../uget-gtk/UgSettingForm.c:408
 msgid "_Enable aria2 plug-in"
 msgstr "_Уключыць aria2-дадатак"
 
 #. aria2 plug-in hints
-#: ../../po/../uget-gtk/UgSettingForm.c:410
+#: ../../po/../uget-gtk/UgSettingForm.c:416
 msgid ""
 "Please make sure that all tasks have been completed\n"
 "before you modify settings."
@@ -1156,21 +1161,40 @@ msgstr ""
 "Перад тым, як змяняць налады,\n"
 "пераканайцеся, што усе задачы скончаныя."
 
-#: ../../po/../uget-gtk/UgSettingForm.c:426
+#: ../../po/../uget-gtk/UgSettingForm.c:430
 msgid "_Launch aria2 on startup"
 msgstr "_Запускаць aria2 пры старце"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:432
+#: ../../po/../uget-gtk/UgSettingForm.c:436
 msgid "_Shutdown aria2 on exit"
 msgstr "_Выключаць aria2 пры выхадзе"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:439
+#: ../../po/../uget-gtk/UgSettingForm.c:443
 msgid "Path"
 msgstr "Шлях"
 
-#: ../../po/../uget-gtk/UgSettingForm.c:447
+#: ../../po/../uget-gtk/UgSettingForm.c:451
 msgid "Arguments"
 msgstr "Аргументы"
+
+#: ../../po/../uget-gtk/UgSettingForm.c:460
+msgid "Speed Limits"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:466
+#, fuzzy
+msgid "Upload"
+msgstr "Аддадзена"
+
+#: ../../po/../uget-gtk/UgSettingForm.c:468
+#: ../../po/../uget-gtk/UgSettingForm.c:479
+msgid "KiB/s"
+msgstr ""
+
+#: ../../po/../uget-gtk/UgSettingForm.c:477
+#, fuzzy
+msgid "Download"
+msgstr "_Запампоўка"
 
 #: ../../po/../uget-gtk/UgSummary.c:106
 msgid "File"
