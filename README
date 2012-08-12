@@ -1,3 +1,8 @@
+uGet 1.9.2 (devel)
+1. Add global speed limits for aria2.
+2. Fix memory leak.
+3. This version need GTK 3.4+ and GLib 2.32+
+
 uGet 1.9.1 (devel)
 1. Add new option "User Agent" in download dialog.
 2. Fix: Source package doesn't include some project files for Windows.
