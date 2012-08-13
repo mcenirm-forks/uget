@@ -974,12 +974,16 @@ static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* op
 		value->type = UG_XMLRPC_STRING;
 		value->c.string = common->folder;
 	}
-	// max-tries
+	// continue
 	value = ug_xmlrpc_value_alloc (options);
-	value->name = "max-tries";
+	value->name = "continue";
 	value->type = UG_XMLRPC_STRING;
-	g_string_printf (string, "%u", common->retry_limit);
-	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
+	value->c.string = g_string_chunk_insert (plugin->chunk, "true");
+	// remote-time
+	value = ug_xmlrpc_value_alloc (options);
+	value->name = "remote-time";
+	value->type = UG_XMLRPC_STRING;
+	value->c.string = g_string_chunk_insert (plugin->chunk, "true");
 	// retry-wait (since aria2 v1.11.0)
 	if (plugin->major_version >= 1  &&  plugin->minor_version >= 11) {
 		value = ug_xmlrpc_value_alloc (options);
@@ -988,6 +992,12 @@ static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* op
 		g_string_printf (string, "%u", common->retry_delay);
 		value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
 	}
+	// max-tries
+	value = ug_xmlrpc_value_alloc (options);
+	value->name = "max-tries";
+	value->type = UG_XMLRPC_STRING;
+	g_string_printf (string, "%u", common->retry_limit);
+	value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
 	// max-download-limit
 	value = ug_xmlrpc_value_alloc (options);
 	value->name = "max-download-limit";
