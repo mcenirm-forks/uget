@@ -65,10 +65,6 @@ static const UgDataEntry	ug_data_common_entry[] =
 	{"MaxConnections",		G_STRUCT_OFFSET (UgDataCommon, max_connections),	UG_DATA_INT,	NULL,	NULL},
 	{"MaxUploadSpeed",		G_STRUCT_OFFSET (UgDataCommon, max_upload_speed),	UG_DATA_INT64,	NULL,	NULL},
 	{"MaxDownloadSpeed",	G_STRUCT_OFFSET (UgDataCommon, max_download_speed),	UG_DATA_INT64,	NULL,	NULL},
-
-	// deprecate
-	{"AttachedFolder",		G_STRUCT_OFFSET (UgDataCommon, attached.folder),	UG_DATA_STRING,	NULL,	NULL},
-	{"AttachedStamp",		G_STRUCT_OFFSET (UgDataCommon, attached.stamp),		UG_DATA_UINT,	NULL,	NULL},
 	{NULL}		// null-terminated
 };
 // extern

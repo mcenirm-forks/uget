@@ -419,7 +419,6 @@ static GMarkupParser	ug_download_list_parser =
 
 GList*	ug_download_list_load (const gchar* download_file)
 {
-	UgDataCommon*	common;
 	UgRelation*		relation;
 	GList*			list;
 	GList*			link;
@@ -429,19 +428,6 @@ GList*	ug_download_list_load (const gchar* download_file)
 	// attachment
 	for (link = list;  link;  link = link->next) {
 		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
-
-		// Compatibility code for old DownloadList.xml
-		if (relation == NULL)
-			relation = ug_dataset_alloc_front (link->data, UG_RELATION_I);
-		common = UG_DATASET_COMMON ((UgDataset*) link->data);
-		if (relation->attached.stamp == 0 && common) {
-			relation->attached.stamp = common->attached.stamp;
-			ug_str_set (&relation->attached.folder, common->attached.folder, -1);
-			g_free (common->attached.folder);
-			common->attached.folder = NULL;
-			common->attached.stamp = 0;
-		}
-
 		ug_attachment_ref (relation->attached.stamp);
 	}
 

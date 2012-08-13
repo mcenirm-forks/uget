@@ -148,13 +148,6 @@ struct UgDataCommon
 
 		gboolean	debug_level:1;
 	} keeping;
-
-	// deprecate
-	struct
-	{
-		gchar*	folder;
-		guint	stamp;
-	} attached;
 };
 
 
