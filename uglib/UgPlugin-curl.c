@@ -567,9 +567,11 @@ exit:
 #else
 		ug_plugin_rename_file ((UgPlugin*) plugin, plugin->path_tmp, plugin->path);
 #endif
-		curl_easy_getinfo (curl, CURLINFO_FILETIME, &curl_time);
-		if (curl_time != -1)
-			ug_modify_file_time (plugin->path, (time_t) curl_time);
+		if (common->timestamp) {
+			curl_easy_getinfo (curl, CURLINFO_FILETIME, &curl_time);
+			if (curl_time != -1)
+				ug_modify_file_time (plugin->path, (time_t) curl_time);
+		}
 		ug_plugin_post ((UgPlugin*) plugin,
 				ug_message_new_info (UG_MESSAGE_INFO_COMPLETE, NULL));
 		ug_plugin_post ((UgPlugin*) plugin,

@@ -109,6 +109,8 @@ struct UgDownloadForm
 	GtkSpinButton*	spin_download_speed;
 	GtkSpinButton*	spin_upload_speed;
 
+	GtkToggleButton*	timestamp;
+
 	// ----------------------------------------------------
 	// User changed entry
 	//
@@ -129,6 +131,7 @@ struct UgDownloadForm
 		gboolean	connections:1;	// spin_connections
 		gboolean	max_upload_speed:1;		// spin_upload_speed
 		gboolean	max_download_speed:1;	// spin_download_speed
+		gboolean	timestamp:1;
 	} changed;
 
 	// ----------------------------------------------------

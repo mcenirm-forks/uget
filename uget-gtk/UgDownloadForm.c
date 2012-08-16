@@ -71,6 +71,7 @@ void	ug_download_form_init (UgDownloadForm* dform, UgProxyForm* proxy, GtkWindow
 	dform->changed.cookie   = FALSE;
 	dform->changed.post     = FALSE;
 	dform->changed.agent    = FALSE;
+	dform->changed.timestamp= FALSE;
 	dform->changed.retry    = FALSE;
 	dform->changed.delay    = FALSE;
 	dform->parent = parent;
@@ -433,6 +434,12 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	g_object_set (widget, "margin", 2, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 3, 4, 1, 1);
+
+	// timestamp
+	widget = gtk_check_button_new_with_label (_("Retrieve timestamp"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
+	gtk_grid_attach (grid, widget, 0, 5, 3, 1);
+	dform->timestamp = (GtkToggleButton*) widget;
 }
 
 static void ug_download_form_decide_sensitive (UgDownloadForm* dform)
@@ -489,6 +496,8 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	// max_connections
 	number = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_connections);
 	common->max_connections = number;
+	// timestamp
+	common->timestamp = gtk_toggle_button_get_active (dform->timestamp);
 
 	if (gtk_widget_is_sensitive (dform->url_entry) == TRUE) {
 		ug_str_set (&common->url,  gtk_entry_get_text ((GtkEntry*)dform->url_entry),  -1);
@@ -619,6 +628,8 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_connections,
 			common->max_connections);
 	}
+	if (keep_changed==FALSE || dform->changed.timestamp==FALSE)
+		gtk_toggle_button_set_active (dform->timestamp, common->timestamp);
 
 	// ------------------------------------------
 	// UgDataHttp
