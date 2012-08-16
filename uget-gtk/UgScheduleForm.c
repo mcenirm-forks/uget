@@ -178,7 +178,7 @@ void	ug_schedule_form_init (struct UgScheduleForm* sform)
 	gtk_grid_attach (caption, widget, 2, 3, 1, 1);
 	sform->spin_speed = (GtkSpinButton*) widget;
 	// Speed limit - KiB/s label
-	widget = gtk_label_new ("KiB/s");
+	widget = gtk_label_new (_("KiB/s"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	g_object_set (widget, "margin", 2, NULL);
 	gtk_grid_attach (caption, widget, 3, 3, 1, 1);

@@ -413,7 +413,7 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 	gtk_grid_attach (grid, widget, 2, 3, 1, 1);
 	dform->spin_upload_speed = (GtkSpinButton*) widget;
 	// label - "KiB/s"
-	widget = gtk_label_new ("KiB/s");
+	widget = gtk_label_new (_("KiB/s"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	g_object_set (widget, "margin", 2, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 3, 3, 1, 1);
@@ -430,7 +430,7 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 	gtk_grid_attach (grid, widget, 2, 4, 1, 1);
 	dform->spin_download_speed = (GtkSpinButton*) widget;
 	// label - "KiB/s"
-	widget = gtk_label_new ("KiB/s");
+	widget = gtk_label_new (_("KiB/s"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	g_object_set (widget, "margin", 2, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 3, 4, 1, 1);
