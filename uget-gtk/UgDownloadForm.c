@@ -437,7 +437,6 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 
 	// timestamp
 	widget = gtk_check_button_new_with_label (_("Retrieve timestamp"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);	// left, center
 	gtk_grid_attach (grid, widget, 0, 5, 3, 1);
 	dform->timestamp = (GtkToggleButton*) widget;
 }
