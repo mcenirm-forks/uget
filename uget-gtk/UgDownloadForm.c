@@ -325,7 +325,7 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 
 	// ----------------------------------------------------
 	// proxy
-//	ug_proxy_widget_init (&dform->proxy_dform, TRUE);
+//	ug_proxy_widget_init (&dform->proxy_dform);
 	if (proxy) {
 		widget = proxy->self;
 		g_object_set (widget, "margin", 1, "hexpand", TRUE, NULL);

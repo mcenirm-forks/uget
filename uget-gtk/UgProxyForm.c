@@ -51,7 +51,7 @@ static void on_entry_pwmd_changed (GtkEditable* editable, UgProxyForm* pform);
 #endif
 
 
-void	ug_proxy_form_init (UgProxyForm* pform, gboolean integrated)
+void	ug_proxy_form_init (UgProxyForm* pform)
 {
 	GtkWidget*	vbox;
 	GtkWidget*	hbox;
@@ -76,6 +76,8 @@ void	ug_proxy_form_init (UgProxyForm* pform, gboolean integrated)
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 1);
 	gtk_box_pack_start (GTK_BOX (hbox), pform->type, FALSE, FALSE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox),
+			gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), TRUE, TRUE, 2);
 	g_signal_connect (pform->type, "changed",
 			G_CALLBACK (on_type_changed), pform);
 
@@ -91,16 +93,9 @@ void	ug_proxy_form_init (UgProxyForm* pform, gboolean integrated)
 	gtk_box_pack_end (GTK_BOX (vbox), pform->pwmd.self, TRUE, TRUE, 0);
 #endif	// HAVE_LIBPWMD
 
-	if (integrated == FALSE) {
-		gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 3);
-		pform->self = (GtkWidget*) vbox;
-	}
-	else {
-		pform->self = gtk_frame_new (NULL);
-		gtk_frame_set_label_widget ((GtkFrame*) pform->self, hbox);
-		gtk_container_add (GTK_CONTAINER (pform->self), vbox);
-		gtk_container_set_border_width (GTK_CONTAINER (vbox), 3);
-	}
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 3);
+	pform->self = (GtkWidget*) vbox;
+
 	gtk_widget_show_all (pform->self);
 }
 

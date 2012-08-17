@@ -101,7 +101,7 @@ struct UgProxyForm
 //#endif	// HAVE_LIBPWMD
 };
 
-void	ug_proxy_form_init (UgProxyForm* pform, gboolean integrated);
+void	ug_proxy_form_init (UgProxyForm* pform);
 void	ug_proxy_form_get  (UgProxyForm* pform, UgDataset* dataset);
 void	ug_proxy_form_set  (UgProxyForm* pform, UgDataset* dataset, gboolean keep_changed);
 

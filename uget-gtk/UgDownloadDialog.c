@@ -81,7 +81,7 @@ UgDownloadDialog*	ug_download_dialog_new (const gchar* title, GtkWindow* parent)
 	gtk_dialog_set_default_response (ddialog->self, GTK_RESPONSE_OK);
 
 	// form (Page 1)
-	ug_proxy_form_init (&ddialog->proxy, TRUE);
+	ug_proxy_form_init (&ddialog->proxy);
 	ug_download_form_init (&ddialog->download,
 			&ddialog->proxy, (GtkWindow*) ddialog->self);
 	// initialize page status

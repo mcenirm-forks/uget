@@ -51,7 +51,7 @@ UgCategoryDialog*	ug_category_dialog_new (const gchar* title, GtkWindow* parent)
 			GTK_STOCK_OK,     GTK_RESPONSE_OK,
 			NULL);
 	gtk_dialog_set_default_response (cdialog->self, GTK_RESPONSE_OK);
-	ug_proxy_form_init (&cdialog->proxy, TRUE);
+	ug_proxy_form_init (&cdialog->proxy);
 	ug_download_form_init (&cdialog->download, &cdialog->proxy, (GtkWindow*) cdialog->self);
 	ug_download_form_set_multiple (&cdialog->download, TRUE);
 	ug_category_form_init (&cdialog->category);
