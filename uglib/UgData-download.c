@@ -63,7 +63,7 @@ static const UgDataEntry	ug_data_common_entry[] =
 	{"TransmitTimeout",		G_STRUCT_OFFSET (UgDataCommon, transmit_timeout),	UG_DATA_UINT,	NULL,	NULL},
 	{"RetryDelay",			G_STRUCT_OFFSET (UgDataCommon, retry_delay),		UG_DATA_UINT,	NULL,	NULL},
 	{"RetryLimit",			G_STRUCT_OFFSET (UgDataCommon, retry_limit),		UG_DATA_UINT,	NULL,	NULL},
-	{"MaxConnections",		G_STRUCT_OFFSET (UgDataCommon, max_connections),	UG_DATA_INT,	NULL,	NULL},
+	{"MaxConnections",		G_STRUCT_OFFSET (UgDataCommon, max_connections),	UG_DATA_UINT,	NULL,	NULL},
 	{"MaxUploadSpeed",		G_STRUCT_OFFSET (UgDataCommon, max_upload_speed),	UG_DATA_INT64,	NULL,	NULL},
 	{"MaxDownloadSpeed",	G_STRUCT_OFFSET (UgDataCommon, max_download_speed),	UG_DATA_INT64,	NULL,	NULL},
 	{NULL}		// null-terminated
