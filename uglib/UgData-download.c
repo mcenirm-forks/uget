@@ -58,7 +58,7 @@ static const UgDataEntry	ug_data_common_entry[] =
 	{"folder",				G_STRUCT_OFFSET (UgDataCommon, folder),				UG_DATA_STRING,	NULL,	NULL},
 	{"user",				G_STRUCT_OFFSET (UgDataCommon, user),				UG_DATA_STRING,	NULL,	NULL},
 	{"password",			G_STRUCT_OFFSET (UgDataCommon, password),			UG_DATA_STRING,	NULL,	NULL},
-	{"timestamp",			G_STRUCT_OFFSET (UgDataCommon, timestamp),			UG_DATA_UINT,	NULL,	NULL},
+	{"RetrieveTimestamp",	G_STRUCT_OFFSET (UgDataCommon, retrieve_timestamp),	UG_DATA_INT,	NULL,	NULL},
 	{"ConnectTimeout",		G_STRUCT_OFFSET (UgDataCommon, connect_timeout),	UG_DATA_UINT,	NULL,	NULL},
 	{"TransmitTimeout",		G_STRUCT_OFFSET (UgDataCommon, transmit_timeout),	UG_DATA_UINT,	NULL,	NULL},
 	{"RetryDelay",			G_STRUCT_OFFSET (UgDataCommon, retry_delay),		UG_DATA_UINT,	NULL,	NULL},
@@ -83,7 +83,7 @@ const UgDataInterface	ug_data_common_iface =
 
 static void ug_data_common_init (UgDataCommon* common)
 {
-	common->timestamp = TRUE;
+	common->retrieve_timestamp = TRUE;
 	common->connect_timeout  = 30;
 	common->transmit_timeout = 30;
 	common->retry_delay = 6;

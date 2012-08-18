@@ -114,7 +114,7 @@ struct UgDataCommon
 	gchar*		user;
 	gchar*		password;
 	// Retrieve timestamp of the remote file if it is available.
-	gboolean	timestamp;
+	gboolean	retrieve_timestamp;
 	// timeout
 	guint		connect_timeout;	// second
 	guint		transmit_timeout;	// second

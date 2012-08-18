@@ -567,7 +567,7 @@ exit:
 #else
 		ug_plugin_rename_file ((UgPlugin*) plugin, plugin->path_tmp, plugin->path);
 #endif
-		if (common->timestamp) {
+		if (common->retrieve_timestamp) {
 			curl_easy_getinfo (curl, CURLINFO_FILETIME, &curl_time);
 			if (curl_time != -1)
 				ug_modify_file_time (plugin->path, (time_t) curl_time);

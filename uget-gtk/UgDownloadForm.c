@@ -435,7 +435,7 @@ static void	ug_download_form_init_page2 (UgDownloadForm* dform)
 	g_object_set (widget, "margin", 2, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 3, 4, 1, 1);
 
-	// timestamp
+	// Retrieve timestamp
 	widget = gtk_check_button_new_with_label (_("Retrieve timestamp"));
 	gtk_grid_attach (grid, widget, 0, 5, 3, 1);
 	dform->timestamp = (GtkToggleButton*) widget;
@@ -496,7 +496,7 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	number = gtk_spin_button_get_value_as_int ((GtkSpinButton*) dform->spin_connections);
 	common->max_connections = number;
 	// timestamp
-	common->timestamp = gtk_toggle_button_get_active (dform->timestamp);
+	common->retrieve_timestamp = gtk_toggle_button_get_active (dform->timestamp);
 
 	if (gtk_widget_is_sensitive (dform->url_entry) == TRUE) {
 		ug_str_set (&common->url,  gtk_entry_get_text ((GtkEntry*)dform->url_entry),  -1);
@@ -628,7 +628,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 			common->max_connections);
 	}
 	if (keep_changed==FALSE || dform->changed.timestamp==FALSE)
-		gtk_toggle_button_set_active (dform->timestamp, common->timestamp);
+		gtk_toggle_button_set_active (dform->timestamp, common->retrieve_timestamp);
 
 	// ------------------------------------------
 	// UgDataHttp
