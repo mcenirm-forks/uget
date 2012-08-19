@@ -89,6 +89,8 @@ void	ug_app_init (UgAppGtk* app)
 	ug_attachment_init (ug_get_attachment_dir ());
 	ug_app_load (app);
 	ug_attachment_sync ();
+	// initialize aria2
+	ug_app_aria2_init (app);
 	// apply settings
 	ug_app_set_setting (app, &app->setting);
 	ug_clipboard_init (&app->clipboard, app->setting.clipboard.pattern);
@@ -106,9 +108,6 @@ void	ug_app_init (UgAppGtk* app)
 	ug_app_init_callback (app);
 	// initialize timeout in UgApp-gtk-timeout.c
 	ug_app_init_timeout (app);
-	// aria2
-	ug_app_aria2_init (app);
-	ug_app_aria2_setup (app);
 
 	ug_app_menubar_sync_category (app, TRUE);
 	ug_category_view_set_cursor (app->cwidget.primary.view, 0, -1);
@@ -121,6 +120,9 @@ void	ug_app_init (UgAppGtk* app)
 	if (app->setting.ui.start_in_tray == FALSE)
 		gtk_widget_show ((GtkWidget*) app->window.self);
 	ug_app_trayicon_decide_visible (app);
+
+	// setup aria2
+	ug_app_aria2_setup (app);
 }
 
 void	ug_app_quit (UgAppGtk* app)
