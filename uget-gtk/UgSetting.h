@@ -173,13 +173,13 @@ struct UgSetting
 		const UgDataInterface*	iface;		// for UgMarkup parse/write
 
 		struct {
-			gint	upload;					// KiB / second
-			gint	download;				// KiB / second
+			guint	upload;					// KiB / second
+			guint	download;				// KiB / second
 		} normal;
 
 		struct {
-			gint	upload;					// KiB / second
-			gint	download;				// KiB / second
+			guint	upload;					// KiB / second
+			guint	download;				// KiB / second
 		} scheduler;
 	} speed_limit;
 

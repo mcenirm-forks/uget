@@ -467,7 +467,7 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
 	widget = gtk_label_new (_("KiB/s"));
 	gtk_box_pack_end (hbox, widget, FALSE, FALSE, 2);
-	widget = gtk_spin_button_new_with_range (0.0, 1000000000.0, 5.0);
+	widget = gtk_spin_button_new_with_range (0.0, 4000000000.0, 5.0);
 	gtk_entry_set_width_chars (GTK_ENTRY (widget), 15);
 	gtk_box_pack_end (hbox, widget, FALSE, FALSE, 2);
 	psform->upload = (GtkSpinButton*) widget;
@@ -478,7 +478,7 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
 	widget = gtk_label_new (_("KiB/s"));
 	gtk_box_pack_end (hbox, widget, FALSE, FALSE, 2);
-	widget = gtk_spin_button_new_with_range (0.0, 1000000000.0, 5.0);
+	widget = gtk_spin_button_new_with_range (0.0, 4000000000.0, 5.0);
 	gtk_entry_set_width_chars (GTK_ENTRY (widget), 15);
 	gtk_box_pack_end (hbox, widget, FALSE, FALSE, 2);
 	psform->download = (GtkSpinButton*) widget;
@@ -512,7 +512,7 @@ void	ug_plugin_setting_form_get (struct UgPluginSettingForm* psform, UgSetting* 
 	setting->plugin.aria2.path = g_strdup (gtk_entry_get_text (psform->path));
 	setting->plugin.aria2.args = g_strdup (gtk_entry_get_text (psform->args));
 
-	setting->speed_limit.normal.upload = gtk_spin_button_get_value_as_int (psform->upload);
-	setting->speed_limit.normal.download = gtk_spin_button_get_value_as_int (psform->download);
+	setting->speed_limit.normal.upload   = (guint) gtk_spin_button_get_value (psform->upload);
+	setting->speed_limit.normal.download = (guint) gtk_spin_button_get_value (psform->download);
 }
 

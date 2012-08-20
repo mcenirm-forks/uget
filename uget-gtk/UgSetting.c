@@ -174,10 +174,10 @@ static const UgDataInterface	ug_clipboard_setting_iface =
 // UgSpeedLimitSetting
 static const UgDataEntry	ug_speed_limit_setting_entry[] =
 {
-	{"NormalUpload",	G_STRUCT_OFFSET (struct UgSpeedLimitSetting, normal.upload),	UG_DATA_INT,	NULL,	NULL},
-	{"NormalDownload",	G_STRUCT_OFFSET (struct UgSpeedLimitSetting, normal.download),	UG_DATA_INT,	NULL,	NULL},
-	{"SchedulerUpload",		G_STRUCT_OFFSET (struct UgSpeedLimitSetting, scheduler.upload),		UG_DATA_INT,	NULL,	NULL},
-	{"SchedulerDownload",	G_STRUCT_OFFSET (struct UgSpeedLimitSetting, scheduler.download),	UG_DATA_INT,	NULL,	NULL},
+	{"NormalUpload",	G_STRUCT_OFFSET (struct UgSpeedLimitSetting, normal.upload),	UG_DATA_UINT,	NULL,	NULL},
+	{"NormalDownload",	G_STRUCT_OFFSET (struct UgSpeedLimitSetting, normal.download),	UG_DATA_UINT,	NULL,	NULL},
+	{"SchedulerUpload",		G_STRUCT_OFFSET (struct UgSpeedLimitSetting, scheduler.upload),		UG_DATA_UINT,	NULL,	NULL},
+	{"SchedulerDownload",	G_STRUCT_OFFSET (struct UgSpeedLimitSetting, scheduler.download),	UG_DATA_UINT,	NULL,	NULL},
 	{NULL},			// null-terminated
 };
 
