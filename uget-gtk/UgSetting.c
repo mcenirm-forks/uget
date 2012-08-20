@@ -472,7 +472,7 @@ void	ug_setting_init (UgSetting* setting)
 	setting->ui.start_in_offline_mode = FALSE;
 	setting->ui.start_notification = TRUE;
 	setting->ui.sound_notification = TRUE;
-	setting->ui.apply_recently = FALSE;
+	setting->ui.apply_recently = TRUE;
 #ifdef HAVE_APP_INDICATOR
 	setting->ui.app_indicator = TRUE;
 #endif
