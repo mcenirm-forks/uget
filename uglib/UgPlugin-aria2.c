@@ -891,6 +891,30 @@ static void	ug_plugin_aria2_post_error (UgPluginAria2* plugin, int code)
 		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: HTTP authorization failed.");
 		break;
 
+	case 25:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: could not parse bencoded file(usually .torrent file).");
+		break;
+
+	case 26:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: torrent file was corrupted or missing information.");
+		break;
+
+	case 27:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: Magnet URI was bad.");
+		break;
+
+	case 28:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: bad/unrecognized option was given or unexpected option argument was given.");
+		break;
+
+	case 29:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: remote server was unable to handle the request.");
+		break;
+
+	case 30:
+		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, "aria2: could not parse JSON-RPC request.");
+		break;
+
 	default:
 		string = g_strdup_printf ("aria2 error code: %u", plugin->errorCode);
 		message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, string);
