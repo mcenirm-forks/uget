@@ -102,6 +102,7 @@ struct UgAppGtk
 	{
 		UgXmlrpc	xmlrpc;
 		gboolean	launched;
+		gboolean	speed_changed;
 	} aria2;
 
 	struct UgUserAction

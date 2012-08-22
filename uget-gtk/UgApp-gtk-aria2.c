@@ -133,7 +133,7 @@ void	ug_app_aria2_setup_max_speed (UgAppGtk* app)
 	UgXmlrpcValue*		member;
 	UgXmlrpcResponse	response;
 
-	if (app->aria2.launched == FALSE)
+	if (app->aria2.launched == FALSE || app->aria2.speed_changed == TRUE)
 		return;
 
 	xmlrpc = &app->aria2.xmlrpc;
@@ -157,10 +157,10 @@ void	ug_app_aria2_setup_max_speed (UgAppGtk* app)
 			"aria2.changeGlobalOption",
 			UG_XMLRPC_STRUCT, options,
 			UG_XMLRPC_NONE);
-	if (response != UG_XMLRPC_OK) {
-		ug_app_show_message (app, GTK_MESSAGE_ERROR,
-				"aria2.changeGlobalOption response error.");
-	}
+	if (response == UG_XMLRPC_OK)
+		app->aria2.speed_changed = TRUE;
+	else
+		app->aria2.speed_changed = FALSE;
 
 	ug_xmlrpc_value_free (options);
 }

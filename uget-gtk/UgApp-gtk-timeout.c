@@ -458,6 +458,8 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 		gchar*		string;
 	} temp;
 
+	// aria2 global speed control
+	ug_app_aria2_setup_max_speed (app);
 
 	// If changed is TRUE, it will refresh all category-related data.
 	changed = ug_app_decide_schedule_state (app);
