@@ -753,7 +753,7 @@ void	ug_download_form_complete_entry (UgDownloadForm* dform)
 {
 	UgUriFull		urifull;
 	const gchar*	text;
-	gchar*			temp;
+//	gchar*			temp;
 	gboolean		completed;
 
 	// URL
@@ -762,6 +762,7 @@ void	ug_download_form_complete_entry (UgDownloadForm* dform)
 	if (urifull.host) {
 		// disable changed flags
 		dform->changed.enable = FALSE;
+/*
 		// complete file entry
 		text = gtk_entry_get_text ((GtkEntry*) dform->file_entry);
 		if (text[0] == 0 || dform->changed.file == FALSE) {
@@ -770,7 +771,6 @@ void	ug_download_form_complete_entry (UgDownloadForm* dform)
 					(temp) ? temp : "index.htm");
 			g_free (temp);
 		}
-/*
 		// complete user entry
 		text = gtk_entry_get_text ((GtkEntry*) dform->username_entry);
 		if (text[0] == 0 || dform->changed.user == FALSE) {

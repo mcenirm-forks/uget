@@ -76,6 +76,7 @@ struct UgPluginCurl
 	// status
 	guint			scheme;
 	gboolean		resumable;
+	gboolean		keep_filename;
 
 	// progress
 	guint			progress_count;

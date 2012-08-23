@@ -287,12 +287,15 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 	// setup scheme and it's related data (user & password)
 	ug_plugin_curl_set_scheme (plugin, curl);
 	// check filename
-	if (common->file == NULL) {
+	if (common->file)
+		plugin->keep_filename = TRUE;
+	else {
 		common->file = ug_uri_get_filename (common->url);
 		if (common->file == NULL)
 			common->file = g_strdup ("index.htm");
 		ug_plugin_post ((UgPlugin*) plugin,
 				ug_message_new_data (UG_MESSAGE_DATA_FILE_CHANGED, common->file));
+		plugin->keep_filename = FALSE;
 	}
 	if (common->max_download_speed) {
 		curl_easy_setopt (curl, CURLOPT_MAX_SEND_SPEED_LARGE,
@@ -782,8 +785,8 @@ static size_t	ug_plugin_curl_header_http (char *buffer, size_t size, size_t nmem
 				ug_message_new_data (UG_MESSAGE_DATA_HTTP_LOCATION, common->url));
 		// setup scheme and it's related data (user & password)
 		ug_plugin_curl_set_scheme (plugin, plugin->curl);
-//		if (common->keeping.file == FALSE)
-		file = ug_uri_get_filename (common->url);
+		if (plugin->keep_filename == FALSE)
+			file = ug_uri_get_filename (common->url);
 	}
 	// handle HTTP header "Content-Location:"
 	else if (g_ascii_strncasecmp (buffer, "Content-Location: ", 18) == 0) {
@@ -792,8 +795,8 @@ static size_t	ug_plugin_curl_header_http (char *buffer, size_t size, size_t nmem
 		temp = g_strndup (buffer, strcspn (buffer, "\r\n"));
 		ug_plugin_post ((UgPlugin*) plugin,
 				ug_message_new_data (UG_MESSAGE_DATA_HTTP_CONTENT_LOCATION, temp));
-//		if (common->keeping.file == FALSE)
-		file = ug_uri_get_filename (temp);
+		if (plugin->keep_filename == FALSE)
+			file = ug_uri_get_filename (temp);
 		g_free (temp);
 	}
 	// handle HTTP header "Content-Disposition:"
@@ -804,18 +807,20 @@ static size_t	ug_plugin_curl_header_http (char *buffer, size_t size, size_t nmem
 		ug_plugin_post ((UgPlugin*) plugin,
 				ug_message_new_data (UG_MESSAGE_DATA_HTTP_CONTENT_DISPOSITION, buffer));
 		// grab filename
-		file = strstr (buffer, "filename=");
-		if (file) {
-			file += 9;	// value of "filename="
-			if (file[0] == '\"') {
-				file += 1;
-				temp = g_strndup (file, strcspn (file, "\""));
+		if (plugin->keep_filename == FALSE) {
+			file = strstr (buffer, "filename=");
+			if (file) {
+				file += 9;	// value of "filename="
+				if (file[0] == '\"') {
+					file += 1;
+					temp = g_strndup (file, strcspn (file, "\""));
+				}
+				else
+					temp = g_strndup (file, strcspn (file, ";"));
+//				if (common->keeping.file == FALSE)
+				file = ug_uri_get_filename (temp);
+				g_free (temp);
 			}
-			else
-				temp = g_strndup (file, strcspn (file, ";"));
-//			if (common->keeping.file == FALSE)
-			file = ug_uri_get_filename (temp);
-			g_free (temp);
 		}
 		g_free (buffer);
 	}
