@@ -413,6 +413,7 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 
 	// Others -----------------------------------------------------------------
 	curl_easy_setopt (curl, CURLOPT_FILETIME, 1);	// use with CURLINFO_FILETIME
+	curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, FALSE);	// disable peer SSL certificate verification
 	curl_easy_setopt (curl, CURLOPT_ERRORBUFFER, plugin->curl_error_string);
 	curl_easy_setopt (curl, CURLOPT_LOW_SPEED_LIMIT, 100);
 	curl_easy_setopt (curl, CURLOPT_LOW_SPEED_TIME, 60);
