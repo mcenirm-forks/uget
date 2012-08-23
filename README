@@ -1,3 +1,18 @@
+This one will be 1.10 (stable) if no problem.
+
+uGet 1.9.90 (testing)
+1. Add new option "Retrieve timestamp" in Download dialog.
+2. Refine aria2 global speed control.
+3. Pass argument "continue" and "remote-time" to aria2 by XML-RPC.
+4. Change aria2 arguments to "--enable-rpc=true -D --check-certificate=false".
+5. Enable "Apply recently download settings" by default.
+6. Fix some bugs.
+
+If you have trouble when you use uget with aria2 in Fedora, I suggest that
+user run aria2c in terminal with argument "--enable-rpc=true" first. If you got
+"failed to bind port 6800", try to add "--disable-ipv6=true" and run aria2c again.
+If it works, add "--disable-ipv6=true" to Arguments entry in Plug-in setting.
+
 uGet 1.9.2 (devel)
 1. Add global speed limits for aria2.
 2. Fix memory leak.
