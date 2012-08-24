@@ -1002,15 +1002,15 @@ static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* op
 	value = ug_xmlrpc_value_alloc (options);
 	value->name = "continue";
 	value->type = UG_XMLRPC_STRING;
-	value->c.string = g_string_chunk_insert (plugin->chunk, "true");
+	value->c.string = "true";
 	// remote-time
 	value = ug_xmlrpc_value_alloc (options);
 	value->name = "remote-time";
 	value->type = UG_XMLRPC_STRING;
 	if (common->retrieve_timestamp)
-		value->c.string = g_string_chunk_insert (plugin->chunk, "true");
+		value->c.string = "true";
 	else
-		value->c.string = g_string_chunk_insert (plugin->chunk, "false");
+		value->c.string = "false";
 	// retry-wait (since aria2 v1.11.0)
 	if (plugin->major_version >= 1  &&  plugin->minor_version >= 11) {
 		value = ug_xmlrpc_value_alloc (options);
