@@ -72,6 +72,8 @@ struct UgPluginAria2
 	UgDataHttp*		http;
 	UgDataFtp*		ftp;
 
+	gboolean		renamed;
+
 	// temp
 	GString*		string;
 	GStringChunk*	chunk;
@@ -85,6 +87,7 @@ struct UgPluginAria2
 	gchar*			gid;
 	GList*			followed;	// followedBy
 	gchar*			path;
+	guint			path_folder_len;
 	guint			errorCode;
 	guint			aria2Status;
 	gint64			totalLength;

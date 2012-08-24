@@ -379,6 +379,13 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 
 		switch (plugin->aria2Status) {
 		case ARIA2_COMPLETE:
+			if (plugin->renamed == FALSE && plugin->common->file && plugin->local_file == NULL) {
+				string = g_strdup_printf ("%.*s%s", plugin->path_folder_len,
+						plugin->path, plugin->common->file);
+				ug_rename (plugin->path, string);
+				g_free (string);
+				plugin->renamed = TRUE;
+			}
 			// if current download is metalink or torrent file
 			if (plugin->followed) {
 				if (plugin->gid == plugin->followed->data)
@@ -736,7 +743,8 @@ static gboolean	ug_plugin_aria2_tell_status (UgPluginAria2* plugin)
 			plugin->path = g_string_chunk_insert (plugin->chunk, keys->c.string);
 			string = strrchr (plugin->path, '/');
 			string = string ? string+1 : plugin->path;
-			if (string[0]) {
+			plugin->path_folder_len = string - plugin->path;
+			if (string[0] && plugin->common->file == NULL) {
 				ug_plugin_post ((UgPlugin*) plugin,
 						ug_message_new_data (UG_MESSAGE_DATA_FILE_CHANGED, string));
 			}
