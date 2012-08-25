@@ -34,6 +34,7 @@
  *
  */
 
+#include <UgUri.h>
 #include <UgSummary.h>
 #include <UgData-download.h>
 #include <UgCategory-gtk.h>
@@ -88,6 +89,7 @@ void	ug_summary_show (UgSummary* summary, UgDataset* dataset)
 	GtkTreeIter		iter;
 	gchar*			name;
 	gchar*			value;
+	gchar*			filename;
 
 	if (dataset == NULL) {
 		gtk_list_store_clear (summary->store);
@@ -98,6 +100,7 @@ void	ug_summary_show (UgSummary* summary, UgDataset* dataset)
 	iter.stamp = 0;		// used by ug_summary_store_realloc_next()
 	// Summary Name
 	if (summary->visible.name) {
+		filename = NULL;
 		if (common->name) {
 			name = g_strconcat (_("Name"), ":", NULL);
 			value = common->name;
@@ -105,6 +108,12 @@ void	ug_summary_show (UgSummary* summary, UgDataset* dataset)
 		else {
 			name = g_strconcat (_("File"), ":", NULL);
 			value = common->file;
+			if (value == NULL && common->url) {
+				filename = ug_uri_get_filename (common->url);
+				value = filename;
+			}
+			if (value == NULL)
+				value = _("unnamed");
 		}
 		ug_summary_store_realloc_next (summary->store, &iter);
 		gtk_list_store_set (summary->store, &iter,
@@ -113,6 +122,7 @@ void	ug_summary_show (UgSummary* summary, UgDataset* dataset)
 				UG_SUMMARY_COLUMN_VALUE, value,
 				-1);
 		g_free (name);
+		g_free (filename);
 	}
 	// Summary Folder
 	if (summary->visible.folder) {

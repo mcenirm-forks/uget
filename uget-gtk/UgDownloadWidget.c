@@ -34,6 +34,7 @@
  *
  */
 
+#include <UgUri.h>
 #include <UgUtils.h>
 #include <UgString.h>
 #include <UgData-download.h>
@@ -350,6 +351,7 @@ static void col_set_name (GtkTreeViewColumn *tree_column,
 	UgDataset*		dataset;
 	UgDataCommon*	common;
 	gchar*			string = NULL;
+	gchar*			filename = NULL;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
 	common = UG_DATASET_COMMON (dataset);
@@ -358,10 +360,17 @@ static void col_set_name (GtkTreeViewColumn *tree_column,
 		string = common->name;
 	else if (common->file)
 		string = common->file;
-	else
-		string = _("unnamed");
+	else {
+		if (common->url) {
+			filename = ug_uri_get_filename (common->url);
+			string = filename;
+		}
+		if (string == NULL)
+			string = _("unnamed");
+	}
 
 	g_object_set (cell, "text", string, NULL);
+	g_free (filename);
 }
 
 static void col_set_complete (GtkTreeViewColumn *tree_column,
