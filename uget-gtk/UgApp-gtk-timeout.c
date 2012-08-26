@@ -548,6 +548,8 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 	if (changed)
 		gtk_widget_queue_draw (app->cwidget.self);
 
+	// reset action status "stop by user"
+	app->action.stop = FALSE;
 	// return FALSE if the source should be removed.
 	return TRUE;
 }
