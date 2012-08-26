@@ -1,4 +1,12 @@
-This one will be 1.10 (stable) if no problem.
+uGet 1.9.91 (testing)
+1. curl plug-in disable peer SSL certificate verification.
+2. curl plug-in can keep user specified filename.
+3. aria2 plug-in can use user specified filename.
+4. avoid crash when user deleting files.
+
+This version focus on plug-in bug fix and usage change:
+If user does specify filename, plug-ins will use this filename.
+otherwise plug-ins will decide filename from remote data.
 
 uGet 1.9.90 (testing)
 1. Add new option "Retrieve timestamp" in Download dialog.
