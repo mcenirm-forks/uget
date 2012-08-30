@@ -458,9 +458,6 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 		gchar*		string;
 	} temp;
 
-	// aria2 global speed control
-	ug_app_aria2_setup_max_speed (app);
-
 	// If changed is TRUE, it will refresh all category-related data.
 	changed = ug_app_decide_schedule_state (app);
 	// do something for inactive tasks
@@ -534,7 +531,14 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 
 	// category or download status changed
 	if (changed || n_after) {
-		ug_running_get_speed (&app->running, &down_speed, &up_speed);
+		// get overall speed
+		if (app->setting.plugin.aria2.enable == FALSE)
+			ug_running_get_speed (&app->running, &down_speed, &up_speed);
+		else {
+			down_speed = app->aria2.download_speed;
+			up_speed   = app->aria2.upload_speed;
+		}
+		// refresh download info
 		gtk_widget_queue_draw (app->cwidget.current.widget->self);
 		// summary
 		ug_summary_show (&app->summary,

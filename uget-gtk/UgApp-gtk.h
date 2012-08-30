@@ -100,9 +100,16 @@ struct UgAppGtk
 	// aria2 plug-in
 	struct
 	{
-		UgXmlrpc	xmlrpc;
+		GThread*	thread;
+		GMutex		mutex;
+		gchar*		uri;
+		// status
 		gboolean	launched;
-		gboolean	speed_changed;
+		gboolean	remote_updated;
+		guint		failed_count;
+		// overall speed
+		gint64		download_speed;
+		gint64		upload_speed;
 	} aria2;
 
 	struct UgUserAction
@@ -385,16 +392,16 @@ void	ug_app_decide_bt_meta_sensitive (UgAppGtk* app);
 // aria2
 #ifdef HAVE_PLUGIN_ARIA2
 void		ug_app_aria2_init (UgAppGtk* app);
+void		ug_app_aria2_finalize (UgAppGtk* app);
 gboolean	ug_app_aria2_setup (UgAppGtk* app);
 gboolean	ug_app_aria2_launch (UgAppGtk* app);
 void		ug_app_aria2_shutdown (UgAppGtk* app);
-void		ug_app_aria2_setup_max_speed (UgAppGtk* app);
 #else
 #define		ug_app_aria2_init(app)
+#define		ug_app_aria2_finalize(app)
 #define		ug_app_aria2_setup(app)
 #define		ug_app_aria2_launch(app)
 #define		ug_app_aria2_shutdown(app)
-#define		ug_app_aria2_setup_max_speed(app)
 #endif	// HAVE_PLUGIN_ARIA2
 
 

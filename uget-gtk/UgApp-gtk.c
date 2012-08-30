@@ -131,6 +131,8 @@ void	ug_app_quit (UgAppGtk* app)
 	ug_app_get_setting (app, &app->setting);
 	// save data
 	ug_app_save (app);
+	// aria2
+	ug_app_aria2_finalize (app);
 	// hide icon in system tray before quit
 	ug_trayicon_set_visible (&app->trayicon, FALSE);
 	// hide window

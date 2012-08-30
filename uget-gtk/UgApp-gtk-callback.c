@@ -1092,7 +1092,7 @@ static void	on_config_settings_response (GtkDialog *dialog, gint response, UgSet
 		// aria2
 		ug_app_decide_bt_meta_sensitive (app);
 		ug_app_aria2_setup (app);
-		app->aria2.speed_changed = FALSE;
+		app->aria2.remote_updated = FALSE;
 	}
 	ug_setting_dialog_free (sdialog);
 	// refresh

@@ -34,6 +34,7 @@
  *
  */
 
+#include <stdlib.h>
 #include <UgXmlrpc.h>
 #include <UgApp-gtk.h>
 #include <UgPlugin-aria2.h>
@@ -45,16 +46,114 @@
 //
 #ifdef HAVE_PLUGIN_ARIA2
 
+static gpointer	aria2_ctrl_thread (UgAppGtk* app)
+{
+	UgXmlrpc*			xmlrpc;
+	UgXmlrpcValue*		values;
+	UgXmlrpcValue*		member;
+	UgXmlrpcResponse	response;
+	gchar*				string_down;
+	gchar*				string_up;
+
+	xmlrpc = g_malloc0 (sizeof (UgXmlrpc));
+	ug_xmlrpc_init (xmlrpc);
+
+	for (;;) {
+		// sleep one second
+		g_usleep (1 * 1000 * 1000);
+		if (app->setting.plugin.aria2.enable == FALSE || app->setting.offline_mode)
+			continue;
+
+		// update URI
+		g_mutex_lock (&app->aria2.mutex);
+		if (app->aria2.uri) {
+			ug_xmlrpc_use_client (xmlrpc, app->aria2.uri, NULL);
+			g_free (app->aria2.uri);
+			app->aria2.uri = NULL;
+		}
+		g_mutex_unlock (&app->aria2.mutex);
+
+		if (app->aria2.remote_updated == FALSE) {
+			string_down = g_strdup_printf ("%uK",
+					app->setting.speed_limit.normal.download);
+			string_up   = g_strdup_printf ("%uK",
+					app->setting.speed_limit.normal.upload);
+			values = ug_xmlrpc_value_new_struct (2);
+			// max-overall-download-limit
+			member = ug_xmlrpc_value_alloc (values);
+			member->name = "max-overall-download-limit";
+			member->type = UG_XMLRPC_STRING;
+			member->c.string = string_down;
+			// max-overall-upload-limit
+			member = ug_xmlrpc_value_alloc (values);
+			member->name = "max-overall-upload-limit";
+			member->type = UG_XMLRPC_STRING;
+			member->c.string = string_up;
+			// call aria2.changeGlobalOption
+			response = ug_xmlrpc_call (xmlrpc,
+					"aria2.changeGlobalOption",
+					UG_XMLRPC_STRUCT, values,
+					UG_XMLRPC_NONE);
+			// free unused data
+			g_free (string_down);
+			g_free (string_up);
+			ug_xmlrpc_value_free (values);
+			// check response
+			if (response == UG_XMLRPC_OK)
+				app->aria2.remote_updated = TRUE;
+		}
+
+		// get overall speed
+		// call aria2.getGlobalStat
+		response = ug_xmlrpc_call (xmlrpc, "aria2.getGlobalStat", UG_XMLRPC_NONE);
+		if (response == UG_XMLRPC_OK)
+			app->aria2.failed_count = 0;
+		else
+			app->aria2.failed_count++;
+
+		values = ug_xmlrpc_get_value (xmlrpc);
+		// download speed
+		member = ug_xmlrpc_value_find (values, "downloadSpeed");
+#if  defined (_MSC_VER)  ||  defined (__MINGW32__)
+		app->aria2.download_speed = _atoi64 (member->c.string);
+#else	// C99 Standard
+		app->aria2.download_speed = atoll (member->c.string);
+#endif
+		// upload speed
+		member = ug_xmlrpc_value_find (values, "uploadSpeed");
+#if  defined (_MSC_VER)  ||  defined (__MINGW32__)
+		app->aria2.upload_speed = _atoi64 (member->c.string);
+#else	// C99 Standard
+		app->aria2.upload_speed = atoll (member->c.string);
+#endif
+	}
+
+	ug_xmlrpc_finalize (xmlrpc);
+	g_free (xmlrpc);
+	return NULL;
+}
+
 void	ug_app_aria2_init (UgAppGtk* app)
 {
-	ug_xmlrpc_init (&app->aria2.xmlrpc);
+	g_mutex_init (&app->aria2.mutex);
+}
+
+void	ug_app_aria2_finalize (UgAppGtk* app)
+{
+//	g_mutex_clear (&app->aria2.mutex);
 }
 
 gboolean	ug_app_aria2_setup (UgAppGtk* app)
 {
 	const UgPluginInterface*	iface;
 
-	ug_xmlrpc_use_client (&app->aria2.xmlrpc, app->setting.plugin.aria2.uri, NULL);
+	// update URI
+	g_mutex_lock (&app->aria2.mutex);
+	if (app->aria2.uri)
+		g_free (app->aria2.uri);
+	app->aria2.uri = g_strdup (app->setting.plugin.aria2.uri);
+	g_mutex_unlock (&app->aria2.mutex);
+
 	ug_plugin_global_set (&ug_plugin_aria2_iface,
 			UG_DATA_STRING, app->setting.plugin.aria2.uri);
 
@@ -65,7 +164,10 @@ gboolean	ug_app_aria2_setup (UgAppGtk* app)
 		ug_plugin_interface_register (&ug_plugin_aria2_iface);
 		if (app->setting.plugin.aria2.launch)
 			ug_app_aria2_launch (app);
-		ug_app_aria2_setup_max_speed (app);
+		if (app->aria2.thread == NULL) {
+			app->aria2.thread = g_thread_new ("aria2-ctrl",
+					(GThreadFunc) aria2_ctrl_thread, app);
+		}
 	}
 
 	return TRUE;
@@ -120,49 +222,19 @@ gboolean	ug_app_aria2_launch (UgAppGtk* app)
 
 void	ug_app_aria2_shutdown (UgAppGtk* app)
 {
+	UgXmlrpc*			xmlrpc;
+
+	xmlrpc = g_malloc0 (sizeof (UgXmlrpc));
+	ug_xmlrpc_init (xmlrpc);
+	ug_xmlrpc_use_client (xmlrpc, app->setting.plugin.aria2.uri, NULL);
+
 	if (app->setting.plugin.aria2.shutdown) {
-		ug_xmlrpc_call (&app->aria2.xmlrpc, "aria2.shutdown", NULL);
+		ug_xmlrpc_call (xmlrpc, "aria2.shutdown", NULL);
 		app->aria2.launched = FALSE;
 	}
-}
 
-void	ug_app_aria2_setup_max_speed (UgAppGtk* app)
-{
-	UgXmlrpc*			xmlrpc;
-	UgXmlrpcValue*		options;
-	UgXmlrpcValue*		member;
-	UgXmlrpcResponse	response;
-
-	if (app->aria2.launched == FALSE || app->aria2.speed_changed == TRUE)
-		return;
-
-	xmlrpc = &app->aria2.xmlrpc;
-//	ug_xmlrpc_use_client (xmlrpc, app->setting.plugin.aria2.uri, NULL);
-
-	options = ug_xmlrpc_value_new_struct (2);
-	// max-overall-download-limit
-	member = ug_xmlrpc_value_alloc (options);
-	member->name = "max-overall-download-limit";
-	member->type = UG_XMLRPC_STRING;
-	member->c.string = g_strdup_printf ("%dK",
-			app->setting.speed_limit.normal.download);
-	// max-overall-upload-limit
-	member = ug_xmlrpc_value_alloc (options);
-	member->name = "max-overall-upload-limit";
-	member->type = UG_XMLRPC_STRING;
-	member->c.string = g_strdup_printf ("%dK",
-			app->setting.speed_limit.normal.upload);
-
-	response = ug_xmlrpc_call (xmlrpc,
-			"aria2.changeGlobalOption",
-			UG_XMLRPC_STRUCT, options,
-			UG_XMLRPC_NONE);
-	if (response == UG_XMLRPC_OK)
-		app->aria2.speed_changed = TRUE;
-	else
-		app->aria2.speed_changed = FALSE;
-
-	ug_xmlrpc_value_free (options);
+	ug_xmlrpc_finalize (xmlrpc);
+	g_free (xmlrpc);
 }
 
 #endif	// HAVE_PLUGIN_ARIA2
