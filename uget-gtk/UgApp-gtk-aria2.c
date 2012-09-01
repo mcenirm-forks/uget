@@ -106,26 +106,27 @@ static gpointer	aria2_ctrl_thread (UgAppGtk* app)
 		// get overall speed
 		// call aria2.getGlobalStat
 		response = ug_xmlrpc_call (xmlrpc, "aria2.getGlobalStat", UG_XMLRPC_NONE);
-		if (response == UG_XMLRPC_OK)
-			app->aria2.failed_count = 0;
-		else
+		if (response != UG_XMLRPC_OK)
 			app->aria2.failed_count++;
-
-		values = ug_xmlrpc_get_value (xmlrpc);
-		// download speed
-		member = ug_xmlrpc_value_find (values, "downloadSpeed");
+		else {
+			app->aria2.failed_count = 0;
+			// get response
+			values = ug_xmlrpc_get_value (xmlrpc);
+			// download speed
+			member = ug_xmlrpc_value_find (values, "downloadSpeed");
 #if  defined (_MSC_VER)  ||  defined (__MINGW32__)
-		app->aria2.download_speed = _atoi64 (member->c.string);
-#else	// C99 Standard
-		app->aria2.download_speed = atoll (member->c.string);
+			app->aria2.download_speed = _atoi64 (member->c.string);
+#else		// C99 Standard
+			app->aria2.download_speed = atoll (member->c.string);
 #endif
-		// upload speed
-		member = ug_xmlrpc_value_find (values, "uploadSpeed");
+			// upload speed
+			member = ug_xmlrpc_value_find (values, "uploadSpeed");
 #if  defined (_MSC_VER)  ||  defined (__MINGW32__)
-		app->aria2.upload_speed = _atoi64 (member->c.string);
-#else	// C99 Standard
-		app->aria2.upload_speed = atoll (member->c.string);
+			app->aria2.upload_speed = _atoi64 (member->c.string);
+#else		// C99 Standard
+			app->aria2.upload_speed = atoll (member->c.string);
 #endif
+		}
 	}
 
 	ug_xmlrpc_finalize (xmlrpc);
