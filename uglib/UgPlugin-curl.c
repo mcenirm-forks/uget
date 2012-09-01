@@ -467,7 +467,9 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 			goto exit;
 
 		// can resume (retry)
+		case CURLE_RECV_ERROR:
 		case CURLE_PARTIAL_FILE:
+		case CURLE_OPERATION_TIMEDOUT:
 			// update status
 			plugin->resumable = TRUE;
 			// send message
@@ -490,9 +492,8 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 			break;
 
 		// retry
+		case CURLE_SEND_ERROR:
 		case CURLE_GOT_NOTHING:
-		case CURLE_RECV_ERROR:
-		case CURLE_OPERATION_TIMEDOUT:
 		case CURLE_BAD_CONTENT_ENCODING:
 			ug_plugin_post ((UgPlugin*) plugin,
 					ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, plugin->curl_error_string));
