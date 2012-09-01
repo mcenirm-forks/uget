@@ -1,41 +1,49 @@
-uGet 1.9.91 (testing)
-1. curl plug-in disable peer SSL certificate verification.
-2. curl plug-in can keep user specified filename.
-3. aria2 plug-in can use user specified filename.
-4. avoid crash when user deleting files.
+uGet 1.10 (stable)
+01. This version need GTK 3.4+ and GLib 2.32+.
+02. Add global speed limits for aria2.
+03. Add new option "Retrieve timestamp" in Download dialog.
+04. Add new option "User Agent" in Download dialog.
+05. Add Commandline Settings for some FlashGot users.
+06. Add setting option "Apply recently download settings". (Enable by default)
+07. Change aria2 default arguments to "--enable-rpc=true -D --check-certificate=false".
+08. aria2 plug-in use argument "continue=true".
+09. aria2 plug-in can use user specified filename.
+10. curl plug-in disable peer SSL certificate verification.
+11. curl plug-in can keep user specified filename.
+12. update French translation file.
+13. Fix: program crash when user deleting files.
+14. Fix minor bugs.
 
-This version focus on plug-in bug fix and usage change:
+---------------------------------------
+Usage change:
 If user does specify filename, plug-ins will use this filename.
 otherwise plug-ins will decide filename from remote data.
 
-uGet 1.9.90 (testing)
-1. Add new option "Retrieve timestamp" in Download dialog.
-2. Refine aria2 global speed control.
-3. Pass argument "continue" and "remote-time" to aria2 by XML-RPC.
-4. Change aria2 arguments to "--enable-rpc=true -D --check-certificate=false".
-5. Enable "Apply recently download settings" by default.
-6. Fix some bugs.
+-------------------
+aria2 (v1.5) some arguments that can't pass by XML-RPC, you must add below
+arguments in Plug-in settings by yourself.
 
-If you have trouble when you use uget with aria2 in Fedora, I suggest that
+"--disable-ipv6=true"   Disable IPv6. (Fedora user may need this)
+"--load-cookies=<FILE>" Load cookies from FILE (Firefox3/Chrome/SQLite3 format)
+"--check-certificate=false" Disable verify the peer using certificates.
+
+-------------------
+If you have trouble when you use uget with aria2 (Fedora...etc), I suggest that
 user run aria2c in terminal with argument "--enable-rpc=true" first. If you got
 "failed to bind port 6800", try to add "--disable-ipv6=true" and run aria2c again.
 If it works, add "--disable-ipv6=true" to Arguments entry in Plug-in setting.
 
-uGet 1.9.2 (devel)
-1. Add global speed limits for aria2.
-2. Fix memory leak.
-3. This version need GTK 3.4+ and GLib 2.32+
+-------------------
+Other useful arguments:
+"--save-cookies=<FILE>" Save Cookies to FILE (Mozilla/Firefox(1.x/2.x)/Netscape format).
 
-uGet 1.9.1 (devel)
-1. Add new option "User Agent" in download dialog.
-2. Fix: Source package doesn't include some project files for Windows.
+-------------------
+aria2 plug-in in uGet v1.10 use below 2 arguments by default:
 
-uGet 1.9.0 (devel)
-1. Drop GTK+2, I suggest use uGet with GTK 3.4+. (avoid some GTK3 bugs)
-2. Avoid crash when user delete tasks and uGet run with GTK3. (GTK3 bug?)
-3. Add Commandline Settings for some FlashGot users.
-4. Add setting option 'Apply recently download settings'.
+"--continue=true"       continue downloading a partially downloaded file.
+"--remote-time=true"    retrieve timestamp of the remote file.
 
+---------------------------------------
 Some users want to use uGet with FlashGot quietly. In the old nGet you
 must add uGet as new download manager and set commandline arguments in
 FlashGot. Now the new Commandline Settings is a easy way to do this.
