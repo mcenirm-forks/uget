@@ -295,6 +295,10 @@ static void col_set_icon (GtkTreeViewColumn *tree_column,
 	const gchar*	stock_id;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
+
 	relation = UG_DATASET_RELATION (dataset);
 	// set stock_id
 	if (relation->hints & UG_HINT_DOWNLOADING)
@@ -322,6 +326,10 @@ static void col_set_icon_all (GtkTreeViewColumn *tree_column,
 	const gchar*	stock_id;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
+
 	relation = UG_DATASET_RELATION (dataset);
 	// set stock_id
 	if (relation->hints & UG_HINT_RECYCLED)
@@ -354,8 +362,11 @@ static void col_set_name (GtkTreeViewColumn *tree_column,
 	gchar*			filename = NULL;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
-	common = UG_DATASET_COMMON (dataset);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
 
+	common = UG_DATASET_COMMON (dataset);
 	if (common->name)
 		string = common->name;
 	else if (common->file)
@@ -384,8 +395,11 @@ static void col_set_complete (GtkTreeViewColumn *tree_column,
 	gchar*			string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
-	progress = UG_DATASET_PROGRESS (dataset);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
 
+	progress = UG_DATASET_PROGRESS (dataset);
 	if (progress)
 		string = ug_str_dtoa_unit ((gdouble) progress->complete, 1, NULL);
 	else
@@ -406,8 +420,11 @@ static void col_set_total (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
-	progress = UG_DATASET_PROGRESS (dataset);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
 
+	progress = UG_DATASET_PROGRESS (dataset);
 	if (progress)
 		string = ug_str_dtoa_unit ((gdouble) progress->total, 1, NULL);
 	else
@@ -428,8 +445,11 @@ static void col_set_percent (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
-	progress = UG_DATASET_PROGRESS (dataset);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
 
+	progress = UG_DATASET_PROGRESS (dataset);
 	if (progress) {
 //		string = g_strdup_printf ("%.*f%c", 1, progress->percent, '%');
 		string = g_strdup_printf ("%.1f%c", progress->percent, '%');
@@ -456,8 +476,11 @@ static void col_set_consume_time (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
-	progress = UG_DATASET_PROGRESS (dataset);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
 
+	progress = UG_DATASET_PROGRESS (dataset);
 	if (progress)
 		string = ug_str_from_seconds ((guint) progress->consume_time, TRUE);
 	else
@@ -479,9 +502,12 @@ static void col_set_remain_time (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
+
 	progress = UG_DATASET_PROGRESS (dataset);
 	relation = UG_DATASET_RELATION (dataset);
-
 	if (progress && relation && relation->plugin)
 		string = ug_str_from_seconds ((guint) progress->remain_time, TRUE);
 	else
@@ -503,9 +529,12 @@ static void col_set_speed (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
+
 	progress = UG_DATASET_PROGRESS (dataset);
 	relation = UG_DATASET_RELATION (dataset);
-
 	if (progress && relation && relation->plugin)
 		string = ug_str_dtoa_unit ((gdouble) progress->download_speed, 1, "/s");
 	else
@@ -527,9 +556,12 @@ static void col_set_upload_speed (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
+
 	progress = UG_DATASET_PROGRESS (dataset);
 	relation = UG_DATASET_RELATION (dataset);
-
 	if (progress && relation && relation->plugin && progress->upload_speed)
 		string = ug_str_dtoa_unit ((gdouble) progress->upload_speed, 1, "/s");
 	else
@@ -550,8 +582,11 @@ static void col_set_uploaded (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
-	progress = UG_DATASET_PROGRESS (dataset);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
 
+	progress = UG_DATASET_PROGRESS (dataset);
 	if (progress && progress->uploaded)
 		string = ug_str_dtoa_unit ((gdouble) progress->uploaded, 1, NULL);
 	else
@@ -572,8 +607,11 @@ static void col_set_ratio (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
-	progress = UG_DATASET_PROGRESS (dataset);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
 
+	progress = UG_DATASET_PROGRESS (dataset);
 	if (progress && progress->ratio)
 		string = g_strdup_printf ("%.2f", progress->ratio);
 	else
@@ -594,8 +632,11 @@ static void col_set_retry (GtkTreeViewColumn *tree_column,
 	gchar*			string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
-	common = UG_DATASET_COMMON (dataset);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
 
+	common = UG_DATASET_COMMON (dataset);
 	if (common->retry_count != 0)
 		string = g_strdup_printf ("%d", common->retry_count);
 	else
@@ -616,8 +657,11 @@ static void col_set_category (GtkTreeViewColumn *tree_column,
 	gchar*			string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
-	relation = UG_DATASET_RELATION (dataset);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
 
+	relation = UG_DATASET_RELATION (dataset);
 	if (relation && relation->category)
 		string = relation->category->name;
 	else
@@ -635,6 +679,9 @@ static void col_set_url (GtkTreeViewColumn *tree_column,
 	UgDataset*	dataset;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
 
 	g_object_set (cell, "text", UG_DATASET_COMMON (dataset)->url, NULL);
 }
@@ -650,6 +697,10 @@ static void col_set_added_on (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
+
 	datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
 	string = (datalog) ? datalog->added_on : NULL;
 
@@ -667,6 +718,10 @@ static void col_set_completed_on (GtkTreeViewColumn *tree_column,
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
+	// avoid crash in GTK3
+	if (dataset == NULL)
+		return;
+
 	datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
 	string = (datalog) ? datalog->completed_on : NULL;
 

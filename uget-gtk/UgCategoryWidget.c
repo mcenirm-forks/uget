@@ -350,8 +350,11 @@ static void category_col_set_icon (GtkTreeViewColumn *tree_column,
 			UG_CATEGORY_STORE_INSTANCE, &category,
 			UG_CATEGORY_STORE_DOWNLOAD, &dwidget,
 			-1);
-	cgtk = category->user.category;
+	// avoid crash in GTK3
+	if (category == NULL || dwidget == NULL)
+		return;
 
+	cgtk = category->user.category;
 	if (dwidget == &cgtk->all)
 		stock_id = UG_CATEGORY_ICON_ALL;
 	else if (dwidget == &cgtk->finished)
@@ -381,8 +384,11 @@ static void category_col_set_name (GtkTreeViewColumn *tree_column,
 			UG_CATEGORY_STORE_INSTANCE, &category,
 			UG_CATEGORY_STORE_DOWNLOAD, &dwidget,
 			-1);
-	cgtk = category->user.category;
+	// avoid crash in GTK3
+	if (category == NULL || dwidget == NULL)
+		return;
 
+	cgtk = category->user.category;
 	if (dwidget == &cgtk->active)
 		string = UG_CATEGORY_GTK_ACTIVE_NAME;
 	else if (dwidget == &cgtk->queuing)
@@ -410,6 +416,10 @@ static void category_col_set_quantity (GtkTreeViewColumn *tree_column,
 	gtk_tree_model_get (model, iter,
 			UG_CATEGORY_STORE_DOWNLOAD, &dwidget,
 			-1);
+	// avoid crash in GTK3
+	if (dwidget == NULL)
+		return;
+
 	quantity = gtk_tree_model_iter_n_children (dwidget->model, NULL);
 	string = g_strdup_printf ("%u", quantity);
 	g_object_set (cell, "text", string, NULL);
