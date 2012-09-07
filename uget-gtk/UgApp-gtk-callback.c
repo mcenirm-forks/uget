@@ -276,6 +276,7 @@ static void	on_create_download (GtkWidget* widget, UgAppGtk* app)
 	// use first URI from clipboard to set URL entry
 	list = ug_clipboard_get_uris (&app->clipboard);
 	if (list) {
+		ddialog->download.changed.url = TRUE;
 		gtk_entry_set_text ((GtkEntry*) ddialog->download.url_entry, list->data);
 		g_list_foreach (list, (GFunc) g_free, NULL);
 		g_list_free (list);
