@@ -196,6 +196,7 @@ static void	on_config_category (GtkWidget* widget, UgAppGtk* app)
 //
 static void	ug_app_setup_download_dialog (UgAppGtk* app, UgDownloadDialog* ddialog)
 {
+	UgDataCommon*	common;
 	GtkTreePath*	path;
 	GtkTreeModel*	model;
 
@@ -211,6 +212,11 @@ static void	ug_app_setup_download_dialog (UgAppGtk* app, UgDownloadDialog* ddial
 			gtk_tree_path_free (path);
 		}
 
+		common = ug_dataset_realloc (app->last.download, UG_DATA_COMMON_I, 0);
+		if (common && common->file) {
+			g_free (common->file);
+			common->file = NULL;
+		}
 		ug_download_dialog_set (ddialog, app->last.download);
 	}
 }
