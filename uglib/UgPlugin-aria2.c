@@ -308,16 +308,18 @@ static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpo
 //
 static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 {
-	UgMessage*	message;
-	char*		string;
-	const char*	temp;
-	char		ext;
-	time_t		startingTime;
-	gboolean	redirection;
+	UgDataCommon*	common;
+	UgMessage*		message;
+	char*			string;
+	const char*		temp;
+	char			ext;
+	time_t			startingTime;
+	gboolean		redirection;
 
 	g_string_chunk_clear (plugin->chunk);
 	startingTime = time (NULL);
 	redirection  = TRUE;
+	common = plugin->common;
 
 	if (ug_plugin_aria2_get_version (plugin) == FALSE)
 		goto exit;
@@ -403,8 +405,34 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 			goto break_while;
 
 		case ARIA2_ERROR:
-			ug_plugin_aria2_remove (plugin);
-			ug_plugin_aria2_post_error (plugin, plugin->errorCode);
+			// tell aria2 to remove this gid
+//			ug_plugin_aria2_remove (plugin);
+			// download speed was too slow
+			if (plugin->errorCode == 5 && plugin->local_file == NULL) {
+				// retry
+				if (common->retry_count < common->retry_limit) {
+					common->retry_count++;
+					ug_plugin_post ((UgPlugin*) plugin,
+							ug_message_new_info (UG_MESSAGE_INFO_RETRY, NULL));
+					ug_plugin_delay ((UgPlugin*) plugin, common->retry_delay * 1000);
+					// clear data
+					g_string_chunk_clear (plugin->chunk);
+					g_list_free (plugin->followed);
+					plugin->followed = NULL;
+					// restart download
+					if (ug_plugin_aria2_add_uri (plugin) == FALSE)
+						goto exit;
+					break;
+				}
+				else {
+					ug_plugin_post ((UgPlugin*) plugin,
+							ug_message_new_error (UG_MESSAGE_ERROR_TOO_MANY_RETRIES, NULL));
+				}
+			}
+			else {
+				// post other error message
+				ug_plugin_aria2_post_error (plugin, plugin->errorCode);
+			}
 			goto break_while;
 		}
 
