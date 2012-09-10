@@ -1183,7 +1183,7 @@ void	on_change_visible_widget (GtkWidget* widget, UgAppGtk* app)
 			gtk_widget_hide (app->cwidget.self);
 		return;
 	}
-	// Category
+	// Summary
 	if (widget == app->menubar.view.summary) {
 		setting->summary = visible;
 		if (visible)
