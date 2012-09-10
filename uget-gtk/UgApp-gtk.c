@@ -232,6 +232,12 @@ void	ug_app_set_setting (UgAppGtk* app, UgSetting* setting)
 			setting->window.category);
 	gtk_widget_set_visible (app->summary.self,
 			setting->window.summary);
+	// Summary
+	app->summary.visible.name     = setting->summary.name;
+	app->summary.visible.folder   = setting->summary.folder;
+	app->summary.visible.category = setting->summary.category;
+	app->summary.visible.url      = setting->summary.url;
+	app->summary.visible.message  = setting->summary.message;
 	// ----------------------------------------------------
 	// UgEditMenu
 	gtk_check_menu_item_set_active (
