@@ -57,6 +57,7 @@ static const gchar*	uget_authors[] = { "C.H. Huang  (\xE9\xBB\x83\xE6\xAD\xA3\xE
 static const gchar*	uget_artists[] =
 {
 	"Logo designer: Michael Tunnell (visuex.com)",
+	"Website by: Michael Tunnell (visuex.com)",
 	"Former Logo designer: saf1 (linuxac.org)",
 	"Former Logo improver: Skeleton_Eel (linuxac.org)",
 	NULL
