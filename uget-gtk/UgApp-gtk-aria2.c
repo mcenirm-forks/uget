@@ -103,6 +103,7 @@ static gpointer	aria2_ctrl_thread (UgAppGtk* app)
 				app->aria2.remote_updated = TRUE;
 		}
 
+/*
 		// get overall speed
 		// call aria2.getGlobalStat
 		response = ug_xmlrpc_call (xmlrpc, "aria2.getGlobalStat", UG_XMLRPC_NONE);
@@ -127,6 +128,7 @@ static gpointer	aria2_ctrl_thread (UgAppGtk* app)
 			app->aria2.upload_speed = atoll (member->c.string);
 #endif
 		}
+*/
 	}
 
 	ug_xmlrpc_finalize (xmlrpc);

@@ -532,12 +532,12 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 	// category or download status changed
 	if (changed || n_after) {
 		// get overall speed
-		if (app->setting.plugin.aria2.enable == FALSE)
+//		if (app->setting.plugin.aria2.enable == FALSE)
 			ug_running_get_speed (&app->running, &down_speed, &up_speed);
-		else {
-			down_speed = app->aria2.download_speed;
-			up_speed   = app->aria2.upload_speed;
-		}
+//		else {
+//			down_speed = app->aria2.download_speed;
+//			up_speed   = app->aria2.upload_speed;
+//		}
 		// refresh download info
 		gtk_widget_queue_draw (app->cwidget.current.widget->self);
 		// summary
