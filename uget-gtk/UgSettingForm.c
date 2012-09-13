@@ -382,6 +382,7 @@ static void	on_plugin_aria2_toggled (GtkWidget* widget, struct UgPluginSettingFo
 		sensitive = gtk_toggle_button_get_active (psform->launch);
 	gtk_widget_set_sensitive ((GtkWidget*) psform->path, sensitive);
 	gtk_widget_set_sensitive ((GtkWidget*) psform->args, sensitive);
+	gtk_widget_set_sensitive ((GtkWidget*) psform->hint, sensitive);
 }
 
 static void	on_plugin_aria2_launch_toggled (GtkWidget* widget, struct UgPluginSettingForm* psform)
@@ -391,6 +392,7 @@ static void	on_plugin_aria2_launch_toggled (GtkWidget* widget, struct UgPluginSe
 	sensitive = gtk_toggle_button_get_active (psform->launch);
 	gtk_widget_set_sensitive ((GtkWidget*) psform->path, sensitive);
 	gtk_widget_set_sensitive ((GtkWidget*) psform->args, sensitive);
+	gtk_widget_set_sensitive ((GtkWidget*) psform->hint, sensitive);
 }
 
 void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
@@ -406,26 +408,11 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
 	widget = gtk_check_button_new_with_mnemonic (_("_Enable aria2 plug-in"));
-	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
-	gtk_box_pack_start (hbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), TRUE, TRUE, 2);
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (hbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), TRUE, TRUE, 4);
 	g_signal_connect (widget, "toggled",
 			G_CALLBACK (on_plugin_aria2_toggled), psform);
 	psform->enable = (GtkToggleButton*) widget;
-
-	// aria2 plug-in hints
-	widget = gtk_label_new (_("Please make sure that all tasks have been completed\n" "before you modify settings."));
-	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 2);
-
-	// URI entry
-	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
-	widget = gtk_label_new ("URI");
-	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
-	widget = gtk_entry_new ();
-	gtk_box_pack_start (hbox, widget, TRUE,  TRUE,  4);
-	psform->uri = (GtkEntry*) widget;
-
-	gtk_box_pack_start (vbox, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), FALSE, FALSE, 6);
 
 	widget = gtk_check_button_new_with_mnemonic (_("_Launch aria2 on startup"));
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 2);
@@ -437,7 +424,16 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 2);
 	psform->shutdown = (GtkToggleButton*) widget;
 
-	// path
+	// URI entry
+	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
+	widget = gtk_label_new ("URI");
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 2);
+	widget = gtk_entry_new ();
+	gtk_box_pack_start (hbox, widget, TRUE,  TRUE,  4);
+	psform->uri = (GtkEntry*) widget;
+
+	// Path
 	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
 	widget = gtk_label_new (_("Path"));
@@ -445,7 +441,7 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	widget = gtk_entry_new ();
 	gtk_box_pack_start (hbox, widget, TRUE,  TRUE,  4);
 	psform->path = (GtkEntry*) widget;
-	// argument
+	// Arguments
 	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (vbox, (GtkWidget*) hbox, FALSE, TRUE, 2);
 	widget = gtk_label_new (_("Arguments"));
@@ -453,6 +449,11 @@ void	ug_plugin_setting_form_init (struct UgPluginSettingForm* psform)
 	widget = gtk_entry_new ();
 	gtk_box_pack_start (hbox, widget, TRUE,  TRUE,  4);
 	psform->args = (GtkEntry*) widget;
+
+	// aria2 plug-in hint
+	widget = gtk_label_new (_("You must restart uGet after modifying 'Arguments'."));
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 2);
+	psform->hint = widget;
 
 	// Speed Limits
 	hbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);

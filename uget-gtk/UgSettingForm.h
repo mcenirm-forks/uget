@@ -141,9 +141,10 @@ struct UgPluginSettingForm
 	GtkToggleButton*	enable;
 	GtkToggleButton*	launch;
 	GtkToggleButton*	shutdown;
+	GtkEntry*			uri;
 	GtkEntry*			path;
 	GtkEntry*			args;
-	GtkEntry*			uri;
+	GtkWidget*			hint;
 
 	// Speed Limits
 	GtkSpinButton*		upload;		// KiB/s
