@@ -99,8 +99,13 @@ static gpointer	aria2_ctrl_thread (UgAppGtk* app)
 			g_free (string_up);
 			ug_xmlrpc_value_free (values);
 			// check response
-			if (response == UG_XMLRPC_OK)
+			if (response == UG_XMLRPC_OK) {
 				app->aria2.remote_updated = TRUE;
+				app->aria2.failed_count = 0;
+			}
+			else {
+				app->aria2.failed_count++;
+			}
 		}
 
 /*

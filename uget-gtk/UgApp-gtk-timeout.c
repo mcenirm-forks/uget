@@ -458,6 +458,12 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 		gchar*		string;
 	} temp;
 
+	// check aria2.failed_count (one shot)
+	if (app->aria2.failed_count == 7) {
+		ug_app_show_message (app, GTK_MESSAGE_ERROR,
+				_("Failed to connect to aria2.\n"
+				  "Is aria2 shutdown? or aria2 launch failed."));
+	}
 	// If changed is TRUE, it will refresh all category-related data.
 	changed = ug_app_decide_schedule_state (app);
 	// do something for inactive tasks
