@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-16 08:23+0800\n"
+"POT-Creation-Date: 2012-09-14 15:15+0800\n"
 "PO-Revision-Date: 2009-09-17 13:33+0800\n"
 "Last-Translator: lh<jason AT gamil.com>\n"
 "Language-Team: \n"
@@ -26,7 +26,7 @@ msgstr "传送中..."
 
 #. UG_MESSAGE_INFO_TRANSMIT,
 #: ../uglib/UgMessage.c:54
-#: ../uget-gtk/UgDownloadWidget.c:833
+#: ../uget-gtk/UgDownloadWidget.c:897
 msgid "Retry"
 msgstr "重试"
 
@@ -49,13 +49,13 @@ msgstr "可恢复"
 
 #. UG_MESSAGE_INFO_RESUMABLE,
 #: ../uglib/UgMessage.c:59
-#: ../uglib/UgPlugin-aria2.c:827
+#: ../uglib/UgPlugin-aria2.c:863
 msgid "Not Resumable"
 msgstr "不可恢复"
 
 #. UG_MESSAGE_WARNING_CUSTOM
 #: ../uglib/UgMessage.c:67
-#: ../uglib/UgPlugin-aria2.c:851
+#: ../uglib/UgPlugin-aria2.c:887
 msgid "Output file can't be renamed."
 msgstr "不能重命名输出的文件."
 
@@ -123,174 +123,174 @@ msgstr ""
 msgid "No plug-in support this scheme or file."
 msgstr ""
 
-#: ../uget-gtk/UgApp-gtk.c:500
-#: ../uget-gtk/UgApp-gtk-timeout.c:522
+#: ../uget-gtk/UgApp-gtk.c:508
+#: ../uget-gtk/UgApp-gtk-timeout.c:527
 msgid "tasks"
 msgstr "任务"
 
-#: ../uget-gtk/UgApp-gtk.c:545
+#: ../uget-gtk/UgApp-gtk.c:553
 #, c-format
 msgid "Selected %d items"
 msgstr "选中%d个项目"
 
 #. create confirmation dialog
-#: ../uget-gtk/UgApp-gtk.c:615
+#: ../uget-gtk/UgApp-gtk.c:623
 msgid "Really Quit?"
 msgstr "确认退出吗?"
 
-#: ../uget-gtk/UgApp-gtk.c:632
+#: ../uget-gtk/UgApp-gtk.c:640
 msgid "Are you sure you want to quit?"
 msgstr "您确认需要退出?"
 
-#: ../uget-gtk/UgApp-gtk.c:637
+#: ../uget-gtk/UgApp-gtk.c:645
 msgid "Remember this action"
 msgstr "记住选择"
 
 #. radio button
-#: ../uget-gtk/UgApp-gtk.c:642
+#: ../uget-gtk/UgApp-gtk.c:650
 msgid "Minimize to tray"
 msgstr "最小化到托盘"
 
-#: ../uget-gtk/UgApp-gtk.c:644
+#: ../uget-gtk/UgApp-gtk.c:652
 msgid "Exit uGet"
 msgstr "退出 uGet"
 
 #. create confirmation dialog
-#: ../uget-gtk/UgApp-gtk.c:699
+#: ../uget-gtk/UgApp-gtk.c:707
 msgid "Really delete files?"
 msgstr "确认删除文件吗?"
 
-#: ../uget-gtk/UgApp-gtk.c:717
+#: ../uget-gtk/UgApp-gtk.c:725
 msgid "Are you sure you want to delete files?"
 msgstr "您确认要删除这些文件吗"
 
-#: ../uget-gtk/UgApp-gtk.c:722
+#: ../uget-gtk/UgApp-gtk.c:730
 msgid "Do not ask me again"
 msgstr "下次不要问我"
 
-#: ../uget-gtk/UgApp-gtk.c:764
-#: ../uget-gtk/UgApp-gtk-callback.c:548
-#: ../uget-gtk/UgApp-gtk-callback.c:581
+#: ../uget-gtk/UgApp-gtk.c:772
+#: ../uget-gtk/UgApp-gtk-callback.c:567
+#: ../uget-gtk/UgApp-gtk-callback.c:600
 msgid "Error"
 msgstr "错误"
 
-#: ../uget-gtk/UgApp-gtk.c:772
-#: ../uget-gtk/UgSummary.c:163
+#: ../uget-gtk/UgApp-gtk.c:780
+#: ../uget-gtk/UgSummary.c:173
 msgid "Message"
 msgstr "信息"
 
-#: ../uget-gtk/UgApp-gtk-aria2.c:117
+#: ../uget-gtk/UgApp-gtk-aria2.c:227
 msgid "failed to launch aria2."
 msgstr "aria2 启动失败。"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:65
+#: ../uget-gtk/UgApp-gtk-callback.c:66
 msgid "Download Manager"
 msgstr "下载管理器"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:67
+#: ../uget-gtk/UgApp-gtk-callback.c:68
 msgid "translator-credits"
 msgstr "lh <jason52lh AT gmail.com>"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:117
-#: ../uget-gtk/UgApp-gtk-callback.c:130
+#: ../uget-gtk/UgApp-gtk-callback.c:118
+#: ../uget-gtk/UgApp-gtk-callback.c:131
 msgid "New Category"
 msgstr "新建分类"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:125
+#: ../uget-gtk/UgApp-gtk-callback.c:126
 #, fuzzy
 msgid "Copy - "
 msgstr "全部复制(_A)"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:180
+#: ../uget-gtk/UgApp-gtk-callback.c:181
 msgid "Category Properties"
 msgstr "分类属性"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:263
+#: ../uget-gtk/UgApp-gtk-callback.c:270
 #: ../uget-gtk/UgApp-gtk-timeout.c:258
 msgid "New Download"
 msgstr "新建下载"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:290
+#: ../uget-gtk/UgApp-gtk-callback.c:298
 msgid "New Batch Download"
 msgstr "新建批量下载"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:313
+#: ../uget-gtk/UgApp-gtk-callback.c:321
 msgid "No URLs found in clipboard."
 msgstr "剪切板中没有找到URL地址."
 
 #. only 1 url matched
-#: ../uget-gtk/UgApp-gtk-callback.c:317
+#: ../uget-gtk/UgApp-gtk-callback.c:325
 #: ../uget-gtk/UgApp-gtk-timeout.c:153
 #: ../uget-gtk/UgApp-gtk-timeout.c:162
 msgid "New from Clipboard"
 msgstr "从剪切板中新建"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:325
+#: ../uget-gtk/UgApp-gtk-callback.c:333
 #: ../uget-gtk/UgApp-gtk-timeout.c:168
 #: ../uget-gtk/UgSettingDialog.c:80
 msgid "Clipboard"
 msgstr "剪切板"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:351
+#: ../uget-gtk/UgApp-gtk-callback.c:359
 msgid "New Torrent"
 msgstr ""
 
-#: ../uget-gtk/UgApp-gtk-callback.c:373
+#: ../uget-gtk/UgApp-gtk-callback.c:381
 #, fuzzy
 msgid "Open Torrent file"
 msgstr "打开所在文件夹(_C)"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:396
+#: ../uget-gtk/UgApp-gtk-callback.c:404
 msgid "New Metalink"
 msgstr ""
 
-#: ../uget-gtk/UgApp-gtk-callback.c:419
+#: ../uget-gtk/UgApp-gtk-callback.c:427
 #, fuzzy
 msgid "Open Metalink file"
 msgstr "打开所在文件夹(_C)"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:542
+#: ../uget-gtk/UgApp-gtk-callback.c:561
 #, c-format
 msgid "Can't launch default application for file '%s'."
 msgstr "无法为文件'%s'加载默认程序."
 
-#: ../uget-gtk/UgApp-gtk-callback.c:575
+#: ../uget-gtk/UgApp-gtk-callback.c:594
 #, c-format
 msgid "'%s' - This folder does not exist."
 msgstr "'%s'文件夹不存在"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:655
+#: ../uget-gtk/UgApp-gtk-callback.c:674
 msgid "Download Properties"
 msgstr "下载设置"
 
 #. add link
-#: ../uget-gtk/UgApp-gtk-callback.c:886
+#: ../uget-gtk/UgApp-gtk-callback.c:906
 msgid "Link <A>"
 msgstr "连结 <A>"
 
 #. add image
-#: ../uget-gtk/UgApp-gtk-callback.c:891
+#: ../uget-gtk/UgApp-gtk-callback.c:911
 msgid "Image <IMG>"
 msgstr "图像 <IMG>"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:907
+#: ../uget-gtk/UgApp-gtk-callback.c:927
 msgid "Import URLs from HTML file"
 msgstr "从HTML文件中导入URL地址"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:948
+#: ../uget-gtk/UgApp-gtk-callback.c:968
 msgid "Text File"
 msgstr "文本文件"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:964
+#: ../uget-gtk/UgApp-gtk-callback.c:984
 msgid "Import URLs from text file"
 msgstr "从文本文件中导入URL地址"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:1010
-#: ../uget-gtk/UgApp-gtk-callback.c:1011
+#: ../uget-gtk/UgApp-gtk-callback.c:1030
+#: ../uget-gtk/UgApp-gtk-callback.c:1031
 msgid "Export to"
 msgstr "导出到"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:1107
+#: ../uget-gtk/UgApp-gtk-callback.c:1128
 msgid "Settings"
 msgstr "设置"
 
@@ -465,10 +465,10 @@ msgstr "状态栏"
 #: ../uget-gtk/UgApp-gtk-gui.c:559
 #: ../uget-gtk/UgApp-gtk-gui.c:644
 #: ../uget-gtk/UgCategoryWidget.c:129
-#: ../uget-gtk/UgCategoryWidget.c:430
+#: ../uget-gtk/UgCategoryWidget.c:440
 #: ../uget-gtk/UgDownloadDialog.c:205
-#: ../uget-gtk/UgDownloadWidget.c:848
-#: ../uget-gtk/UgSummary.c:130
+#: ../uget-gtk/UgDownloadWidget.c:912
+#: ../uget-gtk/UgSummary.c:140
 msgid "Category"
 msgstr "分类"
 
@@ -539,25 +539,25 @@ msgstr "剩余(_L)"
 
 #. Download Columns - Speed
 #: ../uget-gtk/UgApp-gtk-gui.c:619
-#: ../uget-gtk/UgDownloadWidget.c:777
+#: ../uget-gtk/UgDownloadWidget.c:841
 msgid "Speed"
 msgstr "速度"
 
 #. Download Columns - Up Speed
 #: ../uget-gtk/UgApp-gtk-gui.c:624
-#: ../uget-gtk/UgDownloadWidget.c:791
+#: ../uget-gtk/UgDownloadWidget.c:855
 msgid "Up Speed"
 msgstr "上传速度"
 
 #. Download Columns - Uploaded
 #: ../uget-gtk/UgApp-gtk-gui.c:629
-#: ../uget-gtk/UgDownloadWidget.c:805
+#: ../uget-gtk/UgDownloadWidget.c:869
 msgid "Uploaded"
 msgstr "已上传"
 
 #. Download Columns - Ratio
 #: ../uget-gtk/UgApp-gtk-gui.c:634
-#: ../uget-gtk/UgDownloadWidget.c:819
+#: ../uget-gtk/UgDownloadWidget.c:883
 msgid "Ratio"
 msgstr "分享率"
 
@@ -568,13 +568,13 @@ msgstr "重试(_R)"
 
 #. Download Columns - Added On
 #: ../uget-gtk/UgApp-gtk-gui.c:654
-#: ../uget-gtk/UgDownloadWidget.c:876
+#: ../uget-gtk/UgDownloadWidget.c:940
 msgid "Added On"
 msgstr "添加时间"
 
 #. Download Columns - Completed On
 #: ../uget-gtk/UgApp-gtk-gui.c:659
-#: ../uget-gtk/UgDownloadWidget.c:890
+#: ../uget-gtk/UgDownloadWidget.c:954
 msgid "Completed On"
 msgstr "完成时间"
 
@@ -630,19 +630,27 @@ msgstr "只有一个符合"
 msgid "Command line"
 msgstr "命令行"
 
-#: ../uget-gtk/UgApp-gtk-timeout.c:719
+#: ../uget-gtk/UgApp-gtk-timeout.c:464
+msgid ""
+"Failed to connect to aria2.\n"
+"Is aria2 shutdown? or aria2 launch failed."
+msgstr ""
+"无法连接到 aria2。\n"
+"是 aria2 关闭？ 或 aria2 启动失败。"
+
+#: ../uget-gtk/UgApp-gtk-timeout.c:733
 msgid "Download Starting"
 msgstr "下载开始"
 
-#: ../uget-gtk/UgApp-gtk-timeout.c:720
+#: ../uget-gtk/UgApp-gtk-timeout.c:734
 msgid "Starting download queue."
 msgstr "开始下载队列."
 
-#: ../uget-gtk/UgApp-gtk-timeout.c:721
+#: ../uget-gtk/UgApp-gtk-timeout.c:735
 msgid "Download Completed"
 msgstr "下载完成"
 
-#: ../uget-gtk/UgApp-gtk-timeout.c:722
+#: ../uget-gtk/UgApp-gtk-timeout.c:736
 msgid "All queuing downloads have been completed."
 msgstr "队列里所有下载都已完成."
 
@@ -743,7 +751,7 @@ msgstr "队列"
 msgid "Recycled"
 msgstr "回收筒"
 
-#: ../uget-gtk/UgCategoryWidget.c:451
+#: ../uget-gtk/UgCategoryWidget.c:461
 msgid "Quantity"
 msgstr "数量"
 
@@ -757,12 +765,12 @@ msgstr "进阶"
 
 #. File - label
 #: ../uget-gtk/UgDownloadForm.c:147
-#: ../uget-gtk/UgProxyForm.c:344
+#: ../uget-gtk/UgProxyForm.c:339
 msgid "File:"
 msgstr "文件:"
 
 #: ../uget-gtk/UgDownloadForm.c:162
-#: ../uget-gtk/UgDownloadForm.c:883
+#: ../uget-gtk/UgDownloadForm.c:882
 msgid "Select Folder"
 msgstr "选择文件夹"
 
@@ -795,14 +803,14 @@ msgstr "登陆"
 #. User - label
 #. user label & entry
 #: ../uget-gtk/UgDownloadForm.c:228
-#: ../uget-gtk/UgProxyForm.c:148
+#: ../uget-gtk/UgProxyForm.c:143
 msgid "User:"
 msgstr "用户:"
 
 #. Password - label
 #. password label & entry
 #: ../uget-gtk/UgDownloadForm.c:244
-#: ../uget-gtk/UgProxyForm.c:159
+#: ../uget-gtk/UgProxyForm.c:154
 msgid "Password:"
 msgstr "密码:"
 
@@ -849,7 +857,7 @@ msgid "Cookie file:"
 msgstr "Cookie 文件"
 
 #: ../uget-gtk/UgDownloadForm.c:358
-#: ../uget-gtk/UgDownloadForm.c:939
+#: ../uget-gtk/UgDownloadForm.c:938
 msgid "Select Cookie File"
 msgstr "选择Cookie文件"
 
@@ -859,7 +867,7 @@ msgid "Post file:"
 msgstr ""
 
 #: ../uget-gtk/UgDownloadForm.c:379
-#: ../uget-gtk/UgDownloadForm.c:995
+#: ../uget-gtk/UgDownloadForm.c:994
 msgid "Select Post File"
 msgstr ""
 
@@ -872,59 +880,59 @@ msgstr "用户:"
 #. label - Max upload speed
 #: ../uget-gtk/UgDownloadForm.c:405
 msgid "Max upload speed:"
-msgstr ""
+msgstr "最大上传速度:"
 
 #. label - "KiB/s"
 #: ../uget-gtk/UgDownloadForm.c:416
 #: ../uget-gtk/UgDownloadForm.c:433
-#: ../uget-gtk/UgSettingForm.c:468
-#: ../uget-gtk/UgSettingForm.c:479
+#: ../uget-gtk/UgSettingForm.c:469
+#: ../uget-gtk/UgSettingForm.c:480
 msgid "KiB/s"
 msgstr ""
 
 #. label - Max download speed
 #: ../uget-gtk/UgDownloadForm.c:422
-#, fuzzy
 msgid "Max download speed:"
-msgstr "下载完成"
+msgstr "最大下载速度:"
 
-#. timestamp
+#. Retrieve timestamp
 #: ../uget-gtk/UgDownloadForm.c:439
 msgid "Retrieve timestamp"
-msgstr ""
+msgstr "取回时间戳"
 
-#: ../uget-gtk/UgDownloadWidget.c:362
+#: ../uget-gtk/UgDownloadWidget.c:380
+#: ../uget-gtk/UgSummary.c:116
 msgid "unnamed"
 msgstr "未命名"
 
-#: ../uget-gtk/UgDownloadWidget.c:682
-#: ../uget-gtk/UgSummary.c:102
+#: ../uget-gtk/UgDownloadWidget.c:746
+#: ../uget-gtk/UgSummary.c:105
 msgid "Name"
 msgstr "名称"
 
-#: ../uget-gtk/UgDownloadWidget.c:706
+#: ../uget-gtk/UgDownloadWidget.c:770
 msgid "Complete"
 msgstr "完成"
 
-#: ../uget-gtk/UgDownloadWidget.c:720
+#: ../uget-gtk/UgDownloadWidget.c:784
 msgid "Size"
 msgstr "大小"
 
-#: ../uget-gtk/UgDownloadWidget.c:735
+#: ../uget-gtk/UgDownloadWidget.c:799
 msgid "%"
 msgstr ""
 
-#: ../uget-gtk/UgDownloadWidget.c:749
+#: ../uget-gtk/UgDownloadWidget.c:813
 msgid "Elapsed"
 msgstr "已完成"
 
-#: ../uget-gtk/UgDownloadWidget.c:763
+#: ../uget-gtk/UgDownloadWidget.c:827
 msgid "Left"
 msgstr "剩余"
 
-#: ../uget-gtk/UgDownloadWidget.c:862
+#: ../uget-gtk/UgDownloadWidget.c:926
 #: ../uget-gtk/UgSelector.c:487
-#: ../uget-gtk/UgSummary.c:141
+#: ../uget-gtk/UgSummary.c:151
 msgid "URL"
 msgstr "网址"
 
@@ -942,20 +950,20 @@ msgid "Default"
 msgstr "默认"
 
 #. host label & entry
-#: ../uget-gtk/UgProxyForm.c:121
+#: ../uget-gtk/UgProxyForm.c:116
 msgid "Host:"
 msgstr "主机:"
 
 #. port label & entry
-#: ../uget-gtk/UgProxyForm.c:132
+#: ../uget-gtk/UgProxyForm.c:127
 msgid "Port:"
 msgstr "端口:"
 
-#: ../uget-gtk/UgProxyForm.c:334
+#: ../uget-gtk/UgProxyForm.c:329
 msgid "Socket:"
 msgstr ""
 
-#: ../uget-gtk/UgProxyForm.c:358
+#: ../uget-gtk/UgProxyForm.c:353
 msgid "Element:"
 msgstr ""
 
@@ -1159,62 +1167,65 @@ msgstr "默认使用 '--quiet'"
 msgid "'--category-index' default value"
 msgstr "设置 '--category-index' 的默认值"
 
-#: ../uget-gtk/UgSettingForm.c:408
+#: ../uget-gtk/UgSettingForm.c:410
 msgid "_Enable aria2 plug-in"
 msgstr "啟用 aria2 插件(_E)"
 
-#. aria2 plug-in hints
-#: ../uget-gtk/UgSettingForm.c:416
-msgid ""
-"Please make sure that all tasks have been completed\n"
-"before you modify settings."
-msgstr "在你修改设定前请确定所有的任务都已经完成。"
-
-#: ../uget-gtk/UgSettingForm.c:430
+#: ../uget-gtk/UgSettingForm.c:417
 msgid "_Launch aria2 on startup"
 msgstr "启动时执行 aria2"
 
-#: ../uget-gtk/UgSettingForm.c:436
+#: ../uget-gtk/UgSettingForm.c:423
 msgid "_Shutdown aria2 on exit"
 msgstr "离开时关闭 aria2"
 
-#: ../uget-gtk/UgSettingForm.c:443
+#: ../uget-gtk/UgSettingForm.c:439
 msgid "Path"
 msgstr ""
 
-#: ../uget-gtk/UgSettingForm.c:451
+#: ../uget-gtk/UgSettingForm.c:447
 msgid "Arguments"
 msgstr ""
 
-#: ../uget-gtk/UgSettingForm.c:460
+#. aria2 plug-in hint
+#: ../uget-gtk/UgSettingForm.c:454
+msgid "You must restart uGet after modifying 'Arguments'."
+msgstr "修改'参数'后必须重新启动 uGet。"
+
+#: ../uget-gtk/UgSettingForm.c:461
 msgid "Speed Limits"
 msgstr "速度限制"
 
-#: ../uget-gtk/UgSettingForm.c:466
+#: ../uget-gtk/UgSettingForm.c:467
 msgid "Upload"
 msgstr "上传"
 
-#: ../uget-gtk/UgSettingForm.c:477
+#: ../uget-gtk/UgSettingForm.c:478
 msgid "Download"
 msgstr "下载"
 
-#: ../uget-gtk/UgSummary.c:106
+#: ../uget-gtk/UgSummary.c:109
 msgid "File"
 msgstr "文件"
 
-#: ../uget-gtk/UgSummary.c:119
+#: ../uget-gtk/UgSummary.c:129
 msgid "Folder"
 msgstr "文件夹"
 
-#: ../uget-gtk/UgSummary.c:249
+#: ../uget-gtk/UgSummary.c:259
 msgid "Item"
 msgstr "项目"
 
-#: ../uget-gtk/UgSummary.c:254
+#: ../uget-gtk/UgSummary.c:264
 msgid "Value"
 msgstr "值"
 
 #. Copy All
-#: ../uget-gtk/UgSummary.c:286
+#: ../uget-gtk/UgSummary.c:296
 msgid "Copy _All"
 msgstr "全部复制(_A)"
+
+#~ msgid ""
+#~ "Please make sure that all tasks have been completed\n"
+#~ "before you modify settings."
+#~ msgstr "在你修改设定前请确定所有的任务都已经完成。"

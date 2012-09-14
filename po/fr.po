@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uget 1.9.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-20 20:52+0800\n"
+"POT-Creation-Date: 2012-09-14 15:15+0800\n"
 "PO-Revision-Date: 2012-08-26 22:40+0100\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
@@ -31,7 +31,7 @@ msgstr "Transmission en cours ..."
 
 #. UG_MESSAGE_INFO_TRANSMIT,
 #: ../uglib/UgMessage.c:54
-#: ../uget-gtk/UgDownloadWidget.c:833
+#: ../uget-gtk/UgDownloadWidget.c:897
 msgid "Retry"
 msgstr "Ressayer"
 
@@ -54,13 +54,13 @@ msgstr "Reprise possible"
 
 #. UG_MESSAGE_INFO_RESUMABLE,
 #: ../uglib/UgMessage.c:59
-#: ../uglib/UgPlugin-aria2.c:827
+#: ../uglib/UgPlugin-aria2.c:863
 msgid "Not Resumable"
 msgstr "Reprise impossible"
 
 #. UG_MESSAGE_WARNING_CUSTOM
 #: ../uglib/UgMessage.c:67
-#: ../uglib/UgPlugin-aria2.c:851
+#: ../uglib/UgPlugin-aria2.c:887
 msgid "Output file can't be renamed."
 msgstr "Le fichier de sortie ne peut pas être renommé."
 
@@ -77,7 +77,8 @@ msgstr "Le dossier ne peut pas être créé."
 #. UG_MESSAGE_ERROR_FOLDER_CREATE_FAILED
 #: ../uglib/UgMessage.c:77
 msgid "File can't be created (bad filename or file exist)."
-msgstr "Le fichier ne peut être créé (mauvais nom de fichier ou le fichier existe)."
+msgstr ""
+"Le fichier ne peut être créé (mauvais nom de fichier ou le fichier existe)."
 
 #. UG_MESSAGE_ERROR_FILE_CREATE_FAILED
 #: ../uglib/UgMessage.c:78
@@ -128,171 +129,171 @@ msgstr "Impossible d'ouvrir le fichier posté."
 msgid "No plug-in support this scheme or file."
 msgstr "Aucun plug-in ne supporte ce programme ou fichier."
 
-#: ../uget-gtk/UgApp-gtk.c:502
-#: ../uget-gtk/UgApp-gtk-timeout.c:522
+#: ../uget-gtk/UgApp-gtk.c:508
+#: ../uget-gtk/UgApp-gtk-timeout.c:527
 msgid "tasks"
 msgstr "tâches"
 
-#: ../uget-gtk/UgApp-gtk.c:547
+#: ../uget-gtk/UgApp-gtk.c:553
 #, c-format
 msgid "Selected %d items"
 msgstr "%d éléments sélectionnés"
 
 #. create confirmation dialog
-#: ../uget-gtk/UgApp-gtk.c:617
+#: ../uget-gtk/UgApp-gtk.c:623
 msgid "Really Quit?"
 msgstr "Vraiment Quitter ?"
 
-#: ../uget-gtk/UgApp-gtk.c:634
+#: ../uget-gtk/UgApp-gtk.c:640
 msgid "Are you sure you want to quit?"
 msgstr "Êtes-vous sûr de vouloir quitter ?"
 
-#: ../uget-gtk/UgApp-gtk.c:639
+#: ../uget-gtk/UgApp-gtk.c:645
 msgid "Remember this action"
 msgstr "Se souvenir de cette action"
 
 #. radio button
-#: ../uget-gtk/UgApp-gtk.c:644
+#: ../uget-gtk/UgApp-gtk.c:650
 msgid "Minimize to tray"
 msgstr "Réduire en icône"
 
-#: ../uget-gtk/UgApp-gtk.c:646
+#: ../uget-gtk/UgApp-gtk.c:652
 msgid "Exit uGet"
 msgstr "Quitter uGet"
 
 #. create confirmation dialog
-#: ../uget-gtk/UgApp-gtk.c:701
+#: ../uget-gtk/UgApp-gtk.c:707
 msgid "Really delete files?"
 msgstr "Vraiment supprimer ces fichiers ?"
 
-#: ../uget-gtk/UgApp-gtk.c:719
+#: ../uget-gtk/UgApp-gtk.c:725
 msgid "Are you sure you want to delete files?"
 msgstr "Êtes-vous sûr de vouloir supprimer ces fichiers ?"
 
-#: ../uget-gtk/UgApp-gtk.c:724
+#: ../uget-gtk/UgApp-gtk.c:730
 msgid "Do not ask me again"
 msgstr "Ne pas me demander à nouveau"
 
-#: ../uget-gtk/UgApp-gtk.c:766
-#: ../uget-gtk/UgApp-gtk-callback.c:548
-#: ../uget-gtk/UgApp-gtk-callback.c:581
+#: ../uget-gtk/UgApp-gtk.c:772
+#: ../uget-gtk/UgApp-gtk-callback.c:567
+#: ../uget-gtk/UgApp-gtk-callback.c:600
 msgid "Error"
 msgstr "Erreur"
 
-#: ../uget-gtk/UgApp-gtk.c:774
-#: ../uget-gtk/UgSummary.c:163
+#: ../uget-gtk/UgApp-gtk.c:780
+#: ../uget-gtk/UgSummary.c:173
 msgid "Message"
 msgstr "Message"
 
-#: ../uget-gtk/UgApp-gtk-aria2.c:117
+#: ../uget-gtk/UgApp-gtk-aria2.c:227
 msgid "failed to launch aria2."
 msgstr "pas réussi à lancer aria2."
 
-#: ../uget-gtk/UgApp-gtk-callback.c:65
+#: ../uget-gtk/UgApp-gtk-callback.c:66
 msgid "Download Manager"
 msgstr "Gestionnaire de téléchargement"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:67
+#: ../uget-gtk/UgApp-gtk-callback.c:68
 msgid "translator-credits"
 msgstr "Traducteur-crédits"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:117
-#: ../uget-gtk/UgApp-gtk-callback.c:130
+#: ../uget-gtk/UgApp-gtk-callback.c:118
+#: ../uget-gtk/UgApp-gtk-callback.c:131
 msgid "New Category"
 msgstr "Nouvelle catégorie"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:125
+#: ../uget-gtk/UgApp-gtk-callback.c:126
 msgid "Copy - "
 msgstr "Copier -"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:180
+#: ../uget-gtk/UgApp-gtk-callback.c:181
 msgid "Category Properties"
 msgstr "Propriétés catégorie"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:263
+#: ../uget-gtk/UgApp-gtk-callback.c:270
 #: ../uget-gtk/UgApp-gtk-timeout.c:258
 msgid "New Download"
 msgstr "Nouveau téléchargement"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:290
+#: ../uget-gtk/UgApp-gtk-callback.c:298
 msgid "New Batch Download"
 msgstr "Nouveau Batch de Téléchargement"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:313
+#: ../uget-gtk/UgApp-gtk-callback.c:321
 msgid "No URLs found in clipboard."
 msgstr "Aucune URL trouvée dans le presse-papiers."
 
 #. only 1 url matched
-#: ../uget-gtk/UgApp-gtk-callback.c:317
+#: ../uget-gtk/UgApp-gtk-callback.c:325
 #: ../uget-gtk/UgApp-gtk-timeout.c:153
 #: ../uget-gtk/UgApp-gtk-timeout.c:162
 msgid "New from Clipboard"
 msgstr "Nouveau depuis le Presse-papiers"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:325
+#: ../uget-gtk/UgApp-gtk-callback.c:333
 #: ../uget-gtk/UgApp-gtk-timeout.c:168
 #: ../uget-gtk/UgSettingDialog.c:80
 msgid "Clipboard"
 msgstr "Presse-papiers"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:351
+#: ../uget-gtk/UgApp-gtk-callback.c:359
 msgid "New Torrent"
 msgstr "Nouveau Torrent"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:373
+#: ../uget-gtk/UgApp-gtk-callback.c:381
 msgid "Open Torrent file"
 msgstr "Ouvrir le fichier Torrent"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:396
+#: ../uget-gtk/UgApp-gtk-callback.c:404
 msgid "New Metalink"
 msgstr "Nouveau Metalink"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:419
+#: ../uget-gtk/UgApp-gtk-callback.c:427
 msgid "Open Metalink file"
 msgstr "Ouvrir le fichier Metalink"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:542
+#: ../uget-gtk/UgApp-gtk-callback.c:561
 #, c-format
 msgid "Can't launch default application for file '%s'."
 msgstr "Impossible de lancer l'application par défaut pour le fichier '% s'. "
 
-#: ../uget-gtk/UgApp-gtk-callback.c:575
+#: ../uget-gtk/UgApp-gtk-callback.c:594
 #, c-format
 msgid "'%s' - This folder does not exist."
 msgstr "'% s' - Ce dossier n'existe pas."
 
-#: ../uget-gtk/UgApp-gtk-callback.c:655
+#: ../uget-gtk/UgApp-gtk-callback.c:674
 msgid "Download Properties"
 msgstr "Propriétés Téléchargement"
 
 #. add link
-#: ../uget-gtk/UgApp-gtk-callback.c:886
+#: ../uget-gtk/UgApp-gtk-callback.c:906
 msgid "Link <A>"
 msgstr "Lien <A>"
 
 #. add image
-#: ../uget-gtk/UgApp-gtk-callback.c:891
+#: ../uget-gtk/UgApp-gtk-callback.c:911
 msgid "Image <IMG>"
 msgstr "Image <IMG>"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:907
+#: ../uget-gtk/UgApp-gtk-callback.c:927
 msgid "Import URLs from HTML file"
 msgstr "Importer des URLs depuis un fichier HTML"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:948
+#: ../uget-gtk/UgApp-gtk-callback.c:968
 msgid "Text File"
 msgstr "Fichier Texte"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:964
+#: ../uget-gtk/UgApp-gtk-callback.c:984
 msgid "Import URLs from text file"
 msgstr "Importer des URLs depuis un fichier texte"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:1010
-#: ../uget-gtk/UgApp-gtk-callback.c:1011
+#: ../uget-gtk/UgApp-gtk-callback.c:1030
+#: ../uget-gtk/UgApp-gtk-callback.c:1031
 msgid "Export to"
 msgstr "Exporter vers"
 
-#: ../uget-gtk/UgApp-gtk-callback.c:1107
+#: ../uget-gtk/UgApp-gtk-callback.c:1128
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -467,10 +468,10 @@ msgstr "Barre de statuts"
 #: ../uget-gtk/UgApp-gtk-gui.c:559
 #: ../uget-gtk/UgApp-gtk-gui.c:644
 #: ../uget-gtk/UgCategoryWidget.c:129
-#: ../uget-gtk/UgCategoryWidget.c:430
+#: ../uget-gtk/UgCategoryWidget.c:440
 #: ../uget-gtk/UgDownloadDialog.c:205
-#: ../uget-gtk/UgDownloadWidget.c:848
-#: ../uget-gtk/UgSummary.c:130
+#: ../uget-gtk/UgDownloadWidget.c:912
+#: ../uget-gtk/UgSummary.c:140
 msgid "Category"
 msgstr "Catégorie"
 
@@ -541,25 +542,25 @@ msgstr "_Temps restant"
 
 #. Download Columns - Speed
 #: ../uget-gtk/UgApp-gtk-gui.c:619
-#: ../uget-gtk/UgDownloadWidget.c:777
+#: ../uget-gtk/UgDownloadWidget.c:841
 msgid "Speed"
 msgstr "Vitesse"
 
 #. Download Columns - Up Speed
 #: ../uget-gtk/UgApp-gtk-gui.c:624
-#: ../uget-gtk/UgDownloadWidget.c:791
+#: ../uget-gtk/UgDownloadWidget.c:855
 msgid "Up Speed"
 msgstr "Vitesse de sortie"
 
 #. Download Columns - Uploaded
 #: ../uget-gtk/UgApp-gtk-gui.c:629
-#: ../uget-gtk/UgDownloadWidget.c:805
+#: ../uget-gtk/UgDownloadWidget.c:869
 msgid "Uploaded"
 msgstr "Téléchargé"
 
 #. Download Columns - Ratio
 #: ../uget-gtk/UgApp-gtk-gui.c:634
-#: ../uget-gtk/UgDownloadWidget.c:819
+#: ../uget-gtk/UgDownloadWidget.c:883
 msgid "Ratio"
 msgstr "Ratio"
 
@@ -570,13 +571,13 @@ msgstr "_Réessayer"
 
 #. Download Columns - Added On
 #: ../uget-gtk/UgApp-gtk-gui.c:654
-#: ../uget-gtk/UgDownloadWidget.c:876
+#: ../uget-gtk/UgDownloadWidget.c:940
 msgid "Added On"
 msgstr "Ajouté le"
 
 #. Download Columns - Completed On
 #: ../uget-gtk/UgApp-gtk-gui.c:659
-#: ../uget-gtk/UgDownloadWidget.c:890
+#: ../uget-gtk/UgDownloadWidget.c:954
 msgid "Completed On"
 msgstr "Terminé"
 
@@ -632,19 +633,25 @@ msgstr "un seul correspondant"
 msgid "Command line"
 msgstr "Ligne de commande"
 
-#: ../uget-gtk/UgApp-gtk-timeout.c:719
+#: ../uget-gtk/UgApp-gtk-timeout.c:464
+msgid ""
+"Failed to connect to aria2.\n"
+"Is aria2 shutdown? or aria2 launch failed."
+msgstr ""
+
+#: ../uget-gtk/UgApp-gtk-timeout.c:733
 msgid "Download Starting"
 msgstr "Démarrage Téléchargement"
 
-#: ../uget-gtk/UgApp-gtk-timeout.c:720
+#: ../uget-gtk/UgApp-gtk-timeout.c:734
 msgid "Starting download queue."
 msgstr "Démarrer la file d'attente téléchargement."
 
-#: ../uget-gtk/UgApp-gtk-timeout.c:721
+#: ../uget-gtk/UgApp-gtk-timeout.c:735
 msgid "Download Completed"
 msgstr "Téléchargement Terminé"
 
-#: ../uget-gtk/UgApp-gtk-timeout.c:722
+#: ../uget-gtk/UgApp-gtk-timeout.c:736
 msgid "All queuing downloads have been completed."
 msgstr "Toutes les files d'attente téléchargement sont terminées."
 
@@ -745,7 +752,7 @@ msgstr "File d'attente"
 msgid "Recycled"
 msgstr "Supprimé"
 
-#: ../uget-gtk/UgCategoryWidget.c:451
+#: ../uget-gtk/UgCategoryWidget.c:461
 msgid "Quantity"
 msgstr "Quantité"
 
@@ -878,8 +885,8 @@ msgstr "Vitesse max téléchargement (up) :"
 #. label - "KiB/s"
 #: ../uget-gtk/UgDownloadForm.c:416
 #: ../uget-gtk/UgDownloadForm.c:433
-#: ../uget-gtk/UgSettingForm.c:468
-#: ../uget-gtk/UgSettingForm.c:479
+#: ../uget-gtk/UgSettingForm.c:469
+#: ../uget-gtk/UgSettingForm.c:480
 msgid "KiB/s"
 msgstr "Kb/s"
 
@@ -893,38 +900,39 @@ msgstr "Vitesse max téléchargement (dl) :"
 msgid "Retrieve timestamp"
 msgstr "Récupérer horodatage"
 
-#: ../uget-gtk/UgDownloadWidget.c:362
+#: ../uget-gtk/UgDownloadWidget.c:380
+#: ../uget-gtk/UgSummary.c:116
 msgid "unnamed"
 msgstr "sans nom"
 
-#: ../uget-gtk/UgDownloadWidget.c:682
-#: ../uget-gtk/UgSummary.c:102
+#: ../uget-gtk/UgDownloadWidget.c:746
+#: ../uget-gtk/UgSummary.c:105
 msgid "Name"
 msgstr "Nom"
 
-#: ../uget-gtk/UgDownloadWidget.c:706
+#: ../uget-gtk/UgDownloadWidget.c:770
 msgid "Complete"
 msgstr "Complet"
 
-#: ../uget-gtk/UgDownloadWidget.c:720
+#: ../uget-gtk/UgDownloadWidget.c:784
 msgid "Size"
 msgstr "Taille"
 
-#: ../uget-gtk/UgDownloadWidget.c:735
+#: ../uget-gtk/UgDownloadWidget.c:799
 msgid "%"
 msgstr "%"
 
-#: ../uget-gtk/UgDownloadWidget.c:749
+#: ../uget-gtk/UgDownloadWidget.c:813
 msgid "Elapsed"
 msgstr "Fini"
 
-#: ../uget-gtk/UgDownloadWidget.c:763
+#: ../uget-gtk/UgDownloadWidget.c:827
 msgid "Left"
 msgstr "Restant"
 
-#: ../uget-gtk/UgDownloadWidget.c:862
+#: ../uget-gtk/UgDownloadWidget.c:926
 #: ../uget-gtk/UgSelector.c:487
-#: ../uget-gtk/UgSummary.c:141
+#: ../uget-gtk/UgSummary.c:151
 msgid "URL"
 msgstr "URL"
 
@@ -1130,7 +1138,8 @@ msgstr "Appliquer récemment les paramètres de téléchargement"
 
 #: ../uget-gtk/UgSettingForm.c:229
 msgid "_Launch default application for specified file types:"
-msgstr "_Lancer l'application par défaut pour les types de fichiers spécifiés :"
+msgstr ""
+"_Lancer l'application par défaut pour les types de fichiers spécifiés :"
 
 #: ../uget-gtk/UgSettingForm.c:288
 msgid "_Auto save"
@@ -1159,67 +1168,70 @@ msgstr "Utiliser '--quiet' par défaut"
 msgid "'--category-index' default value"
 msgstr "valeur par défaut '--category-index'"
 
-#: ../uget-gtk/UgSettingForm.c:408
+#: ../uget-gtk/UgSettingForm.c:410
 msgid "_Enable aria2 plug-in"
 msgstr "_Activer plug-in aria2 "
 
-#. aria2 plug-in hints
-#: ../uget-gtk/UgSettingForm.c:416
-msgid ""
-"Please make sure that all tasks have been completed\n"
-"before you modify settings."
-msgstr ""
-"Assurez-vous que toutes les tâches soient terminées\n"
-"avant de modifier les paramètres."
-
-#: ../uget-gtk/UgSettingForm.c:430
+#: ../uget-gtk/UgSettingForm.c:417
 msgid "_Launch aria2 on startup"
 msgstr "_Lancement au démarrage d'aria2"
 
-#: ../uget-gtk/UgSettingForm.c:436
+#: ../uget-gtk/UgSettingForm.c:423
 msgid "_Shutdown aria2 on exit"
 msgstr "Arrêt d'aria2 à la sortie"
 
-#: ../uget-gtk/UgSettingForm.c:443
+#: ../uget-gtk/UgSettingForm.c:439
 msgid "Path"
 msgstr "Chemin"
 
-#: ../uget-gtk/UgSettingForm.c:451
+#: ../uget-gtk/UgSettingForm.c:447
 msgid "Arguments"
 msgstr "Arguments"
 
-#: ../uget-gtk/UgSettingForm.c:460
+#. aria2 plug-in hint
+#: ../uget-gtk/UgSettingForm.c:454
+msgid "You must restart uGet after modifying 'Arguments'."
+msgstr ""
+
+#: ../uget-gtk/UgSettingForm.c:461
 msgid "Speed Limits"
 msgstr "Limites de vitesse"
 
-#: ../uget-gtk/UgSettingForm.c:466
+#: ../uget-gtk/UgSettingForm.c:467
 msgid "Upload"
 msgstr "Téléchargé"
 
-#: ../uget-gtk/UgSettingForm.c:477
+#: ../uget-gtk/UgSettingForm.c:478
 msgid "Download"
 msgstr "Téléchargement"
 
-#: ../uget-gtk/UgSummary.c:106
+#: ../uget-gtk/UgSummary.c:109
 msgid "File"
 msgstr "Fichier"
 
-#: ../uget-gtk/UgSummary.c:119
+#: ../uget-gtk/UgSummary.c:129
 msgid "Folder"
 msgstr "Dossier"
 
-#: ../uget-gtk/UgSummary.c:249
+#: ../uget-gtk/UgSummary.c:259
 msgid "Item"
 msgstr "item"
 
-#: ../uget-gtk/UgSummary.c:254
+#: ../uget-gtk/UgSummary.c:264
 msgid "Value"
 msgstr "Valeur"
 
 #. Copy All
-#: ../uget-gtk/UgSummary.c:286
+#: ../uget-gtk/UgSummary.c:296
 msgid "Copy _All"
 msgstr "Copier _Tout"
+
+#~ msgid ""
+#~ "Please make sure that all tasks have been completed\n"
+#~ "before you modify settings."
+#~ msgstr ""
+#~ "Assurez-vous que toutes les tâches soient terminées\n"
+#~ "avant de modifier les paramètres."
 
 #~ msgid "Type:"
 #~ msgstr "Type :"
