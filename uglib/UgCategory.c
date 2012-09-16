@@ -602,8 +602,8 @@ void	ug_download_complete_data (UgDataset* dataset)
 		string = ug_uri_full_get_file (&urifull);
 		if (string)
 			common->file = (gchar*) string;
-		else
-			common->file = g_strdup ("index.htm");
+//		else
+//			common->file = g_strdup ("index.htm");
 	}
 	// user
 	if (common->user == NULL) {
