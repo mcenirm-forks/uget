@@ -598,13 +598,13 @@ void	ug_download_complete_data (UgDataset* dataset)
 	if (ug_uri_full_init (&urifull, common->url) == 0)
 		return;
 	// file
-	if (common->file == NULL) {
-		string = ug_uri_full_get_file (&urifull);
-		if (string)
-			common->file = (gchar*) string;
+//	if (common->file == NULL) {
+//		string = ug_uri_full_get_file (&urifull);
+//		if (string)
+//			common->file = (gchar*) string;
 //		else
 //			common->file = g_strdup ("index.htm");
-	}
+//	}
 	// user
 	if (common->user == NULL) {
 		length = ug_uri_full_user (&urifull, &string);
