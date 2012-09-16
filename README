@@ -1,3 +1,10 @@
+uGet 1.10.1 (stable)
+01. Restart download if aria2 response "speed was too slow".
+02. Don't assign filename if user doesn't specify it by commandline or UI.
+03. Show error message if uGet can't connect to aria2 on startup. (about 7 to 10 sec)
+04. Add "Website by: Michael Tunnell (visuex.com)" in about dialog.
+05. Fix: program doesn't save/restore summary visible settings.
+
 uGet 1.10 (stable)
 01. This version need GTK 3.4+ and GLib 2.32+.
 02. Add global speed limits for aria2.
