@@ -64,7 +64,11 @@ extern "C" {
 #define UG_APP_GTK_ICON_NAME			"uget-icon"
 #define UG_APP_GTK_ICON_ERROR_NAME		"uget-error"
 #define UG_APP_GTK_ICON_ACTIVE_NAME		"uget-downloading"
-#define	UG_APP_GTK_ACCEL_PATH_CTRL_N	"<uGet>/New/Download"
+#define	UG_APP_GTK_ACCEL_PATH_CTRL_N	"<uGet>/Download/New"
+#define	UG_APP_GTK_ACCEL_PATH_DELETE	"<uGet>/Download/Delete"
+#define	UG_APP_GTK_ACCEL_PATH_DELETE_F	"<uGet>/Download/DeleteFile"
+#define	UG_APP_GTK_ACCEL_PATH_OPEN		"<uGet>/Download/Open"
+#define	UG_APP_GTK_ACCEL_PATH_OPEN_F	"<uGet>/Download/OpenFolder"
 #define	UG_APP_GTK_CATEGORY_STOCK		GTK_STOCK_DND_MULTIPLE
 
 typedef struct	UgAppGtk				UgAppGtk;

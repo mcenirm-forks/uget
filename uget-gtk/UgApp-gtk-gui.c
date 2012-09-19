@@ -64,7 +64,11 @@ void	ug_app_init_gui (UgAppGtk* app)
 #endif	// _WIN32
 
 	// Registers a new accelerator "Ctrl+N" with the global accelerator map.
-	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_CTRL_N, GDK_KEY_n, GDK_CONTROL_MASK);
+	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_CTRL_N,   GDK_KEY_n,      GDK_CONTROL_MASK);
+	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_DELETE,   GDK_KEY_Delete, 0);
+	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_DELETE_F, GDK_KEY_Delete, GDK_SHIFT_MASK);
+	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_OPEN,     GDK_KEY_Return, 0);
+	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_OPEN_F,   GDK_KEY_Return, GDK_SHIFT_MASK);
 	// accelerators
 	app->accel_group = gtk_accel_group_new ();
 	// tray icon
@@ -689,6 +693,7 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	// ----------------------------------------------------
 	// UgDownloadMenu
 	menu = gtk_menu_new ();
+	gtk_menu_set_accel_group ((GtkMenu*)menu, accel_group);
 	menu_item = gtk_menu_item_new_with_mnemonic (_("_Download"));
 	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, menu);
 	gtk_menu_shell_append ((GtkMenuShell*)menubar->self, menu_item);
@@ -700,7 +705,8 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	menubar->download.create = menu_item;
 
-	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_DELETE, NULL);
+	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_DELETE, accel_group);
+	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_DELETE);
 //	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Delete"));
 //	image = gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
 //	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
@@ -708,6 +714,7 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	menubar->download.delete = menu_item;
 
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("Delete _File and Data"));
+	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_DELETE_F);
 //	image = gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
 //	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
@@ -716,11 +723,13 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
 
 	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_OPEN, NULL);
+	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_OPEN);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	menubar->download.open = menu_item;
 	gtk_widget_hide (menu_item);
 
 	menu_item = gtk_image_menu_item_new_with_mnemonic(_("Open _containing folder"));
+	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_OPEN_F);
 	image = gtk_image_new_from_stock (GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);

@@ -450,18 +450,8 @@ static void	on_delete_download (GtkWidget* widget, UgAppGtk* app)
 	UgRelation*			relation;
 	GList*				list;
 	GList*				link;
-	// check shift key status
-	GdkWindow*			gdk_win;
-	GdkDevice*			dev_pointer;
-	GdkModifierType		mask;
 
 	dwidget = app->cwidget.current.widget;
-	// check shift key status
-	gdk_win = gtk_widget_get_parent_window ((GtkWidget*) dwidget->view);
-	dev_pointer = gdk_device_manager_get_client_pointer (
-			gdk_display_get_device_manager (gdk_window_get_display (gdk_win)));
-	gdk_window_get_device_position (gdk_win, dev_pointer, NULL, NULL, &mask);
-
 	// clear summary
 	ug_summary_show (&app->summary, NULL);
 	// set action status "stop by user" and "deleted"
@@ -474,7 +464,7 @@ static void	on_delete_download (GtkWidget* widget, UgAppGtk* app)
 		ug_running_remove (&app->running, link->data);
 		// delete data or move it to recycled
 		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
-		if ((relation->hints & UG_HINT_RECYCLED) || (mask & GDK_SHIFT_MASK))
+		if (relation->hints & UG_HINT_RECYCLED)
 			ug_category_gtk_remove (relation->category, link->data);
 		else {
 			relation->hints |= UG_HINT_RECYCLED;
@@ -1511,15 +1501,43 @@ static gboolean	on_window_delete_event (GtkWidget* widget, GdkEvent* event, UgAp
 	return TRUE;
 }
 
+/*
 // UgDownloadWidget.view "key-press-event"
 static gboolean	on_download_key_press_event  (GtkWidget* widget, GdkEventKey* event, UgAppGtk* app)
 {
-	if (event->keyval == GDK_KEY_Delete  &&  app->cwidget.current.category) {
-		on_delete_download (widget, app);
-		return TRUE;
+	// check shift key status
+	GdkWindow*		gdk_win;
+	GdkDevice*		dev_pointer;
+	GdkModifierType	mask;
+
+	// check shift key status
+	gdk_win = gtk_widget_get_parent_window ((GtkWidget*) app->cwidget.current.widget->view);
+	dev_pointer = gdk_device_manager_get_client_pointer (
+			gdk_display_get_device_manager (gdk_window_get_display (gdk_win)));
+	gdk_window_get_device_position (gdk_win, dev_pointer, NULL, NULL, &mask);
+
+	if (app->cwidget.current.category) {
+		switch (event->keyval) {
+		case GDK_KEY_Delete:
+		case GDK_KEY_KP_Delete:
+			if (mask & GDK_SHIFT_MASK)
+				on_delete_download_file (widget, app);
+			else
+				on_delete_download (widget, app);
+			return TRUE;
+
+		case GDK_KEY_Return:
+		case GDK_KEY_KP_Enter:
+			if (mask & GDK_SHIFT_MASK)
+				on_open_download_folder (widget, app);
+			else
+				on_open_download_file (widget, app);
+			return TRUE;
+		}
 	}
 	return FALSE;
 }
+*/
 
 // UgDownloadWidget.view selection "changed"
 static void	on_download_selection_changed (GtkTreeSelection* selection, UgAppGtk* app)
@@ -1579,8 +1597,8 @@ static void	on_category_cursor_changed (GtkTreeView* view, UgAppGtk* app)
 					G_CALLBACK (on_download_selection_changed), app);
 			g_signal_connect (dwidget->view, "cursor-changed",
 					G_CALLBACK (on_download_cursor_changed), app);
-			g_signal_connect (dwidget->view, "key-press-event",
-					G_CALLBACK (on_download_key_press_event), app);
+//			g_signal_connect (dwidget->view, "key-press-event",
+//					G_CALLBACK (on_download_key_press_event), app);
 			g_signal_connect (dwidget->view, "button-press-event",
 					G_CALLBACK (on_button_press_event), app);
 		}
