@@ -359,7 +359,7 @@ static void col_set_name (GtkTreeViewColumn *tree_column,
 	UgDataset*		dataset;
 	UgDataCommon*	common;
 	gchar*			string = NULL;
-	gchar*			filename = NULL;
+	gchar*			name = NULL;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
 	// avoid crash in GTK3
@@ -372,16 +372,15 @@ static void col_set_name (GtkTreeViewColumn *tree_column,
 	else if (common->file)
 		string = common->file;
 	else {
-		if (common->url) {
-			filename = ug_uri_get_filename (common->url);
-			string = filename;
-		}
-		if (string == NULL)
-			string = _("unnamed");
+		if (common->url)
+			name = ug_uri_get_filename (common->url);
+		if (name == NULL)
+			name = g_strconcat (_("unnamed"), " ", common->url, NULL);
+		string = name;
 	}
 
 	g_object_set (cell, "text", string, NULL);
-	g_free (filename);
+	g_free (name);
 }
 
 static void col_set_complete (GtkTreeViewColumn *tree_column,
