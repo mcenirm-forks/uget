@@ -35,6 +35,11 @@
  */
 
 #include <stdlib.h>
+
+#ifdef	_WIN32
+#include <windows.h>
+#endif
+
 #include <UgXmlrpc.h>
 #include <UgApp-gtk.h>
 #include <UgPlugin-aria2.h>
@@ -59,6 +64,23 @@ static gpointer	aria2_ctrl_thread (UgAppGtk* app)
 	ug_xmlrpc_init (xmlrpc);
 
 	for (;;) {
+#ifdef _WIN32
+		HWND		hWnd;
+		static int	is_hidden = FALSE;
+
+		// hide aria2 windows
+		if (app->aria2.launched == TRUE && is_hidden == FALSE) {
+			g_mutex_lock (&app->aria2.mutex);
+			hWnd = FindWindowA ("ConsoleWindowClass", app->aria2.title);
+			g_mutex_unlock (&app->aria2.mutex);
+			if (hWnd) {
+//				GetClassNameA (hWnd, str_buffer, 256);
+				ShowWindow (hWnd, SW_HIDE);
+				is_hidden = TRUE;
+			}
+		}
+#endif	// _WIN32
+
 		// sleep one second
 		g_usleep (1 * 1000 * 1000);
 		if (app->setting.plugin.aria2.enable == FALSE || app->setting.offline_mode)
@@ -202,7 +224,7 @@ gboolean	ug_app_aria2_launch (UgAppGtk* app)
 		g_ptr_array_add (args, argv[index]);
 	g_ptr_array_add (args, NULL);	// NULL-terminated
 
-	// If path is not absolute path, don't search PATH.
+	// If path is not absolute path, program will search PATH.
 	if (strrchr (app->setting.plugin.aria2.path, G_DIR_SEPARATOR) == NULL)
 		flags = G_SPAWN_SEARCH_PATH;
 	else
@@ -221,8 +243,19 @@ gboolean	ug_app_aria2_launch (UgAppGtk* app)
 	g_ptr_array_free (args, TRUE);
 	g_strfreev (argv);
 	// returning value
-	if (retval == TRUE)
+	if (retval == TRUE) {
 		app->aria2.launched = TRUE;
+#ifdef _WIN32
+		// update title
+		g_mutex_lock (&app->aria2.mutex);
+		g_free (app->aria2.title);
+		if (strstr (app->setting.plugin.aria2.path, ".exe") == NULL)
+			app->aria2.title = g_strconcat (app->setting.plugin.aria2.path, ".exe", NULL);
+		else
+			app->aria2.title = g_strdup (app->setting.plugin.aria2.path);
+		g_mutex_unlock (&app->aria2.mutex);
+#endif
+	}
 	else
 		ug_app_show_message (app, GTK_MESSAGE_ERROR, _("failed to launch aria2."));
 	return retval;

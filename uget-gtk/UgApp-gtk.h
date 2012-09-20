@@ -107,6 +107,7 @@ struct UgAppGtk
 		GThread*	thread;
 		GMutex		mutex;
 		gchar*		uri;
+		gchar*		title;	// for Windows
 		// status
 		gboolean	launched;
 		gboolean	remote_updated;
