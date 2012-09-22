@@ -35,11 +35,70 @@
  */
 
 #include <stdlib.h>
+
+#ifdef	_WIN32
+#ifndef _WIN32_WINNT		// This is for GetProcessId()
+#define _WIN32_WINNT 0x501	// 0x501 = WinXP
+#include <windows.h>
+#endif	// _WIN32_WINNT
+#endif	// _WIN32
+
 #include <UgXmlrpc.h>
 #include <UgApp-gtk.h>
 #include <UgPlugin-aria2.h>
 
 #include <glib/gi18n.h>
+
+#ifdef _WIN32
+HANDLE	hProc = NULL;
+
+BOOL CALLBACK ugEnumWindowsProc (HWND hwCurHwnd, LPARAM lparam)
+{
+	DWORD	dwCurPid = 0;
+	struct {
+		DWORD	pid;
+		HWND	hWnd;
+		char*	buf;
+		int		bufLen;
+	} *param;
+
+	param = GUINT_TO_POINTER (lparam);
+	// compare process ID
+	GetWindowThreadProcessId (hwCurHwnd, &dwCurPid);
+	if(dwCurPid != param->pid)
+		return TRUE;
+	// compare class name
+	GetClassName (hwCurHwnd, param->buf, param->bufLen);
+	if(strcmp (param->buf, "ConsoleWindowClass") == 0) {
+		param->hWnd = hwCurHwnd;
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+BOOL ugHideWindowByHandle (HANDLE hProcess)
+{
+	struct {
+		DWORD	pid;
+		HWND	hWnd;
+		char*	buf;
+		int		bufLen;
+	} param;
+
+	param.pid = GetProcessId (hProcess);
+	param.hWnd = NULL;
+	param.bufLen = 256;
+	param.buf = g_malloc (param.bufLen);
+	EnumWindows (ugEnumWindowsProc, GPOINTER_TO_UINT (&param));
+	g_free (param.buf);
+	if (param.hWnd) {
+		ShowWindow (param.hWnd, SW_HIDE);
+		return TRUE;
+	}
+	return FALSE;
+}
+#endif	// _WIN32
 
 // ------------------------------------------------------
 // aria2
@@ -61,6 +120,12 @@ static gpointer	aria2_ctrl_thread (UgAppGtk* app)
 	for (;;) {
 		// sleep one second
 		g_usleep (1 * 1000 * 1000);
+#ifdef _WIN32
+		if (hProc && ugHideWindowByHandle (hProc) == TRUE) {
+			CloseHandle (hProc);
+			hProc = NULL;
+		}
+#endif
 		if (app->setting.plugin.aria2.enable == FALSE || app->setting.offline_mode)
 			continue;
 
@@ -202,11 +267,18 @@ gboolean	ug_app_aria2_launch (UgAppGtk* app)
 		g_ptr_array_add (args, argv[index]);
 	g_ptr_array_add (args, NULL);	// NULL-terminated
 
-	// If path is not absolute path, don't search PATH.
+	// If path is not absolute path, program will search PATH.
 	if (strrchr (app->setting.plugin.aria2.path, G_DIR_SEPARATOR) == NULL)
 		flags = G_SPAWN_SEARCH_PATH;
 	else
 		flags = 0;
+#ifdef _WIN32
+	// child_pid will be filled with a handle to the child process only if
+	// you specified the G_SPAWN_DO_NOT_REAP_CHILD flag.
+	// You should close the handle with CloseHandle() or g_spawn_close_pid()
+	// when you no longer need it.
+	flags |= G_SPAWN_DO_NOT_REAP_CHILD;
+#endif
 	// spawn command
 	retval = g_spawn_async (NULL,			// working_directory
 		                    (gchar**) args->pdata,	// argv
@@ -214,7 +286,11 @@ gboolean	ug_app_aria2_launch (UgAppGtk* app)
 	                        flags,			// GSpawnFlags
 	                        NULL,			// child_setup
 	                        NULL,			// user_data
+#ifdef _WIN32
+	                        &hProc,			// child_pid (Windows HANDLE)
+#else
 	                        NULL,			// child_pid
+#endif
 	                        NULL);			// GError**
 
 	// free arguments

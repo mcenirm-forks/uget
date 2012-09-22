@@ -38,7 +38,7 @@
 #ifdef _WIN32
 // This is for ATTACH_PARENT_PROCESS
 #ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x501
+#define _WIN32_WINNT 0x501	// WinXP
 #endif
 #define _CRT_SECURE_NO_WARNINGS		1
 #include <windows.h>

@@ -459,7 +459,7 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 	} temp;
 
 	// check aria2.failed_count (one shot)
-	if (app->aria2.failed_count == 7) {
+	if (app->aria2.failed_count == 5) {
 		ug_app_show_message (app, GTK_MESSAGE_ERROR,
 				_("Failed to connect to aria2.\n"
 				  "Is aria2 shutdown? or aria2 launch failed."));
