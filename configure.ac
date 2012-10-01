@@ -91,6 +91,17 @@ AC_ARG_ENABLE(
 	[enable_gstreamer="yes"]
 )
 if test "x$enable_gstreamer" = "xyes"; then
+  PKG_CHECK_EXISTS([gstreamer-1.0],
+                   [enable_gstreamer1="yes"],
+                   [enable_gstreamer1="no"])
+fi
+if test "x$enable_gstreamer1" = "xyes"; then
+  PKG_CHECK_MODULES(GSTREAMER, gstreamer-1.0)
+  AC_DEFINE(HAVE_GSTREAMER, 1, [Define to 1 if gstreamer support is required.])
+  # for ArchLinux
+  AC_SUBST(GSTREAMER_CFLAGS)
+  AC_SUBST(GSTREAMER_LIBS)
+elif test "x$enable_gstreamer" = "xyes"; then
   PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.10)
   AC_DEFINE(HAVE_GSTREAMER, 1, [Define to 1 if gstreamer support is required.])
   # for ArchLinux
