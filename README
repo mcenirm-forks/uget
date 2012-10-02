@@ -1,3 +1,11 @@
+uGet 1.10.2 (stable)
+01. Display "unnamed URL" if no filename specified.
+02. Add new hotkeys: Enter, Shift+Enter, Delete, and Shift+Delete.
+03. Don't assign filename even if program accept '--quiet' argument.
+04. Hide aria2 console window in Windows platform.
+05. Program can build with gstreamer-1.0 (auto detect by autoconf).
+06. update Italian translation file.
+
 uGet 1.10.1 (stable)
 01. Restart download if aria2 response "speed was too slow".
 02. Don't assign filename if user doesn't specify it by commandline or UI.
