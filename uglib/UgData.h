@@ -49,7 +49,7 @@ typedef struct	UgDataInterface		UgDataInterface;
 typedef struct	UgData				UgData;
 typedef struct	UgDatalist			UgDatalist;
 
-typedef enum	UgDataType			UgDataType;
+typedef enum	UgType				UgType;
 
 // UgDataInterface
 typedef void	(*UgInitFunc)		(void* instance);
@@ -64,26 +64,26 @@ typedef void	(*UgWriteMarkup)	(void* instance, UgMarkup* markup);
 // notify callback
 typedef void	(*UgNotifyFunc)		(void* user_data);
 
-enum	UgDataType
+enum	UgType
 {
-	UG_DATA_NONE,
-	UG_DATA_STRING,
-	UG_DATA_INT,
-	UG_DATA_UINT,
-	UG_DATA_INT64,
-	UG_DATA_DOUBLE,
+	UG_TYPE_NONE,
+	UG_TYPE_STRING,
+	UG_TYPE_INT,
+	UG_TYPE_UINT,
+	UG_TYPE_INT64,
+	UG_TYPE_DOUBLE,
 
 	// used by UgDataEntry
 	// UgData-based pointer. if pointer is NULL, it use UgDataInterface to create data.
-	UG_DATA_INSTANCE,		// UgDataEntry.parser set to UgDataInterface
+	UG_TYPE_INSTANCE,		// UgDataEntry.parser set to UgDataInterface
 	// UgData-based data that must be initialized.
-	UG_DATA_STATIC,
+	UG_TYPE_STATIC,
 
 	// User defined type.
 	// UgDataEntry.parser set to UgParseFunc (or UgParseMarkup)
 	// UgDataEntry.writer set to UgWriteFunc (or UgWriteMarkup)
 	// You must use it with UgParseMarkup & UgWriteMarkup in UgDataEntry.
-	UG_DATA_CUSTOM,
+	UG_TYPE_CUSTOM,
 };
 
 
@@ -98,8 +98,8 @@ enum	UgDataType
 //
 //	static UgDataEntry foo_tags[] =
 //	{
-//		{ "user",	G_STRUCT_OFFSET (Foo, user),	UG_DATA_STRING,	NULL,	NULL},
-//		{ "pass",	G_STRUCT_OFFSET (Foo, pass),	UG_DATA_STRING,	NULL,	NULL},
+//		{ "user",	G_STRUCT_OFFSET (Foo, user),	UG_TYPE_STRING,	NULL,	NULL},
+//		{ "pass",	G_STRUCT_OFFSET (Foo, pass),	UG_TYPE_STRING,	NULL,	NULL},
 //		{ NULL }
 //	};
 //
@@ -110,7 +110,7 @@ struct UgDataEntry
 {
 	char*			name;			// tag name
 	int				offset;
-	UgDataType		type;
+	UgType			type;
 
 	const void*		parser;			// How to parse data.
 	const void*		writer;			// How to write data.

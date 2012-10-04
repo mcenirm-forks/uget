@@ -45,7 +45,7 @@ static void plugin_callback (UgPlugin* plugin, const UgMessage* msg, gpointer us
 	case UG_MESSAGE_PROGRESS:
 		g_print ("--- Message Progress :\n");
 		progress = ug_data_new (UG_PROGRESS_I);
-		if (ug_plugin_get (plugin, UG_DATA_INSTANCE, progress) == UG_RESULT_OK)
+		if (ug_plugin_get (plugin, UG_TYPE_INSTANCE, progress) == UG_RESULT_OK)
 			dump_progress (progress);
 		ug_data_free (progress);
 		break;

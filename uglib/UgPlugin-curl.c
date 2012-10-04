@@ -211,7 +211,7 @@ static UgResult	ug_plugin_curl_set (UgPluginCurl* plugin, guint parameter, gpoin
 {
 	gint64	speed_limit;
 
-	if (parameter != UG_DATA_INT64)
+	if (parameter != UG_TYPE_INT64)
 		return UG_RESULT_UNSUPPORT;
 
 	speed_limit = *(gint64*)data;
@@ -228,7 +228,7 @@ static UgResult	ug_plugin_curl_get (UgPluginCurl* plugin, guint parameter, gpoin
 	gdouble		total;
 	gdouble		speed;
 
-	if (parameter != UG_DATA_INSTANCE)
+	if (parameter != UG_TYPE_INSTANCE)
 		return UG_RESULT_UNSUPPORT;
 	if (data == NULL || ((UgData*)data)->iface != UG_PROGRESS_I)
 		return UG_RESULT_UNSUPPORT;

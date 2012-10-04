@@ -175,7 +175,7 @@ void	ug_data_write_markup (UgData* data, UgMarkup* markup)
 		value.src = ((guint8*) data) + entry->offset;
 
 		switch (entry->type) {
-		case UG_DATA_STRING:
+		case UG_TYPE_STRING:
 			value.v_string = *(gchar**)value.src;
 			if (value.v_string) {
 				// ug_markup_write_element_start() must use with ug_markup_write_element_end()
@@ -184,7 +184,7 @@ void	ug_data_write_markup (UgData* data, UgMarkup* markup)
 			}
 			break;
 
-		case UG_DATA_INT:
+		case UG_TYPE_INT:
 			value.v_int = *(gint*)value.src;
 //			if (value.v_int) {
 				// ug_markup_write_element_start() must use with ug_markup_write_element_end()
@@ -193,7 +193,7 @@ void	ug_data_write_markup (UgData* data, UgMarkup* markup)
 //			}
 			break;
 
-		case UG_DATA_UINT:
+		case UG_TYPE_UINT:
 			value.v_uint = *(guint*)value.src;
 //			if (value.v_int) {
 				// ug_markup_write_element_start() must use with ug_markup_write_element_end()
@@ -202,7 +202,7 @@ void	ug_data_write_markup (UgData* data, UgMarkup* markup)
 //			}
 			break;
 
-		case UG_DATA_INT64:
+		case UG_TYPE_INT64:
 			value.v_int64 = *(gint64*)value.src;
 //			if (value.v_int64) {
 				// ug_markup_write_element_start() must use with ug_markup_write_element_end()
@@ -215,7 +215,7 @@ void	ug_data_write_markup (UgData* data, UgMarkup* markup)
 //			}
 			break;
 
-		case UG_DATA_DOUBLE:
+		case UG_TYPE_DOUBLE:
 			value.v_double = *(gdouble*)value.src;
 //			if (value.v_double) {
 				// ug_markup_write_element_start() must use with ug_markup_write_element_end()
@@ -224,17 +224,17 @@ void	ug_data_write_markup (UgData* data, UgMarkup* markup)
 //			}
 			break;
 
-		case UG_DATA_INSTANCE:
+		case UG_TYPE_INSTANCE:
 			value.src = *(gpointer*) value.src;
 			if (value.src == NULL)
 				break;
-		case UG_DATA_STATIC:
+		case UG_TYPE_STATIC:
 			ug_markup_write_element_start (markup, entry->name);
 			ug_data_write_markup (value.src, markup);
 			ug_markup_write_element_end   (markup, entry->name);
 			break;
 
-		case UG_DATA_CUSTOM:
+		case UG_TYPE_CUSTOM:
 			// ug_markup_write_element_start() must use with ug_markup_write_element_end()
 			if (entry->writer) {
 				ug_markup_write_element_start (markup, entry->name);
@@ -285,24 +285,24 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 		dest = ((guint8*) data) + entry->offset;
 
 		switch (entry->type) {
-		case UG_DATA_STRING:
+		case UG_TYPE_STRING:
 			if (src) {
 				g_free (*(gchar**) dest);
 				*(gchar**) dest = g_strdup (src);
 			}
 			break;
 
-		case UG_DATA_INT:
+		case UG_TYPE_INT:
 			if (src)
 				*(gint*) dest = atoi (src);
 			break;
 
-		case UG_DATA_UINT:
+		case UG_TYPE_UINT:
 			if (src)
 				*(guint*) dest = (guint) strtoul (src, NULL, 10);
 			break;
 
-		case UG_DATA_INT64:
+		case UG_TYPE_INT64:
 			if (src) {
 #if  defined (_MSC_VER)  ||  defined (__MINGW32__)
 				*(gint64*) dest = _atoi64 (src);
@@ -312,22 +312,22 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 			}
 			break;
 
-		case UG_DATA_DOUBLE:
+		case UG_TYPE_DOUBLE:
 			if (src)
 				*(gdouble*) dest = atof (src);
 			break;
 
-		case UG_DATA_INSTANCE:
+		case UG_TYPE_INSTANCE:
 			if (entry->parser == NULL)
 				break;
 			if (*(gpointer*) dest == NULL)
 				*(gpointer*) dest = ug_data_new (entry->parser);
 			dest = *(gpointer*) dest;
-		case UG_DATA_STATIC:
+		case UG_TYPE_STATIC:
 			g_markup_parse_context_push (context, &ug_data_parser, dest);
 			return;
 
-		case UG_DATA_CUSTOM:
+		case UG_TYPE_CUSTOM:
 			if (entry->parser) {
 				((UgParseFunc) entry->parser) (dest, context);
 				return;

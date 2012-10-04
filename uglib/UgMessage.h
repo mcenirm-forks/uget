@@ -175,15 +175,15 @@ struct UgMessage
 	gchar*				string;
 
 	// for UG_MESSAGE_DATA & UG_MESSAGE_STATE
-	UgDataType			data_type;
+	UgType			data_type;
 	union
 	{
-		gchar*			v_string;	// data_type == UG_DATA_STRING
-		gint			v_int;		// data_type == UG_DATA_INT
-		guint			v_uint;		// data_type == UG_DATA_UINT
-		gint64			v_int64;	// data_type == UG_DATA_INT64
-		gdouble			v_double;	// data_type == UG_DATA_DOUBLE
-		UgData*			v_instance;	// data_type == UG_DATA_INSTANCE
+		gchar*			v_string;	// data_type == UG_TYPE_STRING
+		gint			v_int;		// data_type == UG_TYPE_INT
+		guint			v_uint;		// data_type == UG_TYPE_UINT
+		gint64			v_int64;	// data_type == UG_TYPE_INT64
+		gdouble			v_double;	// data_type == UG_TYPE_DOUBLE
+		UgData*			v_instance;	// data_type == UG_TYPE_INSTANCE
 	} data;
 };
 
@@ -197,8 +197,8 @@ UgMessage*	ug_message_new_error	(guint error_code,   const gchar* string);
 
 UgMessage*	ug_message_new_data		(guint data_code, ...);
 
-void		ug_message_set_data		(UgMessage* message, UgDataType data_type, ...);
-void		ug_message_set_data_v	(UgMessage* message, UgDataType data_type, va_list args);
+void		ug_message_set_data		(UgMessage* message, UgType data_type, ...);
+void		ug_message_set_data_v	(UgMessage* message, UgType data_type, va_list args);
 
 
 #ifdef __cplusplus

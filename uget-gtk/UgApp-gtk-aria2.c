@@ -228,7 +228,7 @@ gboolean	ug_app_aria2_setup (UgAppGtk* app)
 	g_mutex_unlock (&app->aria2.mutex);
 
 	ug_plugin_global_set (&ug_plugin_aria2_iface,
-			UG_DATA_STRING, app->setting.plugin.aria2.uri);
+			UG_TYPE_STRING, app->setting.plugin.aria2.uri);
 
 	iface = ug_plugin_interface_find ("aria2", 0);
 	if (iface)

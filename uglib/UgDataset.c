@@ -54,7 +54,7 @@ static void	ug_dataset_to_markup (UgDataset* dataset, UgMarkup* markup);
 
 static const UgDataEntry	ug_dataset_entry[] =
 {
-	{"DataList",	0,	UG_DATA_CUSTOM,	ug_dataset_in_markup,	ug_dataset_to_markup},
+	{"DataList",	0,	UG_TYPE_CUSTOM,	ug_dataset_in_markup,	ug_dataset_to_markup},
 	{NULL}		// null-terminated
 };
 

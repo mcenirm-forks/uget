@@ -154,7 +154,7 @@ static void	ug_plugin_aria2_global_finalize (void)
 
 static UgResult	ug_plugin_aria2_global_set (guint parameter, gpointer data)
 {
-	if (parameter != UG_DATA_STRING)
+	if (parameter != UG_TYPE_STRING)
 		return UG_RESULT_UNSUPPORT;
 
 	g_free (xmlrpc_uri);
@@ -245,7 +245,7 @@ UgResult	ug_plugin_aria2_set (UgPluginAria2* plugin, guint parameter, gpointer d
 	UgXmlrpcValue*	member;
 	gint64			speed_limit;
 
-	if (parameter != UG_DATA_INT64)
+	if (parameter != UG_TYPE_INT64)
 		return UG_RESULT_UNSUPPORT;
 
 	speed_limit = *(gint64*)data;
@@ -274,7 +274,7 @@ static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpo
 {
 	UgProgress*	progress;
 
-	if (parameter != UG_DATA_INSTANCE)
+	if (parameter != UG_TYPE_INSTANCE)
 		return UG_RESULT_UNSUPPORT;
 	if (data == NULL || ((UgData*)data)->iface != UG_PROGRESS_I)
 		return UG_RESULT_UNSUPPORT;

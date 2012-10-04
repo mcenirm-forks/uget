@@ -55,12 +55,12 @@ static void	ug_int_list_to_markup (GList** list, UgMarkup* markup);
 
 static const UgDataEntry	ug_category_entry[] =
 {
-	{"name",			G_STRUCT_OFFSET (UgCategory, name),				UG_DATA_STRING,		NULL,	NULL},
-	{"ActiveLimit",		G_STRUCT_OFFSET (UgCategory, active_limit),		UG_DATA_UINT,		NULL,	NULL},
-	{"FinishedLimit",	G_STRUCT_OFFSET (UgCategory, finished_limit),	UG_DATA_UINT,		NULL,	NULL},
-	{"RecycledLimit",	G_STRUCT_OFFSET (UgCategory, recycled_limit),	UG_DATA_UINT,		NULL,	NULL},
-	{"DownloadDefault",	G_STRUCT_OFFSET (UgCategory, defaults),			UG_DATA_INSTANCE,	&ug_dataset_iface,	NULL},
-	{"DownloadIndices",	G_STRUCT_OFFSET (UgCategory, indices),			UG_DATA_CUSTOM,		ug_int_list_in_markup,	ug_int_list_to_markup},
+	{"name",			G_STRUCT_OFFSET (UgCategory, name),				UG_TYPE_STRING,		NULL,	NULL},
+	{"ActiveLimit",		G_STRUCT_OFFSET (UgCategory, active_limit),		UG_TYPE_UINT,		NULL,	NULL},
+	{"FinishedLimit",	G_STRUCT_OFFSET (UgCategory, finished_limit),	UG_TYPE_UINT,		NULL,	NULL},
+	{"RecycledLimit",	G_STRUCT_OFFSET (UgCategory, recycled_limit),	UG_TYPE_UINT,		NULL,	NULL},
+	{"DownloadDefault",	G_STRUCT_OFFSET (UgCategory, defaults),			UG_TYPE_INSTANCE,	&ug_dataset_iface,	NULL},
+	{"DownloadIndices",	G_STRUCT_OFFSET (UgCategory, indices),			UG_TYPE_CUSTOM,		ug_int_list_in_markup,	ug_int_list_to_markup},
 	{NULL},			// null-terminated
 };
 // extern
@@ -633,11 +633,11 @@ static void	ug_relation_assign   (UgRelation* relation, UgRelation* src);
 
 static const UgDataEntry	ug_relation_entry[] =
 {
-	{"hints",			G_STRUCT_OFFSET (UgRelation, hints),			UG_DATA_UINT,	NULL,	NULL},
-	{"AttachedFolder",	G_STRUCT_OFFSET (UgRelation, attached.folder),	UG_DATA_STRING,	NULL,	NULL},
-	{"AttachedStamp",	G_STRUCT_OFFSET (UgRelation, attached.stamp),	UG_DATA_UINT,	NULL,	NULL},
-	{"MessageType",		G_STRUCT_OFFSET (UgRelation, message.type),		UG_DATA_UINT,	NULL,	NULL},
-	{"MessageString",	G_STRUCT_OFFSET (UgRelation, message.string),	UG_DATA_STRING,	NULL,	NULL},
+	{"hints",			G_STRUCT_OFFSET (UgRelation, hints),			UG_TYPE_UINT,	NULL,	NULL},
+	{"AttachedFolder",	G_STRUCT_OFFSET (UgRelation, attached.folder),	UG_TYPE_STRING,	NULL,	NULL},
+	{"AttachedStamp",	G_STRUCT_OFFSET (UgRelation, attached.stamp),	UG_TYPE_UINT,	NULL,	NULL},
+	{"MessageType",		G_STRUCT_OFFSET (UgRelation, message.type),		UG_TYPE_UINT,	NULL,	NULL},
+	{"MessageString",	G_STRUCT_OFFSET (UgRelation, message.string),	UG_TYPE_STRING,	NULL,	NULL},
 	{NULL},			// null-terminated
 };
 // extern

@@ -234,7 +234,7 @@ gboolean	ug_running_do_speed_limit (UgRunning* running)
 	average = running->down_speed_limit / running->group.length;
 	for (link = running->group.head;  link;  link = link->next) {
 		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
-		ug_plugin_set (relation->plugin, UG_DATA_INT64, &average);
+		ug_plugin_set (relation->plugin, UG_TYPE_INT64, &average);
 	}
 
 	// return FALSE if the source should be removed.
@@ -297,7 +297,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 			temp.progress = UG_DATASET_PROGRESS (dataset);
 			if (temp.progress == NULL)
 				temp.progress = ug_dataset_alloc_front (dataset, UG_PROGRESS_I);
-			ug_plugin_get (relation->plugin, UG_DATA_INSTANCE, temp.progress);
+			ug_plugin_get (relation->plugin, UG_TYPE_INSTANCE, temp.progress);
 			break;
 
 		case UG_MESSAGE_ERROR:
