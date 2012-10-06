@@ -66,7 +66,8 @@ void	ug_app_init_gui (UgAppGtk* app)
 	// Registers a new accelerator "Ctrl+N" with the global accelerator map.
 	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_CTRL_N,   GDK_KEY_n,      GDK_CONTROL_MASK);
 	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_DELETE,   GDK_KEY_Delete, 0);
-	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_DELETE_F, GDK_KEY_Delete, GDK_SHIFT_MASK);
+//	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_DELETE_F, GDK_KEY_Delete, GDK_SHIFT_MASK);
+	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_DELETE_F, GDK_KEY_Delete, GDK_CONTROL_MASK);
 	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_OPEN,     GDK_KEY_Return, 0);
 	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_OPEN_F,   GDK_KEY_Return, GDK_SHIFT_MASK);
 	// accelerators
