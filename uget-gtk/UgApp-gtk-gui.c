@@ -303,7 +303,7 @@ static void ug_toolbar_init (struct UgToolbar* ugt, GtkAccelGroup* accel_group)
 	image = gtk_image_new_from_stock (GTK_STOCK_SORT_ASCENDING, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	ugt->create_batch = menu_item;
+	ugt->create_sequence = menu_item;
 	gtk_widget_show_all (menu);
 	// New from Clipboard
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New _from Clipboard..."));
@@ -420,21 +420,8 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
 	menubar->file.create.category = menu_item;
-	// New - Batch download
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Batch download..."));
-	image = gtk_image_new_from_stock (GTK_STOCK_SORT_ASCENDING, GTK_ICON_SIZE_MENU);
-	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
-	menubar->file.create.batch = menu_item;
-	// New - from clipboard
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_From Clipboard..."));
-	image = gtk_image_new_from_stock (GTK_STOCK_PASTE, GTK_ICON_SIZE_MENU);
-	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
-	menubar->file.create.from_clipboard = menu_item;
-
+	// New - separator
 	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, gtk_separator_menu_item_new() );
-
 	// New - Torrent
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("Torrent..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
@@ -449,32 +436,52 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	menubar->file.create.metalink = menu_item;
 	// New --- end ---
 
+	// Batch Downloads --- start ---
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Batch Downloads"));
+	sub_menu = gtk_menu_new ();
+	gtk_menu_set_accel_group ((GtkMenu*)sub_menu, accel_group);
+	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, sub_menu);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	// Batch downloads - Clipboard batch
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Clipboard batch..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_PASTE, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	menubar->file.batch.clipboard = menu_item;
+	// Batch downloads - URL Sequence batch
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_URL Sequence batch..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_SORT_ASCENDING, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	menubar->file.batch.sequence = menu_item;
+	// Batch downloads - Text file import (.txt)
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Text file import (.txt)..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	menubar->file.batch.text_import = menu_item;
+	// Batch downloads - HTML file import (.html)
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_HTML file import (.html)..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_CONVERT, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	menubar->file.batch.html_import = menu_item;
+	// Batch downloads - separator
+	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, gtk_separator_menu_item_new() );
+	// Batch downloads - Export to Text file (.txt)
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Export to Text file (.txt)..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_GO_BACK, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	menubar->file.batch.text_export = menu_item;
+	// Batch downloads --- end ---
+
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
 
 	// Save
 	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_SAVE, accel_group);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	menubar->file.save = menu_item;
-
-	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
-
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("Import _HTML file..."));
-	image = gtk_image_new_from_stock (GTK_STOCK_CONVERT, GTK_ICON_SIZE_MENU);
-	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	menubar->file.import_html = menu_item;
-
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Import text file..."));
-	image = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_MENU);
-	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	menubar->file.import_text = menu_item;
-
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Export text file..."));
-	image = gtk_image_new_from_stock (GTK_STOCK_GO_BACK, GTK_ICON_SIZE_MENU);
-	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	menubar->file.export_text = menu_item;
 
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
 

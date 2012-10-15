@@ -290,7 +290,7 @@ static void	on_create_download (GtkWidget* widget, UgAppGtk* app)
 	gtk_widget_show ((GtkWidget*) ddialog->self);
 }
 
-static void	on_create_batch (GtkWidget* widget, UgAppGtk* app)
+static void	on_create_sequence (GtkWidget* widget, UgAppGtk* app)
 {
 	UgDownloadDialog*	ddialog;
 	gchar*				title;
@@ -1757,8 +1757,8 @@ static void ug_toolbar_init_callback (struct UgToolbar* toolbar, UgAppGtk* app)
 			G_CALLBACK (on_create_download), app);
 	g_signal_connect (toolbar->create_category, "activate",
 			G_CALLBACK (on_create_category), app);
-	g_signal_connect (toolbar->create_batch, "activate",
-			G_CALLBACK (on_create_batch), app);
+	g_signal_connect (toolbar->create_sequence, "activate",
+			G_CALLBACK (on_create_sequence), app);
 	g_signal_connect (toolbar->create_clipboard, "activate",
 			G_CALLBACK (on_create_from_clipboard), app);
 	g_signal_connect (toolbar->create_torrent, "activate",
@@ -1796,22 +1796,22 @@ static void ug_menubar_init_callback (struct UgMenubar* menubar, UgAppGtk* app)
 			G_CALLBACK (on_create_download), app);
 	g_signal_connect (menubar->file.create.category, "activate",
 			G_CALLBACK (on_create_category), app);
-	g_signal_connect (menubar->file.create.batch, "activate",
-			G_CALLBACK (on_create_batch), app);
-	g_signal_connect (menubar->file.create.from_clipboard, "activate",
-			G_CALLBACK (on_create_from_clipboard), app);
 	g_signal_connect (menubar->file.create.torrent, "activate",
 			G_CALLBACK (on_create_torrent), app);
 	g_signal_connect (menubar->file.create.metalink, "activate",
 			G_CALLBACK (on_create_metalink), app);
+	g_signal_connect (menubar->file.batch.clipboard, "activate",
+			G_CALLBACK (on_create_from_clipboard), app);
+	g_signal_connect (menubar->file.batch.sequence, "activate",
+			G_CALLBACK (on_create_sequence), app);
+	g_signal_connect (menubar->file.batch.text_import, "activate",
+			G_CALLBACK (on_import_text_file), app);
+	g_signal_connect (menubar->file.batch.html_import, "activate",
+			G_CALLBACK (on_import_html_file), app);
+	g_signal_connect (menubar->file.batch.text_export, "activate",
+			G_CALLBACK (on_export_text_file), app);
 	g_signal_connect_swapped (menubar->file.save, "activate",
 			G_CALLBACK (ug_app_save), app);
-	g_signal_connect (menubar->file.import_html, "activate",
-			G_CALLBACK (on_import_html_file), app);
-	g_signal_connect (menubar->file.import_text, "activate",
-			G_CALLBACK (on_import_text_file), app);
-	g_signal_connect (menubar->file.export_text, "activate",
-			G_CALLBACK (on_export_text_file), app);
 	g_signal_connect (menubar->file.offline_mode, "toggled",
 			G_CALLBACK (on_offline_mode), app);
 	g_signal_connect_swapped (menubar->file.quit, "activate",

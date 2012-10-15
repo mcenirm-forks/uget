@@ -205,7 +205,7 @@ struct UgAppGtk
 		// menu for tool button
 		GtkWidget*		create_download;
 		GtkWidget*		create_category;
-		GtkWidget*		create_batch;
+		GtkWidget*		create_sequence;
 		GtkWidget*		create_clipboard;
 		GtkWidget*		create_torrent;
 		GtkWidget*		create_metalink;
@@ -237,18 +237,21 @@ struct UgAppGtk
 			{
 				GtkWidget*	download;
 				GtkWidget*	category;
-				GtkWidget*	batch;
-				GtkWidget*	from_clipboard;
 				GtkWidget*	torrent;
 				GtkWidget*	metalink;
 			} create;
-			// file.save
-			GtkWidget*	save;
-			// file.import & export
-			GtkWidget*	import_html;
-			GtkWidget*	import_text;
-			GtkWidget*	export_text;
 
+			// file.batch
+			struct UgFileBatchMenu
+			{
+				GtkWidget*	clipboard;		// Clipboard batch
+				GtkWidget*	sequence;		// URL Sequence batch
+				GtkWidget*	text_import;	// Text file import (.txt)
+				GtkWidget*	html_import;	// HTML file import (.html)
+				GtkWidget*	text_export;	// Export to Text file (.txt)
+			} batch;
+
+			GtkWidget*	save;
 			GtkWidget*	offline_mode;
 			GtkWidget*	quit;
 		} file;
