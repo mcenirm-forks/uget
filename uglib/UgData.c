@@ -40,6 +40,9 @@
 #include <UgData.h>
 #include <UgRegistry.h>
 
+#if defined(_MSC_VER)
+#define strtoll _strtoi64
+#endif
 
 // ----------------------------------------------------------------------------
 // UgDataInterface
@@ -294,7 +297,7 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 
 		case UG_TYPE_INT:
 			if (src)
-				*(gint*) dest = atoi (src);
+				*(gint*) dest = strtol (src, NULL, 10);
 			break;
 
 		case UG_TYPE_UINT:
@@ -303,18 +306,14 @@ static void ug_data_parser_start_element (GMarkupParseContext*	context,
 			break;
 
 		case UG_TYPE_INT64:
-			if (src) {
-#if  defined (_MSC_VER)  ||  defined (__MINGW32__)
-				*(gint64*) dest = _atoi64 (src);
-#else	// C99 Standard
-				*(gint64*) dest = atoll (src);
-#endif
-			}
+			// C99 Standard
+			if (src)
+				*(gint64*) dest = strtoll (src, NULL, 10);;
 			break;
 
 		case UG_TYPE_DOUBLE:
 			if (src)
-				*(gdouble*) dest = atof (src);
+				*(gdouble*) dest = strtod (src, NULL);
 			break;
 
 		case UG_TYPE_INSTANCE:
