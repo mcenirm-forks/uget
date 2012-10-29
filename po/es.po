@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-14 15:15+0800\n"
+"POT-Creation-Date: 2012-10-29 14:24+0800\n"
 "PO-Revision-Date: 2010-11-13 09:49-0500\n"
 "Last-Translator: Vico <vicokoby@gmail.com>\n"
 "Language-Team: Victor Emmanuel <vicokoby@gmail.com>\n"
@@ -30,7 +30,7 @@ msgstr "Transmitiendo..."
 
 #. UG_MESSAGE_INFO_TRANSMIT,
 #: ../uglib/UgMessage.c:54
-#: ../uget-gtk/UgDownloadWidget.c:897
+#: ../uget-gtk/UgDownloadWidget.c:896
 msgid "Retry"
 msgstr "Reintentos"
 
@@ -183,7 +183,7 @@ msgstr "Error"
 msgid "Message"
 msgstr "Mensaje"
 
-#: ../uget-gtk/UgApp-gtk-aria2.c:227
+#: ../uget-gtk/UgApp-gtk-aria2.c:303
 msgid "failed to launch aria2."
 msgstr ""
 
@@ -215,19 +215,17 @@ msgid "New Download"
 msgstr "Nueva descarga"
 
 #: ../uget-gtk/UgApp-gtk-callback.c:298
-msgid "New Batch Download"
-msgstr "Nuevo lote de descargas"
+msgid "URL Sequence batch"
+msgstr ""
 
 #: ../uget-gtk/UgApp-gtk-callback.c:321
 msgid "No URLs found in clipboard."
 msgstr "No se encontraron URLs en el portapapeles."
 
-#. only 1 url matched
 #: ../uget-gtk/UgApp-gtk-callback.c:325
-#: ../uget-gtk/UgApp-gtk-timeout.c:153
-#: ../uget-gtk/UgApp-gtk-timeout.c:162
-msgid "New from Clipboard"
-msgstr "Nuevo desde el portapapeles"
+#, fuzzy
+msgid "Clipboard batch"
+msgstr "Opciones del _portapapeles..."
 
 #: ../uget-gtk/UgApp-gtk-callback.c:333
 #: ../uget-gtk/UgApp-gtk-timeout.c:168
@@ -300,199 +298,211 @@ msgstr "Configuración"
 
 #. New Download
 #. New Download (accelerators)
-#: ../uget-gtk/UgApp-gtk-gui.c:95
-#: ../uget-gtk/UgApp-gtk-gui.c:284
+#: ../uget-gtk/UgApp-gtk-gui.c:100
+#: ../uget-gtk/UgApp-gtk-gui.c:289
 msgid "New _Download..."
 msgstr "Nueva _descarga..."
 
-#. New Download from Clipboard
-#. New from Clipboard
-#: ../uget-gtk/UgApp-gtk-gui.c:102
-#: ../uget-gtk/UgApp-gtk-gui.c:304
-msgid "New _from Clipboard..."
+#. New Clipboard batch
+#: ../uget-gtk/UgApp-gtk-gui.c:107
+#: ../uget-gtk/UgApp-gtk-gui.c:302
+#, fuzzy
+msgid "New Clipboard _batch..."
 msgstr "Nuevo desde el _portapapeles..."
 
 #. New Torrent
-#: ../uget-gtk/UgApp-gtk-gui.c:111
-#: ../uget-gtk/UgApp-gtk-gui.c:314
+#: ../uget-gtk/UgApp-gtk-gui.c:116
+#: ../uget-gtk/UgApp-gtk-gui.c:319
 #, fuzzy
 msgid "New Torrent..."
 msgstr "Nueva _descarga..."
 
 #. New Metalink
-#: ../uget-gtk/UgApp-gtk-gui.c:118
-#: ../uget-gtk/UgApp-gtk-gui.c:321
+#: ../uget-gtk/UgApp-gtk-gui.c:123
+#: ../uget-gtk/UgApp-gtk-gui.c:326
 msgid "New Metalink..."
 msgstr ""
 
 #. Settings
 #. menu_item = gtk_menu_item_new_with_mnemonic (_("_Settings..."));
-#: ../uget-gtk/UgApp-gtk-gui.c:127
-#: ../uget-gtk/UgApp-gtk-gui.c:508
+#: ../uget-gtk/UgApp-gtk-gui.c:132
+#: ../uget-gtk/UgApp-gtk-gui.c:520
 msgid "_Settings..."
 msgstr "_Configuración..."
 
 #. Show window
-#: ../uget-gtk/UgApp-gtk-gui.c:141
+#: ../uget-gtk/UgApp-gtk-gui.c:146
 msgid "Show window"
 msgstr ""
 
 #. Offline mode
-#: ../uget-gtk/UgApp-gtk-gui.c:146
-#: ../uget-gtk/UgApp-gtk-gui.c:477
+#: ../uget-gtk/UgApp-gtk-gui.c:151
+#: ../uget-gtk/UgApp-gtk-gui.c:489
 msgid "_Offline Mode"
 msgstr "Modo _fuera de línea"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:274
+#: ../uget-gtk/UgApp-gtk-gui.c:279
 msgid "Create new download"
 msgstr "Crea una nueva descarga"
 
 #. New Category
-#: ../uget-gtk/UgApp-gtk-gui.c:291
+#: ../uget-gtk/UgApp-gtk-gui.c:296
 msgid "New _Category..."
 msgstr "Nueva _categoría..."
 
-#. New Batch download
-#: ../uget-gtk/UgApp-gtk-gui.c:297
-msgid "New _Batch download..."
-msgstr "Nuevo _lote de descargas..."
+#. New URL Sequence batch
+#: ../uget-gtk/UgApp-gtk-gui.c:309
+msgid "New _URL Sequence batch..."
+msgstr ""
 
-#: ../uget-gtk/UgApp-gtk-gui.c:330
+#: ../uget-gtk/UgApp-gtk-gui.c:335
 msgid "Save all"
 msgstr "Guardar todo"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:338
+#: ../uget-gtk/UgApp-gtk-gui.c:343
 msgid "Set selected download runnable"
 msgstr "Ejecutar las descargas seleccionadas"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:343
+#: ../uget-gtk/UgApp-gtk-gui.c:348
 msgid "Set selected download to pause"
 msgstr "Pausar las descargas seleccionadas"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:348
+#: ../uget-gtk/UgApp-gtk-gui.c:353
 msgid "Set selected download properties"
 msgstr "Establecer las propiedades de las descargas seleccionadas"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:356
+#: ../uget-gtk/UgApp-gtk-gui.c:361
 msgid "Move selected download up"
 msgstr "Mover las descargas seleccionadas hacia arriba"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:361
+#: ../uget-gtk/UgApp-gtk-gui.c:366
 msgid "Move selected download down"
 msgstr "Mover las descargas seleccionadas hacia abajo"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:366
+#: ../uget-gtk/UgApp-gtk-gui.c:371
 msgid "Move selected download to top"
 msgstr "Mover las descargas seleccionadas al principio"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:371
+#: ../uget-gtk/UgApp-gtk-gui.c:376
 msgid "Move selected download to bottom"
 msgstr "Mover las descargas seleccionadas al final"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:394
+#: ../uget-gtk/UgApp-gtk-gui.c:399
 msgid "_File"
 msgstr "_Archivo"
 
 #. New - Download (accelerators)
-#: ../uget-gtk/UgApp-gtk-gui.c:406
+#: ../uget-gtk/UgApp-gtk-gui.c:411
 msgid "_Download..."
 msgstr "_Descarga..."
 
 #. New - Category
-#: ../uget-gtk/UgApp-gtk-gui.c:413
+#: ../uget-gtk/UgApp-gtk-gui.c:418
 msgid "_Category..."
 msgstr "_Categoría..."
 
-#. New - Batch download
-#: ../uget-gtk/UgApp-gtk-gui.c:419
-msgid "_Batch download..."
-msgstr "_Lote de descargas..."
-
-#. New - from clipboard
-#: ../uget-gtk/UgApp-gtk-gui.c:425
-msgid "_From Clipboard..."
-msgstr "_Desde el portapapeles..."
-
 #. New - Torrent
-#: ../uget-gtk/UgApp-gtk-gui.c:434
+#: ../uget-gtk/UgApp-gtk-gui.c:426
 msgid "Torrent..."
 msgstr ""
 
 #. New - Metalink
-#: ../uget-gtk/UgApp-gtk-gui.c:440
+#: ../uget-gtk/UgApp-gtk-gui.c:432
 msgid "Metalink..."
 msgstr ""
 
-#: ../uget-gtk/UgApp-gtk-gui.c:456
-msgid "Import _HTML file..."
-msgstr "Importar archivo _HTML..."
+#. New --- end ---
+#. Batch Downloads --- start ---
+#: ../uget-gtk/UgApp-gtk-gui.c:440
+#, fuzzy
+msgid "_Batch Downloads"
+msgstr "Nuevo lote de descargas"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:462
-msgid "_Import text file..."
-msgstr "_Importar archivo de texto..."
+#. Batch downloads - Clipboard batch
+#: ../uget-gtk/UgApp-gtk-gui.c:446
+#, fuzzy
+msgid "_Clipboard batch..."
+msgstr "Opciones del _portapapeles..."
 
-#: ../uget-gtk/UgApp-gtk-gui.c:468
-msgid "_Export text file..."
+#. Batch downloads - URL Sequence batch
+#: ../uget-gtk/UgApp-gtk-gui.c:452
+msgid "_URL Sequence batch..."
+msgstr ""
+
+#. Batch downloads - Text file import (.txt)
+#: ../uget-gtk/UgApp-gtk-gui.c:458
+msgid "_Text file import (.txt)..."
+msgstr ""
+
+#. Batch downloads - HTML file import (.html)
+#: ../uget-gtk/UgApp-gtk-gui.c:464
+msgid "_HTML file import (.html)..."
+msgstr ""
+
+#. Batch downloads - Export to Text file (.txt)
+#: ../uget-gtk/UgApp-gtk-gui.c:472
+#, fuzzy
+msgid "_Export to Text file (.txt)..."
 msgstr "_Exportar archivo de texto..."
 
-#: ../uget-gtk/UgApp-gtk-gui.c:488
+#: ../uget-gtk/UgApp-gtk-gui.c:500
 msgid "_Edit"
 msgstr "_Editar"
 
 #. menu.gtk_menu_shell_append((GtkMenuShell*)menu, gtk_tearoff_menu_item_new() );
-#: ../uget-gtk/UgApp-gtk-gui.c:493
+#: ../uget-gtk/UgApp-gtk-gui.c:505
 msgid "Clipboard _Monitor"
 msgstr "_Monitoreo del portapapeles"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:497
+#: ../uget-gtk/UgApp-gtk-gui.c:509
 msgid "_Clipboard Option..."
 msgstr "Opciones del _portapapeles..."
 
-#: ../uget-gtk/UgApp-gtk-gui.c:503
+#: ../uget-gtk/UgApp-gtk-gui.c:515
 msgid "Shutdown when downloads complete"
 msgstr "Apagar al completar las descargas"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:517
+#: ../uget-gtk/UgApp-gtk-gui.c:529
 msgid "_View"
 msgstr "_Ver"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:521
+#: ../uget-gtk/UgApp-gtk-gui.c:533
 msgid "_Toolbar"
 msgstr "_Barra de herramientas"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:526
+#: ../uget-gtk/UgApp-gtk-gui.c:538
 msgid "Statusbar"
 msgstr "Barra de estado"
 
 #. Summary Items - Category
 #. Download Columns - Category
-#: ../uget-gtk/UgApp-gtk-gui.c:531
-#: ../uget-gtk/UgApp-gtk-gui.c:559
-#: ../uget-gtk/UgApp-gtk-gui.c:644
+#: ../uget-gtk/UgApp-gtk-gui.c:543
+#: ../uget-gtk/UgApp-gtk-gui.c:571
+#: ../uget-gtk/UgApp-gtk-gui.c:656
 #: ../uget-gtk/UgCategoryWidget.c:129
 #: ../uget-gtk/UgCategoryWidget.c:440
 #: ../uget-gtk/UgDownloadDialog.c:205
-#: ../uget-gtk/UgDownloadWidget.c:912
+#: ../uget-gtk/UgDownloadWidget.c:911
 #: ../uget-gtk/UgSummary.c:140
 msgid "Category"
 msgstr "Categoría"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:536
+#: ../uget-gtk/UgApp-gtk-gui.c:548
 msgid "_Summary"
 msgstr "_Resumen"
 
 #. Summary Items --- start ---
-#: ../uget-gtk/UgApp-gtk-gui.c:544
+#: ../uget-gtk/UgApp-gtk-gui.c:556
 msgid "Summary _Items"
 msgstr "Resumen de Í_tems"
 
 #. Summary Items - Name
-#: ../uget-gtk/UgApp-gtk-gui.c:549
+#: ../uget-gtk/UgApp-gtk-gui.c:561
 msgid "_Name"
 msgstr "_Nombre"
 
 #. Summary Items - Folder
-#: ../uget-gtk/UgApp-gtk-gui.c:554
+#: ../uget-gtk/UgApp-gtk-gui.c:566
 msgid "_Folder"
 msgstr "_Carpeta"
 
@@ -503,131 +513,137 @@ msgstr "_Carpeta"
 #. menubar->view.summary_items.elapsed = menu_item;
 #. Summary Items - URL
 #. Download Columns - URL
-#: ../uget-gtk/UgApp-gtk-gui.c:569
-#: ../uget-gtk/UgApp-gtk-gui.c:649
+#: ../uget-gtk/UgApp-gtk-gui.c:581
+#: ../uget-gtk/UgApp-gtk-gui.c:661
 msgid "_URL"
 msgstr "_URL"
 
 #. Summary Items - Message
-#: ../uget-gtk/UgApp-gtk-gui.c:574
+#: ../uget-gtk/UgApp-gtk-gui.c:586
 msgid "_Message"
 msgstr "_Mensaje"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:589
+#: ../uget-gtk/UgApp-gtk-gui.c:601
 msgid "Download _Columns"
 msgstr "_Columnas de descarga"
 
 #. Download Columns - Completed
-#: ../uget-gtk/UgApp-gtk-gui.c:594
+#: ../uget-gtk/UgApp-gtk-gui.c:606
 msgid "_Complete"
 msgstr "_Completado"
 
 #. Download Columns - Total
-#: ../uget-gtk/UgApp-gtk-gui.c:599
+#: ../uget-gtk/UgApp-gtk-gui.c:611
 msgid "_Size"
 msgstr "_Tamaño"
 
 #. Download Columns - Percent (%)
-#: ../uget-gtk/UgApp-gtk-gui.c:604
+#: ../uget-gtk/UgApp-gtk-gui.c:616
 msgid "_Percent '%'"
 msgstr "_Porcentaje '%'"
 
 #. Download Columns - Elapsed
-#: ../uget-gtk/UgApp-gtk-gui.c:609
+#: ../uget-gtk/UgApp-gtk-gui.c:621
 msgid "_Elapsed"
 msgstr "_Transcurrido"
 
 #. Download Columns - Left
-#: ../uget-gtk/UgApp-gtk-gui.c:614
+#: ../uget-gtk/UgApp-gtk-gui.c:626
 msgid "_Left"
 msgstr "_Restante"
 
 #. Download Columns - Speed
-#: ../uget-gtk/UgApp-gtk-gui.c:619
-#: ../uget-gtk/UgDownloadWidget.c:841
+#: ../uget-gtk/UgApp-gtk-gui.c:631
+#: ../uget-gtk/UgDownloadWidget.c:840
 msgid "Speed"
 msgstr "Velocidad"
 
 #. Download Columns - Up Speed
-#: ../uget-gtk/UgApp-gtk-gui.c:624
-#: ../uget-gtk/UgDownloadWidget.c:855
+#: ../uget-gtk/UgApp-gtk-gui.c:636
+#: ../uget-gtk/UgDownloadWidget.c:854
 #, fuzzy
 msgid "Up Speed"
 msgstr "Velocidad"
 
 #. Download Columns - Uploaded
-#: ../uget-gtk/UgApp-gtk-gui.c:629
-#: ../uget-gtk/UgDownloadWidget.c:869
+#: ../uget-gtk/UgApp-gtk-gui.c:641
+#: ../uget-gtk/UgDownloadWidget.c:868
 msgid "Uploaded"
 msgstr ""
 
 #. Download Columns - Ratio
-#: ../uget-gtk/UgApp-gtk-gui.c:634
-#: ../uget-gtk/UgDownloadWidget.c:883
+#: ../uget-gtk/UgApp-gtk-gui.c:646
+#: ../uget-gtk/UgDownloadWidget.c:882
 msgid "Ratio"
 msgstr ""
 
 #. Download Columns - Retry
-#: ../uget-gtk/UgApp-gtk-gui.c:639
+#: ../uget-gtk/UgApp-gtk-gui.c:651
 msgid "_Retry"
 msgstr "_Reintentos"
 
 #. Download Columns - Added On
-#: ../uget-gtk/UgApp-gtk-gui.c:654
-#: ../uget-gtk/UgDownloadWidget.c:940
+#: ../uget-gtk/UgApp-gtk-gui.c:666
+#: ../uget-gtk/UgDownloadWidget.c:939
 msgid "Added On"
 msgstr ""
 
 #. Download Columns - Completed On
-#: ../uget-gtk/UgApp-gtk-gui.c:659
-#: ../uget-gtk/UgDownloadWidget.c:954
+#: ../uget-gtk/UgApp-gtk-gui.c:671
+#: ../uget-gtk/UgDownloadWidget.c:953
 #, fuzzy
 msgid "Completed On"
 msgstr "Completado"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:668
+#: ../uget-gtk/UgApp-gtk-gui.c:680
 msgid "_Category"
 msgstr "_Categoría"
 
 #. New Category
-#: ../uget-gtk/UgApp-gtk-gui.c:673
+#: ../uget-gtk/UgApp-gtk-gui.c:685
 msgid "_New Category..."
 msgstr "_Nueva categoría..."
 
 #. Delete Category
-#: ../uget-gtk/UgApp-gtk-gui.c:679
+#: ../uget-gtk/UgApp-gtk-gui.c:691
 msgid "_Delete Category"
 msgstr "_Eliminar categoría"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:692
+#: ../uget-gtk/UgApp-gtk-gui.c:705
 msgid "_Download"
 msgstr "_Descarga"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:710
+#: ../uget-gtk/UgApp-gtk-gui.c:724
 msgid "Delete _File and Data"
 msgstr "Eliminar _archivo y datos"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:723
+#: ../uget-gtk/UgApp-gtk-gui.c:739
 msgid "Open _containing folder"
 msgstr "Abrir carpeta _contenedora"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:731
+#: ../uget-gtk/UgApp-gtk-gui.c:748
 msgid "Force Start"
 msgstr ""
 
-#: ../uget-gtk/UgApp-gtk-gui.c:737
+#: ../uget-gtk/UgApp-gtk-gui.c:754
 #: ../uget-gtk/UgDownloadForm.c:206
 msgid "_Runnable"
 msgstr "_Ejecutar"
 
 #. Move to --- start ---
-#: ../uget-gtk/UgApp-gtk-gui.c:753
+#: ../uget-gtk/UgApp-gtk-gui.c:770
 msgid "_Move To"
 msgstr "_Mover a"
 
-#: ../uget-gtk/UgApp-gtk-gui.c:804
+#: ../uget-gtk/UgApp-gtk-gui.c:821
 msgid "_Help"
 msgstr "Ay_uda"
+
+#. only 1 url matched
+#: ../uget-gtk/UgApp-gtk-timeout.c:153
+#: ../uget-gtk/UgApp-gtk-timeout.c:162
+msgid "New from Clipboard"
+msgstr "Nuevo desde el portapapeles"
 
 #: ../uget-gtk/UgApp-gtk-timeout.c:154
 msgid "only one matched"
@@ -911,37 +927,37 @@ msgstr "Descarga completa"
 msgid "Retrieve timestamp"
 msgstr ""
 
-#: ../uget-gtk/UgDownloadWidget.c:380
+#: ../uget-gtk/UgDownloadWidget.c:378
 #: ../uget-gtk/UgSummary.c:116
 msgid "unnamed"
 msgstr "sin nombre"
 
-#: ../uget-gtk/UgDownloadWidget.c:746
+#: ../uget-gtk/UgDownloadWidget.c:745
 #: ../uget-gtk/UgSummary.c:105
 msgid "Name"
 msgstr "Nombre"
 
-#: ../uget-gtk/UgDownloadWidget.c:770
+#: ../uget-gtk/UgDownloadWidget.c:769
 msgid "Complete"
 msgstr "Completado"
 
-#: ../uget-gtk/UgDownloadWidget.c:784
+#: ../uget-gtk/UgDownloadWidget.c:783
 msgid "Size"
 msgstr "Tamaño"
 
-#: ../uget-gtk/UgDownloadWidget.c:799
+#: ../uget-gtk/UgDownloadWidget.c:798
 msgid "%"
 msgstr "%"
 
-#: ../uget-gtk/UgDownloadWidget.c:813
+#: ../uget-gtk/UgDownloadWidget.c:812
 msgid "Elapsed"
 msgstr "Transcurrido"
 
-#: ../uget-gtk/UgDownloadWidget.c:827
+#: ../uget-gtk/UgDownloadWidget.c:826
 msgid "Left"
 msgstr "Restante"
 
-#: ../uget-gtk/UgDownloadWidget.c:926
+#: ../uget-gtk/UgDownloadWidget.c:925
 #: ../uget-gtk/UgSelector.c:487
 #: ../uget-gtk/UgSummary.c:151
 msgid "URL"
@@ -1239,6 +1255,24 @@ msgstr "Valor"
 #: ../uget-gtk/UgSummary.c:296
 msgid "Copy _All"
 msgstr "Copiar _todo"
+
+#~ msgid "New Batch Download"
+#~ msgstr "Nuevo lote de descargas"
+
+#~ msgid "New _Batch download..."
+#~ msgstr "Nuevo _lote de descargas..."
+
+#~ msgid "_Batch download..."
+#~ msgstr "_Lote de descargas..."
+
+#~ msgid "_From Clipboard..."
+#~ msgstr "_Desde el portapapeles..."
+
+#~ msgid "Import _HTML file..."
+#~ msgstr "Importar archivo _HTML..."
+
+#~ msgid "_Import text file..."
+#~ msgstr "_Importar archivo de texto..."
 
 #, fuzzy
 #~ msgid ""
