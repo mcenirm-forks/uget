@@ -103,8 +103,8 @@ static void ug_trayicon_init (struct UgTrayIcon* trayicon)
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	trayicon->menu.create_download = menu_item;
 
-	// New Download from Clipboard
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New _from Clipboard..."));
+	// New Clipboard batch
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New Clipboard _batch..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_PASTE, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
@@ -298,19 +298,19 @@ static void ug_toolbar_init (struct UgToolbar* ugt, GtkAccelGroup* accel_group)
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	ugt->create_category = menu_item;
-	// New Batch download
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New _Batch download..."));
-	image = gtk_image_new_from_stock (GTK_STOCK_SORT_ASCENDING, GTK_ICON_SIZE_MENU);
-	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	ugt->create_sequence = menu_item;
-	gtk_widget_show_all (menu);
-	// New from Clipboard
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New _from Clipboard..."));
+	// New Clipboard batch
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New Clipboard _batch..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_PASTE, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	ugt->create_clipboard = menu_item;
+	gtk_widget_show_all (menu);
+	// New URL Sequence batch
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("New _URL Sequence batch..."));
+	image = gtk_image_new_from_stock (GTK_STOCK_SORT_ASCENDING, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	ugt->create_sequence = menu_item;
 	gtk_widget_show_all (menu);
 
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );

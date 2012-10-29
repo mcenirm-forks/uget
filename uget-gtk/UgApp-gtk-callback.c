@@ -295,7 +295,7 @@ static void	on_create_sequence (GtkWidget* widget, UgAppGtk* app)
 	UgDownloadDialog*	ddialog;
 	gchar*				title;
 
-	title = g_strconcat (UG_APP_GTK_NAME " - ", _("New Batch Download"), NULL);
+	title = g_strconcat (UG_APP_GTK_NAME " - ", _("URL Sequence batch"), NULL);
 	ddialog = ug_download_dialog_new (title, app->window.self);
 	g_free (title);
 	ug_download_dialog_use_batch (ddialog);
@@ -322,7 +322,7 @@ static void	on_create_from_clipboard (GtkWidget* widget, UgAppGtk* app)
 		return;
 	}
 
-	title = g_strconcat (UG_APP_GTK_NAME " - ", _("New from Clipboard"), NULL);
+	title = g_strconcat (UG_APP_GTK_NAME " - ", _("Clipboard batch"), NULL);
 	ddialog = ug_download_dialog_new (title, app->window.self);
 	g_free (title);
 	if (gtk_widget_get_visible ((GtkWidget*) app->window.self) == FALSE)

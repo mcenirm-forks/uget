@@ -205,8 +205,8 @@ struct UgAppGtk
 		// menu for tool button
 		GtkWidget*		create_download;
 		GtkWidget*		create_category;
-		GtkWidget*		create_sequence;
 		GtkWidget*		create_clipboard;
+		GtkWidget*		create_sequence;
 		GtkWidget*		create_torrent;
 		GtkWidget*		create_metalink;
 
