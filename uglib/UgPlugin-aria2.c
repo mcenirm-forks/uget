@@ -382,9 +382,12 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 		switch (plugin->aria2Status) {
 		case ARIA2_COMPLETE:
 			if (plugin->renamed == FALSE && plugin->common->file && plugin->local_file == NULL) {
-				string = g_strdup_printf ("%.*s%s", plugin->path_folder_len,
-						plugin->path, plugin->common->file);
-				ug_rename (plugin->path, string);
+				string = g_strdup_printf ("%.*s%s",
+						plugin->path_folder_len, plugin->path, plugin->common->file);
+				if (ug_rename (plugin->path, string) == 0) {
+					ug_plugin_post ((UgPlugin*) plugin,
+							ug_message_new_warning (UG_MESSAGE_WARNING_FILE_RENAME_FAILED, NULL));
+				}
 				g_free (string);
 				plugin->renamed = TRUE;
 			}
