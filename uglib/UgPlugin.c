@@ -133,7 +133,7 @@ UgPlugin*	ug_plugin_new	(const UgPluginInterface* iface, UgDataset* dataset)
 
 	// initialize base data
 	plugin->iface = iface;
-	plugin->lock = g_mutex_new ();
+	g_mutex_init (&plugin->lock);
 //	plugin->state = UG_STATE_NULL;
 	plugin->ref_count = 1;
 
@@ -141,7 +141,7 @@ UgPlugin*	ug_plugin_new	(const UgPluginInterface* iface, UgDataset* dataset)
 	if (init) {
 		// If plugin initial failed, free resource and return NULL.
 		if (init (plugin, dataset) == FALSE) {
-			g_mutex_free (plugin->lock);
+			g_mutex_clear (&plugin->lock);
 //			g_free (plugin);
 			g_slice_free1 (iface->instance_size, plugin);
 			return NULL;
@@ -213,7 +213,7 @@ void	ug_plugin_unref	(UgPlugin* plugin)
 			finalize (plugin);
 
 		// finalize base data
-		g_mutex_free (plugin->lock);
+		g_mutex_clear (&plugin->lock);
 		ug_datalist_free (plugin->messages);
 //		g_free (plugin);
 		g_slice_free1 (plugin->iface->instance_size, plugin);
@@ -222,12 +222,12 @@ void	ug_plugin_unref	(UgPlugin* plugin)
 
 void	ug_plugin_lock	(UgPlugin* plugin)
 {
-	g_mutex_lock (plugin->lock);
+	g_mutex_lock (&plugin->lock);
 }
 
 void	ug_plugin_unlock	(UgPlugin* plugin)
 {
-	g_mutex_unlock (plugin->lock);
+	g_mutex_unlock (&plugin->lock);
 }
 
 void	ug_plugin_delay (UgPlugin* plugin, guint millisecond)
@@ -250,7 +250,7 @@ void	ug_plugin_post (UgPlugin* plugin, UgMessage* message)
 
 	message->src = plugin;
 
-	g_mutex_lock (plugin->lock);
+	g_mutex_lock (&plugin->lock);
 	// Remove repeated progress message from queue
 	link = plugin->messages;
 	if (message->type == UG_MESSAGE_PROGRESS && link && link->type == UG_MESSAGE_PROGRESS)
@@ -259,7 +259,7 @@ void	ug_plugin_post (UgPlugin* plugin, UgMessage* message)
 		link = NULL;
 	// prepend new message
 	plugin->messages = ug_datalist_prepend (plugin->messages, message);
-	g_mutex_unlock (plugin->lock);
+	g_mutex_unlock (&plugin->lock);
 
 	// free repeated progress message here to reduce lock time
 	if (link)
@@ -270,10 +270,10 @@ UgMessage*	ug_plugin_pop_all (UgPlugin* plugin)
 {
 	UgMessage*	messages;
 
-	g_mutex_lock (plugin->lock);
+	g_mutex_lock (&plugin->lock);
 	messages = plugin->messages;
 	plugin->messages = NULL;
-	g_mutex_unlock (plugin->lock);
+	g_mutex_unlock (&plugin->lock);
 
 	return ug_datalist_reverse (messages);
 }

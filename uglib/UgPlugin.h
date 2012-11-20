@@ -128,7 +128,7 @@ const UgPluginInterface*	ug_plugin_interface_find	(const gchar* name,	const gcha
 	unsigned int				ref_count;	\
 	UgMessage*					messages;	\
 	UgState						state;		\
-	GMutex*						lock
+	GMutex						lock
 
 struct UgPlugin
 {
@@ -137,7 +137,7 @@ struct UgPlugin
 //	unsigned int				ref_count;
 //	UgMessage*					messages;
 //	UgState						state;
-//	GMutex*						lock;
+//	GMutex						lock;
 };
 
 UgPlugin*	ug_plugin_new			(const UgPluginInterface* iface, UgDataset* dataset);
