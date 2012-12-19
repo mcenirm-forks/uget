@@ -1346,12 +1346,16 @@ static void	on_trayicon_activate (GtkStatusIcon* status_icon, UgAppGtk* app)
 		gtk_window_get_size (app->window.self,
 				&app->setting.window.width, &app->setting.window.height);
 		// hide window
+#ifdef _WIN32
 		gtk_window_iconify (app->window.self);
+#endif
 		gtk_widget_hide ((GtkWidget*) app->window.self);
 	}
 	else {
+#ifdef _WIN32
 		gtk_widget_show ((GtkWidget*) app->window.self);
 		gtk_window_deiconify (app->window.self);
+#endif
 		gtk_window_present (app->window.self);
 		ug_app_trayicon_decide_visible (app);
 	}
