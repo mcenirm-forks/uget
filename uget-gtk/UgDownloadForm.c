@@ -135,11 +135,30 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	gtk_grid_attach (top_grid, widget, 0, 0, 1, 1);
 	dform->url_label = widget;
 
+	// Mirrors - entry
+	widget = gtk_entry_new ();
+	gtk_entry_set_width_chars (GTK_ENTRY (widget), 20);
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	g_object_set (widget, "margin-left", 1, "margin-right", 1, NULL);
+	g_object_set (widget, "margin-top", 2, "margin-bottom", 2, NULL);
+	g_object_set (widget, "hexpand", TRUE, NULL);
+	gtk_grid_attach (top_grid, widget, 1, 1, 2, 1);
+	g_signal_connect (GTK_EDITABLE (widget), "changed",
+			G_CALLBACK (on_url_entry_changed), dform);
+	dform->mirrors_entry = widget;
+	// Mirrors - label
+	widget = gtk_label_new_with_mnemonic (_("Mirrors:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL(widget), dform->mirrors_entry);
+	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
+	g_object_set (widget, "margin-top", 2, "margin-bottom", 2, NULL);
+	gtk_grid_attach (top_grid, widget, 0, 1, 1, 1);
+	dform->mirrors_label = widget;
+
 	// File - entry
 	widget = gtk_entry_new ();
 	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
 	g_object_set (widget, "margin", 1, "hexpand", TRUE, NULL);
-	gtk_grid_attach (top_grid, widget,  1, 1, 2, 1);
+	gtk_grid_attach (top_grid, widget,  1, 2, 2, 1);
 	g_signal_connect (GTK_EDITABLE (widget), "changed",
 			G_CALLBACK (on_entry_changed), dform);
 	dform->file_entry = widget;
@@ -148,7 +167,7 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dform->file_entry);
 	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
-	gtk_grid_attach (top_grid, widget,  0, 1, 1, 1);
+	gtk_grid_attach (top_grid, widget,  0, 2, 1, 1);
 	dform->file_label = widget;
 
 	// Folder - combo entry + icon
@@ -161,7 +180,7 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	gtk_entry_set_icon_tooltip_text (GTK_ENTRY (widget),
 			GTK_ENTRY_ICON_SECONDARY, _("Select Folder"));
 	g_object_set (dform->folder_combo, "margin", 1, "hexpand", TRUE, NULL);
-	gtk_grid_attach (top_grid, dform->folder_combo,  1, 2, 1, 1);
+	gtk_grid_attach (top_grid, dform->folder_combo,  1, 3, 1, 1);
 	g_signal_connect (widget, "icon-release",
 			G_CALLBACK (on_select_folder), dform);
 	g_signal_connect (GTK_EDITABLE (widget), "changed",
@@ -171,13 +190,13 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	gtk_label_set_mnemonic_widget(GTK_LABEL (widget), dform->folder_combo);
 	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
-	gtk_grid_attach (top_grid, widget,  0, 2, 1, 1);
+	gtk_grid_attach (top_grid, widget,  0, 3, 1, 1);
 
 	// Referrer - entry
 	widget = gtk_entry_new ();
 	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
 	g_object_set (widget, "margin", 1, "hexpand", TRUE, NULL);
-	gtk_grid_attach (top_grid, widget, 1, 3, 2, 1);
+	gtk_grid_attach (top_grid, widget, 1, 4, 2, 1);
 	g_signal_connect (GTK_EDITABLE (widget), "changed",
 			G_CALLBACK (on_http_entry_changed), dform);
 	dform->referrer_entry = widget;
@@ -186,14 +205,14 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dform->referrer_entry);
 	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
-	gtk_grid_attach (top_grid, widget, 0, 3, 1, 1);
+	gtk_grid_attach (top_grid, widget, 0, 4, 1, 1);
 //	dform->referrer_label = widget;
 
 	// ----------------------------------------------------
 	// HBox for "Status" and "Login"
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	g_object_set (hbox, "margin", 1, "hexpand", TRUE, NULL);
-	gtk_grid_attach (top_grid, hbox, 0, 4, 3, 1);
+	gtk_grid_attach (top_grid, hbox, 0, 5, 3, 1);
 
 	// ----------------------------------------------------
 	// frame for Status (start mode)
@@ -254,7 +273,7 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	gtk_container_add (GTK_CONTAINER (frame), (GtkWidget*) grid);
 	gtk_container_set_border_width (GTK_CONTAINER (grid), 2);
 	g_object_set (frame, "margin", 1, "hexpand", TRUE, NULL);
-	gtk_grid_attach (top_grid, frame, 0, 5, 3, 1);
+	gtk_grid_attach (top_grid, frame, 0, 6, 3, 1);
 	// Retry limit - spin button
 	widget = gtk_spin_button_new_with_range (0.0, 99.0, 1.0);
 	g_object_set (widget, "margin-left", 2, "margin-right", 2, NULL);
@@ -329,7 +348,7 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	if (proxy) {
 		widget = proxy->self;
 		g_object_set (widget, "margin", 1, "hexpand", TRUE, NULL);
-		gtk_grid_attach (top_grid, widget, 0, 6, 3, 1);
+		gtk_grid_attach (top_grid, widget, 0, 7, 3, 1);
 	}
 }
 
@@ -447,6 +466,8 @@ static void ug_download_form_decide_sensitive (UgDownloadForm* dform)
 	gboolean	sensitive;
 
 	sensitive = app->setting.plugin.aria2.enable;
+	gtk_widget_set_sensitive (dform->mirrors_label, sensitive);
+	gtk_widget_set_sensitive (dform->mirrors_entry, sensitive);
 	gtk_widget_set_sensitive (dform->title_connections, sensitive);
 	gtk_widget_set_sensitive (dform->label_connections, sensitive);
 	gtk_widget_set_sensitive (dform->spin_connections, sensitive);
@@ -499,7 +520,8 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	common->retrieve_timestamp = gtk_toggle_button_get_active (dform->timestamp);
 
 	if (gtk_widget_is_sensitive (dform->url_entry) == TRUE) {
-		ug_str_set (&common->url,  gtk_entry_get_text ((GtkEntry*)dform->url_entry),  -1);
+		ug_str_set (&common->url, gtk_entry_get_text ((GtkEntry*)dform->url_entry), -1);
+		ug_str_set (&common->mirrors, gtk_entry_get_text ((GtkEntry*)dform->mirrors_entry), -1);
 		ug_str_set (&common->file, gtk_entry_get_text ((GtkEntry*)dform->file_entry), -1);
 		if (common->url) {
 			ug_uri_full_init (&urifull, common->url);
@@ -566,6 +588,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 	// set changed flags
 	if (keep_changed==FALSE && common) {
 		dform->changed.url      = common->keeping.url;
+		dform->changed.mirrors  = common->keeping.mirrors;
 		dform->changed.file     = common->keeping.file;
 		dform->changed.folder   = common->keeping.folder;
 		dform->changed.user     = common->keeping.user;
@@ -579,7 +602,13 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 	if (keep_changed==FALSE || dform->changed.url==FALSE) {
 		if (gtk_widget_is_sensitive (dform->url_entry)) {
 			gtk_entry_set_text ((GtkEntry*) dform->url_entry,
-					(common && common->url)  ? common->url  : "");
+					(common && common->url)  ? common->url : "");
+		}
+	}
+	if (keep_changed==FALSE || dform->changed.mirrors==FALSE) {
+		if (gtk_widget_is_sensitive (dform->mirrors_entry)) {
+			gtk_entry_set_text ((GtkEntry*) dform->mirrors_entry,
+					(common && common->mirrors)  ? common->mirrors : "");
 		}
 	}
 	if (keep_changed==FALSE || dform->changed.file==FALSE) {
@@ -680,12 +709,16 @@ void	ug_download_form_set_multiple (UgDownloadForm* dform, gboolean multiple_mod
 	if (multiple_mode) {
 		gtk_widget_hide (dform->url_label);
 		gtk_widget_hide (dform->url_entry);
+		gtk_widget_hide (dform->mirrors_label);
+		gtk_widget_hide (dform->mirrors_entry);
 		gtk_widget_hide (dform->file_label);
 		gtk_widget_hide (dform->file_entry);
 	}
 	else {
 		gtk_widget_show (dform->url_label);
 		gtk_widget_show (dform->url_entry);
+		gtk_widget_show (dform->mirrors_label);
+		gtk_widget_show (dform->mirrors_entry);
 		gtk_widget_show (dform->file_label);
 		gtk_widget_show (dform->file_entry);
 	}

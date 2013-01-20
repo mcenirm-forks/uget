@@ -466,14 +466,30 @@ static gboolean	ug_plugin_aria2_add_uri	(UgPluginAria2* plugin)
 	UgXmlrpcValue*		value;
 	UgDataCommon*		common;
 	UgXmlrpcResponse	response;
+	char*				curr;
+	char*				prev;
 
 	common = plugin->common;
 	// URIs array
 	ug_plugin_aria2_set_scheme (plugin);
-	uris = ug_xmlrpc_value_new_array (1);
+	uris = ug_xmlrpc_value_new_array (6);
 	value = ug_xmlrpc_value_alloc (uris);
 	value->type = UG_XMLRPC_STRING;
 	value->c.string = common->url;
+	// URIs array (mirrors)
+	for (curr = common->mirrors;  curr && curr[0];  curr = curr + 1) {
+		// skip space ' '
+		while (curr[0] == ' ')
+			curr++;
+		prev = curr;
+		curr = curr + strcspn (curr, " ");
+
+		value = ug_xmlrpc_value_alloc (uris);
+		value->type = UG_XMLRPC_STRING;
+		value->c.string = g_string_chunk_insert_len (plugin->chunk,
+				prev, curr - prev);
+	}
+
 	// options struct
 	options = ug_xmlrpc_value_new_struct (16);
 	ug_plugin_aria2_set_common (plugin, options);

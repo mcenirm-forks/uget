@@ -109,6 +109,7 @@ struct UgDataCommon
 	// common data
 	gchar*		name;
 	gchar*		url;
+	gchar*		mirrors;
 	gchar*		file;
 	gchar*		folder;
 	gchar*		user;
@@ -135,6 +136,7 @@ struct UgDataCommon
 	{
 		gboolean	name:1;
 		gboolean	url:1;
+		gboolean	mirrors:1;
 		gboolean	file:1;
 		gboolean	folder:1;
 		gboolean	user:1;

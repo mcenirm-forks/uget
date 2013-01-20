@@ -54,6 +54,7 @@ static const UgDataEntry	ug_data_common_entry[] =
 {
 	{"name",				G_STRUCT_OFFSET (UgDataCommon, name),				UG_TYPE_STRING,	NULL,	NULL},
 	{"url",					G_STRUCT_OFFSET (UgDataCommon, url),				UG_TYPE_STRING,	NULL,	NULL},
+	{"mirrors",				G_STRUCT_OFFSET (UgDataCommon, mirrors),			UG_TYPE_STRING,	NULL,	NULL},
 	{"file",				G_STRUCT_OFFSET (UgDataCommon, file),				UG_TYPE_STRING,	NULL,	NULL},
 	{"folder",				G_STRUCT_OFFSET (UgDataCommon, folder),				UG_TYPE_STRING,	NULL,	NULL},
 	{"user",				G_STRUCT_OFFSET (UgDataCommon, user),				UG_TYPE_STRING,	NULL,	NULL},
@@ -95,6 +96,7 @@ static void ug_data_common_finalize (UgDataCommon* common)
 {
 	g_free (common->name);
 	g_free (common->url);
+	g_free (common->mirrors);
 	g_free (common->file);
 	g_free (common->folder);
 	g_free (common->user);
@@ -107,6 +109,8 @@ static void ug_data_common_assign (UgDataCommon* common, UgDataCommon* src)
 		ug_str_set (&common->name, src->name, -1);
 	if (common->keeping.url == FALSE)
 		ug_str_set (&common->url, src->url, -1);
+	if (common->keeping.mirrors == FALSE)
+		ug_str_set (&common->mirrors, src->mirrors, -1);
 	if (common->keeping.file == FALSE)
 		ug_str_set (&common->file, src->file, -1);
 	if (common->keeping.folder == FALSE)

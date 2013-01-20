@@ -63,6 +63,10 @@ struct UgDownloadForm
 	GtkWidget*	url_entry;
 //	GtkWidget*	url_button;
 
+	GtkWidget*	mirrors_label;
+	GtkWidget*	mirrors_entry;
+//	GtkWidget*	mirror_button;
+
 	GtkWidget*	file_label;
 	GtkWidget*	file_entry;
 //	GtkWidget*	file_button;
@@ -118,6 +122,7 @@ struct UgDownloadForm
 	{
 		gboolean	enable:1;
 		gboolean	url:1;
+		gboolean	mirrors:1;
 		gboolean	file:1;
 		gboolean	folder:1;
 		gboolean	user:1;
