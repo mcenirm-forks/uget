@@ -165,7 +165,7 @@ static void ug_trayicon_init (struct UgTrayIcon* trayicon)
 	                         "hicolor", "16x16", "apps",
 	                         "uget-icon.png", NULL);
 	if (g_file_test (file_name, G_FILE_TEST_IS_REGULAR))
-		icon_name = UG_APP_GTK_ICON_NAME;
+		icon_name = UG_APP_GTK_TRAY_ICON_NAME;
 	else
 		icon_name = GTK_STOCK_GO_DOWN;
 	g_free (file_name);
@@ -175,9 +175,9 @@ static void ug_trayicon_init (struct UgTrayIcon* trayicon)
 	if (trayicon->indicator) {
 		app_indicator_set_menu (trayicon->indicator, GTK_MENU (trayicon->menu.self));
 //		app_indicator_set_attention_icon_full (trayicon->indicator,
-//				UG_APP_GTK_ICON_ACTIVE_NAME, NULL);
+//				UG_APP_GTK_TRAY_ICON_ACTIVE_NAME, NULL);
 		app_indicator_set_attention_icon (trayicon->indicator,
-				UG_APP_GTK_ICON_ACTIVE_NAME);
+				UG_APP_GTK_TRAY_ICON_ACTIVE_NAME);
 		app_indicator_set_status (trayicon->indicator,
 				APP_INDICATOR_STATUS_PASSIVE);
 	}
@@ -199,7 +199,7 @@ static void ug_window_init  (struct UgWindow* window, UgAppGtk* app)
 	gtk_window_set_title (window->self, UG_APP_GTK_NAME);
 	gtk_window_set_default_size (window->self, 620, 400);
 	gtk_window_add_accel_group (window->self, app->accel_group);
-	gtk_window_set_default_icon_name (UG_APP_GTK_ICON_NAME);
+	gtk_window_set_default_icon_name (UG_APP_GTK_APP_ICON_NAME);
 
 	// top container for Main Window
 	vbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);

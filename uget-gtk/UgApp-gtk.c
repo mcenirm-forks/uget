@@ -461,15 +461,15 @@ void	ug_trayicon_set_info (struct UgTrayIcon* trayicon, guint n_active, gint64 d
 
 	// change tray icon
 	if (trayicon->error_occurred) {
-		string = UG_APP_GTK_ICON_ERROR_NAME;
+		string = UG_APP_GTK_TRAY_ICON_ERROR_NAME;
 		current_status = 2;
 	}
 	else if (n_active > 0) {
-		string = UG_APP_GTK_ICON_ACTIVE_NAME;
+		string = UG_APP_GTK_TRAY_ICON_ACTIVE_NAME;
 		current_status = 1;
 	}
 	else {
-		string = UG_APP_GTK_ICON_NAME;
+		string = UG_APP_GTK_TRAY_ICON_NAME;
 		current_status = 0;
 	}
 

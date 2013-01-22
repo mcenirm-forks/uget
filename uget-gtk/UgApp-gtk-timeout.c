@@ -672,16 +672,16 @@ static void ug_app_notify (UgAppGtk* app, const gchar* title, const gchar* body)
 
 #if defined (NOTIFY_VERSION_MINOR) && NOTIFY_VERSION_MAJOR >= 0 && NOTIFY_VERSION_MINOR >= 7
 		notification = notify_notification_new (string,
-				body, UG_APP_GTK_ICON_NAME);
+				body, UG_APP_GTK_APP_ICON_NAME);
 #else
 		notification = notify_notification_new (string,
-				body, UG_APP_GTK_ICON_NAME, NULL);
+				body, UG_APP_GTK_APP_ICON_NAME, NULL);
 #endif
 		notify_notification_set_timeout (notification, 7000);	// milliseconds
 	}
 	else {
 		notify_notification_update (notification, string,
-				body, UG_APP_GTK_ICON_NAME);
+				body, UG_APP_GTK_TRAY_ICON_NAME);
 	}
 	g_free (string);
 

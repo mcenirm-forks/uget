@@ -50,7 +50,7 @@ static const char	uget_license[] =
 
 #include <glib/gi18n.h>
 
-#define	UGET_URL_WEBSITE	"http://uget.visuex.com/"
+#define	UGET_URL_WEBSITE	"http://uGet.visuex.com/"
 
 // static data
 static const gchar*	uget_authors[] = { "C.H. Huang  (\xE9\xBB\x83\xE6\xAD\xA3\xE9\x9B\x84)", NULL };
@@ -1311,13 +1311,21 @@ void	on_change_visible_column (GtkWidget* widget, UgAppGtk* app)
 //
 void	on_about (GtkWidget* widget, UgAppGtk* app)
 {
+	GtkImage* img;
+	char* path;
+
+	path = g_build_filename (ug_get_data_dir (), "pixmaps", "uget", "logo.png", NULL);
+	img = (GtkImage*) gtk_image_new_from_file (path);
+	g_free (path);
+
 //	if (gtk_widget_get_visible ((GtkWidget*) app->window.self) == FALSE) {
 //		gtk_window_deiconify (app->window.self);
 //		gtk_widget_show ((GtkWidget*) app->window.self);
 //	}
 
 	gtk_show_about_dialog (app->window.self,
-			"logo-icon-name", UG_APP_GTK_ICON_NAME,
+//			"logo-icon-name", UG_APP_GTK_APP_ICON_NAME,
+			"logo", gtk_image_get_pixbuf (img),
 			"program-name", UG_APP_GTK_NAME,
 			"version", uget_version,
 			"comments", gettext (uget_comments),
@@ -1332,6 +1340,8 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 			"artists", uget_artists,
 			"translator-credits", gettext (translator_credits),
 			NULL);
+
+	g_object_unref (img);
 }
 
 // ----------------------------------------------------------------------------
@@ -1362,7 +1372,7 @@ static void	on_trayicon_activate (GtkStatusIcon* status_icon, UgAppGtk* app)
 	// clear error status
 	if (app->trayicon.error_occurred) {
 		app->trayicon.error_occurred = FALSE;
-		gtk_status_icon_set_from_icon_name (status_icon, UG_APP_GTK_ICON_NAME);
+		gtk_status_icon_set_from_icon_name (status_icon, UG_APP_GTK_TRAY_ICON_NAME);
 	}
 }
 
