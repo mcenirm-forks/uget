@@ -1,3 +1,10 @@
+uGet 1.10.3 (stable)
+01. Add new download option - "mirrors".
+02. Change hotkey, Shift+Delete to delete data, Ctrl+Delete to delete file and data.
+03. Change logo and icons.
+04. Rearrange menu items.
+05. Add & update translation files.
+
 uGet 1.10.2 (stable)
 01. Display "unnamed URL" if no filename specified.
 02. Add new hotkeys: Enter, Shift+Enter, Delete, and Shift+Delete.
