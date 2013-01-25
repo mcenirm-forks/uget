@@ -1006,6 +1006,7 @@ void	ug_app_decide_download_sensitive (UgAppGtk* app)
 		gtk_widget_set_sensitive (app->menubar.download.open_folder, sensitive);
 		gtk_widget_set_sensitive (app->menubar.download.delete, sensitive);
 		gtk_widget_set_sensitive (app->menubar.download.delete_file, sensitive);
+		gtk_widget_set_sensitive (app->menubar.download.force_start, sensitive);
 		gtk_widget_set_sensitive (app->menubar.download.runnable, sensitive);
 		gtk_widget_set_sensitive (app->menubar.download.pause, sensitive);
 		gtk_widget_set_sensitive (app->menubar.download.move_to.item, sensitive);
