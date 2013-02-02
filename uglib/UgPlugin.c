@@ -37,7 +37,7 @@
 #include <string.h>
 
 #include <UgPlugin.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgUtils.h>
 #include <UgStdio.h>
 
@@ -164,7 +164,7 @@ UgPlugin*	ug_plugin_new_by_name	(const gchar* name, UgDataset* dataset)
 UgPlugin*	ug_plugin_new_by_data	(UgDataset* dataset)
 {
 	const UgPluginInterface*	iface;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	char*			string;
 	const char*		temp;
 

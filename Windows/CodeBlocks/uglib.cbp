@@ -48,10 +48,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\uglib\UgCategory.h" />
-		<Unit filename="..\..\uglib\UgData-download.c">
+		<Unit filename="..\..\uglib\UgetData.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="..\..\uglib\UgData-download.h" />
+		<Unit filename="..\..\uglib\UgetData.h" />
 		<Unit filename="..\..\uglib\UgData.c">
 			<Option compilerVar="CC" />
 		</Unit>

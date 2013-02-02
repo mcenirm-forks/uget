@@ -40,7 +40,7 @@
 // #define CURL_NO_OLDIES
 #include <curl/curl.h>
 #include <UgPlugin.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -68,10 +68,10 @@ struct UgPluginCurl
 //	GMutex*						lock;
 
 	// supported data
-	UgDataCommon*	common;
-	UgDataProxy*	proxy;
-	UgDataHttp*		http;
-	UgDataFtp*		ftp;
+	UgetCommon*	common;
+	UgetProxy*	proxy;
+	UgetHttp*		http;
+	UgetFtp*		ftp;
 
 	// status
 	guint			scheme;

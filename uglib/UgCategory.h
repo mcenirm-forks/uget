@@ -46,12 +46,12 @@ extern "C" {
 #endif
 
 // interface address for UgDataset
-#define	UG_RELATION_I		ug_relation_iface_pointer
+#define	UgetRelationInfo		uget_relation_iface_pointer
 
-typedef struct	UgCategory			UgCategory;
-typedef struct	UgCategoryFuncs		UgCategoryFuncs;
-typedef enum	UgCategoryHints		UgCategoryHints;
-typedef struct	UgRelation			UgRelation;
+typedef struct	UgCategory          UgCategory;
+typedef struct	UgCategoryFuncs     UgCategoryFuncs;
+typedef enum	UgCategoryHints     UgCategoryHints;
+typedef struct	UgetRelation        UgetRelation;
 
 typedef void	(*UgCategoryAddFunc)     (UgCategory* category, UgDataset* dataset);
 typedef GList*	(*UgCategoryGetAllFunc)  (UgCategory* category);
@@ -59,9 +59,9 @@ typedef GList*	(*UgCategoryGetTasksFunc)(UgCategory* category);
 typedef void	(*UgCategoryChangedFunc) (UgCategory* category, UgDataset* dataset);
 
 extern const	UgDataInterface		ug_category_iface;
-extern const	UgDataInterface		ug_relation_iface;
+extern const	UgDataInterface		uget_relation_iface;
 extern const	UgDataInterface*	ug_category_iface_pointer;
-extern const	UgDataInterface*	ug_relation_iface_pointer;
+extern const	UgDataInterface*	uget_relation_iface_pointer;
 
 
 // ----------------------------------------------------------------------------
@@ -175,7 +175,7 @@ void		ug_category_list_link (GList* category_list, GList* download_list);
 // To free the return value, use:
 //	g_list_foreach (list, (GFunc) ug_dataset_unref, NULL);
 //	g_list_free (list);
-// Before calling ug_download_list_load(), user must register data interface of UgRelation.
+// Before calling ug_download_list_load(), user must register data interface of UgetRelation.
 GList*		ug_download_list_load (const gchar* filename);
 gboolean	ug_download_list_save (GList* download_list, const gchar* filename);
 // Below utility functions can be used by g_list_foreach()
@@ -186,20 +186,20 @@ void		ug_download_delete_temp (UgDataset* dataset);
 
 
 // ----------------------------------------------------------------------------
-// UgRelation : relation of UgCategory, UgDataset, and UgPlugin.
+// UgetRelation : relation of UgCategory, UgDataset, and UgPlugin.
 
 // UgData
 // |
 // `- UgDatalist
 //    |
-//    `- UgRelation
+//    `- UgetRelation
 
-struct UgRelation
+struct UgetRelation
 {
-	UG_DATALIST_MEMBERS (UgRelation);
+	UG_DATALIST_MEMBERS (UgetRelation);
 //	const UgDataInterface*	iface;
-//	UgRelation*				next;
-//	UgRelation*				prev;
+//	UgetRelation*				next;
+//	UgetRelation*				prev;
 
 	// category
 	UgCategoryHints		hints;

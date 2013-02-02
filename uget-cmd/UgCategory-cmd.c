@@ -36,7 +36,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgCategory-cmd.h>
 
 
@@ -44,9 +44,9 @@
 // UgCategoryCmd: additional data for UgCategory and command-line.
 //
 // UgCategory::user.category used for getting UgCategoruCmd
-// UgRelation::user.category used for getting UgCategoruCmd
-// UgRelation::user.storage  used for getting GQueue in UgCategoryCmd
-// UgRelation::user.position used for getting link in GQueue.
+// UgetRelation::user.category used for getting UgCategoruCmd
+// UgetRelation::user.storage  used for getting GQueue in UgCategoryCmd
+// UgetRelation::user.position used for getting link in GQueue.
 //
 static UgCategoryCmd*	ug_category_cmd_new  (void);
 static void				ug_category_cmd_free (UgCategoryCmd* ccmd);
@@ -106,15 +106,15 @@ void	ug_category_use_cmd (UgCategory* category)
 // add dataset to category and increase reference count of dataset.
 void	ug_category_cmd_add (UgCategory* category, UgDataset* dataset)
 {
-	UgRelation*			relation;
+	UgetRelation*			relation;
 	UgCategoryCmd*		ccmd;
 
 	ccmd = category->user.category;
-	// add and set UgRelation to dataset
+	// add and set UgetRelation to dataset
 	ug_dataset_ref (dataset);
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation == NULL)
-		relation = ug_dataset_alloc_front (dataset, UG_RELATION_I);
+		relation = ug_dataset_alloc_front (dataset, UgetRelationInfo);
 	relation->category = category;
 	relation->user.category = ccmd;
 
@@ -165,7 +165,7 @@ GList*	ug_category_cmd_get_all (UgCategory* category)
 GList*	ug_category_cmd_get_tasks (UgCategory* category)
 {
 	UgCategoryCmd*	ccmd;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 	GList*			link;
 	GList*			tasks;
 	guint			tasks_len;
@@ -196,7 +196,7 @@ GList*	ug_category_cmd_get_tasks (UgCategory* category)
 void	ug_category_cmd_changed (UgCategory* category, UgDataset* dataset)
 {
 	UgCategoryCmd*	ccmd;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 	GQueue*			queue;
 
 	ccmd = category->user.category;
@@ -234,7 +234,7 @@ void	ug_category_cmd_changed (UgCategory* category, UgDataset* dataset)
 
 void	ug_category_cmd_remove (UgCategory* category, UgDataset* dataset)
 {
-	UgRelation*		relation;
+	UgetRelation*		relation;
 
 	relation = UG_DATASET_RELATION (dataset);
 	relation->category = NULL;
@@ -265,7 +265,7 @@ void	ug_category_cmd_clear  (UgCategory* category, UgCategoryHints hint, guint f
 
 void	ug_category_cmd_move_to (UgCategory* category, UgDataset* dataset, UgCategory* dest)
 {
-	UgRelation*		relation;
+	UgetRelation*		relation;
 
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation->category == category)

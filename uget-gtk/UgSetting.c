@@ -37,7 +37,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgDownloadWidget.h>
 #include <UgSetting.h>
 

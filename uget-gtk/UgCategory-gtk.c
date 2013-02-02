@@ -38,22 +38,22 @@
 #include <string.h>
 // uglib
 #include <UgString.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgCategory-gtk.h>
 
 #include <glib/gi18n.h>
 
 // UgCategory::user.category used for getting UgCategoruGtk
-// UgRelation::user.category used for getting UgCategoruGtk
-// UgRelation::user.storage  used for getting GtkListStore in primary UgCategoruGtk
-// UgRelation::user.position used for getting GtkTreeIter from GtkListStore in primary UgCategoruGtk
-// UgRelation::user.data     used for getting UgDownloadWidget
+// UgetRelation::user.category used for getting UgCategoruGtk
+// UgetRelation::user.storage  used for getting GtkListStore in primary UgCategoruGtk
+// UgetRelation::user.position used for getting GtkTreeIter from GtkListStore in primary UgCategoruGtk
+// UgetRelation::user.data     used for getting UgDownloadWidget
 
 // static functions
 static UgCategoryGtk*	ug_category_gtk_new  (void);
 static void				ug_category_gtk_free (UgCategoryGtk* cgtk);
 
-// free GtkTreeIter in UgRelation::position
+// free GtkTreeIter in UgetRelation::position
 static void		ug_slice_free_tree_iter (GtkTreeIter* iter);
 // Function used by GtkTreeModelFilter.
 static gboolean	ug_download_model_filter_category (GtkTreeModel *model, GtkTreeIter *iter, UgCategory* category);
@@ -124,7 +124,7 @@ static UgCategoryGtk*	ug_category_gtk_new  (void)
 static void	ug_category_gtk_free (UgCategoryGtk* cgtk)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 	GtkTreeModel*	model;
 	GtkTreeIter		iter;
 
@@ -226,14 +226,14 @@ void	ug_category_gtk_add (UgCategory* category, UgDataset* dataset)
 {
 	UgCategoryGtk*		cgtk;
 	UgCategoryGtk*		primary;
-	UgRelation*			relation;
+	UgetRelation*			relation;
 	GtkTreeModel*		model;
 	GtkTreePath*		path;
 
-	// add and set UgRelation to dataset
+	// add and set UgetRelation to dataset
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation == NULL)
-		relation = ug_dataset_alloc_front (dataset, UG_RELATION_I);
+		relation = ug_dataset_alloc_front (dataset, UgetRelationInfo);
 	// GtkTreeIter in relation->user.position
 	if (relation->user.position == NULL) {
 		relation->user.position = g_slice_alloc (sizeof (GtkTreeIter));
@@ -297,7 +297,7 @@ GList*	ug_category_gtk_get_tasks (UgCategory* category)
 {
 	UgCategoryGtk*	cgtk;
 	UgDataset*		dataset;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 	GtkTreeIter		iter;
 	gboolean		valid;
 	GList*			tasks;
@@ -333,7 +333,7 @@ GList*	ug_category_gtk_get_tasks (UgCategory* category)
 void	ug_category_gtk_changed	(UgCategory* category, UgDataset* dataset)
 {
 	UgDownloadWidget*	dlwidget;
-	UgRelation*			relation;
+	UgetRelation*			relation;
 	UgCategoryGtk*		cgtk;
 	GtkTreeModel*		model;
 	GtkTreePath*		path;
@@ -380,7 +380,7 @@ void	ug_category_gtk_changed	(UgCategory* category, UgDataset* dataset)
 
 void	ug_category_gtk_remove (UgCategory* category, UgDataset* dataset)
 {
-	UgRelation*		relation;
+	UgetRelation*		relation;
 
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation->user.storage) {
@@ -429,7 +429,7 @@ void	ug_category_gtk_clear (UgCategory* category, UgCategoryHints hint, guint fr
 
 void	ug_category_gtk_move_to (UgCategory* category, UgDataset* dataset, UgCategory* category_dest)
 {
-	UgRelation*		relation;
+	UgetRelation*		relation;
 
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation->category == category_dest)
@@ -444,8 +444,8 @@ void	ug_category_gtk_move_to (UgCategory* category, UgDataset* dataset, UgCatego
 gboolean	ug_category_gtk_move_selected_up (UgCategory* category, UgDownloadWidget* dwidget)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
-	UgRelation*		relation_prev;
+	UgetRelation*		relation;
+	UgetRelation*		relation_prev;
 	GtkTreeIter		iter;
 	GtkTreePath*	path;
 	GList*			list;
@@ -494,8 +494,8 @@ gboolean	ug_category_gtk_move_selected_up (UgCategory* category, UgDownloadWidge
 gboolean	ug_category_gtk_move_selected_down (UgCategory* category, UgDownloadWidget* dwidget)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
-	UgRelation*		relation_next;
+	UgetRelation*		relation;
+	UgetRelation*		relation_next;
 	GtkTreeIter		iter;
 	GtkTreePath*	path;
 	GList*			list;
@@ -545,8 +545,8 @@ gboolean	ug_category_gtk_move_selected_down (UgCategory* category, UgDownloadWid
 gboolean	ug_category_gtk_move_selected_to_top (UgCategory* category, UgDownloadWidget* dwidget)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
-	UgRelation*		relation_top;
+	UgetRelation*		relation;
+	UgetRelation*		relation_top;
 	GtkTreeIter		iter;
 	GList*			list;
 	GList*			link;
@@ -594,8 +594,8 @@ gboolean	ug_category_gtk_move_selected_to_top (UgCategory* category, UgDownloadW
 gboolean	ug_category_gtk_move_selected_to_bottom (UgCategory* category, UgDownloadWidget* dwidget)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
-	UgRelation*		relation_bottom;
+	UgetRelation*		relation;
+	UgetRelation*		relation_bottom;
 	GtkTreeIter		iter;
 	GtkTreePath*	path;
 	GList*			list;
@@ -667,7 +667,7 @@ gboolean	ug_category_gtk_clear_excess (UgCategory* category)
 }
 
 // ----------------------------------------------------------------------------
-// free GtkTreeIter in UgRelation::user.position
+// free GtkTreeIter in UgetRelation::user.position
 static void		ug_slice_free_tree_iter (GtkTreeIter* iter)
 {
 	g_slice_free1 (sizeof (GtkTreeIter), iter);
@@ -677,7 +677,7 @@ static void		ug_slice_free_tree_iter (GtkTreeIter* iter)
 static gboolean	ug_download_model_filter_category (GtkTreeModel *model, GtkTreeIter *iter, UgCategory* category)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
 	if (dataset) {
@@ -691,7 +691,7 @@ static gboolean	ug_download_model_filter_category (GtkTreeModel *model, GtkTreeI
 static gboolean	ug_download_model_filter_active (GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
 	if (dataset) {
@@ -705,7 +705,7 @@ static gboolean	ug_download_model_filter_active (GtkTreeModel *model, GtkTreeIte
 static gboolean	ug_download_model_filter_queuing (GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
 	if (dataset) {
@@ -720,7 +720,7 @@ static gboolean	ug_download_model_filter_queuing (GtkTreeModel *model, GtkTreeIt
 static gboolean	ug_download_model_filter_finished (GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
 	if (dataset) {
@@ -735,7 +735,7 @@ static gboolean	ug_download_model_filter_finished (GtkTreeModel *model, GtkTreeI
 static gboolean	ug_download_model_filter_recycled (GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
 	if (dataset) {

@@ -42,7 +42,7 @@
 
 #include <string.h>
 #include <UgPlugin-curl.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgStdio.h>
 #include <UgUtils.h>
 #include <UgString.h>
@@ -91,7 +91,7 @@ static UgResult	ug_plugin_curl_get			(UgPluginCurl* plugin, guint parameter, gpo
 
 // thread and setup functions
 static gpointer	ug_plugin_curl_thread		(UgPluginCurl* plugin);
-static gboolean	ug_plugin_curl_open_file	(UgPluginCurl* plugin, UgDataCommon* common);
+static gboolean	ug_plugin_curl_open_file	(UgPluginCurl* plugin, UgetCommon* common);
 static void		ug_plugin_curl_set_scheme	(UgPluginCurl* plugin, CURL* curl);
 static void		ug_plugin_curl_set_proxy	(UgPluginCurl* plugin, CURL* curl);
 
@@ -140,11 +140,11 @@ static void	ug_plugin_curl_global_finalize (void)
 
 static gboolean	ug_plugin_curl_init (UgPluginCurl* plugin, UgDataset* dataset)
 {
-	UgDataCommon*	common;
-	UgDataHttp*		http;
+	UgetCommon*	common;
+	UgetHttp*		http;
 
-	common = ug_dataset_get (dataset, UG_DATA_COMMON_I, 0);
-	http   = ug_dataset_get (dataset, UG_DATA_HTTP_I, 0);
+	common = ug_dataset_get (dataset, UgetCommonInfo, 0);
+	http   = ug_dataset_get (dataset, UgetHttpInfo, 0);
 	// check data
 	if (common == NULL  ||  common->url == NULL)
 		return FALSE;
@@ -154,10 +154,10 @@ static gboolean	ug_plugin_curl_init (UgPluginCurl* plugin, UgDataset* dataset)
 	if (http)
 		http->redirection_count = 0;
 	// copy supported data
-	plugin->common = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_COMMON_I, 0));
-	plugin->proxy  = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_PROXY_I, 0));
-	plugin->http   = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_HTTP_I, 0));
-	plugin->ftp    = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_FTP_I, 0));
+	plugin->common = ug_datalist_copy (ug_dataset_get (dataset, UgetCommonInfo, 0));
+	plugin->proxy  = ug_datalist_copy (ug_dataset_get (dataset, UgetProxyInfo, 0));
+	plugin->http   = ug_datalist_copy (ug_dataset_get (dataset, UgetHttpInfo, 0));
+	plugin->ftp    = ug_datalist_copy (ug_dataset_get (dataset, UgetFtpInfo, 0));
 
 	// default values
 	plugin->resumable = TRUE;
@@ -223,14 +223,14 @@ static UgResult	ug_plugin_curl_set (UgPluginCurl* plugin, guint parameter, gpoin
 
 static UgResult	ug_plugin_curl_get (UgPluginCurl* plugin, guint parameter, gpointer data)
 {
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gdouble		complete;
 	gdouble		total;
 	gdouble		speed;
 
 	if (parameter != UG_TYPE_INSTANCE)
 		return UG_RESULT_UNSUPPORT;
-	if (data == NULL || ((UgData*)data)->iface != UG_PROGRESS_I)
+	if (data == NULL || ((UgData*)data)->iface != UgetProgressInfo)
 		return UG_RESULT_UNSUPPORT;
 
 	progress = data;
@@ -267,10 +267,10 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 	CURLcode		curl_code;
 	long			curl_time;
 	long			response_code;
-	UgDataCommon*	common;
-	UgDataProxy*	proxy;
-	UgDataHttp*		http;
-	UgDataFtp*		ftp;
+	UgetCommon*	common;
+	UgetProxy*	proxy;
+	UgetHttp*		http;
+	UgetFtp*		ftp;
 
 	// supported data
 	common = plugin->common;
@@ -601,7 +601,7 @@ exit:
 	return NULL;
 }
 
-static gboolean	ug_plugin_curl_open_file (UgPluginCurl* plugin, UgDataCommon* common)
+static gboolean	ug_plugin_curl_open_file (UgPluginCurl* plugin, UgetCommon* common)
 {
 	if (plugin->file_stream == NULL) {
 		g_free (plugin->path);
@@ -648,9 +648,9 @@ static gboolean	ug_plugin_curl_open_file (UgPluginCurl* plugin, UgDataCommon* co
 // setup scheme and it's related data (user & password)
 static void	ug_plugin_curl_set_scheme (UgPluginCurl* plugin, CURL* curl)
 {
-	UgDataCommon*	common;
-	UgDataHttp*		http;
-	UgDataFtp*		ftp;
+	UgetCommon*	common;
+	UgetHttp*		http;
+	UgetFtp*		ftp;
 
 	common = plugin->common;
 	http   = plugin->http;
@@ -699,7 +699,7 @@ static void	ug_plugin_curl_set_scheme (UgPluginCurl* plugin, CURL* curl)
 
 static void	ug_plugin_curl_set_proxy (UgPluginCurl* plugin, CURL* curl)
 {
-	UgDataProxy*	proxy;
+	UgetProxy*	proxy;
 
 	proxy = plugin->proxy;
 	curl_easy_setopt (curl, CURLOPT_PROXY, proxy->host);
@@ -752,7 +752,7 @@ static int  ug_plugin_curl_progress (UgPluginCurl* plugin,
 // the HTTP headers are case-insensitive supposed to be according to RFC 2616.
 static size_t	ug_plugin_curl_header_http (char *buffer, size_t size, size_t nmemb, UgPluginCurl *plugin)
 {
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	gchar*			file;
 	gchar*			temp;
 

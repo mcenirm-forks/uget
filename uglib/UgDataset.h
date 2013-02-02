@@ -51,11 +51,11 @@ extern "C" {
 #endif
 
 // These macro is for internal use only.
-// use ug_dataset_get(dataset, UG_DATA_COMMON_I, 0) to instead UG_DATASET_COMMON(dataset)
-#define	UG_DATASET_COMMON(dataset)			( (UgDataCommon*)((dataset)->data[0]) )
-#define	UG_DATASET_PROXY(dataset)			( (UgDataProxy*) ((dataset)->data[2]) )
-#define	UG_DATASET_PROGRESS(dataset)		( (UgProgress*)  ((dataset)->data[4]) )
-#define	UG_DATASET_RELATION(dataset)		( (UgRelation*)  ((dataset)->data[6]) )
+// use ug_dataset_get(dataset, UgetCommonInfo, 0) to instead UG_DATASET_COMMON(dataset)
+#define	UG_DATASET_COMMON(dataset)			( (UgetCommon*)((dataset)->data[0]) )
+#define	UG_DATASET_PROXY(dataset)			( (UgetProxy*) ((dataset)->data[2]) )
+#define	UG_DATASET_PROGRESS(dataset)		( (UgetProgress*)  ((dataset)->data[4]) )
+#define	UG_DATASET_RELATION(dataset)		( (UgetRelation*)  ((dataset)->data[6]) )
 
 typedef struct	UgDataset			UgDataset;		// collection of all UgDatalist-based instance
 

@@ -40,49 +40,49 @@
 // uglib
 #include <UgString.h>
 #include <UgRegistry.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 
 
 // ----------------------------------------------------------------------------
-// UgDataCommon
+// UgetCommon
 
-static void ug_data_common_init		(UgDataCommon* common);
-static void ug_data_common_finalize	(UgDataCommon* common);
-static void ug_data_common_assign	(UgDataCommon* common, UgDataCommon* src);
+static void uget_common_init   (UgetCommon* common);
+static void uget_common_final  (UgetCommon* common);
+static void uget_common_assign (UgetCommon* common, UgetCommon* src);
 
-static const UgDataEntry	ug_data_common_entry[] =
+static const UgDataEntry	uget_common_entry[] =
 {
-	{"name",				G_STRUCT_OFFSET (UgDataCommon, name),				UG_TYPE_STRING,	NULL,	NULL},
-	{"url",					G_STRUCT_OFFSET (UgDataCommon, url),				UG_TYPE_STRING,	NULL,	NULL},
-	{"mirrors",				G_STRUCT_OFFSET (UgDataCommon, mirrors),			UG_TYPE_STRING,	NULL,	NULL},
-	{"file",				G_STRUCT_OFFSET (UgDataCommon, file),				UG_TYPE_STRING,	NULL,	NULL},
-	{"folder",				G_STRUCT_OFFSET (UgDataCommon, folder),				UG_TYPE_STRING,	NULL,	NULL},
-	{"user",				G_STRUCT_OFFSET (UgDataCommon, user),				UG_TYPE_STRING,	NULL,	NULL},
-	{"password",			G_STRUCT_OFFSET (UgDataCommon, password),			UG_TYPE_STRING,	NULL,	NULL},
-	{"RetrieveTimestamp",	G_STRUCT_OFFSET (UgDataCommon, retrieve_timestamp),	UG_TYPE_INT,	NULL,	NULL},
-	{"ConnectTimeout",		G_STRUCT_OFFSET (UgDataCommon, connect_timeout),	UG_TYPE_UINT,	NULL,	NULL},
-	{"TransmitTimeout",		G_STRUCT_OFFSET (UgDataCommon, transmit_timeout),	UG_TYPE_UINT,	NULL,	NULL},
-	{"RetryDelay",			G_STRUCT_OFFSET (UgDataCommon, retry_delay),		UG_TYPE_UINT,	NULL,	NULL},
-	{"RetryLimit",			G_STRUCT_OFFSET (UgDataCommon, retry_limit),		UG_TYPE_UINT,	NULL,	NULL},
-	{"MaxConnections",		G_STRUCT_OFFSET (UgDataCommon, max_connections),	UG_TYPE_UINT,	NULL,	NULL},
-	{"MaxUploadSpeed",		G_STRUCT_OFFSET (UgDataCommon, max_upload_speed),	UG_TYPE_INT64,	NULL,	NULL},
-	{"MaxDownloadSpeed",	G_STRUCT_OFFSET (UgDataCommon, max_download_speed),	UG_TYPE_INT64,	NULL,	NULL},
+	{"name",				G_STRUCT_OFFSET (UgetCommon, name),				UG_TYPE_STRING,	NULL,	NULL},
+	{"url",					G_STRUCT_OFFSET (UgetCommon, url),				UG_TYPE_STRING,	NULL,	NULL},
+	{"mirrors",				G_STRUCT_OFFSET (UgetCommon, mirrors),			UG_TYPE_STRING,	NULL,	NULL},
+	{"file",				G_STRUCT_OFFSET (UgetCommon, file),				UG_TYPE_STRING,	NULL,	NULL},
+	{"folder",				G_STRUCT_OFFSET (UgetCommon, folder),			UG_TYPE_STRING,	NULL,	NULL},
+	{"user",				G_STRUCT_OFFSET (UgetCommon, user),				UG_TYPE_STRING,	NULL,	NULL},
+	{"password",			G_STRUCT_OFFSET (UgetCommon, password),			UG_TYPE_STRING,	NULL,	NULL},
+	{"RetrieveTimestamp",	G_STRUCT_OFFSET (UgetCommon, retrieve_timestamp),	UG_TYPE_INT,	NULL,	NULL},
+	{"ConnectTimeout",		G_STRUCT_OFFSET (UgetCommon, connect_timeout),	UG_TYPE_UINT,	NULL,	NULL},
+	{"TransmitTimeout",		G_STRUCT_OFFSET (UgetCommon, transmit_timeout),	UG_TYPE_UINT,	NULL,	NULL},
+	{"RetryDelay",			G_STRUCT_OFFSET (UgetCommon, retry_delay),		UG_TYPE_UINT,	NULL,	NULL},
+	{"RetryLimit",			G_STRUCT_OFFSET (UgetCommon, retry_limit),		UG_TYPE_UINT,	NULL,	NULL},
+	{"MaxConnections",		G_STRUCT_OFFSET (UgetCommon, max_connections),	UG_TYPE_UINT,	NULL,	NULL},
+	{"MaxUploadSpeed",		G_STRUCT_OFFSET (UgetCommon, max_upload_speed),	UG_TYPE_INT64,	NULL,	NULL},
+	{"MaxDownloadSpeed",	G_STRUCT_OFFSET (UgetCommon, max_download_speed),	UG_TYPE_INT64,	NULL,	NULL},
 	{NULL}		// null-terminated
 };
 // extern
-const UgDataInterface	ug_data_common_iface =
+const UgDataInterface	uget_common_iface =
 {
-	sizeof (UgDataCommon),	// instance_size
+	sizeof (UgetCommon),	// instance_size
 	"common",				// name
-	ug_data_common_entry,	// entry
+	uget_common_entry,	// entry
 
-	(UgInitFunc)     ug_data_common_init,
-	(UgFinalizeFunc) ug_data_common_finalize,
-	(UgAssignFunc)   ug_data_common_assign,
+	(UgInitFunc)     uget_common_init,
+	(UgFinalizeFunc) uget_common_final,
+	(UgAssignFunc)   uget_common_assign,
 };
 
 
-static void ug_data_common_init (UgDataCommon* common)
+static void uget_common_init (UgetCommon* common)
 {
 	common->retrieve_timestamp = TRUE;
 	common->connect_timeout  = 30;
@@ -92,7 +92,7 @@ static void ug_data_common_init (UgDataCommon* common)
 	common->max_connections = 1;
 }
 
-static void ug_data_common_finalize (UgDataCommon* common)
+static void uget_common_final (UgetCommon* common)
 {
 	g_free (common->name);
 	g_free (common->url);
@@ -103,7 +103,7 @@ static void ug_data_common_finalize (UgDataCommon* common)
 	g_free (common->password);
 }
 
-static void ug_data_common_assign (UgDataCommon* common, UgDataCommon* src)
+static void uget_common_assign (UgetCommon* common, UgetCommon* src)
 {
 	if (common->keeping.name == FALSE)
 		ug_str_set (&common->name, src->name, -1);
@@ -146,44 +146,44 @@ static void ug_data_common_assign (UgDataCommon* common, UgDataCommon* src)
 
 
 // ----------------------------------------------------------------------------
-// UgDataProxy
+// UgetProxy
 
-static void	ug_data_proxy_finalize	(UgDataProxy* proxy);
-static void	ug_data_proxy_assign	(UgDataProxy* proxy, UgDataProxy* src);
+static void	uget_proxy_final  (UgetProxy* proxy);
+static void	uget_proxy_assign (UgetProxy* proxy, UgetProxy* src);
 
-static const UgDataEntry	ug_data_proxy_entry[] =
+static const UgDataEntry	uget_proxy_entry[] =
 {
-	{"host",		G_STRUCT_OFFSET (UgDataProxy, host),		UG_TYPE_STRING,	NULL,	NULL},
-	{"port",		G_STRUCT_OFFSET (UgDataProxy, port),		UG_TYPE_UINT,	NULL,	NULL},
-	{"type",		G_STRUCT_OFFSET (UgDataProxy, type),		UG_TYPE_UINT,	NULL,	NULL},
-	{"user",		G_STRUCT_OFFSET (UgDataProxy, user),		UG_TYPE_STRING,	NULL,	NULL},
-	{"password",	G_STRUCT_OFFSET (UgDataProxy, password),	UG_TYPE_STRING,	NULL,	NULL},
+	{"host",		G_STRUCT_OFFSET (UgetProxy, host),		UG_TYPE_STRING,	NULL,	NULL},
+	{"port",		G_STRUCT_OFFSET (UgetProxy, port),		UG_TYPE_UINT,	NULL,	NULL},
+	{"type",		G_STRUCT_OFFSET (UgetProxy, type),		UG_TYPE_UINT,	NULL,	NULL},
+	{"user",		G_STRUCT_OFFSET (UgetProxy, user),		UG_TYPE_STRING,	NULL,	NULL},
+	{"password",	G_STRUCT_OFFSET (UgetProxy, password),	UG_TYPE_STRING,	NULL,	NULL},
 #ifdef HAVE_LIBPWMD
-	{"pwmd-socket",	G_STRUCT_OFFSET (UgDataProxy, pwmd.socket),	UG_TYPE_STRING,	NULL,	NULL},
-	{"pwmd-file",	G_STRUCT_OFFSET (UgDataProxy, pwmd.file),	UG_TYPE_STRING,	NULL,	NULL},
-	{"pwmd-element",G_STRUCT_OFFSET (UgDataProxy, pwmd.element),UG_TYPE_STRING,	NULL,	NULL},
+	{"pwmd-socket",	G_STRUCT_OFFSET (UgetProxy, pwmd.socket),	UG_TYPE_STRING,	NULL,	NULL},
+	{"pwmd-file",	G_STRUCT_OFFSET (UgetProxy, pwmd.file),	UG_TYPE_STRING,	NULL,	NULL},
+	{"pwmd-element",G_STRUCT_OFFSET (UgetProxy, pwmd.element),UG_TYPE_STRING,	NULL,	NULL},
 
 	// deparecated
-	{"pwmd.socket",	G_STRUCT_OFFSET (UgDataProxy, pwmd.socket),	UG_TYPE_STRING,	NULL,	NULL},
-	{"pwmd.file",	G_STRUCT_OFFSET (UgDataProxy, pwmd.file),	UG_TYPE_STRING,	NULL,	NULL},
-	{"pwmd.element",G_STRUCT_OFFSET (UgDataProxy, pwmd.element),UG_TYPE_STRING,	NULL,	NULL},
+	{"pwmd.socket",	G_STRUCT_OFFSET (UgetProxy, pwmd.socket),	UG_TYPE_STRING,	NULL,	NULL},
+	{"pwmd.file",	G_STRUCT_OFFSET (UgetProxy, pwmd.file),	UG_TYPE_STRING,	NULL,	NULL},
+	{"pwmd.element",G_STRUCT_OFFSET (UgetProxy, pwmd.element),UG_TYPE_STRING,	NULL,	NULL},
 #endif
 	{NULL},		// null-terminated
 };
 // extern
-const UgDataInterface	ug_data_proxy_iface =
+const UgDataInterface	uget_proxy_iface =
 {
-	sizeof (UgDataProxy),	// instance_size
+	sizeof (UgetProxy),	// instance_size
 	"proxy",				// name
-	ug_data_proxy_entry,	// entry
+	uget_proxy_entry,	// entry
 
 	(UgInitFunc)		NULL,
-	(UgFinalizeFunc)	ug_data_proxy_finalize,
-	(UgAssignFunc)		ug_data_proxy_assign,
+	(UgFinalizeFunc)	uget_proxy_final,
+	(UgAssignFunc)		uget_proxy_assign,
 };
 
 
-static void	ug_data_proxy_finalize	(UgDataProxy* proxy)
+static void	uget_proxy_final	(UgetProxy* proxy)
 {
 	g_free (proxy->host);
 	g_free (proxy->user);
@@ -196,7 +196,7 @@ static void	ug_data_proxy_finalize	(UgDataProxy* proxy)
 #endif	// HAVE_LIBPWMD
 }
 
-static void	ug_data_proxy_assign (UgDataProxy* proxy, UgDataProxy* src)
+static void	uget_proxy_assign (UgetProxy* proxy, UgetProxy* src)
 {
 	if (proxy->keeping.host == FALSE)
 		ug_str_set (&proxy->host, src->host, -1);
@@ -224,82 +224,82 @@ static void	ug_data_proxy_assign (UgDataProxy* proxy, UgDataProxy* src)
 
 
 // ----------------------------------------------------------------------------
-// UgProgress
+// UgetProgress
 
-static void ug_progress_assign		(UgProgress* progress, UgProgress* src);
+static void uget_progress_assign (UgetProgress* progress, UgetProgress* src);
 
-static const UgDataEntry	ug_progress_entry[] =
+static const UgDataEntry	uget_progress_entry[] =
 {
-	{"complete",	G_STRUCT_OFFSET (UgProgress, complete),		UG_TYPE_INT64,	NULL,	NULL},
-	{"total",		G_STRUCT_OFFSET (UgProgress, total),		UG_TYPE_INT64,	NULL,	NULL},
-	{"percent",		G_STRUCT_OFFSET (UgProgress, percent),		UG_TYPE_DOUBLE,	NULL,	NULL},
-	{"elapsed",		G_STRUCT_OFFSET (UgProgress, consume_time),	UG_TYPE_DOUBLE,	NULL,	NULL},
-	{"uploaded",	G_STRUCT_OFFSET (UgProgress, uploaded),		UG_TYPE_INT64,	NULL,	NULL},
-	{"ratio",		G_STRUCT_OFFSET (UgProgress, ratio),		UG_TYPE_DOUBLE,	NULL,	NULL},
+	{"complete",	G_STRUCT_OFFSET (UgetProgress, complete),		UG_TYPE_INT64,	NULL,	NULL},
+	{"total",		G_STRUCT_OFFSET (UgetProgress, total),		UG_TYPE_INT64,	NULL,	NULL},
+	{"percent",		G_STRUCT_OFFSET (UgetProgress, percent),		UG_TYPE_DOUBLE,	NULL,	NULL},
+	{"elapsed",		G_STRUCT_OFFSET (UgetProgress, consume_time),	UG_TYPE_DOUBLE,	NULL,	NULL},
+	{"uploaded",	G_STRUCT_OFFSET (UgetProgress, uploaded),		UG_TYPE_INT64,	NULL,	NULL},
+	{"ratio",		G_STRUCT_OFFSET (UgetProgress, ratio),		UG_TYPE_DOUBLE,	NULL,	NULL},
 	{NULL},		// null-terminated
 };
 // extern
-const UgDataInterface	ug_progress_iface =
+const UgDataInterface	uget_progress_iface =
 {
-	sizeof (UgProgress),	// instance_size
+	sizeof (UgetProgress),	// instance_size
 	"progress",				// name
-	ug_progress_entry,		// entry
+	uget_progress_entry,		// entry
 
 	(UgInitFunc)		NULL,
 	(UgFinalizeFunc)	NULL,
-	(UgAssignFunc)		ug_progress_assign,
+	(UgAssignFunc)		uget_progress_assign,
 };
 
 
-static void ug_progress_assign (UgProgress* progress, UgProgress* src)
+static void uget_progress_assign (UgetProgress* progress, UgetProgress* src)
 {
 	// copy without private member
 	memcpy ( ((guint8*) progress) + sizeof (UgDatalist),
 	         ((guint8*) src)      + sizeof (UgDatalist),
-	         sizeof (UgProgress)  - sizeof (UgDatalist) );
+	         sizeof (UgetProgress)  - sizeof (UgDatalist) );
 }
 
 
 // ---------------------------------------------------------------------------
-// UgDataHttp
+// UgetHttp
 
-static void	ug_data_http_init		(UgDataHttp* http);
-static void	ug_data_http_finalize	(UgDataHttp* http);
-static void	ug_data_http_assign		(UgDataHttp* http, UgDataHttp* src);
+static void	uget_http_init   (UgetHttp* http);
+static void	uget_http_final  (UgetHttp* http);
+static void	uget_http_assign (UgetHttp* http, UgetHttp* src);
 
-static const UgDataEntry	ug_data_http_entry[] =
+static const UgDataEntry	uget_http_entry[] =
 {
-	{"user",				G_STRUCT_OFFSET (UgDataHttp, user),					UG_TYPE_STRING,	NULL,	NULL},
-	{"password",			G_STRUCT_OFFSET (UgDataHttp, password),				UG_TYPE_STRING,	NULL,	NULL},
-	{"referrer",			G_STRUCT_OFFSET (UgDataHttp, referrer),				UG_TYPE_STRING,	NULL,	NULL},
-	{"UserAgent",			G_STRUCT_OFFSET (UgDataHttp, user_agent),			UG_TYPE_STRING,	NULL,	NULL},
-	{"PostData",			G_STRUCT_OFFSET (UgDataHttp, post_data),			UG_TYPE_STRING,	NULL,	NULL},
-	{"PostFile",			G_STRUCT_OFFSET (UgDataHttp, post_file),			UG_TYPE_STRING,	NULL,	NULL},
-	{"CookieData",			G_STRUCT_OFFSET (UgDataHttp, cookie_data),			UG_TYPE_STRING,	NULL,	NULL},
-	{"CookieFile",			G_STRUCT_OFFSET (UgDataHttp, cookie_file),			UG_TYPE_STRING,	NULL,	NULL},
-	{"RedirectionLimit",	G_STRUCT_OFFSET (UgDataHttp, redirection_limit),	UG_TYPE_UINT,	NULL,	NULL},
-	{"RedirectionCount",	G_STRUCT_OFFSET (UgDataHttp, redirection_count),	UG_TYPE_UINT,	NULL,	NULL},
+	{"user",				G_STRUCT_OFFSET (UgetHttp, user),				UG_TYPE_STRING,	NULL,	NULL},
+	{"password",			G_STRUCT_OFFSET (UgetHttp, password),			UG_TYPE_STRING,	NULL,	NULL},
+	{"referrer",			G_STRUCT_OFFSET (UgetHttp, referrer),			UG_TYPE_STRING,	NULL,	NULL},
+	{"UserAgent",			G_STRUCT_OFFSET (UgetHttp, user_agent),			UG_TYPE_STRING,	NULL,	NULL},
+	{"PostData",			G_STRUCT_OFFSET (UgetHttp, post_data),			UG_TYPE_STRING,	NULL,	NULL},
+	{"PostFile",			G_STRUCT_OFFSET (UgetHttp, post_file),			UG_TYPE_STRING,	NULL,	NULL},
+	{"CookieData",			G_STRUCT_OFFSET (UgetHttp, cookie_data),		UG_TYPE_STRING,	NULL,	NULL},
+	{"CookieFile",			G_STRUCT_OFFSET (UgetHttp, cookie_file),		UG_TYPE_STRING,	NULL,	NULL},
+	{"RedirectionLimit",	G_STRUCT_OFFSET (UgetHttp, redirection_limit),	UG_TYPE_UINT,	NULL,	NULL},
+	{"RedirectionCount",	G_STRUCT_OFFSET (UgetHttp, redirection_count),	UG_TYPE_UINT,	NULL,	NULL},
 	{NULL},		// null-terminated
 };
 // extern
-const UgDataInterface	ug_data_http_iface =
+const UgDataInterface	uget_http_iface =
 {
-	sizeof (UgDataHttp),	// instance_size
+	sizeof (UgetHttp),	// instance_size
 	"http",					// name
-	ug_data_http_entry,		// entry
+	uget_http_entry,		// entry
 
-	(UgInitFunc)		ug_data_http_init,
-	(UgFinalizeFunc)	ug_data_http_finalize,
-	(UgAssignFunc)		ug_data_http_assign,
+	(UgInitFunc)		uget_http_init,
+	(UgFinalizeFunc)	uget_http_final,
+	(UgAssignFunc)		uget_http_assign,
 };
 
 
-static void	ug_data_http_init (UgDataHttp* http)
+static void	uget_http_init (UgetHttp* http)
 {
 	http->redirection_limit = 30;
 }
 
-static void	ug_data_http_finalize (UgDataHttp* http)
+static void	uget_http_final (UgetHttp* http)
 {
 	g_free (http->user);
 	g_free (http->password);
@@ -311,7 +311,7 @@ static void	ug_data_http_finalize (UgDataHttp* http)
 	g_free (http->cookie_file);
 }
 
-static void	ug_data_http_assign (UgDataHttp* http, UgDataHttp* src)
+static void	uget_http_assign (UgetHttp* http, UgetHttp* src)
 {
 	if (http->keeping.user == FALSE)
 		ug_str_set (&http->user, src->user, -1);
@@ -339,38 +339,38 @@ static void	ug_data_http_assign (UgDataHttp* http, UgDataHttp* src)
 
 
 // ---------------------------------------------------------------------------
-// UgDataFtp
+// UgetFtp
 //
-static void	ug_data_ftp_finalize	(UgDataFtp* ftp);
-static void	ug_data_ftp_assign		(UgDataFtp* ftp, UgDataFtp* src);
+static void	uget_ftp_final  (UgetFtp* ftp);
+static void	uget_ftp_assign (UgetFtp* ftp, UgetFtp* src);
 
-static const UgDataEntry	ug_data_ftp_entry[] =
+static const UgDataEntry  uget_ftp_entry[] =
 {
-	{"user",		G_STRUCT_OFFSET (UgDataFtp, user),		UG_TYPE_STRING,	NULL,	NULL},
-	{"password",	G_STRUCT_OFFSET (UgDataFtp, password),	UG_TYPE_STRING,	NULL,	NULL},
-	{"ActiveMode",	G_STRUCT_OFFSET (UgDataFtp, active_mode),	UG_TYPE_INT,NULL,	NULL},
+	{"user",		G_STRUCT_OFFSET (UgetFtp, user),		UG_TYPE_STRING,	NULL,	NULL},
+	{"password",	G_STRUCT_OFFSET (UgetFtp, password),	UG_TYPE_STRING,	NULL,	NULL},
+	{"ActiveMode",	G_STRUCT_OFFSET (UgetFtp, active_mode),	UG_TYPE_INT,NULL,	NULL},
 	{NULL},		// null-terminated
 };
 // extern
-const UgDataInterface	ug_data_ftp_iface =
+const UgDataInterface  uget_ftp_iface =
 {
-	sizeof (UgDataFtp),	// instance_size
+	sizeof (UgetFtp),	// instance_size
 	"ftp",				// name
-	ug_data_ftp_entry,	// entry
+	uget_ftp_entry,	// entry
 
 	(UgInitFunc)		NULL,
-	(UgFinalizeFunc)	ug_data_ftp_finalize,
-	(UgAssignFunc)		ug_data_ftp_assign,
+	(UgFinalizeFunc)	uget_ftp_final,
+	(UgAssignFunc)		uget_ftp_assign,
 };
 
 
-static void	ug_data_ftp_finalize	(UgDataFtp* ftp)
+static void	uget_ftp_final	(UgetFtp* ftp)
 {
 	g_free (ftp->user);
 	g_free (ftp->password);
 }
 
-static void	ug_data_ftp_assign	(UgDataFtp* ftp, UgDataFtp* src)
+static void	uget_ftp_assign	(UgetFtp* ftp, UgetFtp* src)
 {
 	if (ftp->keeping.user == FALSE)
 		ug_str_set (&ftp->user, src->user, -1);
@@ -385,30 +385,30 @@ static void	ug_data_ftp_assign	(UgDataFtp* ftp, UgDataFtp* src)
 
 
 // ---------------------------------------------------------------------------
-// UgDataLog
+// UgetLog
 //
-static void	ug_data_log_finalize	(UgDataLog* log);
+static void	uget_log_final (UgetLog* log);
 
-static const UgDataEntry	ug_data_log_entry[] =
+static const UgDataEntry  uget_log_entry[] =
 {
-	{"AddedOn",		G_STRUCT_OFFSET (UgDataLog, added_on),		UG_TYPE_STRING,	NULL,	NULL},
-	{"CompletedOn",	G_STRUCT_OFFSET (UgDataLog, completed_on),	UG_TYPE_STRING,	NULL,	NULL},
+	{"AddedOn",		G_STRUCT_OFFSET (UgetLog, added_on),		UG_TYPE_STRING,	NULL,	NULL},
+	{"CompletedOn",	G_STRUCT_OFFSET (UgetLog, completed_on),	UG_TYPE_STRING,	NULL,	NULL},
 	{NULL},		// null-terminated
 };
 // extern
-const UgDataInterface	ug_data_log_iface =
+const UgDataInterface  uget_log_iface =
 {
-	sizeof (UgDataLog),	// instance_size
+	sizeof (UgetLog),	// instance_size
 	"log",				// name
-	ug_data_log_entry,	// entry
+	uget_log_entry,	// entry
 
 	(UgInitFunc)		NULL,
-	(UgFinalizeFunc)	ug_data_log_finalize,
+	(UgFinalizeFunc)	uget_log_final,
 	(UgAssignFunc)		NULL,
 };
 
 
-static void	ug_data_log_finalize	(UgDataLog* log)
+static void	uget_log_final (UgetLog* log)
 {
 	g_free (log->added_on);
 	g_free (log->completed_on);

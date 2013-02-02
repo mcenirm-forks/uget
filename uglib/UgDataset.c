@@ -40,7 +40,7 @@
 // uglib
 #include <UgDataset.h>
 #include <UgCategory.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 
 
 // ----------------------------------------------------------------------------
@@ -75,10 +75,10 @@ static void	ug_dataset_init	(UgDataset* dataset)
 	dataset->ref_count = 1;
 
 	// for macros
-	ug_dataset_alloc_list (dataset, UG_DATA_COMMON_I);	// UG_DATASET_COMMON   0
-	ug_dataset_alloc_list (dataset, UG_DATA_PROXY_I);	// UG_DATASET_PROXY    1
-	ug_dataset_alloc_list (dataset, UG_PROGRESS_I);		// UG_DATASET_PROGRESS 2
-	ug_dataset_alloc_list (dataset, UG_RELATION_I);		// UG_DATASET_RELATION 3
+	ug_dataset_alloc_list (dataset, UgetCommonInfo);	// UG_DATASET_COMMON   0
+	ug_dataset_alloc_list (dataset, UgetProxyInfo);	// UG_DATASET_PROXY    1
+	ug_dataset_alloc_list (dataset, UgetProgressInfo);		// UG_DATASET_PROGRESS 2
+	ug_dataset_alloc_list (dataset, UgetRelationInfo);		// UG_DATASET_RELATION 3
 }
 
 static void	ug_dataset_finalize (UgDataset* dataset)

@@ -36,7 +36,7 @@
 
 #include <UgUri.h>
 #include <UgSummary.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgCategory-gtk.h>
 
 #include <glib/gi18n.h>
@@ -84,8 +84,8 @@ void	ug_summary_init (UgSummary* summary, GtkAccelGroup* accel_group)
 
 void	ug_summary_show (UgSummary* summary, UgDataset* dataset)
 {
-	UgDataCommon*	common;
-	UgRelation*		relation;
+	UgetCommon*	common;
+	UgetRelation*		relation;
 	GtkTreeIter		iter;
 	gchar*			name;
 	gchar*			value;

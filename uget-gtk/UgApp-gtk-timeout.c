@@ -58,7 +58,7 @@
 #include <UgUri.h>
 #include <UgUtils.h>
 #include <UgString.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgApp-gtk.h>
 #include <UgDownloadDialog.h>
 
@@ -189,7 +189,7 @@ static void	uget_add_uris_quietly (UgAppGtk* app, GList* list)
 {
 	UgCategory*		category;
 	UgDataset*		dataset;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	GList*			link;
 
 	// get category
@@ -207,7 +207,7 @@ static void	uget_add_uris_quietly (UgAppGtk* app, GList* list)
 	for (link = list;  link;  link = link->next) {
 		dataset = ug_dataset_new ();
 		ug_data_assign (dataset, category->defaults);
-		common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
+		common = ug_dataset_realloc (dataset, UgetCommonInfo, 0);
 		g_free (common->url);
 		common->url = link->data;
 		ug_download_complete_data (dataset);
@@ -375,7 +375,7 @@ static gboolean	ug_app_timeout_ipc (UgAppGtk* app)
 //
 static void	ug_app_launch_default_app (UgDataset* dataset, GRegex* regex)
 {
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	const gchar*	file_ext;
 
 	common = UG_DATASET_COMMON (dataset);
@@ -454,7 +454,7 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 	gint64		down_speed;
 	gint64		up_speed;
 	union {
-		UgRelation*	relation;
+		UgetRelation*	relation;
 		gchar*		string;
 	} temp;
 

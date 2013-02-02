@@ -40,20 +40,20 @@
 // |
 // `- UgDatalist
 //    |
-//    +- UgDataCommon
+//    +- UgetCommon
 //    |
-//    +- UgDataProxy
+//    +- UgetProxy
 //    |
-//    +- UgProgress
+//    +- UgetProgress
 //    |
-//    +- UgDataHttp
+//    +- UgetHttp
 //    |
-//    +- UgDataFtp
+//    +- UgetFtp
 //    |
-//    `- UgDataLog
+//    `- UgetLog
 
-#ifndef UG_DATA_DOWNLOAD_H
-#define UG_DATA_DOWNLOAD_H
+#ifndef UGET_DATA_H
+#define UGET_DATA_H
 
 #include <glib.h>
 #include <UgData.h>
@@ -67,44 +67,44 @@ extern "C" {
 #endif
 
 // interface address for UgDataset
-#define	UG_DATA_COMMON_I		&ug_data_common_iface
-#define	UG_DATA_PROXY_I			&ug_data_proxy_iface
-#define	UG_PROGRESS_I			&ug_progress_iface
-#define	UG_DATA_HTTP_I			&ug_data_http_iface
-#define	UG_DATA_FTP_I			&ug_data_ftp_iface
-#define	UG_DATA_LOG_I			&ug_data_log_iface
+#define	UgetCommonInfo      &uget_common_iface
+#define	UgetProxyInfo       &uget_proxy_iface
+#define	UgetProgressInfo    &uget_progress_iface
+#define	UgetHttpInfo        &uget_http_iface
+#define	UgetFtpInfo         &uget_ftp_iface
+#define	UgetLogInfo         &uget_log_iface
 
-typedef struct	UgDataCommon		UgDataCommon;
-typedef struct	UgDataProxy			UgDataProxy;
-typedef struct	UgProgress			UgProgress;
-typedef struct	UgDataHttp			UgDataHttp;
-typedef struct	UgDataFtp			UgDataFtp;
-typedef struct	UgDataLog			UgDataLog;
+typedef struct	UgetCommon      UgetCommon;
+typedef struct	UgetProxy       UgetProxy;
+typedef struct	UgetProgress    UgetProgress;
+typedef struct	UgetHttp        UgetHttp;
+typedef struct	UgetFtp         UgetFtp;
+typedef struct	UgetLog         UgetLog;
 
-typedef enum	UgDataProxyType		UgDataProxyType;
+typedef enum	UgetProxyType   UgetProxyType;
 
-extern	const	UgDataInterface		ug_data_common_iface;
-extern	const	UgDataInterface		ug_data_proxy_iface;
-extern	const	UgDataInterface		ug_progress_iface;
-extern	const	UgDataInterface		ug_data_http_iface;
-extern	const	UgDataInterface		ug_data_ftp_iface;
-extern	const	UgDataInterface		ug_data_log_iface;
+extern	const	UgDataInterface		uget_common_iface;
+extern	const	UgDataInterface		uget_proxy_iface;
+extern	const	UgDataInterface		uget_progress_iface;
+extern	const	UgDataInterface		uget_http_iface;
+extern	const	UgDataInterface		uget_ftp_iface;
+extern	const	UgDataInterface		uget_log_iface;
 
 // ----------------------------------------------------------------------------
-// UgDataCommon
+// UgetCommon
 
 //  UgData
 //  |
 //  `- UgDatalist
 //     |
-//     `- UgDataCommon
+//     `- UgetCommon
 
-struct UgDataCommon
+struct UgetCommon
 {
-	UG_DATALIST_MEMBERS (UgDataCommon);
+	UG_DATALIST_MEMBERS (UgetCommon);
 //	const UgDataInterface*	iface;
-//	UgDataCommon*			next;
-//	UgDataCommon*			prev;
+//	UgetCommon*			next;
+//	UgetCommon*			prev;
 
 	// common data
 	gchar*		name;
@@ -132,7 +132,7 @@ struct UgDataCommon
 
 //	gint64		resume_offset;
 
-	struct UgDataCommonKeeping
+	struct UgetCommonKeeping
 	{
 		gboolean	name:1;
 		gboolean	url:1;
@@ -157,15 +157,15 @@ struct UgDataCommon
 
 
 // ---------------------------------------------------------------------------
-// UgDataProxy
+// UgetProxy
 
 //  UgData
 //  |
 //  `- UgDatalist
 //     |
-//     `- UgDataProxy
+//     `- UgetProxy
 
-enum UgDataProxyType
+enum UgetProxyType
 {
 	UG_DATA_PROXY_NONE,
 	UG_DATA_PROXY_DEFAULT,			// Decided by plug-ins
@@ -179,21 +179,21 @@ enum UgDataProxyType
 	UG_DATA_PROXY_N_TYPE,
 };
 
-struct UgDataProxy
+struct UgetProxy
 {
-	UG_DATALIST_MEMBERS (UgDataProxy);
+	UG_DATALIST_MEMBERS (UgetProxy);
 //	const UgDataInterface*	iface;
-//	UgDataProxy*			next;
-//	UgDataProxy*			prev;
+//	UgetProxy*			next;
+//	UgetProxy*			prev;
 
 	gchar*				host;
 	guint				port;
-	UgDataProxyType		type;
+	UgetProxyType		type;
 
 	gchar*				user;
 	gchar*				password;
 
-	struct UgDataProxyKeeping
+	struct UgetProxyKeeping
 	{
 		gboolean	host:1;
 		gboolean	port:1;
@@ -204,13 +204,13 @@ struct UgDataProxy
 	} keeping;
 
 #ifdef HAVE_LIBPWMD
-	struct UgDataProxyPwmd
+	struct UgetProxyPwmd
 	{
 		gchar*		socket;
 		gchar*		file;
 		gchar*		element;
 
-		struct UgDataProxyPwmdKeeping
+		struct UgetProxyPwmdKeeping
 		{
 			gboolean	socket:1;
 			gboolean	file:1;
@@ -222,20 +222,20 @@ struct UgDataProxy
 
 
 // ---------------------------------------------------------------------------
-// UgProgress
+// UgetProgress
 
 //  UgData
 //  |
 //  `- UgDatalist
 //     |
-//     `- UgProgress
+//     `- UgetProgress
 
-struct UgProgress
+struct UgetProgress
 {
-	UG_DATALIST_MEMBERS (UgProgress);
+	UG_DATALIST_MEMBERS (UgetProgress);
 //	const UgDataInterface*	iface;
-//	UgProgress*				next;
-//	UgProgress*				prev;
+//	UgetProgress*				next;
+//	UgetProgress*				prev;
 
 	gint64		complete;
 	gint64		total;
@@ -254,20 +254,20 @@ struct UgProgress
 
 
 // ---------------------------------------------------------------------------
-// UgDataHttp
+// UgetHttp
 
 //  UgData
 //  |
 //  `- UgDatalist
 //     |
-//     `- UgDataHttp
+//     `- UgetHttp
 
-struct UgDataHttp
+struct UgetHttp
 {
-	UG_DATALIST_MEMBERS (UgDataHttp);
+	UG_DATALIST_MEMBERS (UgetHttp);
 //	const UgDataInterface*	iface;
-//	UgDataHttp*				next;
-//	UgDataHttp*				prev;
+//	UgetHttp*				next;
+//	UgetHttp*				prev;
 
 	gchar*		user;
 	gchar*		password;
@@ -282,7 +282,7 @@ struct UgDataHttp
 	guint		redirection_limit;	// limit of redirection_count
 	guint		redirection_count;	// count of UG_MESSAGE_DATA_HTTP_LOCATION
 
-	struct UgDataHttpKeeping
+	struct UgetHttpKeeping
 	{
 		gboolean	user:1;
 		gboolean	password:1;
@@ -299,27 +299,27 @@ struct UgDataHttp
 
 
 // ---------------------------------------------------------------------------
-// UgDataFtp
+// UgetFtp
 
 //  UgData
 //  |
 //  `- UgDatalist
 //     |
-//     `- UgDataFtp
+//     `- UgetFtp
 
-struct UgDataFtp
+struct UgetFtp
 {
-	UG_DATALIST_MEMBERS (UgDataFtp);
+	UG_DATALIST_MEMBERS (UgetFtp);
 //	const UgDataInterface*	iface;
-//	UgDataFtp*				next;
-//	UgDataFtp*				prev;
+//	UgetFtp*				next;
+//	UgetFtp*				prev;
 
 	gchar*		user;
 	gchar*		password;
 
 	gboolean	active_mode;
 
-	struct UgDataFtpKeeping
+	struct UgetFtpKeeping
 	{
 		gboolean	user:1;
 		gboolean	password:1;
@@ -329,20 +329,20 @@ struct UgDataFtp
 
 
 // ---------------------------------------------------------------------------
-// UgDataLog
+// UgetLog
 
 //  UgData
 //  |
 //  `- UgDatalist
 //     |
-//     `- UgDataLog
+//     `- UgetLog
 
-struct UgDataLog
+struct UgetLog
 {
-	UG_DATALIST_MEMBERS (UgDataLog);
+	UG_DATALIST_MEMBERS (UgetLog);
 //	const UgDataInterface*	iface;
-//	UgDataLog*				next;
-//	UgDataLog*				prev;
+//	UgetLog*				next;
+//	UgetLog*				prev;
 
 	gchar*		added_on;		// "date time" string, e.g. "1990-01-01 23:00"
 	gchar*		completed_on;	// "date time" string
@@ -353,5 +353,5 @@ struct UgDataLog
 }
 #endif
 
-#endif  // UG_DATA_DOWNLOAD_H
+#endif  // UGET_DATA_H
 

@@ -155,7 +155,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\uglib\UgData-download.c"
+				RelativePath="..\..\uglib\UgetData.c"
 				>
 			</File>
 			<File
@@ -241,7 +241,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\uglib\UgData-download.h"
+				RelativePath="..\..\uglib\UgetData.h"
 				>
 			</File>
 			<File

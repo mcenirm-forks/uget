@@ -35,7 +35,7 @@
  */
 
 #include <UgDownloadForm.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgCategory-gtk.h>
 #include <UgUri.h>
 #include <UgUtils.h>
@@ -482,16 +482,16 @@ static void ug_download_form_decide_sensitive (UgDownloadForm* dform)
 
 void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 {
-	UgDataCommon*	common;
-	UgDataHttp*		http;
-	UgRelation*		relation;
+	UgetCommon*	common;
+	UgetHttp*		http;
+	UgetRelation*		relation;
 	UgUriFull		urifull;
 	const gchar*	text;
 	gint			number;
 
 	// ------------------------------------------
-	// UgDataCommon
-	common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
+	// UgetCommon
+	common = ug_dataset_realloc (dataset, UgetCommonInfo, 0);
 	// folder
 	text = gtk_entry_get_text ((GtkEntry*)dform->folder_entry);
 	ug_str_set (&common->folder, text, -1);
@@ -546,8 +546,8 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	}
 
 	// ------------------------------------------
-	// UgDataHttp
-	http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
+	// UgetHttp
+	http = ug_dataset_realloc (dataset, UgetHttpInfo, 0);
 	// referrer
 	text = gtk_entry_get_text ((GtkEntry*) dform->referrer_entry);
 	ug_str_set (&http->referrer, text, -1);
@@ -562,9 +562,9 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 	ug_str_set (&http->user_agent, text, -1);
 
 	// ------------------------------------------
-	// UgRelation
+	// UgetRelation
 	if (gtk_widget_get_sensitive (dform->radio_pause)) {
-		relation = ug_dataset_realloc (dataset, UG_RELATION_I, 0);
+		relation = ug_dataset_realloc (dataset, UgetRelationInfo, 0);
 		if (gtk_toggle_button_get_active ((GtkToggleButton*) dform->radio_pause))
 			relation->hints |=  UG_HINT_PAUSED;
 		else
@@ -574,17 +574,17 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 
 void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean keep_changed)
 {
-	UgDataCommon*	common;
-	UgDataHttp*		http;
-	UgRelation*		relation;
+	UgetCommon*	common;
+	UgetHttp*		http;
+	UgetRelation*		relation;
 
-	common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
-	http   = ug_dataset_get (dataset, UG_DATA_HTTP_I, 0);
+	common = ug_dataset_realloc (dataset, UgetCommonInfo, 0);
+	http   = ug_dataset_get (dataset, UgetHttpInfo, 0);
 
 	// disable changed flags
 	dform->changed.enable = FALSE;
 	// ------------------------------------------
-	// UgDataCommon
+	// UgetCommon
 	// set changed flags
 	if (keep_changed==FALSE && common) {
 		dform->changed.url      = common->keeping.url;
@@ -660,7 +660,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		gtk_toggle_button_set_active (dform->timestamp, common->retrieve_timestamp);
 
 	// ------------------------------------------
-	// UgDataHttp
+	// UgetHttp
 	// set data
 	if (keep_changed==FALSE || dform->changed.referrer==FALSE) {
 		gtk_entry_set_text ((GtkEntry*) dform->referrer_entry,
@@ -687,9 +687,9 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 	}
 
 	// ------------------------------------------
-	// UgRelation
+	// UgetRelation
 	if (gtk_widget_get_sensitive (dform->radio_pause)) {
-		relation = ug_dataset_realloc (dataset, UG_RELATION_I, 0);
+		relation = ug_dataset_realloc (dataset, UgetRelationInfo, 0);
 		if (relation->hints & UG_HINT_PAUSED)
 			gtk_toggle_button_set_active ((GtkToggleButton*) dform->radio_pause, TRUE);
 		else

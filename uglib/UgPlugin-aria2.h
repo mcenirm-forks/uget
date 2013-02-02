@@ -38,7 +38,7 @@
 #define UG_PLUGIN_ARIA2_H
 
 #include <UgPlugin.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgXmlrpc.h>
 
 #ifdef __cplusplus
@@ -67,10 +67,10 @@ struct UgPluginAria2
 //	GMutex*						lock;
 
 	// supported data
-	UgDataCommon*	common;
-	UgDataProxy*	proxy;
-	UgDataHttp*		http;
-	UgDataFtp*		ftp;
+	UgetCommon*	common;
+	UgetProxy*	proxy;
+	UgetHttp*		http;
+	UgetFtp*		ftp;
 
 	gboolean		renamed;
 

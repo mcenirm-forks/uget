@@ -37,7 +37,7 @@
 #include <UgUri.h>
 #include <UgUtils.h>
 #include <UgString.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgCategory-gtk.h>
 #include <UgDownloadWidget.h>
 
@@ -291,7 +291,7 @@ static void col_set_icon (GtkTreeViewColumn *tree_column,
                           gpointer           data)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 	const gchar*	stock_id;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -322,7 +322,7 @@ static void col_set_icon_all (GtkTreeViewColumn *tree_column,
                               gpointer           data)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 	const gchar*	stock_id;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -357,7 +357,7 @@ static void col_set_name (GtkTreeViewColumn *tree_column,
                           gpointer           data)
 {
 	UgDataset*		dataset;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	gchar*			string = NULL;
 	gchar*			name = NULL;
 
@@ -390,7 +390,7 @@ static void col_set_complete (GtkTreeViewColumn *tree_column,
                               gpointer           data)
 {
 	UgDataset*		dataset;
-	UgProgress*		progress;
+	UgetProgress*		progress;
 	gchar*			string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -415,7 +415,7 @@ static void col_set_total (GtkTreeViewColumn *tree_column,
                            gpointer           data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -440,7 +440,7 @@ static void col_set_percent (GtkTreeViewColumn *tree_column,
                              gpointer           data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -471,7 +471,7 @@ static void col_set_consume_time (GtkTreeViewColumn *tree_column,
                                   gpointer           data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -496,8 +496,8 @@ static void col_set_remain_time (GtkTreeViewColumn *tree_column,
                                  gpointer           data)
 {
 	UgDataset*	dataset;
-	UgRelation*	relation;
-	UgProgress*	progress;
+	UgetRelation*	relation;
+	UgetProgress*	progress;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -523,8 +523,8 @@ static void col_set_speed (GtkTreeViewColumn *tree_column,
                            gpointer           data)
 {
 	UgDataset*	dataset;
-	UgRelation*	relation;
-	UgProgress*	progress;
+	UgetRelation*	relation;
+	UgetProgress*	progress;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -550,8 +550,8 @@ static void col_set_upload_speed (GtkTreeViewColumn *tree_column,
                            gpointer           data)
 {
 	UgDataset*	dataset;
-	UgRelation*	relation;
-	UgProgress*	progress;
+	UgetRelation*	relation;
+	UgetProgress*	progress;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -577,7 +577,7 @@ static void col_set_uploaded (GtkTreeViewColumn *tree_column,
                            gpointer           data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -602,7 +602,7 @@ static void col_set_ratio (GtkTreeViewColumn *tree_column,
                            gpointer           data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -627,7 +627,7 @@ static void col_set_retry (GtkTreeViewColumn *tree_column,
                            gpointer           data)
 {
 	UgDataset*		dataset;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	gchar*			string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -652,7 +652,7 @@ static void col_set_category (GtkTreeViewColumn *tree_column,
                               gpointer           data)
 {
 	UgDataset*		dataset;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 	gchar*			string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -692,7 +692,7 @@ static void col_set_added_on (GtkTreeViewColumn *tree_column,
                               gpointer           data)
 {
 	UgDataset*	dataset;
-	UgDataLog*	datalog;
+	UgetLog*	datalog;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -700,7 +700,7 @@ static void col_set_added_on (GtkTreeViewColumn *tree_column,
 	if (dataset == NULL)
 		return;
 
-	datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
+	datalog = ug_dataset_get (dataset, UgetLogInfo, 0);
 	string = (datalog) ? datalog->added_on : NULL;
 
 	g_object_set (cell, "text", string, NULL);
@@ -713,7 +713,7 @@ static void col_set_completed_on (GtkTreeViewColumn *tree_column,
                                   gpointer           data)
 {
 	UgDataset*	dataset;
-	UgDataLog*	datalog;
+	UgetLog*	datalog;
 	gchar*		string;
 
 	gtk_tree_model_get (model, iter, 0, &dataset, -1);
@@ -721,7 +721,7 @@ static void col_set_completed_on (GtkTreeViewColumn *tree_column,
 	if (dataset == NULL)
 		return;
 
-	datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
+	datalog = ug_dataset_get (dataset, UgetLogInfo, 0);
 	string = (datalog) ? datalog->completed_on : NULL;
 
 	g_object_set (cell, "text", string, NULL);
@@ -1092,7 +1092,7 @@ void	ug_download_view_set_sort_order (GtkTreeView* view, guint nth_column, GtkSo
 static gint	ug_download_model_cmp_name (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*		dataset;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	gchar*			name1;
 	gchar*			name2;
 
@@ -1130,7 +1130,7 @@ static gint	ug_download_model_cmp_name (GtkTreeModel* model, GtkTreeIter* a, Gtk
 static gint	ug_download_model_cmp_complete (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gint64		completed1;
 	gint64		completed2;
 
@@ -1159,7 +1159,7 @@ static gint	ug_download_model_cmp_complete (GtkTreeModel* model, GtkTreeIter* a,
 static gint	ug_download_model_cmp_size (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gint64		size1;
 	gint64		size2;
 
@@ -1188,7 +1188,7 @@ static gint	ug_download_model_cmp_size (GtkTreeModel* model, GtkTreeIter* a, Gtk
 static gint	ug_download_model_cmp_percent (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gdouble		percent1;
 	gdouble		percent2;
 
@@ -1217,7 +1217,7 @@ static gint	ug_download_model_cmp_percent (GtkTreeModel* model, GtkTreeIter* a, 
 static gint	ug_download_model_cmp_elapsed (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gdouble		elapsed1;
 	gdouble		elapsed2;
 
@@ -1246,7 +1246,7 @@ static gint	ug_download_model_cmp_elapsed (GtkTreeModel* model, GtkTreeIter* a, 
 static gint	ug_download_model_cmp_left (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gdouble		left1;
 	gdouble		left2;
 
@@ -1275,7 +1275,7 @@ static gint	ug_download_model_cmp_left (GtkTreeModel* model, GtkTreeIter* a, Gtk
 static gint	ug_download_model_cmp_speed (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gdouble		speed1;
 	gdouble		speed2;
 
@@ -1304,7 +1304,7 @@ static gint	ug_download_model_cmp_speed (GtkTreeModel* model, GtkTreeIter* a, Gt
 static gint	ug_download_model_cmp_upload_speed (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gdouble		speed1;
 	gdouble		speed2;
 
@@ -1333,7 +1333,7 @@ static gint	ug_download_model_cmp_upload_speed (GtkTreeModel* model, GtkTreeIter
 static gint	ug_download_model_cmp_uploaded (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gint64		uploaded1;
 	gint64		uploaded2;
 
@@ -1362,7 +1362,7 @@ static gint	ug_download_model_cmp_uploaded (GtkTreeModel* model, GtkTreeIter* a,
 static gint	ug_download_model_cmp_ratio (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*	dataset;
-	UgProgress*	progress;
+	UgetProgress*	progress;
 	gdouble		ratio1;
 	gdouble		ratio2;
 
@@ -1391,7 +1391,7 @@ static gint	ug_download_model_cmp_ratio (GtkTreeModel* model, GtkTreeIter* a, Gt
 static gint	ug_download_model_cmp_retry (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*		dataset;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	gint			retry1;
 	gint			retry2;
 
@@ -1450,7 +1450,7 @@ static gint	ug_download_model_cmp_category (GtkTreeModel* model, GtkTreeIter* a,
 static gint	ug_download_model_cmp_url (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*		dataset;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	gchar*			url1;
 	gchar*			url2;
 
@@ -1480,14 +1480,14 @@ static gint	ug_download_model_cmp_url (GtkTreeModel* model, GtkTreeIter* a, GtkT
 static gint	ug_download_model_cmp_added_on (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*	dataset;
-	UgDataLog*	datalog;
+	UgetLog*	datalog;
 	gchar*		log1;
 	gchar*		log2;
 
 	log1 = NULL;
 	gtk_tree_model_get (model, a, 0, &dataset, -1);
 	if (dataset) {
-		datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
+		datalog = ug_dataset_get (dataset, UgetLogInfo, 0);
 		if (datalog)
 			log1 = datalog->added_on;
 	}
@@ -1495,7 +1495,7 @@ static gint	ug_download_model_cmp_added_on (GtkTreeModel* model, GtkTreeIter* a,
 	log2 = NULL;
 	gtk_tree_model_get (model, b, 0, &dataset, -1);
 	if (dataset) {
-		datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
+		datalog = ug_dataset_get (dataset, UgetLogInfo, 0);
 		if (datalog)
 			log2 = datalog->added_on;
 	}
@@ -1510,14 +1510,14 @@ static gint	ug_download_model_cmp_added_on (GtkTreeModel* model, GtkTreeIter* a,
 static gint	ug_download_model_cmp_completed_on (GtkTreeModel* model, GtkTreeIter* a, GtkTreeIter* b, gpointer user_data)
 {
 	UgDataset*	dataset;
-	UgDataLog*	datalog;
+	UgetLog*	datalog;
 	gchar*		log1;
 	gchar*		log2;
 
 	log1 = NULL;
 	gtk_tree_model_get (model, a, 0, &dataset, -1);
 	if (dataset) {
-		datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
+		datalog = ug_dataset_get (dataset, UgetLogInfo, 0);
 		if (datalog)
 			log1 = datalog->completed_on;
 	}
@@ -1525,7 +1525,7 @@ static gint	ug_download_model_cmp_completed_on (GtkTreeModel* model, GtkTreeIter
 	log2 = NULL;
 	gtk_tree_model_get (model, b, 0, &dataset, -1);
 	if (dataset) {
-		datalog = ug_dataset_get (dataset, UG_DATA_LOG_I, 0);
+		datalog = ug_dataset_get (dataset, UgetLogInfo, 0);
 		if (datalog)
 			log2 = datalog->completed_on;
 	}

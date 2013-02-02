@@ -35,7 +35,7 @@
  */
 
 #include <UgDataset.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgSelector.h>
 #include <UgUri.h>
 #include <UgSetting.h>		// UG_APP_GTK_NAME
@@ -177,7 +177,7 @@ GList*	ug_selector_get_marked_downloads (UgSelector* selector)
 {
 	UgSelectorItem*	item;
 	UgDataset*		dataset;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	GString*		gstr;
 	GList*			list;
 	GList*			link;
@@ -211,7 +211,7 @@ GList*	ug_selector_get_marked_downloads (UgSelector* selector)
 		else
 			gstr = g_string_new (item->uri);
 		dataset = ug_dataset_new ();
-		common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
+		common = ug_dataset_realloc (dataset, UgetCommonInfo, 0);
 		common->url = g_string_free (gstr, FALSE);
 		common->keeping.url = TRUE;
 		link->data = dataset;

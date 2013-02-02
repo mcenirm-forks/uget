@@ -164,12 +164,12 @@ static UgResult	ug_plugin_aria2_global_set (guint parameter, gpointer data)
 
 static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
 {
-	UgDataCommon*	common;
-	UgDataHttp*		http;
+	UgetCommon*	common;
+	UgetHttp*		http;
 
 	// get data
-	common = ug_dataset_get (dataset, UG_DATA_COMMON_I, 0);
-	http   = ug_dataset_get (dataset, UG_DATA_HTTP_I, 0);
+	common = ug_dataset_get (dataset, UgetCommonInfo, 0);
+	http   = ug_dataset_get (dataset, UgetHttpInfo, 0);
 	// check data
 	if (common == NULL)
 		return FALSE;
@@ -179,10 +179,10 @@ static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
 	if (http)
 		http->redirection_count = 0;
 	// copy supported data
-	plugin->common = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_COMMON_I, 0));
-	plugin->proxy  = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_PROXY_I, 0));
-	plugin->http   = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_HTTP_I, 0));
-	plugin->ftp    = ug_datalist_copy (ug_dataset_get (dataset, UG_DATA_FTP_I, 0));
+	plugin->common = ug_datalist_copy (ug_dataset_get (dataset, UgetCommonInfo, 0));
+	plugin->proxy  = ug_datalist_copy (ug_dataset_get (dataset, UgetProxyInfo, 0));
+	plugin->http   = ug_datalist_copy (ug_dataset_get (dataset, UgetHttpInfo, 0));
+	plugin->ftp    = ug_datalist_copy (ug_dataset_get (dataset, UgetFtpInfo, 0));
 	// xmlrpc
 	ug_xmlrpc_init (&plugin->xmlrpc);
 	ug_xmlrpc_use_client (&plugin->xmlrpc, xmlrpc_uri, NULL);
@@ -272,11 +272,11 @@ UgResult	ug_plugin_aria2_set (UgPluginAria2* plugin, guint parameter, gpointer d
 
 static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpointer data)
 {
-	UgProgress*	progress;
+	UgetProgress*	progress;
 
 	if (parameter != UG_TYPE_INSTANCE)
 		return UG_RESULT_UNSUPPORT;
-	if (data == NULL || ((UgData*)data)->iface != UG_PROGRESS_I)
+	if (data == NULL || ((UgData*)data)->iface != UgetProgressInfo)
 		return UG_RESULT_UNSUPPORT;
 
 	progress = data;
@@ -308,7 +308,7 @@ static UgResult	ug_plugin_aria2_get (UgPluginAria2* plugin, guint parameter, gpo
 //
 static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 {
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	UgMessage*		message;
 	char*			string;
 	const char*		temp;
@@ -464,7 +464,7 @@ static gboolean	ug_plugin_aria2_add_uri	(UgPluginAria2* plugin)
 	UgXmlrpcValue*		uris;		// UG_XMLRPC_ARRAY
 	UgXmlrpcValue*		options;	// UG_XMLRPC_STRUCT
 	UgXmlrpcValue*		value;
-	UgDataCommon*		common;
+	UgetCommon*		common;
 	UgXmlrpcResponse	response;
 	char*				curr;
 	char*				prev;
@@ -986,9 +986,9 @@ static void	ug_plugin_aria2_post_error (UgPluginAria2* plugin, int code)
 //
 static void	ug_plugin_aria2_set_scheme (UgPluginAria2* plugin)
 {
-	UgDataCommon*	common;
-	UgDataHttp*		http;
-	UgDataFtp*		ftp;
+	UgetCommon*	common;
+	UgetHttp*		http;
+	UgetFtp*		ftp;
 	UgUriFull*		uri;
 	GString*		str_uri;
 	gchar*			user;
@@ -1041,7 +1041,7 @@ static void	ug_plugin_aria2_set_scheme (UgPluginAria2* plugin)
 static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* options)
 {
 	UgXmlrpcValue*	value;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	GString*		string;
 
 	common = plugin->common;
@@ -1117,7 +1117,7 @@ static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* op
 static void	ug_plugin_aria2_set_http (UgPluginAria2* plugin, UgXmlrpcValue* options)
 {
 	UgXmlrpcValue*	value;
-	UgDataHttp*		http;
+	UgetHttp*		http;
 
 	http = plugin->http;
 
@@ -1146,7 +1146,7 @@ static void	ug_plugin_aria2_set_http (UgPluginAria2* plugin, UgXmlrpcValue* opti
 static gboolean	ug_plugin_aria2_set_proxy (UgPluginAria2* plugin, UgXmlrpcValue* options)
 {
 	UgXmlrpcValue*	value;
-	UgDataProxy*	proxy;
+	UgetProxy*	proxy;
 
 	proxy = plugin->proxy;
 	if (proxy == NULL)

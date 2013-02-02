@@ -38,7 +38,7 @@
 #include <UgUtils.h>
 #include <UgString.h>
 #include <UgRegistry.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgApp-gtk.h>
 
 #include <glib/gi18n.h>
@@ -76,7 +76,7 @@ static void ug_app_update_config_dir (void)
 void	ug_app_init (UgAppGtk* app)
 {
 	UgCategory*		category;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 
 	ug_running_init (&app->running);
 	// upgrade from Uget 1.6
@@ -98,7 +98,7 @@ void	ug_app_init (UgAppGtk* app)
 	if (ug_category_widget_n_category (&app->cwidget) == 0) {
 		category = ug_category_new_with_gtk (app->cwidget.primary.category);
 		category->name = g_strdup ("Home");
-		common = ug_dataset_alloc_front (category->defaults, UG_DATA_COMMON_I);
+		common = ug_dataset_alloc_front (category->defaults, UgetCommonInfo);
 		common->folder = g_strdup (g_get_home_dir ());
 		ug_category_widget_append (&app->cwidget, category);
 	}

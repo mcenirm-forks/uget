@@ -42,7 +42,7 @@ static const char	uget_license[] =
 // uglib
 #include <UgHtml.h>
 #include <UgUtils.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgDownloadDialog.h>
 #include <UgCategoryDialog.h>
 #include <UgSettingDialog.h>
@@ -197,7 +197,7 @@ static void	on_config_category (GtkWidget* widget, UgAppGtk* app)
 //
 static void	ug_app_setup_download_dialog (UgAppGtk* app, UgDownloadDialog* ddialog)
 {
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	GtkTreePath*	path;
 	GtkTreeModel*	model;
 
@@ -213,7 +213,7 @@ static void	ug_app_setup_download_dialog (UgAppGtk* app, UgDownloadDialog* ddial
 			gtk_tree_path_free (path);
 		}
 
-		common = ug_dataset_realloc (app->last.download, UG_DATA_COMMON_I, 0);
+		common = ug_dataset_realloc (app->last.download, UgetCommonInfo, 0);
 		if (common && common->file) {
 			g_free (common->file);
 			common->file = NULL;
@@ -447,7 +447,7 @@ static void	on_create_metalink (GtkWidget* widget, UgAppGtk* app)
 static void	on_delete_download (GtkWidget* widget, UgAppGtk* app)
 {
 	UgDownloadWidget*	dwidget;
-	UgRelation*			relation;
+	UgetRelation*			relation;
 	GList*				list;
 	GList*				link;
 	// check shift key status
@@ -492,7 +492,7 @@ static void	on_delete_download (GtkWidget* widget, UgAppGtk* app)
 static void	on_delete_download_file_response (GtkWidget* widget, gint response_id, UgAppGtk* app)
 {
 	UgDownloadWidget*	dwidget;
-	UgDataCommon*		common;
+	UgetCommon*		common;
 	gchar*				path;
 	GList*				list;
 	GList*				link;
@@ -544,7 +544,7 @@ static void	on_delete_download_file (GtkWidget* widget, UgAppGtk* app)
 static void	on_open_download_file (GtkWidget* widget, UgAppGtk* app)
 {
 	UgDownloadWidget*	dwidget;
-	UgDataCommon*		common;
+	UgetCommon*		common;
 	UgDataset*			dataset;
 	GtkWidget*			dialog;
 	gchar*				string;
@@ -553,7 +553,7 @@ static void	on_open_download_file (GtkWidget* widget, UgAppGtk* app)
 	dataset = ug_download_widget_get_cursor (dwidget);
 	if (dataset == NULL)
 		return;
-	common = ug_dataset_get (dataset, UG_DATA_COMMON_I, 0);
+	common = ug_dataset_get (dataset, UgetCommonInfo, 0);
 	if (common->folder == NULL || common->file == NULL)
 		return;
 
@@ -575,7 +575,7 @@ static void	on_open_download_file (GtkWidget* widget, UgAppGtk* app)
 static void	on_open_download_folder (GtkWidget* widget, UgAppGtk* app)
 {
 	UgDownloadWidget*	dwidget;
-	UgDataCommon*		common;
+	UgetCommon*		common;
 	UgDataset*			dataset;
 	GtkWidget*			dialog;
 	gchar*				string;
@@ -584,7 +584,7 @@ static void	on_open_download_folder (GtkWidget* widget, UgAppGtk* app)
 	dataset = ug_download_widget_get_cursor (dwidget);
 	if (dataset == NULL)
 		return;
-	common = ug_dataset_get (dataset, UG_DATA_COMMON_I, 0);
+	common = ug_dataset_get (dataset, UgetCommonInfo, 0);
 	if (common->folder == NULL)
 		return;
 
@@ -694,7 +694,7 @@ static void	on_config_download (GtkWidget* widget, UgAppGtk* app)
 static void	on_set_download_force_start (GtkWidget* widget, UgAppGtk* app)
 {
 	UgDownloadWidget*	dwidget;
-	UgRelation*			relation;
+	UgetRelation*			relation;
 	GList*				list;
 	GList*				link;
 
@@ -715,7 +715,7 @@ static void	on_set_download_force_start (GtkWidget* widget, UgAppGtk* app)
 static void	on_set_download_runnable (GtkWidget* widget, UgAppGtk* app)
 {
 	UgDownloadWidget*	dwidget;
-	UgRelation*			relation;
+	UgetRelation*			relation;
 	GList*				list;
 	GList*				link;
 
@@ -737,7 +737,7 @@ static void	on_set_download_runnable (GtkWidget* widget, UgAppGtk* app)
 static void	on_set_download_to_pause (GtkWidget* widget, UgAppGtk* app)
 {
 	UgDownloadWidget*	dwidget;
-	UgRelation*			relation;
+	UgetRelation*			relation;
 	GList*				list;
 	GList*				link;
 

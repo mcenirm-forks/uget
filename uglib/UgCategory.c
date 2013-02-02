@@ -41,7 +41,7 @@
 #include <UgString.h>
 #include <UgRegistry.h>
 #include <UgCategory.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgPlugin.h>
 
 
@@ -122,10 +122,10 @@ void	ug_category_free (UgCategory* category)
 // add dataset to category and increase reference count of dataset.
 void	ug_category_add (UgCategory* category, UgDataset* dataset)
 {
-	UgDataLog*			datalog;
+	UgetLog*			datalog;
 
 	// added on
-	datalog = ug_dataset_realloc (dataset, UG_DATA_LOG_I, 0);
+	datalog = ug_dataset_realloc (dataset, UgetLogInfo, 0);
 	if (datalog->added_on == NULL)
 		datalog->added_on = ug_str_from_time (time (NULL), FALSE);
 
@@ -419,7 +419,7 @@ static GMarkupParser	ug_download_list_parser =
 
 GList*	ug_download_list_load (const gchar* download_file)
 {
-	UgRelation*		relation;
+	UgetRelation*		relation;
 	GList*			list;
 	GList*			link;
 
@@ -436,7 +436,7 @@ GList*	ug_download_list_load (const gchar* download_file)
 
 gboolean	ug_download_list_save (GList* list, const gchar* download_file)
 {
-	UgRelation*	relation;
+	UgetRelation*	relation;
 	UgMarkup*	markup;
 	guint		index;
 
@@ -471,8 +471,8 @@ gboolean	ug_download_list_save (GList* list, const gchar* download_file)
 
 gboolean	ug_download_create_attachment (UgDataset* dataset, gboolean force)
 {
-	UgDataHttp*		http;
-	UgRelation*		relation;
+	UgetHttp*		http;
+	UgetRelation*		relation;
 	gchar*			file;
 	gchar*			dir;
 	guint			dir_len;
@@ -480,10 +480,10 @@ gboolean	ug_download_create_attachment (UgDataset* dataset, gboolean force)
 	// check
 	relation = UG_DATASET_RELATION (dataset);
 	if (relation == NULL)
-		relation = ug_dataset_alloc_front (dataset, UG_RELATION_I);
+		relation = ug_dataset_alloc_front (dataset, UgetRelationInfo);
 	else if (relation->attached.stamp)
 		return FALSE;
-	http = ug_dataset_get (dataset, UG_DATA_HTTP_I, 0);
+	http = ug_dataset_get (dataset, UgetHttpInfo, 0);
 	if ( (http && (http->cookie_file || http->post_file)) == FALSE && force == FALSE)
 		return FALSE;
 
@@ -495,7 +495,7 @@ gboolean	ug_download_create_attachment (UgDataset* dataset, gboolean force)
 	g_free (relation->attached.folder);
 	relation->attached.folder = dir;
 
-	// UgDataHttp
+	// UgetHttp
 	if (http) {
 		if (http->cookie_file && dir_len != strspn (dir, http->cookie_file))
 		{
@@ -527,12 +527,12 @@ gboolean	ug_download_create_attachment (UgDataset* dataset, gboolean force)
 gboolean	ug_download_assign_attachment (UgDataset* dest_data, UgDataset* src_data)
 {
 	union {
-		UgDataHttp*		http;
-		UgRelation*		relation;
+		UgetHttp*		http;
+		UgetRelation*		relation;
 	} src;
 	union {
-		UgDataHttp*		http;
-		UgRelation*		relation;
+		UgetHttp*		http;
+		UgetRelation*		relation;
 	} dest;
 
 	// relation
@@ -541,16 +541,16 @@ gboolean	ug_download_assign_attachment (UgDataset* dest_data, UgDataset* src_dat
 		return FALSE;
 	dest.relation = UG_DATASET_RELATION (dest_data);
 	if (dest.relation == NULL)
-		dest.relation = ug_dataset_alloc_front (src_data, UG_RELATION_I);
+		dest.relation = ug_dataset_alloc_front (src_data, UgetRelationInfo);
 	ug_attachment_ref (src.relation->attached.stamp);
 	ug_attachment_unref (dest.relation->attached.stamp);
 	dest.relation->attached.stamp = src.relation->attached.stamp;
 	ug_str_set (&dest.relation->attached.folder, src.relation->attached.folder, -1);
 
 	// http
-	src.http  = ug_dataset_get (src_data, UG_DATA_HTTP_I, 0);
+	src.http  = ug_dataset_get (src_data, UgetHttpInfo, 0);
 	if (src.http) {
-		dest.http = ug_dataset_realloc (dest_data, UG_DATA_HTTP_I, 0);
+		dest.http = ug_dataset_realloc (dest_data, UgetHttpInfo, 0);
 		ug_str_set (&dest.http->post_file,   src.http->post_file,   -1);
 		ug_str_set (&dest.http->cookie_file, src.http->cookie_file, -1);
 	}
@@ -559,7 +559,7 @@ gboolean	ug_download_assign_attachment (UgDataset* dest_data, UgDataset* src_dat
 
 void	ug_download_delete_temp (UgDataset* dataset)
 {
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	gchar*			file;
 	gchar*			file_aria2;
 	gchar*			path;
@@ -588,7 +588,7 @@ void	ug_download_delete_temp (UgDataset* dataset)
 void	ug_download_complete_data (UgDataset* dataset)
 {
 	UgUriFull		urifull;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	const gchar*	string;
 	guint			length;
 
@@ -626,36 +626,36 @@ void	ug_download_complete_data (UgDataset* dataset)
 
 
 // ----------------------------------------------------------------------------
-// UgRelation : relation of UgCategory, UgDataset, and UgPlugin.
+// UgetRelation : relation of UgCategory, UgDataset, and UgPlugin.
 //
-static void	ug_relation_finalize (UgRelation* relation);
-static void	ug_relation_assign   (UgRelation* relation, UgRelation* src);
+static void	uget_relation_final  (UgetRelation* relation);
+static void	uget_relation_assign (UgetRelation* relation, UgetRelation* src);
 
-static const UgDataEntry	ug_relation_entry[] =
+static const UgDataEntry	uget_relation_entry[] =
 {
-	{"hints",			G_STRUCT_OFFSET (UgRelation, hints),			UG_TYPE_UINT,	NULL,	NULL},
-	{"AttachedFolder",	G_STRUCT_OFFSET (UgRelation, attached.folder),	UG_TYPE_STRING,	NULL,	NULL},
-	{"AttachedStamp",	G_STRUCT_OFFSET (UgRelation, attached.stamp),	UG_TYPE_UINT,	NULL,	NULL},
-	{"MessageType",		G_STRUCT_OFFSET (UgRelation, message.type),		UG_TYPE_UINT,	NULL,	NULL},
-	{"MessageString",	G_STRUCT_OFFSET (UgRelation, message.string),	UG_TYPE_STRING,	NULL,	NULL},
+	{"hints",			G_STRUCT_OFFSET (UgetRelation, hints),			UG_TYPE_UINT,	NULL,	NULL},
+	{"AttachedFolder",	G_STRUCT_OFFSET (UgetRelation, attached.folder),	UG_TYPE_STRING,	NULL,	NULL},
+	{"AttachedStamp",	G_STRUCT_OFFSET (UgetRelation, attached.stamp),	UG_TYPE_UINT,	NULL,	NULL},
+	{"MessageType",		G_STRUCT_OFFSET (UgetRelation, message.type),		UG_TYPE_UINT,	NULL,	NULL},
+	{"MessageString",	G_STRUCT_OFFSET (UgetRelation, message.string),	UG_TYPE_STRING,	NULL,	NULL},
 	{NULL},			// null-terminated
 };
 // extern
-const UgDataInterface	ug_relation_iface =
+const UgDataInterface	uget_relation_iface =
 {
-	sizeof (UgRelation),	// instance_size
+	sizeof (UgetRelation),	// instance_size
 	"relation",				// name
-	ug_relation_entry,		// entry
+	uget_relation_entry,		// entry
 
 	(UgInitFunc)     NULL,
-	(UgFinalizeFunc) ug_relation_finalize,
-	(UgAssignFunc)   ug_relation_assign,
+	(UgFinalizeFunc) uget_relation_final,
+	(UgAssignFunc)   uget_relation_assign,
 };
 // extern
-const UgDataInterface*	ug_relation_iface_pointer = &ug_relation_iface;
+const UgDataInterface*	uget_relation_iface_pointer = &uget_relation_iface;
 
 
-static void	ug_relation_finalize (UgRelation* relation)
+static void	uget_relation_final (UgetRelation* relation)
 {
 	if (relation->destroy.func)
 		relation->destroy.func (relation->destroy.data);
@@ -664,7 +664,7 @@ static void	ug_relation_finalize (UgRelation* relation)
 	ug_attachment_unref (relation->attached.stamp);
 }
 
-static void	ug_relation_assign (UgRelation* relation, UgRelation* src)
+static void	uget_relation_assign (UgetRelation* relation, UgetRelation* src)
 {
 	// hints
 	// used by UgDownloadDialog

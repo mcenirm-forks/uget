@@ -36,7 +36,7 @@
 
 #include <UgUri.h>
 #include <UgDownloadDialog.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 
 #include <glib/gi18n.h>
 
@@ -266,7 +266,7 @@ UgCategory*	ug_download_dialog_get_category (UgDownloadDialog* ddialog)
 GList*	ug_download_dialog_get_downloads (UgDownloadDialog* ddialog)
 {
 	UgDataset*		dataset;
-	UgDataCommon*	common;
+	UgetCommon*	common;
 	GList*			list;
 	GList*			link;
 
@@ -276,7 +276,7 @@ GList*	ug_download_dialog_get_downloads (UgDownloadDialog* ddialog)
 		for (link = list;  link;  link = link->next) {
 			dataset = ug_dataset_new ();
 			ug_download_dialog_get (ddialog, dataset);
-			common = ug_dataset_realloc (dataset, UG_DATA_COMMON_I, 0);
+			common = ug_dataset_realloc (dataset, UgetCommonInfo, 0);
 			g_free (common->url);
 			common->url = link->data;
 			ug_download_complete_data (dataset);

@@ -37,7 +37,7 @@
 #include <UgRunning.h>
 #include <UgString.h>
 #include <UgCategory.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 
 #include <glib/gi18n.h>
 
@@ -72,7 +72,7 @@ void	ug_running_free (UgRunning* running)
 
 gboolean	ug_running_add (UgRunning* running, UgDataset* dataset)
 {
-	UgRelation*	relation;
+	UgetRelation*	relation;
 	UgCategory*	category;
 
 	// is this dataset in group?
@@ -113,7 +113,7 @@ gboolean	ug_running_add (UgRunning* running, UgDataset* dataset)
 
 void	ug_running_remove (UgRunning* running, UgDataset* dataset)
 {
-	UgRelation*	relation;
+	UgetRelation*	relation;
 	UgCategory*	category;
 	GList*		link;
 
@@ -171,7 +171,7 @@ void	ug_running_clear (UgRunning* running)
 
 GList*	ug_running_get_inactive (UgRunning* running)
 {
-	UgRelation*	relation;
+	UgetRelation*	relation;
 	GList*		list;
 	GList*		link;
 	UgState		state;
@@ -196,7 +196,7 @@ guint	ug_running_get_n_tasks (UgRunning* running)
 
 void	ug_running_get_speed (UgRunning* running, gint64* down_speed, gint64* up_speed)
 {
-	UgProgress*		progress;
+	UgetProgress*		progress;
 	GList*			link;
 	gint64			down = 0;
 	gint64			up   = 0;
@@ -224,7 +224,7 @@ void	ug_running_set_speed (UgRunning* running, gint64  down_limit, gint64  up_li
 // It can adjust speed of all task.
 gboolean	ug_running_do_speed_limit (UgRunning* running)
 {
-	UgRelation*	relation;
+	UgetRelation*	relation;
 	gint64		average;
 	GList*		link;
 
@@ -260,14 +260,14 @@ gboolean	ug_running_dispatch (UgRunning* running)
 void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 {
 	UgCategory*		category;
-	UgRelation*		relation;
+	UgetRelation*		relation;
 	UgMessage*		msg_list;
 	UgMessage*		msg;
 	union {
-		UgDataCommon*	common;
-		UgProgress*		progress;
-		UgDataHttp*		http;
-		UgDataLog*		log;
+		UgetCommon*	common;
+		UgetProgress*		progress;
+		UgetHttp*		http;
+		UgetLog*		log;
 	} temp;
 
 
@@ -296,7 +296,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 		case UG_MESSAGE_PROGRESS:
 			temp.progress = UG_DATASET_PROGRESS (dataset);
 			if (temp.progress == NULL)
-				temp.progress = ug_dataset_alloc_front (dataset, UG_PROGRESS_I);
+				temp.progress = ug_dataset_alloc_front (dataset, UgetProgressInfo);
 			ug_plugin_get (relation->plugin, UG_TYPE_INSTANCE, temp.progress);
 			break;
 
@@ -318,7 +318,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 				relation->hints &= ~UG_HINT_ERROR;
 				relation->hints |= UG_HINT_COMPLETED;
 				// data log
-				temp.log = ug_dataset_realloc (dataset, UG_DATA_LOG_I, 0);
+				temp.log = ug_dataset_realloc (dataset, UgetLogInfo, 0);
 				g_free (temp.log->completed_on);
 				temp.log->completed_on = ug_str_from_time (time (NULL), FALSE);
 				break;
@@ -355,7 +355,7 @@ void	ug_running_dispatch_1 (UgRunning* running, UgDataset* dataset)
 				if (msg->data.v_string) {
 					temp.common = UG_DATASET_COMMON (dataset);
 					ug_str_set (&temp.common->url, msg->data.v_string, -1);
-					temp.http = ug_dataset_realloc (dataset, UG_DATA_HTTP_I, 0);
+					temp.http = ug_dataset_realloc (dataset, UgetHttpInfo, 0);
 					temp.http->redirection_count++;
 				}
 				break;

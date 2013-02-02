@@ -35,7 +35,7 @@
  */
 
 #include <UgProxyForm.h>
-#include <UgData-download.h>
+#include <UgetData.h>
 #include <UgString.h>
 
 #include <glib/gi18n.h>
@@ -177,11 +177,11 @@ static void	ug_proxy_form_std_init (UgProxyForm* pform)
 
 void	ug_proxy_form_get  (UgProxyForm* pform, UgDataset* dataset)
 {
-	UgDataProxy*	proxy;
+	UgetProxy*	proxy;
 	gint			index;
 
 	index = gtk_combo_box_get_active ((GtkComboBox*) pform->type);
-	proxy = ug_dataset_realloc (dataset, UG_DATA_PROXY_I, 0);
+	proxy = ug_dataset_realloc (dataset, UgetProxyInfo, 0);
 	proxy->type = index;
 
 	ug_str_set (&proxy->user,     gtk_entry_get_text ((GtkEntry*)pform->user), -1);
@@ -198,9 +198,9 @@ void	ug_proxy_form_get  (UgProxyForm* pform, UgDataset* dataset)
 
 void	ug_proxy_form_set  (UgProxyForm* pform, UgDataset* dataset, gboolean keep_changed)
 {
-	UgDataProxy*	proxy;
+	UgetProxy*	proxy;
 
-	proxy = ug_dataset_get (dataset, UG_DATA_PROXY_I, 0);
+	proxy = ug_dataset_get (dataset, UgetProxyInfo, 0);
 	// if no proxy data
 	if (proxy == NULL) {
 		pform->changed.enable = FALSE;	// disable changed flags
