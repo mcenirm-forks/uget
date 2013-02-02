@@ -482,12 +482,12 @@ static void ug_download_form_decide_sensitive (UgDownloadForm* dform)
 
 void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 {
-	UgetCommon*	common;
-	UgetHttp*		http;
-	UgetRelation*		relation;
-	UgUriFull		urifull;
-	const gchar*	text;
-	gint			number;
+	UgetCommon*   common;
+	UgetHttp*     http;
+	UgetRelation* relation;
+	UgUri         uuri;
+	const gchar*  text;
+	gint          number;
 
 	// ------------------------------------------
 	// UgetCommon
@@ -524,23 +524,23 @@ void	ug_download_form_get  (UgDownloadForm* dform, UgDataset* dataset)
 		ug_str_set (&common->mirrors, gtk_entry_get_text ((GtkEntry*)dform->mirrors_entry), -1);
 		ug_str_set (&common->file, gtk_entry_get_text ((GtkEntry*)dform->file_entry), -1);
 		if (common->url) {
-			ug_uri_full_init (&urifull, common->url);
+			ug_uri_init (&uuri, common->url);
 			// set user
-			text = ug_uri_full_get_user (&urifull);
+			text = ug_uri_get_user (&uuri);
 			if (text) {
 				g_free (common->user);
 				common->user = (gchar*) text;
 			}
 			// set password
-			text = ug_uri_full_get_password (&urifull);
+			text = ug_uri_get_password (&uuri);
 			if (text) {
 				g_free (common->password);
 				common->password = (gchar*) text;
 			}
 			// Remove user & password from URL
-			if (urifull.authority != urifull.host) {
-				memmove ((char*) urifull.authority, (char*) urifull.host,
-						strlen (urifull.host) + 1);
+			if (uuri.authority != uuri.host) {
+				memmove ((char*)uuri.uri + uuri.authority, (char*)uuri.uri + uuri.host,
+						strlen (uuri.uri + uuri.host) + 1);
 			}
 		}
 	}
@@ -784,22 +784,22 @@ void	ug_download_form_get_folder_list (UgDownloadForm* dform, GList** folder_lis
 
 void	ug_download_form_complete_entry (UgDownloadForm* dform)
 {
-	UgUriFull		urifull;
-	const gchar*	text;
-//	gchar*			temp;
-	gboolean		completed;
+	const gchar*  text;
+//	gchar*    temp;
+	UgUri     upart;
+	gboolean  completed;
 
 	// URL
 	text = gtk_entry_get_text ((GtkEntry*) dform->url_entry);
-	ug_uri_full_init (&urifull, text);
-	if (urifull.host) {
+	ug_uri_init (&upart, text);
+	if (upart.host) {
 		// disable changed flags
 		dform->changed.enable = FALSE;
 /*
 		// complete file entry
 		text = gtk_entry_get_text ((GtkEntry*) dform->file_entry);
 		if (text[0] == 0 || dform->changed.file == FALSE) {
-			temp = ug_uri_full_get_file (&urifull);
+			temp = ug_uri_get_file (&upart);
 			gtk_entry_set_text ((GtkEntry*) dform->file_entry,
 					(temp) ? temp : "index.htm");
 			g_free (temp);
@@ -807,7 +807,7 @@ void	ug_download_form_complete_entry (UgDownloadForm* dform)
 		// complete user entry
 		text = gtk_entry_get_text ((GtkEntry*) dform->username_entry);
 		if (text[0] == 0 || dform->changed.user == FALSE) {
-			temp = ug_uri_full_get_user (&urifull);
+			temp = ug_uri_get_user (&upart);
 			gtk_entry_set_text ((GtkEntry*) dform->username_entry,
 					(temp) ? temp : "");
 			g_free (temp);
@@ -815,7 +815,7 @@ void	ug_download_form_complete_entry (UgDownloadForm* dform)
 		// complete password entry
 		text = gtk_entry_get_text ((GtkEntry*) dform->password_entry);
 		if (text[0] == 0 || dform->changed.password == FALSE) {
-			temp = ug_uri_full_get_password (&urifull);
+			temp = ug_uri_get_password (&upart);
 			gtk_entry_set_text ((GtkEntry*) dform->password_entry,
 					(temp) ? temp : "");
 			g_free (temp);

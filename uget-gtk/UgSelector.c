@@ -582,7 +582,7 @@ static void	ug_selector_page_add_filter (UgSelectorPage* page, GtkListStore* fil
 
 void	ug_selector_page_make_filter (UgSelectorPage* page)
 {
-	UgUriPart*		upart;
+	UgUri*		upart;
 	UgSelectorItem*	item;
 	GtkTreeModel*	model;
 	GtkTreeIter		iter;
@@ -592,15 +592,15 @@ void	ug_selector_page_make_filter (UgSelectorPage* page)
 	if (g_hash_table_size (page->filter.hash))
 		return;
 
-	upart = g_slice_alloc (sizeof (UgUriPart));
+	upart = g_slice_alloc (sizeof (UgUri));
 	model = GTK_TREE_MODEL (page->store);
 	value = gtk_tree_model_get_iter_first (model, &iter);
 	while (value) {
 		gtk_tree_model_get (model, &iter, 0, &item, -1);
 		// create filter by host ----------------
-		ug_uri_part_init (upart, item->uri);
+		ug_uri_init (upart, item->uri);
 		if (upart->authority)
-			key = g_strndup (item->uri, upart->path - item->uri);
+			key = g_strndup (item->uri, upart->path);
 		else
 			key = g_strdup ("(none)");
 		ug_selector_page_add_filter (page, page->filter.host, key, item);
@@ -614,7 +614,7 @@ void	ug_selector_page_make_filter (UgSelectorPage* page)
 		// next
 		value = gtk_tree_model_iter_next (model, &iter);
 	}
-	g_slice_free1 (sizeof (UgUriPart), upart);
+	g_slice_free1 (sizeof (UgUri), upart);
 }
 
 static void	ug_selector_page_mark_by_filter (UgSelectorPage* page, GtkListStore* filter_store)

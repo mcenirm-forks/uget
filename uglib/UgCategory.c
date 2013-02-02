@@ -587,19 +587,19 @@ void	ug_download_delete_temp (UgDataset* dataset)
 
 void	ug_download_complete_data (UgDataset* dataset)
 {
-	UgUriFull		urifull;
-	UgetCommon*	common;
-	const gchar*	string;
-	guint			length;
+	UgUri         uripart;
+	UgetCommon*   common;
+	const gchar*  string;
+	guint         length;
 
 	common = UG_DATASET_COMMON (dataset);
 	if (common == NULL)
 		return;
-	if (ug_uri_full_init (&urifull, common->url) == 0)
+	if (ug_uri_init (&uripart, common->url) == 0)
 		return;
 	// file
 //	if (common->file == NULL) {
-//		string = ug_uri_full_get_file (&urifull);
+//		string = ug_uri_get_file (&uripart);
 //		if (string)
 //			common->file = (gchar*) string;
 //		else
@@ -607,20 +607,20 @@ void	ug_download_complete_data (UgDataset* dataset)
 //	}
 	// user
 	if (common->user == NULL) {
-		length = ug_uri_full_user (&urifull, &string);
+		length = ug_uri_part_user (&uripart, &string);
 		if (length)
 			common->password = g_strndup (string, length);
 	}
 	// password
 	if (common->password == NULL) {
-		length = ug_uri_full_password (&urifull, &string);
+		length = ug_uri_part_password (&uripart, &string);
 		if (length)
 			common->password = g_strndup (string, length);
 	}
 	// Remove user & password from URL
-	if (urifull.authority != urifull.host) {
-		memmove ((char*) urifull.authority, (char*) urifull.host,
-				strlen (urifull.host) + 1);
+	if (uripart.authority != uripart.host) {
+		memmove ((char*)uripart.uri + uripart.authority, uripart.uri + uripart.host,
+				strlen (uripart.uri + uripart.host) + 1);
 	}
 }
 

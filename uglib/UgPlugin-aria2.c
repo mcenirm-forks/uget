@@ -986,13 +986,13 @@ static void	ug_plugin_aria2_post_error (UgPluginAria2* plugin, int code)
 //
 static void	ug_plugin_aria2_set_scheme (UgPluginAria2* plugin)
 {
-	UgetCommon*	common;
-	UgetHttp*		http;
-	UgetFtp*		ftp;
-	UgUriFull*		uri;
-	GString*		str_uri;
-	gchar*			user;
-	gchar*			password;
+	UgetCommon* common;
+	UgetHttp*   http;
+	UgetFtp*    ftp;
+	UgUri*      uuri;
+	GString*    str_uri;
+	gchar*      user;
+	gchar*      password;
 
 	common = plugin->common;
 	http   = plugin->http;
@@ -1021,20 +1021,20 @@ static void	ug_plugin_aria2_set_scheme (UgPluginAria2* plugin)
 	}
 
 	if (user) {
-		uri = g_slice_new (UgUriFull);
-		ug_uri_full_init (uri, common->url);
-		if (uri->authority) {
+		uuri = g_slice_new (UgUri);
+		ug_uri_init (uuri, common->url);
+		if (uuri->authority) {
 			str_uri = g_string_sized_new (100);
-			g_string_append_len (str_uri, common->url, uri->authority - common->url);
+			g_string_append_len (str_uri, common->url, uuri->authority);
 			g_string_append (str_uri, user);
 			g_string_append_c (str_uri, ':');
 			g_string_append (str_uri, password);
 			g_string_append_c (str_uri, '@');
-			g_string_append (str_uri, uri->host);
+			g_string_append (str_uri, uuri->uri + uuri->host);
 			g_free (common->url);
 			common->url = g_string_free (str_uri, FALSE);
 		}
-		g_slice_free (UgUriFull, uri);
+		g_slice_free (UgUri, uuri);
 	}
 }
 

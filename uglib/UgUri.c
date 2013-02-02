@@ -36,91 +36,123 @@
 
 #include <string.h>
 #include <stdlib.h>
-// uglib
+#include <UgUri.h>
+
+#include <string.h>
+#include <stdlib.h>
 #include <UgUri.h>
 
 // ----------------------------------------------------------------------------
-// UgUriPart
-//
-int	ug_uri_part_init (UgUriPart* upart, const char* uri)
+// UgUri
+
+int  ug_uri_init (UgUri* upart, const char* uri)
 {
 	const char* cur;
-	int			len;	// length of scheme
+	const char* tmp;
 
+	upart->uri = uri;
 	// scheme
-	cur = strpbrk (uri, ":/?#");
-	if (cur && *cur==':') {
-		len = cur - uri;
-		cur += 1;
+	cur = strpbrk (uri, ":/?#");    // make sure ':' before '/', '?', and '#'
+	if (cur && cur[0] == ':') {
+		upart->schemeLength = cur - uri;
+		cur++;
 	}
 	else {
-		len = 0;
+		upart->schemeLength = 0;
 		cur = uri;
 	}
 
-	if (upart) {
-		// authority & path
-		if (cur[0] == '/' && cur[1] == '/') {
-			cur += 2;
-			upart->authority = cur;
-			cur += strcspn (cur, "/");
-			upart->path = cur;
-		}
-		else {
-			upart->authority = NULL;
-			upart->path = cur;
-		}
-		// query & fragment
-		if ((upart->query = strchr (cur, '?')) != NULL) {
-			upart->query++;
-			upart->fragment = strrchr (upart->query, '#');
-		}
-		else
-			upart->fragment = strrchr (cur, '#');
-		if (upart->fragment)
-			upart->fragment++;
+	// authority & path
+	if (upart->schemeLength && cur[0] == '/' && cur[1] == '/') {
+		cur += 2;
+		upart->authority = cur - uri;
+		cur += strcspn (cur, "/");
 	}
-	return len;
-}
-
-int	ug_uri_part_file (UgUriPart* upart, const char** file)
-{
-	const char*	cur;
-	const char*	beg;
-	const char*	end;
-
-	// range [beg, end)
-	beg = upart->path;
-	if (upart->query)
-		end = upart->query - 1;			// - '?'
-	else if (upart->fragment)
-		end = upart->fragment - 1;		// - '#'
 	else
-		end = beg + strlen (beg);
-	// get last path element
-	for (cur = end -1;  cur >= beg;  cur--) {
-		if (*cur == '/') {
-			cur += 1;
-			if (file)
-				*file = cur;
-			return end - cur;
+		upart->authority = -1;
+	upart->path = cur - uri;
+
+	// file
+	upart->file = -1;
+	if (cur[0]) {
+		for (; ; ) {
+			tmp = strpbrk (cur, "/?#");
+			if (tmp == NULL || tmp[0] != '/') {
+				upart->file = cur - uri;
+				break;
+			}
+			cur = tmp + 1;
 		}
 	}
-	if (file)
-		*file = beg;
-	return end - beg;
+
+	// query
+	if ((tmp = strchr (cur, '?')) == NULL)
+		upart->query = -1;
+	else {
+		cur = tmp + 1;
+		upart->query = cur - uri;
+	}
+
+	// fragment
+	if ((tmp = strrchr (cur, '#')) == NULL)
+		upart->fragment = -1;
+	else {
+		cur = tmp + 1;
+		upart->fragment = cur - uri;
+	}
+
+	// host & port
+	upart->port = -1;
+	if (upart->authority == -1)
+		upart->host = -1;
+	else {
+		upart->host = upart->authority;
+		tmp = uri + upart->authority;
+		for (cur = uri + upart->path -1;  cur >= tmp;  cur--) {
+			if (cur[0] == '@') {
+				upart->host = cur - uri + 1;
+				break;
+			}
+			if (cur[0] == ':')
+				upart->port = cur - uri + 1;
+		}
+	}
+
+	return upart->schemeLength;
 }
 
-int	ug_uri_part_file_ext (UgUriPart* upart, const char** ext)
+int  ug_uri_part_scheme (UgUri* uuri, const char** scheme)
 {
-	const char*	beg;
-	const char*	end;
-	int			len;
+	if (scheme && uuri->schemeLength)
+		*scheme = uuri->uri;
+	return uuri->schemeLength;
+}
 
-	// get filename
-	if ((len = ug_uri_part_file (upart, &beg)) != 0) {
-		for (end = beg +len -1;  end >= beg;  end--) {
-			if (*end == '.') {
+int  ug_uri_part_file (UgUri* uuri, const char** file)
+{
+	if (uuri->file != -1) {
+		if (file)
+			*file = uuri->uri + uuri->file;
+		if (uuri->query != -1)
+			return uuri->query - uuri->file - 1;   // - '?'
+		if (uuri->fragment != -1)
+			return uuri->fragment - uuri->file - 1;  // - '#'
+		return strlen (uuri->uri + uuri->file);
+	}
+	return 0;
+}
+
+int  ug_uri_part_file_ext (UgUri* uuri, const char** ext)
+{
+	const char* beg;
+	const char* end;
+	int  len;
+
+	if (uuri->file != -1) {
+		len = ug_uri_part_file (uuri, &beg);
+		end = uuri->uri + uuri->file + len -1;
+		for (;  end >= beg;  end--) {
+			if (end[0] == '.') {
 				end += 1;	// + '.'
 				if (ext)
 					*ext = end;
@@ -131,142 +163,104 @@ int	ug_uri_part_file_ext (UgUriPart* upart, const char** ext)
 	return 0;
 }
 
-int	ug_uri_part_query (UgUriPart* upart, const char** query)
+int  ug_uri_part_query (UgUri* uuri, const char** query)
 {
-	const char*	beg;
-
-	if ((beg = upart->query) != NULL) {
+	if (uuri->query != -1) {
 		if (query)
-			*query = beg;
-		if (upart->fragment)
-			return upart->fragment - beg - 1;	// - '#'
-		return strlen (beg);
+			*query = uuri->uri + uuri->query;
+		if (uuri->fragment != -1)
+			return uuri->fragment - uuri->query -1;  // - '#'
+		return strlen (uuri->uri + uuri->query);
 	}
 	return 0;
 }
 
-int	ug_uri_part_fragment (UgUriPart* upart, const char** fragment)
+int  ug_uri_part_fragment (UgUri* uuri, const char** fragment)
 {
-	const char*	beg;
-
-	if ((beg = upart->fragment) != NULL) {
+	if (uuri->fragment != -1) {
 		if (fragment)
-			*fragment = beg;
-		return strlen (beg);
+			*fragment = uuri->uri + uuri->fragment;
+		return strlen (uuri->uri + uuri->fragment);
 	}
 	return 0;
 }
 
-int	ug_uri_part_referrer (UgUriPart* upart, const char* uri)
+int  ug_uri_part_referrer (UgUri* uuri, const char** referrer)
 {
-	const char*	end;
-
-	if (ug_uri_part_file (upart, &end) == 0)
-		end = upart->path;
-	return end - uri;
+	if (referrer)
+		*referrer = uuri->uri;
+	if (uuri->file == -1)
+		return uuri->path;
+	return uuri->file;
 }
 
-// --------------------------------------------------------
-// UgUriFull
-//
-int		ug_uri_full_init (UgUriFull* ufull, const char*  uri)
+int  ug_uri_part_user (UgUri* uuri, const char** user)
 {
-	const char*	beg;
-	const char*	cur;
-	int			len;
+	const char* beg;
+	const char* end;
 
-	ufull->host = NULL;
-	ufull->port = NULL;
-	len = ug_uri_part_init ((UgUriPart*) ufull, uri);
-	if ((beg = ufull->authority) != NULL) {
-		ufull->host = beg;
-		for (cur = ufull->path -1;  cur >= beg;  cur--) {
-			if (*cur == '@') {
-				ufull->host = cur + 1;
-				break;
-			}
-			if (*cur == ':')
-				ufull->port = cur + 1;
-		}
+	if (uuri->authority == uuri->host)
+		return 0;
+
+	beg = uuri->uri + uuri->authority;
+	end = uuri->uri + uuri->host - 1;    // - '@'
+	if (user)
+		*user = beg;
+	for (; beg < end;  beg++) {
+		if (beg[0] == ':')
+			break;
 	}
-	return len;
+	return beg - uuri->uri - uuri->authority;
 }
 
-int	ug_uri_full_user (UgUriFull* ufull, const char** user)
+int  ug_uri_part_password (UgUri* uuri, const char** password)
 {
-	const char*	beg;
-	const char*	end;
+	const char* tmp;
+	int  length;
 
-	beg = ufull->authority;
-	end = ufull->host;
-	if (beg != end) {
-		if (user)
-			*user = beg;
-		for (end -= 1;  beg < end;  beg++) {
-			if (*beg == ':')
-				return beg - ufull->authority;
-		}
-	}
-	return end - ufull->authority;
-}
-
-int	ug_uri_full_password (UgUriFull* ufull, const char** password)
-{
-	const char*	beg;
-	const char*	end;
-
-	beg = ufull->authority;
-	end = ufull->host;
-	if (beg != end) {
-		for (end -= 1;  beg < end;  beg++) {
-			if (*beg == ':') {
-				beg += 1;	// + ':'
-				if (password)
-					*password = beg;
-				return end - beg;
-			}
-		}
+	length = ug_uri_part_user (uuri, &tmp);
+	if (length && tmp[length] == ':') {
+		tmp += length + 1;  // + ':'
+		if (password)
+			*password = tmp;
+		return uuri->host - (tmp - uuri->uri) - 1;  // - '@'
 	}
 	return 0;
 }
 
-int	ug_uri_full_host (UgUriFull* ufull, const char** host)
+int  ug_uri_part_host (UgUri* uuri, const char** host)
 {
-	const char*	beg;
-
-	if ((beg = ufull->host) != NULL) {
+	if (uuri->host != -1) {
 		if (host)
-			*host = beg;
-		if (ufull->port)
-			return ufull->port - beg - 1;	// - ':'
+			*host = uuri->uri + uuri->host;
+		if (uuri->port != -1)
+			return uuri->port - uuri->host - 1;   // - ':'
 		else
-			return ufull->path - beg;
+			return uuri->path - uuri->host;
 	}
 	return 0;
 }
 
-int	ug_uri_full_port (UgUriFull* ufull, const char** port)
+int  ug_uri_part_port (UgUri* uuri, const char** port)
 {
-	const char*	beg;
-
-	if ((beg = ufull->port) != NULL) {
+	if (uuri->port != -1) {
 		if (port)
-			*port = beg;
-		return ufull->path - beg;
+			*port = uuri->uri + uuri->port;
+		return uuri->path - uuri->port;
 	}
 	return 0;
 }
 
-int	ug_uri_full_port_n (UgUriFull* ufull)
+int  ug_uri_get_port (UgUri* uuri)
 {
-	if (ufull->port)
-		return atoi (ufull->port);
+	if (uuri->port != -1)
+		return strtol (uuri->uri + uuri->port, NULL, 10);
 	return -1;
 }
 
 // --------------------------------------------------------
-// Convenience Functions for UgUriPart
-gchar*	ug_uri_part_get_file (UgUriPart* upart)
+// Convenience Functions for UgUri
+gchar*	ug_uri_get_file (UgUri* upart)
 {
 	const char*	str;
 	char*		name;
@@ -292,23 +286,23 @@ gchar*	ug_uri_part_get_file (UgUriPart* upart)
 }
 
 // --------------------------------------------------------
-// Convenience Functions for UgUriFull
-gchar*	ug_uri_full_get_user (UgUriFull* ufull)
+// Convenience Functions for UgUri
+gchar*	ug_uri_get_user (UgUri* upart)
 {
 	const char*	str = NULL;
 	int			len;
 
-	if ((len = ug_uri_full_user (ufull, &str)) != 0)
+	if ((len = ug_uri_part_user (upart, &str)) != 0)
 		return g_strndup (str, len);
 	return NULL;
 }
 
-gchar*	ug_uri_full_get_password (UgUriFull* ufull)
+gchar*	ug_uri_get_password (UgUri* upart)
 {
 	const char*	str;
 	int			len;
 
-	if ((len = ug_uri_full_password (ufull, &str)) != 0)
+	if ((len = ug_uri_part_password (upart, &str)) != 0)
 		return g_strndup (str, len);
 	return NULL;
 }
@@ -338,17 +332,17 @@ guint	ug_uri_scheme_len (const gchar* uri)
 // get length of referrer
 guint	ug_uri_referrer_len (const gchar* uri)
 {
-	UgUriPart	upart;
+	UgUri	upart;
 
-	ug_uri_part_init (&upart, uri);
-	return ug_uri_part_referrer ((UgUriPart*) &upart, uri);
+	ug_uri_init (&upart, uri);
+	return ug_uri_part_referrer ((UgUri*) &upart, NULL);
 }
 
 gchar*	ug_uri_get_filename (const gchar* str)
 {
-	UgUriPart	upart;
+	UgUri	upart;
 
-	ug_uri_part_init (&upart, str);
-	return ug_uri_part_get_file ((UgUriPart*) &upart);
+	ug_uri_init (&upart, str);
+	return ug_uri_get_file ((UgUri*) &upart);
 }
 

@@ -37,6 +37,7 @@
 #ifndef UG_URI_H
 #define UG_URI_H
 
+#include <stdint.h>
 #include <glib.h>
 
 #ifdef __cplusplus
@@ -59,80 +60,68 @@ extern "C" {
  *         urn:path
  */
 
-// UgUriPart
-// |
-// +- UgUriFull
-//
-typedef struct UgUriPart		UgUriPart;
-typedef struct UgUriFull		UgUriFull;
+typedef struct UgUri              UgUri;
 
-#define	UG_URI_PART_MEMBERS		\
-	const char*		authority;	\
-	const char*		path;		\
-	const char*		query;		\
-	const char*		fragment
+#define	UG_URI_MEMBERS  \
+	const char*  uri;       \
+	int16_t  schemeLength;  \
+	int16_t  authority;     \
+	int16_t  host;          \
+	int16_t  port;          \
+	int16_t  path;          \
+	int16_t  file;          \
+	int16_t  query;         \
+	int16_t  fragment
 
-// ----------------------------------------------------------------------------
-// UgUriPart: UgUriPart use smaller stack size than UgUriFull.
-//            It can NOT parse user, password, host, and port in authority.
-//
-struct UgUriPart
+struct UgUri
 {
-	UG_URI_PART_MEMBERS;
-//	const char*		authority;
-//	const char*		path;
-//	const char*		query;
-//	const char*		fragment;
+	UG_URI_MEMBERS;
+//	const char*  uri;
+//	int16_t  schemeLength;
+//	int16_t  authority;
+//	int16_t  host;
+//	int16_t  port;
+//	int16_t  path;
+//	int16_t  file;
+//	int16_t  query;
+//	int16_t  fragment;
 };
 
-// ug_uri_part_init() return length of scheme. upart can be NULL.
-int		ug_uri_part_init     (UgUriPart* upart, const char*  uri);
-int		ug_uri_part_file     (UgUriPart* upart, const char** file);
-int		ug_uri_part_file_ext (UgUriPart* upart, const char** ext);
-int		ug_uri_part_query    (UgUriPart* upart, const char** query);
-int		ug_uri_part_fragment (UgUriPart* upart, const char** fragment);
-int		ug_uri_part_referrer (UgUriPart* upart, const char*  uri);
+int  ug_uri_init (UgUri* uuri, const char* uri);
+int  ug_uri_part_scheme   (UgUri* uuri, const char** scheme);
+int  ug_uri_part_file     (UgUri* uuri, const char** file);
+int  ug_uri_part_file_ext (UgUri* uuri, const char** ext);
+int  ug_uri_part_query    (UgUri* uuri, const char** query);
+int  ug_uri_part_fragment (UgUri* uuri, const char** fragment);
+int  ug_uri_part_referrer (UgUri* uuri, const char** referrer);
+int  ug_uri_part_user     (UgUri* uuri, const char** user);
+int  ug_uri_part_password (UgUri* uuri, const char** password);
+int  ug_uri_part_host     (UgUri* uuri, const char** host);
+int  ug_uri_part_port     (UgUri* uuri, const char** port);
 
-// ----------------------------------------------------------------------------
-// UgUriFull: UgUriFull is based on UgUriPart. It can parse authority.
-//
-struct UgUriFull
-{
-	UG_URI_PART_MEMBERS;
-//	const char*		authority;
-//	const char*		path;
-//	const char*		query;
-//	const char*		fragment;
+#define  ug_uri_scheme        ug_uri_part_scheme
+#define  ug_uri_file          ug_uri_part_file
+#define  ug_uri_file_ext      ug_uri_part_file_ext
+#define  ug_uri_query         ug_uri_part_query
+#define  ug_uri_fragment      ug_uri_part_fragment
+#define  ug_uri_referrer      ug_uri_part_referrer
+#define  ug_uri_user          ug_uri_part_user
+#define  ug_uri_password      ug_uri_part_password
+#define  ug_uri_host          ug_uri_part_host
+#define  ug_uri_port          ug_uri_part_port
 
-	const char*		host;
-	const char*		port;
-};
-
-// ug_uri_full_init() return length of scheme
-int		ug_uri_full_init     (UgUriFull* ufull, const char*  uri);
-int		ug_uri_full_user     (UgUriFull* ufull, const char** user);
-int		ug_uri_full_password (UgUriFull* ufull, const char** password);
-int		ug_uri_full_host     (UgUriFull* ufull, const char** host);
-int		ug_uri_full_port     (UgUriFull* ufull, const char** port);
-int		ug_uri_full_port_n   (UgUriFull* ufull);
-
-#define	ug_uri_full_file(urifull, file)			ug_uri_part_file ((UgUriPart*) urifull, file)
-#define	ug_uri_full_file_ext(urifull, ext)		ug_uri_part_file_ext ((UgUriPart*) urifull, ext)
-#define	ug_uri_full_query(urifull, query)		ug_uri_part_query ((UgUriPart*) urifull, query)
-#define	ug_uri_full_fragment(urifull, fragment)	ug_uri_part_fragment ((UgUriPart*) urifull, fragment)
-#define	ug_uri_full_referrer(urifull, uri)		ug_uri_part_referrer ((UgUriPart*) urifull, uri)
+int  ug_uri_get_port (UgUri* uuri);
 
 // --------------------------------------------------------
-// Convenience Functions for UgUriPart
+// Convenience Functions for UgUri
 //  If filename is valid UTF-8, return unescaped filename,
 //  otherwise return escaped filename.
-gchar*	ug_uri_part_get_file (UgUriPart* upart);
-#define	ug_uri_full_get_file(urifull)			ug_uri_part_get_file ((UgUriPart*) urifull)
+gchar*	ug_uri_get_file (UgUri* upart);
 
 // --------------------------------------------------------
-// Convenience Functions for UgUriFull
-gchar*	ug_uri_full_get_user (UgUriFull* ufull);
-gchar*	ug_uri_full_get_password (UgUriFull* ufull);
+// Convenience Functions for UgUri
+gchar*	ug_uri_get_user (UgUri* ufull);
+gchar*	ug_uri_get_password (UgUri* ufull);
 
 // --------------------------------------------------------
 // Other URI functions
