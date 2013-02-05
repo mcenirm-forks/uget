@@ -162,11 +162,6 @@ static const UgDataEntry	uget_proxy_entry[] =
 	{"pwmd-socket",	G_STRUCT_OFFSET (UgetProxy, pwmd.socket),	UG_TYPE_STRING,	NULL,	NULL},
 	{"pwmd-file",	G_STRUCT_OFFSET (UgetProxy, pwmd.file),	UG_TYPE_STRING,	NULL,	NULL},
 	{"pwmd-element",G_STRUCT_OFFSET (UgetProxy, pwmd.element),UG_TYPE_STRING,	NULL,	NULL},
-
-	// deparecated
-	{"pwmd.socket",	G_STRUCT_OFFSET (UgetProxy, pwmd.socket),	UG_TYPE_STRING,	NULL,	NULL},
-	{"pwmd.file",	G_STRUCT_OFFSET (UgetProxy, pwmd.file),	UG_TYPE_STRING,	NULL,	NULL},
-	{"pwmd.element",G_STRUCT_OFFSET (UgetProxy, pwmd.element),UG_TYPE_STRING,	NULL,	NULL},
 #endif
 	{NULL},		// null-terminated
 };

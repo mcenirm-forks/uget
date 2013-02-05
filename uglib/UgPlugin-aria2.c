@@ -1153,7 +1153,7 @@ static gboolean	ug_plugin_aria2_set_proxy (UgPluginAria2* plugin, UgXmlrpcValue*
 		return TRUE;
 
 #ifdef HAVE_LIBPWMD
-	if (proxy->type == UG_DATA_PROXY_PWMD) {
+	if (proxy->type == UGET_PROXY_PWMD) {
 		if (ug_plugin_aria2_set_proxy_pwmd (plugin, options) == FALSE)
 			return FALSE;
 	}

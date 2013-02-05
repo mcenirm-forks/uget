@@ -64,15 +64,15 @@ void	ug_proxy_form_init (UgProxyForm* pform)
 	widget = gtk_label_new (_("Proxy:"));
 	pform->type = gtk_combo_box_text_new ();
 	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
-			UG_DATA_PROXY_NONE, _("Don't use"));
+			UGET_PROXY_NONE, _("Don't use"));
 	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
-			UG_DATA_PROXY_DEFAULT, _("Default"));
+			UGET_PROXY_DEFAULT, _("Default"));
 	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
-			UG_DATA_PROXY_HTTP, "HTTP");
+			UGET_PROXY_HTTP, "HTTP");
 	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
-			UG_DATA_PROXY_SOCKS4, "SOCKS v4");
+			UGET_PROXY_SOCKS4, "SOCKS v4");
 	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
-			UG_DATA_PROXY_SOCKS5, "SOCKS v5");
+			UGET_PROXY_SOCKS5, "SOCKS v5");
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 1);
 	gtk_box_pack_start (GTK_BOX (hbox), pform->type, FALSE, FALSE, 2);
@@ -87,7 +87,7 @@ void	ug_proxy_form_init (UgProxyForm* pform)
 
 #ifdef HAVE_LIBPWMD
 	gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (pform->type),
-			UG_DATA_PROXY_PWMD, "PWMD");
+			UGET_PROXY_PWMD, "PWMD");
 
 	ug_proxy_form_pwmd_init (&pform->pwmd, pform);
 	gtk_box_pack_end (GTK_BOX (vbox), pform->pwmd.self, TRUE, TRUE, 0);
@@ -207,7 +207,7 @@ void	ug_proxy_form_set  (UgProxyForm* pform, UgDataset* dataset, gboolean keep_c
 		if (keep_changed == FALSE  ||  pform->changed.type == FALSE)
 			gtk_spin_button_set_value ((GtkSpinButton*) pform->port, 80);
 		if (keep_changed == FALSE  ||  pform->changed.port == FALSE)
-			gtk_combo_box_set_active ((GtkComboBox*) pform->type, UG_DATA_PROXY_NONE);
+			gtk_combo_box_set_active ((GtkComboBox*) pform->type, UGET_PROXY_NONE);
 		pform->changed.enable = TRUE;	// enable changed flags
 		return;
 	}
@@ -279,7 +279,7 @@ static void on_type_changed (GtkComboBox* widget, UgProxyForm* pform)
 	if (pform->changed.enable)
 		pform->changed.type = TRUE;
 	index = gtk_combo_box_get_active (widget);
-	if (index == UG_DATA_PROXY_NONE)
+	if (index == UGET_PROXY_NONE)
 		sensitive = FALSE;
 	else
 		sensitive = TRUE;
@@ -289,7 +289,7 @@ static void on_type_changed (GtkComboBox* widget, UgProxyForm* pform)
 #ifdef HAVE_LIBPWMD
 	gtk_widget_set_sensitive (pform->pwmd.self, sensitive);
 
-	if (index == UG_DATA_PROXY_PWMD) {
+	if (index == UGET_PROXY_PWMD) {
 		gtk_widget_set_visible (pform->std, FALSE);
 		gtk_widget_set_visible (pform->pwmd.self, TRUE);
 	}

@@ -308,29 +308,29 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 	if (proxy) {
 		// proxy type
 		switch (proxy->type) {
-		case UG_DATA_PROXY_NONE:
+		case UGET_PROXY_NONE:
 			curl_easy_setopt (curl, CURLOPT_PROXYTYPE, 0);
 			break;
 
 		default:
-		case UG_DATA_PROXY_DEFAULT:
-		case UG_DATA_PROXY_HTTP:
+		case UGET_PROXY_DEFAULT:
+		case UGET_PROXY_HTTP:
 			curl_easy_setopt (curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
 			ug_plugin_curl_set_proxy (plugin, curl);
 			break;
 
-		case UG_DATA_PROXY_SOCKS4:
+		case UGET_PROXY_SOCKS4:
 			curl_easy_setopt (curl, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS4);
 			ug_plugin_curl_set_proxy (plugin, curl);
 			break;
 
-		case UG_DATA_PROXY_SOCKS5:
+		case UGET_PROXY_SOCKS5:
 			curl_easy_setopt (curl, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
 			ug_plugin_curl_set_proxy (plugin, curl);
 			break;
 
 #ifdef HAVE_LIBPWMD
-		case UG_DATA_PROXY_PWMD:
+		case UGET_PROXY_PWMD:
 			if (ug_plugin_curl_set_proxy_pwmd (plugin) == FALSE)
 				goto exit;
 			break;
@@ -710,8 +710,8 @@ static void	ug_plugin_curl_set_proxy (UgPluginCurl* plugin, CURL* curl)
 		curl_easy_setopt (curl, CURLOPT_PROXYPORT, 80);
 	// proxy user and password
 	if (proxy->user || proxy->password ||
-		proxy->type == UG_DATA_PROXY_SOCKS4 ||
-		proxy->type == UG_DATA_PROXY_SOCKS5)
+		proxy->type == UGET_PROXY_SOCKS4 ||
+		proxy->type == UGET_PROXY_SOCKS5)
 	{
 		curl_easy_setopt (curl, CURLOPT_PROXYUSERNAME,
 				(proxy->user)     ? proxy->user     : "");
