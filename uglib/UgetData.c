@@ -160,6 +160,7 @@ static const UgDataEntry	uget_proxy_entry[] =
 	{"password",	G_STRUCT_OFFSET (UgetProxy, password),	UG_TYPE_STRING,	NULL,	NULL},
 #ifdef HAVE_LIBPWMD
 	{"pwmd-socket",	G_STRUCT_OFFSET (UgetProxy, pwmd.socket),	UG_TYPE_STRING,	NULL,	NULL},
+	{"pwmd-socket-args",	G_STRUCT_OFFSET (UgetProxy, pwmd.socket_args),	UG_TYPE_STRING,	NULL,	NULL},
 	{"pwmd-file",	G_STRUCT_OFFSET (UgetProxy, pwmd.file),	UG_TYPE_STRING,	NULL,	NULL},
 	{"pwmd-element",G_STRUCT_OFFSET (UgetProxy, pwmd.element),UG_TYPE_STRING,	NULL,	NULL},
 #endif
@@ -186,6 +187,7 @@ static void	uget_proxy_final	(UgetProxy* proxy)
 
 #ifdef HAVE_LIBPWMD
 	g_free(proxy->pwmd.socket);
+	g_free(proxy->pwmd.socket_args);
 	g_free(proxy->pwmd.file);
 	g_free(proxy->pwmd.element);
 #endif	// HAVE_LIBPWMD
@@ -208,6 +210,8 @@ static void	uget_proxy_assign (UgetProxy* proxy, UgetProxy* src)
 #ifdef HAVE_LIBPWMD
 	if (proxy->pwmd.keeping.socket == FALSE)
 		ug_str_set (&proxy->pwmd.socket, src->pwmd.socket, -1);
+	if (proxy->pwmd.keeping.socket_args == FALSE)
+		ug_str_set (&proxy->pwmd.socket_args, src->pwmd.socket_args, -1);
 	if (proxy->pwmd.keeping.file == FALSE)
 		ug_str_set (&proxy->pwmd.file, src->pwmd.file, -1);
 	if (proxy->pwmd.keeping.element == FALSE)

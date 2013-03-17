@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011 Ben Kibbey <bjk@luxsci.net>
+    Copyright (C) 2011-2013 Ben Kibbey <bjk@luxsci.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02110-1301  USA
 */
 #include <libpwmd.h>
-#include "UgData-download.h"
+#include "UgetData.h"
 
 struct pwmd_proxy_s {
        pwm_t *pwm;
@@ -28,5 +28,5 @@ struct pwmd_proxy_s {
        gint port;
 };
 
-gpg_error_t ug_set_pwmd_proxy_options(struct pwmd_proxy_s *, UgDataProxy *);
+gpg_error_t ug_set_pwmd_proxy_options(struct pwmd_proxy_s *, UgetProxy *);
 void ug_close_pwmd(struct pwmd_proxy_s *);

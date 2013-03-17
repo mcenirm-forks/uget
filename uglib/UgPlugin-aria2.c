@@ -1241,7 +1241,7 @@ static gboolean	ug_plugin_aria2_set_proxy_pwmd (UgPluginAria2 *plugin, UgXmlrpcV
 
 fail:
        ug_close_pwmd(&pwmd);
-       gchar *e = g_strdup_printf("Pwmd ERR %i: %s", rc, pwmd_strerror(rc));
+       gchar *e = g_strdup_printf("Pwmd ERR %i: %s", rc, gpg_strerror(rc));
        message = ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, e);
        ug_plugin_post ((UgPlugin*) plugin, message);
        fprintf(stderr, "%s\n", e);

@@ -88,12 +88,14 @@ struct UgProxyForm
 		GtkWidget*		self;
 
 		GtkWidget*		socket;
+	        GtkWidget*		socket_args;
 		GtkWidget*		file;
 		GtkWidget*		element;
 
 		// User changed entry
 		struct UgProxyFormPwmdChanged {
 			gboolean		socket:1;
+		        gboolean		socket_args:1;
 			gboolean		file:1;
 			gboolean		element:1;
 		} changed;

@@ -191,6 +191,7 @@ void	ug_proxy_form_get  (UgProxyForm* pform, UgDataset* dataset)
 
 #ifdef HAVE_LIBPWMD
 	ug_str_set (&proxy->pwmd.socket,  gtk_entry_get_text ((GtkEntry*)pform->pwmd.socket),  -1);
+	ug_str_set (&proxy->pwmd.socket_args,  gtk_entry_get_text ((GtkEntry*)pform->pwmd.socket_args),  -1);
 	ug_str_set (&proxy->pwmd.file,    gtk_entry_get_text ((GtkEntry*)pform->pwmd.file),    -1);
 	ug_str_set (&proxy->pwmd.element, gtk_entry_get_text ((GtkEntry*)pform->pwmd.element), -1);
 #endif	// HAVE_LIBPWMD
@@ -247,6 +248,7 @@ void	ug_proxy_form_set  (UgProxyForm* pform, UgDataset* dataset, gboolean keep_c
 #ifdef HAVE_LIBPWMD
 	if (keep_changed == FALSE) {
 		pform->pwmd.changed.socket  = proxy->pwmd.keeping.socket;
+		pform->pwmd.changed.socket_args  = proxy->pwmd.keeping.socket_args;
 		pform->pwmd.changed.file    = proxy->pwmd.keeping.file;
 		pform->pwmd.changed.element = proxy->pwmd.keeping.element;
 	}
@@ -254,6 +256,10 @@ void	ug_proxy_form_set  (UgProxyForm* pform, UgDataset* dataset, gboolean keep_c
 	if (keep_changed == FALSE  ||  pform->pwmd.changed.socket == FALSE) {
 		gtk_entry_set_text ((GtkEntry*) pform->pwmd.socket,
 				(proxy->pwmd.socket) ? proxy->pwmd.socket: "");
+	}
+	if (keep_changed == FALSE  ||  pform->pwmd.changed.socket_args == FALSE) {
+		gtk_entry_set_text ((GtkEntry*) pform->pwmd.socket_args,
+				(proxy->pwmd.socket_args) ? proxy->pwmd.socket_args: "");
 	}
 	if (keep_changed == FALSE  ||  pform->pwmd.changed.file == FALSE) {
 		gtk_entry_set_text ((GtkEntry*) pform->pwmd.file,
@@ -334,21 +340,17 @@ static void	ug_proxy_form_pwmd_init (struct UgProxyFormPwmd* pfp, UgProxyForm* p
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
 	g_object_set (pfp->socket, "margin", 1, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
-	gtk_grid_attach (grid, pfp->socket, 1, 0, 1, 1);
+	gtk_grid_attach (grid, pfp->socket, 1, 0, 4, 1);
 
-	widget = gtk_label_new_with_mnemonic (_("File:"));
-	pfp->file = gtk_entry_new ();
-	gtk_entry_set_width_chars (GTK_ENTRY (pfp->file), 16);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pfp->file);
+	widget = gtk_label_new_with_mnemonic (_("Socket args:"));
+	pfp->socket_args = gtk_entry_new ();
+	gtk_entry_set_width_chars (GTK_ENTRY (pfp->socket_args), 16);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pfp->socket_args);
 	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
-	g_object_set (pfp->file, "margin", 1, "hexpand", TRUE, NULL);
+	g_object_set (pfp->socket_args, "margin", 1, "hexpand", TRUE, NULL);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
-	gtk_grid_attach (grid, pfp->file, 1, 1, 1, 1);
-
-	widget = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-	g_object_set (widget, "margin", 1, NULL);
-	gtk_grid_attach (grid, widget, 2, 0, 1, 2);
+	gtk_grid_attach (grid, pfp->socket_args, 1, 1, 4, 1);
 
 	widget = gtk_label_new_with_mnemonic (_("Element:"));
 	pfp->element = gtk_entry_new ();
@@ -357,10 +359,26 @@ static void	ug_proxy_form_pwmd_init (struct UgProxyFormPwmd* pfp, UgProxyForm* p
 	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
 	g_object_set (pfp->element, "margin", 1, "hexpand", TRUE, NULL);
-	gtk_grid_attach (grid, widget, 3, 0, 1, 1);
-	gtk_grid_attach (grid, pfp->element, 4, 0, 1, 1);
+	gtk_grid_attach (grid, widget, 3, 2, 1, 1);
+	gtk_grid_attach (grid, pfp->element, 4, 2, 1, 1);
+
+	widget = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+	g_object_set (widget, "margin", 1, NULL);
+	gtk_grid_attach (grid, widget, 2, 2, 1, 2);
+
+	widget = gtk_label_new_with_mnemonic (_("File:"));
+	pfp->file = gtk_entry_new ();
+	gtk_entry_set_width_chars (GTK_ENTRY (pfp->file), 16);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), pfp->file);
+	g_object_set (widget, "margin-left", 3, "margin-right", 3, NULL);
+	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);
+	g_object_set (pfp->file, "margin", 1, "hexpand", TRUE, NULL);
+	gtk_grid_attach (grid, widget, 0, 2, 1, 1);
+	gtk_grid_attach (grid, pfp->file, 1, 2, 1, 1);
 
 	g_signal_connect (GTK_EDITABLE (pform->pwmd.socket), "changed",
+			G_CALLBACK (on_entry_pwmd_changed), pform);
+	g_signal_connect (GTK_EDITABLE (pform->pwmd.socket_args), "changed",
 			G_CALLBACK (on_entry_pwmd_changed), pform);
 	g_signal_connect (GTK_EDITABLE (pform->pwmd.file), "changed",
 			G_CALLBACK (on_entry_pwmd_changed), pform);
@@ -376,6 +394,8 @@ static void on_entry_pwmd_changed (GtkEditable* editable, UgProxyForm* pform)
 	if (pform->changed.enable) {
 		if (editable == GTK_EDITABLE (pform->pwmd.socket))
 			pform->pwmd.changed.socket = TRUE;
+		else if (editable == GTK_EDITABLE (pform->pwmd.socket_args))
+			pform->pwmd.changed.socket_args = TRUE;
 		else if (editable == GTK_EDITABLE (pform->pwmd.file))
 			pform->pwmd.changed.file = TRUE;
 		else if (editable == GTK_EDITABLE (pform->pwmd.element))
