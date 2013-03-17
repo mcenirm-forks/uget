@@ -110,7 +110,7 @@ enum Aria2Status
 };
 
 // static data for UgPluginInterface
-static const char*	supported_schemes[]   = {"http", "https", "ftp", "ftps", NULL};
+static const char*	supported_schemes[]   = {"http", "https", "ftp", NULL};
 static const char*	supported_filetypes[] = {"torrent", "metalink", "meta4", NULL};
 static char*		xmlrpc_uri;
 // extern
@@ -464,7 +464,7 @@ static gboolean	ug_plugin_aria2_add_uri	(UgPluginAria2* plugin)
 	UgXmlrpcValue*		uris;		// UG_XMLRPC_ARRAY
 	UgXmlrpcValue*		options;	// UG_XMLRPC_STRUCT
 	UgXmlrpcValue*		value;
-	UgetCommon*		common;
+	UgetCommon*			common;
 	UgXmlrpcResponse	response;
 	char*				curr;
 	char*				prev;
@@ -1041,7 +1041,7 @@ static void	ug_plugin_aria2_set_scheme (UgPluginAria2* plugin)
 static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* options)
 {
 	UgXmlrpcValue*	value;
-	UgetCommon*	common;
+	UgetCommon*		common;
 	GString*		string;
 
 	common = plugin->common;

@@ -67,10 +67,10 @@ struct UgPluginAria2
 //	GMutex*						lock;
 
 	// supported data
-	UgetCommon*	common;
-	UgetProxy*	proxy;
-	UgetHttp*		http;
-	UgetFtp*		ftp;
+	UgetCommon* common;
+	UgetProxy*  proxy;
+	UgetHttp*   http;
+	UgetFtp*    ftp;
 
 	gboolean		renamed;
 
