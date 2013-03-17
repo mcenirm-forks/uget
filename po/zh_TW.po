@@ -794,7 +794,7 @@ msgstr "資料夾(_F):"
 #. Referrer - label
 #: ../uget-gtk/UgDownloadForm.c:204
 msgid "Referrer:"
-msgstr ""
+msgstr "參照位址:"
 
 #. ----------------------------------------------------
 #. frame for Status (start mode)
