@@ -208,13 +208,13 @@ struct UgetProxy
 	{
 		gchar*		socket;
 		gchar*		socket_args;
-	        gchar*		file;
+		gchar*		file;
 		gchar*		element;
 
 		struct UgetProxyPwmdKeeping
 		{
 			gboolean	socket:1;
-		        gboolean	socket_args:1;
+			gboolean	socket_args:1;
 			gboolean	file:1;
 			gboolean	element:1;
 		} keeping;

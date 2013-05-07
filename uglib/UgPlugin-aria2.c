@@ -110,7 +110,7 @@ enum Aria2Status
 };
 
 // static data for UgPluginInterface
-static const char*	supported_schemes[]   = {"http", "https", "ftp", NULL};
+static const char*	supported_schemes[]   = {"http", "https", "ftp", "magnet", NULL};
 static const char*	supported_filetypes[] = {"torrent", "metalink", "meta4", NULL};
 static char*		xmlrpc_uri;
 // extern

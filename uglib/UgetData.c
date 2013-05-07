@@ -170,7 +170,7 @@ static const UgDataEntry	uget_proxy_entry[] =
 const UgDataInterface	uget_proxy_iface =
 {
 	sizeof (UgetProxy),	// instance_size
-	"proxy",				// name
+	"proxy",			// name
 	uget_proxy_entry,	// entry
 
 	(UgInitFunc)		NULL,
