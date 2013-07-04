@@ -50,7 +50,7 @@ static const char	uget_license[] =
 
 #include <glib/gi18n.h>
 
-#define	UGET_URL_WEBSITE	"http://uGet.visuex.com/"
+#define	UGET_URL_WEBSITE	"http://ugetdm.com/"
 
 // static data
 static const gchar*	uget_authors[] = { "C.H. Huang  (\xE9\xBB\x83\xE6\xAD\xA3\xE9\x9B\x84)", NULL };
