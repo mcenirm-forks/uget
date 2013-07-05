@@ -398,7 +398,7 @@ static gboolean	ug_app_decide_schedule_state (UgAppGtk* app)
 	time_t		timet;
 	guint		weekdays, dayhours;
 	gboolean	changed;
-	UgScheduleState	state;
+	UgScheduleState	 state;
 
 	if (app->setting.scheduler.enable == FALSE) {
 		app->schedule_state = UG_SCHEDULE_NORMAL;
@@ -518,6 +518,8 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 				if (app->setting.shutdown) {
 					ug_app_save (app);
 					ug_shutdown ();
+					ug_app_show_message (app, GTK_MESSAGE_INFO,
+							"This program need root privileges to shutdown.");
 				}
 			}
 		}
