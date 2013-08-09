@@ -483,6 +483,17 @@ const char*	ug_io_channel_decide_encoding (GIOChannel* channel)
 // others
 //
 #ifdef _WIN32
+
+gboolean	ug_launch_uri (const gchar* uri)
+{
+	int  result;
+
+	result = (int) ShellExecuteA(NULL, "open", uri, NULL, NULL, SW_SHOWNORMAL);
+	if (result > 32)
+		return TRUE;
+	return FALSE;
+}
+
 gboolean	ug_launch_default_app (const gchar* folder, const gchar* file)
 {
 	gchar*		path;
@@ -522,7 +533,32 @@ void	ug_shutdown (void)
 
 	ExitWindowsEx (EWX_SHUTDOWN | EWX_POWEROFF, 0);
 }
+
+char*  ug_sys_release (void)
+{
+	OSVERSIONINFO  info;
+
+	memset (&info, 0, sizeof (info));
+	info.dwOSVersionInfoSize = sizeof (info);
+	GetVersionEx (&info);
+	return g_strdup_printf ("Windows-%u.%u",
+			(unsigned) info.dwMajorVersion,
+			(unsigned) info.dwMinorVersion);
+}
+
 #else
+gboolean	ug_launch_uri (const gchar* uri)
+{
+	GError* error = NULL;
+
+	g_app_info_launch_default_for_uri (uri, NULL, &error);
+	if (error) {
+		g_error_free (error);
+		return FALSE;
+	}
+	return TRUE;
+}
+
 gboolean	ug_launch_default_app (const gchar* folder, const gchar* file)
 {
 	GError* error = NULL;
@@ -562,5 +598,43 @@ void	ug_shutdown (void)
 //	g_spawn_command_line_async ("shutdown -h -P now", NULL);
 	// change to runlevel 0
 }
+
+// lsb_release -i
+// Distributor ID:
+// lsb_release -r
+// Release:
+gchar*  ug_sys_release (void)
+{
+	FILE*  file;
+	char*  buf;
+	char*  dist = NULL;
+	char*  release = NULL;
+
+	file = popen ("lsb_release -a", "r");
+	if (file == NULL)
+		return g_strdup ("Unknown");
+	buf = g_malloc (80);
+	while (fgets (buf, 80, file) != NULL) {
+		if (strncmp (buf, "Distributor ID:", 15) == 0) {
+			for (dist = buf + 15;  dist[0] == '\t';  dist++);
+			dist = g_strndup (dist, strcspn (dist, "\n"));
+		}
+		else if (strncmp (buf, "Release:", 8) == 0) {
+			for (release = buf + 8;  release[0] == '\t';  release++);
+			release = g_strndup (release, strcspn (release, "\n"));
+		}
+	}
+	g_free (buf);
+	pclose (file);
+
+	if (dist && release)
+		buf = g_strdup_printf ("%s-%s", dist, release);
+	else
+		buf = g_strdup ("Unknown");
+	g_free (dist);
+	g_free (release);
+	return buf;
+}
+
 #endif
 
