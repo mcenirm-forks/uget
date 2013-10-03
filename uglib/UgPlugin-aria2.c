@@ -477,7 +477,7 @@ static gboolean	ug_plugin_aria2_add_uri	(UgPluginAria2* plugin)
 	value->type = UG_XMLRPC_STRING;
 	value->c.string = common->url;
 	// URIs array (mirrors)
-	for (curr = common->mirrors;  curr && curr[0];  curr = curr + 1) {
+	for (curr = common->mirrors;  curr && curr[0];) {
 		// skip space ' '
 		while (curr[0] == ' ')
 			curr++;
