@@ -1,7 +1,7 @@
 uglib/UgApp-base.c
 uglib/UgCategory.c
 uglib/UgData.c
-uglib/UgData-download.c
+uglib/UgetData.c
 uglib/UgDataset.c
 uglib/UgHtml.c
 uglib/UgIpc.c
@@ -21,6 +21,7 @@ uget-gtk/UgApp-gtk-aria2.c
 uget-gtk/UgApp-gtk-callback.c
 uget-gtk/UgApp-gtk-gui.c
 uget-gtk/UgApp-gtk-timeout.c
+uget-gtk/UgBanner.c
 uget-gtk/UgBatchForm.c
 uget-gtk/UgCategory-gtk.c
 uget-gtk/UgCategoryDialog.c

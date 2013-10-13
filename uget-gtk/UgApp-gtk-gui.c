@@ -44,11 +44,11 @@
 
 #include <glib/gi18n.h>
 
-static void	ug_trayicon_init	(struct UgTrayIcon* app_trayicon);
-static void	ug_window_init		(struct UgWindow* app_window, UgAppGtk* app);
-static void	ug_statusbar_init	(struct UgStatusbar* app_statusbar);
-static void	ug_toolbar_init		(struct UgToolbar* app_toolbar, GtkAccelGroup* accel_group);
-static void	ug_menubar_init		(struct UgMenubar* app_menubar, GtkAccelGroup* accel_group);
+static void	ug_trayicon_init  (struct UgTrayIcon* app_trayicon);
+static void	ug_window_init    (struct UgWindow* app_window, UgAppGtk* app);
+static void	ug_statusbar_init (struct UgStatusbar* app_statusbar);
+static void	ug_toolbar_init   (struct UgToolbar* app_toolbar, GtkAccelGroup* accel_group);
+static void	ug_menubar_init   (struct UgMenubar* app_menubar, GtkAccelGroup* accel_group);
 
 void	ug_app_init_gui (UgAppGtk* app)
 {
@@ -197,12 +197,15 @@ static void ug_window_init  (struct UgWindow* window, UgAppGtk* app)
 
 	window->self = (GtkWindow*) gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (window->self, UG_APP_GTK_NAME);
-	gtk_window_set_default_size (window->self, 620, 400);
+	gtk_window_set_default_size (window->self, 720, 480);
 	gtk_window_add_accel_group (window->self, app->accel_group);
 	gtk_window_set_default_icon_name (UG_APP_GTK_APP_ICON_NAME);
 
-	// top container for Main Window
 	vbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	// banner
+	ug_banner_init (&app->banner);
+	gtk_box_pack_start (vbox, app->banner.self, FALSE, FALSE, 0);
+	// top container for Main Window
 	gtk_container_add (GTK_CONTAINER (window->self), GTK_WIDGET (vbox));
 	gtk_box_pack_start (vbox, app->menubar.self, FALSE, FALSE, 0);
 	// right side vbox
@@ -821,6 +824,48 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	menu_item = gtk_menu_item_new_with_mnemonic(_("_Help"));
 	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, menu);
 	gtk_menu_shell_append ((GtkMenuShell*)menubar->self, menu_item);
+
+	// Get Help Online
+	menu_item = gtk_image_menu_item_new_with_mnemonic(_("Get Help Online"));
+	image = gtk_image_new_from_stock (GTK_STOCK_HELP, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	menubar->help.help_online = menu_item;
+
+	// Documentation
+	menu_item = gtk_image_menu_item_new_with_mnemonic(_("Documentation"));
+	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	menubar->help.documentation = menu_item;
+
+	// Support Forum
+	menu_item = gtk_image_menu_item_new_with_mnemonic(_("Support Forum"));
+	image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_QUESTION, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	menubar->help.support_forum = menu_item;
+
+	// Submit Feedback
+	menu_item = gtk_image_menu_item_new_with_mnemonic(_("Submit Feedback"));
+	image = gtk_image_new_from_stock (GTK_STOCK_ADD, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	menubar->help.submit_feedback = menu_item;
+
+	// Report a Bug
+	menu_item = gtk_image_menu_item_new_with_mnemonic(_("Report a Bug"));
+	image = gtk_image_new_from_stock (GTK_STOCK_CAPS_LOCK_WARNING, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	menubar->help.report_bug = menu_item;
+
+	// Check for Updates
+	menu_item = gtk_image_menu_item_new_with_mnemonic(_("Check for Updates"));
+//	image = gtk_image_new_from_stock (GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU);
+//	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
+	menubar->help.check_updates = menu_item;
 
 	// About Uget
 	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ABOUT, NULL);

@@ -8,8 +8,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="Debug\uget" prefix_auto="1" extension_auto="1" />
-				<Option object_output="Debug\" />
+				<Option output="Debug/uget" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
@@ -21,8 +21,8 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="Release\uget" prefix_auto="1" extension_auto="1" />
-				<Option object_output="Release\" />
+				<Option output="Release/uget" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -41,18 +41,18 @@
 			<Add option="-mms-bitfields" />
 			<Add option="-DDATADIR_WIN_PROG" />
 			<Add option="-DHAVE_PLUGIN_ARIA2" />
-			<Add directory="D:\devpack\gtk3\include" />
-			<Add directory="D:\devpack\gtk3\include\glib-2.0" />
-			<Add directory="D:\devpack\gtk3\include\gtk-3.0" />
-			<Add directory="D:\devpack\gtk3\include\gdk-pixbuf-2.0" />
-			<Add directory="D:\devpack\gtk3\include\pango-1.0" />
-			<Add directory="D:\devpack\gtk3\include\atk-1.0" />
-			<Add directory="D:\devpack\gtk3\include\cairo" />
-			<Add directory="D:\devpack\gtk3\lib\glib-2.0\include" />
-			<Add directory="D:\devpack\gtk3\lib\gtk-3.0\include" />
-			<Add directory="D:\devpack\curl-mingw\include" />
-			<Add directory="..\..\uglib" />
-			<Add directory="..\..\uget-gtk" />
+			<Add directory="D:/devpack/gtk3/include" />
+			<Add directory="D:/devpack/gtk3/include/glib-2.0" />
+			<Add directory="D:/devpack/gtk3/include/gtk-3.0" />
+			<Add directory="D:/devpack/gtk3/include/gdk-pixbuf-2.0" />
+			<Add directory="D:/devpack/gtk3/include/pango-1.0" />
+			<Add directory="D:/devpack/gtk3/include/atk-1.0" />
+			<Add directory="D:/devpack/gtk3/include/cairo" />
+			<Add directory="D:/devpack/gtk3/lib/glib-2.0/include" />
+			<Add directory="D:/devpack/gtk3/lib/gtk-3.0/include" />
+			<Add directory="D:/devpack/curl-mingw/include" />
+			<Add directory="../../uglib" />
+			<Add directory="../../uget-gtk" />
 		</Compiler>
 		<Linker>
 			<Add library="uglib" />
@@ -70,94 +70,99 @@
 			<Add library="curldll" />
 			<Add library="ws2_32" />
 			<Add library="winmm" />
-			<Add directory="D:\devpack\gtk3\lib" />
-			<Add directory="D:\devpack\curl-mingw\lib" />
+			<Add directory="D:/devpack/gtk3/lib" />
+			<Add directory="D:/devpack/curl-mingw/lib" />
 		</Linker>
-		<Unit filename="..\resources\uget.rc">
+		<Unit filename="../../uget-gtk/UgApp-gtk-aria2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgApp-gtk-callback.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgApp-gtk-gui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgApp-gtk-main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgApp-gtk-timeout.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgApp-gtk.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgApp-gtk.h" />
+		<Unit filename="../../uget-gtk/UgBanner.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgBanner.h" />
+		<Unit filename="../../uget-gtk/UgBatchForm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgBatchForm.h" />
+		<Unit filename="../../uget-gtk/UgCategory-gtk.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgCategory-gtk.h" />
+		<Unit filename="../../uget-gtk/UgCategoryDialog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgCategoryDialog.h" />
+		<Unit filename="../../uget-gtk/UgCategoryForm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgCategoryForm.h" />
+		<Unit filename="../../uget-gtk/UgCategoryWidget.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgCategoryWidget.h" />
+		<Unit filename="../../uget-gtk/UgDownloadDialog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgDownloadDialog.h" />
+		<Unit filename="../../uget-gtk/UgDownloadForm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgDownloadForm.h" />
+		<Unit filename="../../uget-gtk/UgDownloadWidget.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgDownloadWidget.h" />
+		<Unit filename="../../uget-gtk/UgProxyForm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgProxyForm.h" />
+		<Unit filename="../../uget-gtk/UgScheduleForm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgScheduleForm.h" />
+		<Unit filename="../../uget-gtk/UgSelector.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgSelector.h" />
+		<Unit filename="../../uget-gtk/UgSetting.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgSetting.h" />
+		<Unit filename="../../uget-gtk/UgSettingDialog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgSettingDialog.h" />
+		<Unit filename="../../uget-gtk/UgSettingForm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgSettingForm.h" />
+		<Unit filename="../../uget-gtk/UgSummary.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../uget-gtk/UgSummary.h" />
+		<Unit filename="../resources/uget.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
-		<Unit filename="..\..\uget-gtk\UgApp-gtk-aria2.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgApp-gtk-callback.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgApp-gtk-gui.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgApp-gtk-main.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgApp-gtk-timeout.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgApp-gtk.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgApp-gtk.h" />
-		<Unit filename="..\..\uget-gtk\UgBatchForm.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgBatchForm.h" />
-		<Unit filename="..\..\uget-gtk\UgCategory-gtk.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgCategory-gtk.h" />
-		<Unit filename="..\..\uget-gtk\UgCategoryDialog.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgCategoryDialog.h" />
-		<Unit filename="..\..\uget-gtk\UgCategoryForm.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgCategoryForm.h" />
-		<Unit filename="..\..\uget-gtk\UgCategoryWidget.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgCategoryWidget.h" />
-		<Unit filename="..\..\uget-gtk\UgDownloadDialog.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgDownloadDialog.h" />
-		<Unit filename="..\..\uget-gtk\UgDownloadForm.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgDownloadForm.h" />
-		<Unit filename="..\..\uget-gtk\UgDownloadWidget.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgDownloadWidget.h" />
-		<Unit filename="..\..\uget-gtk\UgProxyForm.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgProxyForm.h" />
-		<Unit filename="..\..\uget-gtk\UgScheduleForm.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgScheduleForm.h" />
-		<Unit filename="..\..\uget-gtk\UgSelector.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgSelector.h" />
-		<Unit filename="..\..\uget-gtk\UgSetting.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgSetting.h" />
-		<Unit filename="..\..\uget-gtk\UgSettingDialog.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgSettingDialog.h" />
-		<Unit filename="..\..\uget-gtk\UgSettingForm.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgSettingForm.h" />
-		<Unit filename="..\..\uget-gtk\UgSummary.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="..\..\uget-gtk\UgSummary.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

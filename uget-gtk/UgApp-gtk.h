@@ -46,6 +46,7 @@
 #include <UgRunning.h>
 #include <UgSetting.h>
 #include <UgSummary.h>
+#include <UgBanner.h>
 #include <UgCategory-gtk.h>
 #include <UgCategoryWidget.h>
 
@@ -146,6 +147,7 @@ struct UgAppGtk
 	GtkAccelGroup*		accel_group;
 	UgCategoryWidget	cwidget;
 	UgSummary			summary;
+	UgBanner            banner;
 
 	// --------------------------------
 	// System tray icon
@@ -179,6 +181,10 @@ struct UgAppGtk
 	struct UgWindow
 	{
 		GtkWindow*		self;
+		struct {
+			GtkLabel*   label;
+			GtkButton*  button;
+		} banner;
 		// layout
 		GtkPaned*		vpaned;		// right side (UgDownloadWidget and UgSummary)
 		GtkPaned*		hpaned;		// separate left side and right side
@@ -345,6 +351,12 @@ struct UgAppGtk
 
 		struct UgHelpMenu
 		{
+			GtkWidget*  help_online;
+			GtkWidget*  documentation;
+			GtkWidget*  support_forum;
+			GtkWidget*  submit_feedback;
+			GtkWidget*  check_updates;
+			GtkWidget*  report_bug;
 			GtkWidget*	about_uget;
 		} help;
 	} menubar;

@@ -1309,6 +1309,36 @@ void	on_change_visible_column (GtkWidget* widget, UgAppGtk* app)
 // ----------------------------------------------------------------------------
 // UgHelpMenu
 //
+void	on_help_online (GtkWidget* widget, UgAppGtk* app)
+{
+	ug_launch_uri ("http://ugetdm.com/help");
+}
+
+void	on_documentation (GtkWidget* widget, UgAppGtk* app)
+{
+	ug_launch_uri ("http://ugetdm.com/documentation");
+}
+
+void    on_support_forum (GtkWidget* widget, UgAppGtk* app)
+{
+	ug_launch_uri ("http://ugetdm.com/forum/");
+}
+
+void    on_submit_feedback (GtkWidget* widget, UgAppGtk* app)
+{
+	ug_launch_uri ("http://ugetdm.com/feedback");
+}
+
+void    on_report_bug (GtkWidget* widget, UgAppGtk* app)
+{
+	ug_launch_uri ("http://ugetdm.com/forum/viewforum.php?f=6");
+}
+
+void    on_check_updates (GtkWidget* widget, UgAppGtk* app)
+{
+	ug_launch_uri ("http://ugetdm.com/versioncheck?v=" PACKAGE_VERSION);
+}
+
 void	on_about (GtkWidget* widget, UgAppGtk* app)
 {
 	GtkImage* img;
@@ -1937,6 +1967,18 @@ static void ug_menubar_init_callback (struct UgMenubar* menubar, UgAppGtk* app)
 
 	// ----------------------------------------------------
 	// UgHelpMenu
+	g_signal_connect (menubar->help.help_online, "activate",
+			G_CALLBACK (on_help_online), app);
+	g_signal_connect (menubar->help.documentation, "activate",
+			G_CALLBACK (on_documentation), app);
+	g_signal_connect (menubar->help.support_forum, "activate",
+			G_CALLBACK (on_support_forum), app);
+	g_signal_connect (menubar->help.submit_feedback, "activate",
+			G_CALLBACK (on_submit_feedback), app);
+	g_signal_connect (menubar->help.check_updates, "activate",
+			G_CALLBACK (on_check_updates), app);
+	g_signal_connect (menubar->help.report_bug, "activate",
+			G_CALLBACK (on_report_bug), app);
 	g_signal_connect (menubar->help.about_uget, "activate",
 			G_CALLBACK (on_about), app);
 }
