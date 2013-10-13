@@ -283,7 +283,7 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 
 	// Common option ----------------------------------------------------------
 	curl_easy_setopt (curl, CURLOPT_URL, common->url);
-	curl_easy_setopt (curl, CURLOPT_NOSIGNAL, 1);
+	curl_easy_setopt (curl, CURLOPT_NOSIGNAL, 1L);
 	// setup scheme and it's related data (user & password)
 	ug_plugin_curl_set_scheme (plugin, curl);
 	// check filename
@@ -340,9 +340,9 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 
 	// HTTP option ------------------------------------------------------------
 	// use libcurl's redirection.
-  	curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1);
-	curl_easy_setopt (curl, CURLOPT_AUTOREFERER, 1);
-	curl_easy_setopt (curl, CURLOPT_MAXREDIRS, 30);
+  	curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt (curl, CURLOPT_AUTOREFERER, 1L);
+	curl_easy_setopt (curl, CURLOPT_MAXREDIRS, 30L);
 
 	if (http) {
 		if (http->referrer == NULL)
@@ -415,7 +415,7 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 	curl_easy_setopt (curl, CURLOPT_NOPROGRESS, FALSE);
 
 	// Others -----------------------------------------------------------------
-	curl_easy_setopt (curl, CURLOPT_FILETIME, 1);	// use with CURLINFO_FILETIME
+	curl_easy_setopt (curl, CURLOPT_FILETIME, 1L);	// use with CURLINFO_FILETIME
 	curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, FALSE);	// disable peer SSL certificate verification
 	curl_easy_setopt (curl, CURLOPT_ERRORBUFFER, plugin->curl_error_string);
 	curl_easy_setopt (curl, CURLOPT_LOW_SPEED_LIMIT, 100);

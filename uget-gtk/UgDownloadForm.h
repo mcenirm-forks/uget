@@ -136,7 +136,7 @@ struct UgDownloadForm
 		gboolean	connections:1;	// spin_connections
 		gboolean	max_upload_speed:1;		// spin_upload_speed
 		gboolean	max_download_speed:1;	// spin_download_speed
-		gboolean	timestamp:1;
+		gboolean	retrieve_timestamp:1;
 	} changed;
 
 	// ----------------------------------------------------

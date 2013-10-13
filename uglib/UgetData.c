@@ -59,7 +59,6 @@ static const UgDataEntry	uget_common_entry[] =
 	{"folder",				G_STRUCT_OFFSET (UgetCommon, folder),			UG_TYPE_STRING,	NULL,	NULL},
 	{"user",				G_STRUCT_OFFSET (UgetCommon, user),				UG_TYPE_STRING,	NULL,	NULL},
 	{"password",			G_STRUCT_OFFSET (UgetCommon, password),			UG_TYPE_STRING,	NULL,	NULL},
-	{"RetrieveTimestamp",	G_STRUCT_OFFSET (UgetCommon, retrieve_timestamp),	UG_TYPE_INT,	NULL,	NULL},
 	{"ConnectTimeout",		G_STRUCT_OFFSET (UgetCommon, connect_timeout),	UG_TYPE_UINT,	NULL,	NULL},
 	{"TransmitTimeout",		G_STRUCT_OFFSET (UgetCommon, transmit_timeout),	UG_TYPE_UINT,	NULL,	NULL},
 	{"RetryDelay",			G_STRUCT_OFFSET (UgetCommon, retry_delay),		UG_TYPE_UINT,	NULL,	NULL},
@@ -67,6 +66,7 @@ static const UgDataEntry	uget_common_entry[] =
 	{"MaxConnections",		G_STRUCT_OFFSET (UgetCommon, max_connections),	UG_TYPE_UINT,	NULL,	NULL},
 	{"MaxUploadSpeed",		G_STRUCT_OFFSET (UgetCommon, max_upload_speed),	UG_TYPE_INT64,	NULL,	NULL},
 	{"MaxDownloadSpeed",	G_STRUCT_OFFSET (UgetCommon, max_download_speed),	UG_TYPE_INT64,	NULL,	NULL},
+	{"RetrieveTimestamp",	G_STRUCT_OFFSET (UgetCommon, retrieve_timestamp),	UG_TYPE_INT,	NULL,	NULL},
 	{NULL}		// null-terminated
 };
 // extern
@@ -137,6 +137,9 @@ static void uget_common_assign (UgetCommon* common, UgetCommon* src)
 		common->max_upload_speed = src->max_upload_speed;
 	if (common->keeping.max_download_speed == FALSE)
 		common->max_download_speed = src->max_download_speed;
+	// Retrieve timestamp
+	if (common->keeping.retrieve_timestamp == FALSE)
+		common->retrieve_timestamp = src->retrieve_timestamp;
 
 	if (common->keeping.debug_level == FALSE)
 		common->debug_level = src->debug_level;

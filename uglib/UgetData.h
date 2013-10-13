@@ -114,8 +114,6 @@ struct UgetCommon
 	gchar*		folder;
 	gchar*		user;
 	gchar*		password;
-	// Retrieve timestamp of the remote file if it is available.
-	gboolean	retrieve_timestamp;
 	// timeout
 	guint		connect_timeout;	// second
 	guint		transmit_timeout;	// second
@@ -127,6 +125,8 @@ struct UgetCommon
 	guint		max_connections;	// max connections per server
 	gint64		max_upload_speed;	// bytes per seconds
 	gint64		max_download_speed;	// bytes per seconds
+	// Retrieve timestamp of the remote file if it is available.
+	gboolean	retrieve_timestamp;
 
 	guint		debug_level;
 
@@ -150,6 +150,7 @@ struct UgetCommon
 		gboolean	max_connections:1;
 		gboolean	max_upload_speed:1;
 		gboolean	max_download_speed:1;
+		gboolean    retrieve_timestamp:1;
 
 		gboolean	debug_level:1;
 	} keeping;

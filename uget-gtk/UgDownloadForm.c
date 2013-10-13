@@ -71,9 +71,9 @@ void	ug_download_form_init (UgDownloadForm* dform, UgProxyForm* proxy, GtkWindow
 	dform->changed.cookie   = FALSE;
 	dform->changed.post     = FALSE;
 	dform->changed.agent    = FALSE;
-	dform->changed.timestamp= FALSE;
 	dform->changed.retry    = FALSE;
 	dform->changed.delay    = FALSE;
+	dform->changed.retrieve_timestamp= FALSE;
 	dform->parent = parent;
 
 	ug_download_form_init_page1 (dform, proxy);
@@ -597,6 +597,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		dform->changed.delay    = common->keeping.retry_delay;
 		dform->changed.max_upload_speed   = common->keeping.max_upload_speed;
 		dform->changed.max_download_speed = common->keeping.max_download_speed;
+		dform->changed.retrieve_timestamp = common->keeping.retrieve_timestamp;
 	}
 	// set data
 	if (keep_changed==FALSE || dform->changed.url==FALSE) {
@@ -656,7 +657,7 @@ void	ug_download_form_set (UgDownloadForm* dform, UgDataset* dataset, gboolean k
 		gtk_spin_button_set_value ((GtkSpinButton*) dform->spin_connections,
 			common->max_connections);
 	}
-	if (keep_changed==FALSE || dform->changed.timestamp==FALSE)
+	if (keep_changed==FALSE || dform->changed.retrieve_timestamp==FALSE)
 		gtk_toggle_button_set_active (dform->timestamp, common->retrieve_timestamp);
 
 	// ------------------------------------------
