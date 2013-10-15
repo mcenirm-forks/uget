@@ -48,12 +48,11 @@ motion_notify_event (GtkWidget* tv_widget, GdkEventMotion* event, UgBanner* bann
 static gboolean
 event_after (GtkWidget* text_view, GdkEvent* ev, UgBanner* banner);
 
-static void
-on_clicked (GtkWidget* button, UgBanner* banner);
+static GtkWidget* create_x_button (UgBanner* banner);
 
 void ug_banner_init (struct UgBanner* banner)
 {
-	GtkWidget* button;
+	GtkStyleContext* style_context;
 	GdkRGBA    rgba;
 
 	hand_cursor = gdk_cursor_new (GDK_HAND2);
@@ -62,39 +61,32 @@ void ug_banner_init (struct UgBanner* banner)
 	banner->self = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	banner->buffer = gtk_text_buffer_new (NULL);
 	banner->tag_link = gtk_text_buffer_create_tag (banner->buffer, NULL,
-			"foreground", "blue",
 			"underline", PANGO_UNDERLINE_SINGLE,
 			NULL);
-	banner->text_view = (GtkTextView*) gtk_text_view_new_with_buffer (banner->buffer);
-	gtk_box_pack_start (GTK_BOX (banner->self),
-			GTK_WIDGET (banner->text_view), TRUE, TRUE, 0);
-	rgba.alpha = 1.0;
-	rgba.blue  = (double)69  / 255;
-	rgba.green = (double)118 / 255;
-	rgba.red   = (double)240 / 255;
-	gtk_widget_override_background_color (
-			GTK_WIDGET (banner->text_view), GTK_STATE_FLAG_NORMAL, &rgba);
-	rgba.alpha = 1.0;
-	rgba.blue  = 1.0;
-	rgba.green = 1.0;
-	rgba.red   = 1.0;
-	gtk_widget_override_color (
-			GTK_WIDGET (banner->text_view), GTK_STATE_FLAG_NORMAL, &rgba);
-	// close button
-	button = gtk_button_new ();
-	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-	gtk_button_set_label (GTK_BUTTON (button), "X");
-	gtk_box_pack_end (GTK_BOX (banner->self),
-			button, FALSE, FALSE, 0);
-	g_signal_connect (button, "clicked", G_CALLBACK (on_clicked), banner);
 
+	banner->text_view = (GtkTextView*) gtk_text_view_new_with_buffer (banner->buffer);
 	gtk_text_view_set_cursor_visible (banner->text_view, FALSE);
 	gtk_text_view_set_editable (banner->text_view, FALSE);
+	gtk_box_pack_start (GTK_BOX (banner->self),
+			GTK_WIDGET (banner->text_view), TRUE, TRUE, 0);
 
 	g_signal_connect (banner->text_view, "event-after",
 			G_CALLBACK (event_after), banner);
 	g_signal_connect (banner->text_view, "motion-notify-event",
 			G_CALLBACK (motion_notify_event), banner);
+	// style: color
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (banner->text_view));
+	gtk_style_context_get_background_color (style_context,
+			GTK_STATE_FLAG_SELECTED, &rgba);
+	gtk_widget_override_background_color (
+			GTK_WIDGET (banner->text_view), GTK_STATE_FLAG_NORMAL, &rgba);
+	gtk_style_context_get_color (style_context,
+			GTK_STATE_FLAG_SELECTED, &rgba);
+	gtk_widget_override_color (
+			GTK_WIDGET (banner->text_view), GTK_STATE_FLAG_NORMAL, &rgba);
+	// close button
+	gtk_box_pack_end (GTK_BOX (banner->self),
+			create_x_button (banner), FALSE, FALSE, 0);
 
 	ug_banner_show_donation (banner);
 }
@@ -173,11 +165,12 @@ event_after (GtkWidget* text_view, GdkEvent* ev, UgBanner* banner)
 	if (slist) {
 		switch (banner->status) {
 		case UG_BANNER_DONATION:
-			ug_launch_uri ("https://sourceforge.net/p/urlget/donate/?source=navbar");
+//			ug_launch_uri ("https://sourceforge.net/p/urlget/donate/?source=navbar");
+			ug_launch_uri ("http://ugetdm.com/donate");
 			break;
 
 		case UG_BANNER_SURVERY:
-			ug_launch_uri ("http://ugetdm.com/forum/");
+			ug_launch_uri ("http://ugetdm.com/survey");
 			break;
 		}
 	}
@@ -230,9 +223,17 @@ motion_notify_event (GtkWidget* tv_widget, GdkEventMotion* event, UgBanner* bann
 	return FALSE;
 }
 
-static void
-on_clicked (GtkWidget* button, UgBanner* banner)
+// ------------------------------------
+
+static gboolean
+on_x_button_release (GtkWidget* text_view, GdkEvent* ev, UgBanner* banner)
 {
+	GdkEventButton *event;
+
+	event = (GdkEventButton*) ev;
+	if (event->button != GDK_BUTTON_PRIMARY)
+		return FALSE;
+
 	switch (banner->status) {
 	case UG_BANNER_DONATION:
 		ug_banner_show_survery (banner);
@@ -242,4 +243,21 @@ on_clicked (GtkWidget* button, UgBanner* banner)
 		gtk_widget_hide (banner->self);
 		break;
 	}
+
+	return FALSE;
 }
+
+static GtkWidget* create_x_button (UgBanner* banner)
+{
+	GtkWidget* event_box;
+	GtkWidget* label;
+
+	label = gtk_label_new (" X ");
+	event_box = gtk_event_box_new ();
+	gtk_container_add (GTK_CONTAINER (event_box), label);
+
+	g_signal_connect (event_box, "button-release-event",
+			G_CALLBACK (on_x_button_release), banner);
+	return event_box;
+}
+
