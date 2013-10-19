@@ -197,7 +197,7 @@ static void ug_window_init  (struct UgWindow* window, UgAppGtk* app)
 
 	window->self = (GtkWindow*) gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (window->self, UG_APP_GTK_NAME);
-	gtk_window_set_default_size (window->self, 720, 480);
+	gtk_window_set_default_size (window->self, 780, 480);
 	gtk_window_add_accel_group (window->self, app->accel_group);
 	gtk_window_set_default_icon_name (UG_APP_GTK_APP_ICON_NAME);
 

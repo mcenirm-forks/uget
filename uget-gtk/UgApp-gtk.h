@@ -181,10 +181,6 @@ struct UgAppGtk
 	struct UgWindow
 	{
 		GtkWindow*		self;
-		struct {
-			GtkLabel*   label;
-			GtkButton*  button;
-		} banner;
 		// layout
 		GtkPaned*		vpaned;		// right side (UgDownloadWidget and UgSummary)
 		GtkPaned*		hpaned;		// separate left side and right side
