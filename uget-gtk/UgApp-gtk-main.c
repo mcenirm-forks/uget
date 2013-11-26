@@ -112,6 +112,19 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
 // uglib
 #include <UgApp-gtk.h>
 
+// GnuTLS
+#ifdef HAVE_GNUTLS
+#include <gcrypt.h>
+#include <errno.h>
+
+GCRY_THREAD_OPTION_PTHREAD_IMPL;
+
+void init_gnutls_locks (void)
+{
+	gcry_control (GCRYCTL_SET_THREAD_CBS);
+}
+#endif // HAVE_GNUTLS
+
 // GStreamer
 #ifdef HAVE_GSTREAMER
 #include <gst/gst.h>
@@ -185,6 +198,10 @@ int main (int argc, char** argv)
 #endif
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
+
+#ifdef HAVE_GNUTLS
+	init_gnutls_locks ();
+#endif
 
 	string = ug_arg_find_version (argc, argv);
 	if (string) {

@@ -148,6 +148,22 @@ if test "x$plugin_curl" = "xyes"; then
     AC_DEFINE(HAVE_PLUGIN_CURL, 1, [Define to 1 to enable cURL plug-in.])
 fi
 
+## ----------------
+## GnuTLS
+AC_ARG_ENABLE(
+	[gnutls],
+	AC_HELP_STRING([--enable-gnutls], [Enable GnuTLS support.]),
+	[enable_gnutls="$enableval"],
+	[enable_gnutls="no"]
+)
+if test "x$enable_gnutls" = "xyes"; then
+  PKG_CHECK_MODULES(GNUTLS, gnutls)
+  AC_DEFINE(HAVE_GNUTLS, 1, [Define to 1 if gnutls support is required.])
+  # for ArchLinux
+  AC_SUBST(GNUTLS_CFLAGS)
+  AC_SUBST(GNUTLS_LIBS)
+fi
+
 ## -----------------
 ## aria2 plug-in
 AC_ARG_ENABLE(
