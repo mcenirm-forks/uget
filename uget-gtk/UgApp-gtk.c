@@ -40,6 +40,7 @@
 #include <UgRegistry.h>
 #include <UgetData.h>
 #include <UgApp-gtk.h>
+#include <curl/curl.h>
 
 #include <glib/gi18n.h>
 
@@ -109,6 +110,8 @@ void	ug_app_init (UgAppGtk* app)
 	// initialize aria2
 	ug_app_aria2_init (app);
 	ug_app_aria2_setup (app);
+	// get update info
+	ug_app_get_update_info (app);
 
 	ug_app_menubar_sync_category (app, TRUE);
 	ug_category_view_set_cursor (app->cwidget.primary.view, 0, -1);
@@ -365,6 +368,43 @@ void	ug_app_get_setting (UgAppGtk* app, UgSetting* setting)
 	}
 }
 
+// ------------------------------------
+
+static size_t  write_update_info (void *ptr, size_t size, size_t nmemb, GString* buf)
+{
+	g_string_append_len (buf, ptr, size * nmemb);
+	return nmemb;
+}
+
+static void  get_update_info_thread (UgAppGtk* app)
+{
+	CURL*		curl;
+	CURLcode	res;
+	long		response_code = 0;
+
+	curl = curl_easy_init();
+	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION,
+			(curl_write_callback) write_update_info);
+	curl_easy_setopt (curl, CURLOPT_WRITEDATA, app->update_info.text);
+	curl_easy_setopt (curl, CURLOPT_URL, "http://ugetdm.com/versioncheck?v=" PACKAGE_VERSION);
+	curl_easy_setopt (curl, CURLOPT_NOSIGNAL, 1);
+	res = curl_easy_perform (curl);
+	curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &response_code);
+	curl_easy_cleanup (curl);
+
+	if (res == CURLE_OK && response_code < 400)
+		app->update_info.ready = TRUE;
+}
+
+void ug_app_get_update_info (UgAppGtk* app)
+{
+	if (app->update_info.thread == NULL) {
+		app->update_info.text = g_string_sized_new (2048);
+		app->update_info.ready = FALSE;
+		app->update_info.thread = g_thread_new ("get update info",
+				(GThreadFunc) get_update_info_thread, app);
+	}
+}
 
 // -------------------------------------------------------
 // UgClipboard

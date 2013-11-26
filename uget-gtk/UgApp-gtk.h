@@ -103,6 +103,13 @@ struct UgAppGtk
 		gint			category_index;
 	} last;
 
+	// check for updates
+	struct {
+		GThread*	thread;
+		GString*	text;
+		gboolean    ready;
+	} update_info;
+
 	// aria2 plug-in
 	struct
 	{
@@ -368,6 +375,7 @@ void	ug_app_save (UgAppGtk* app);
 void	ug_app_load (UgAppGtk* app);
 void	ug_app_set_setting (UgAppGtk* app, UgSetting* setting);
 void	ug_app_get_setting (UgAppGtk* app, UgSetting* setting);
+void	ug_app_get_update_info (UgAppGtk* app);
 
 // UgApp-gtk-gui.c
 void	ug_app_init_gui (UgAppGtk* app);

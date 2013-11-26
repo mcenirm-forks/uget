@@ -1341,11 +1341,13 @@ void    on_check_updates (GtkWidget* widget, UgAppGtk* app)
 
 void	on_about (GtkWidget* widget, UgAppGtk* app)
 {
-	GtkImage* img;
-	char* path;
+	GtkDialog* adialog;
+	GdkPixbuf*  pixbuf;
+	char*       path;
 
-	path = g_build_filename (ug_get_data_dir (), "pixmaps", "uget", "logo.png", NULL);
-	img = (GtkImage*) gtk_image_new_from_file (path);
+	path = g_build_filename (
+			ug_get_data_dir (), "pixmaps", "uget", "logo.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file (path, NULL);
 	g_free (path);
 
 //	if (gtk_widget_get_visible ((GtkWidget*) app->window.self) == FALSE) {
@@ -1353,9 +1355,12 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 //		gtk_widget_show ((GtkWidget*) app->window.self);
 //	}
 
-	gtk_show_about_dialog (app->window.self,
+	adialog = (GtkDialog*) gtk_about_dialog_new ();
+	gtk_window_set_transient_for ((GtkWindow*) adialog, app->window.self);
+	gtk_dialog_set_default_response (adialog, GTK_RESPONSE_OK);
+	g_object_set (adialog,
 //			"logo-icon-name", UG_APP_GTK_APP_ICON_NAME,
-			"logo", gtk_image_get_pixbuf (img),
+			"logo", pixbuf,
 			"program-name", UG_APP_GTK_NAME,
 			"version", uget_version,
 			"comments", gettext (uget_comments),
@@ -1371,7 +1376,35 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 			"translator-credits", gettext (translator_credits),
 			NULL);
 
-	g_object_unref (img);
+	if (app->update_info.ready) {
+		GtkScrolledWindow* scrolled;
+		GtkTextBuffer* tbuf;
+		GtkWidget* textview;
+		GtkBox* box;
+
+		box = (GtkBox*) gtk_dialog_get_content_area (adialog);
+		textview = gtk_text_view_new ();
+		tbuf = gtk_text_view_get_buffer ((GtkTextView*) textview);
+		gtk_text_buffer_set_text (tbuf, app->update_info.text->str, -1);
+
+		scrolled = (GtkScrolledWindow*) gtk_scrolled_window_new (NULL, NULL);
+		gtk_widget_set_size_request ((GtkWidget*) scrolled, 200, 120);
+		gtk_scrolled_window_set_shadow_type (scrolled, GTK_SHADOW_IN);
+		gtk_scrolled_window_set_policy (scrolled,
+				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		gtk_container_add (GTK_CONTAINER (scrolled), textview);
+
+		gtk_widget_show_all ((GtkWidget*) scrolled);
+		gtk_box_pack_end (box, (GtkWidget*) scrolled, TRUE, TRUE, 2);
+	}
+
+	// Close button - GTK_RESPONSE_CANCEL
+	g_signal_connect (adialog, "response",
+			G_CALLBACK (gtk_widget_destroy), NULL);
+
+	gtk_dialog_run (adialog);
+	if (pixbuf)
+		g_object_unref (pixbuf);
 }
 
 // ----------------------------------------------------------------------------
