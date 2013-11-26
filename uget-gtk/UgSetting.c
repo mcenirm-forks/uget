@@ -108,6 +108,7 @@ static const UgDataEntry	ug_window_setting_entry[] =
 	{"Statusbar",	G_STRUCT_OFFSET (struct UgWindowSetting, statusbar),	UG_TYPE_INT,	NULL,	NULL},
 	{"Category",	G_STRUCT_OFFSET (struct UgWindowSetting, category),		UG_TYPE_INT,	NULL,	NULL},
 	{"Summary",		G_STRUCT_OFFSET (struct UgWindowSetting, summary),		UG_TYPE_INT,	NULL,	NULL},
+	{"Banner",		G_STRUCT_OFFSET (struct UgWindowSetting, banner),		UG_TYPE_INT,	NULL,	NULL},
 	{"x",			G_STRUCT_OFFSET (struct UgWindowSetting, x)	,			UG_TYPE_INT,	NULL,	NULL},
 	{"y",			G_STRUCT_OFFSET (struct UgWindowSetting, y),			UG_TYPE_INT,	NULL,	NULL},
 	{"width",		G_STRUCT_OFFSET (struct UgWindowSetting, width),		UG_TYPE_INT,	NULL,	NULL},
@@ -456,6 +457,7 @@ void	ug_setting_init (UgSetting* setting)
 	setting->window.statusbar = TRUE;
 	setting->window.category  = TRUE;
 	setting->window.summary   = TRUE;
+	setting->window.banner    = TRUE;
 	setting->window.x = 0;
 	setting->window.y = 0;
 	setting->window.width = 0;

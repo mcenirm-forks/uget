@@ -235,6 +235,8 @@ void	ug_app_set_setting (UgAppGtk* app, UgSetting* setting)
 			setting->window.category);
 	gtk_widget_set_visible (app->summary.self,
 			setting->window.summary);
+	gtk_widget_set_visible (app->banner.self,
+			setting->window.banner);
 	// Summary
 	app->summary.visible.name     = setting->summary.name;
 	app->summary.visible.folder   = setting->summary.folder;
@@ -366,6 +368,9 @@ void	ug_app_get_setting (UgAppGtk* app, UgSetting* setting)
 		app->setting.download_column.sort.nth   = app->cwidget.sort.nth;
 		app->setting.download_column.sort.order = app->cwidget.sort.order;
 	}
+
+	// banner
+	setting->window.banner = gtk_widget_get_visible (app->banner.self);
 }
 
 // ------------------------------------

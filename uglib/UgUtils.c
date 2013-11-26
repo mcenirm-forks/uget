@@ -52,7 +52,6 @@
 #include <UgString.h>
 #include <UgStdio.h>
 
-
 // ------------------------------------------------------------------
 // file & directory functions
 //
@@ -636,5 +635,4 @@ gchar*  ug_sys_release (void)
 	return buf;
 }
 
-#endif
-
+#endif // _WIN32

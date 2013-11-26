@@ -80,7 +80,8 @@ void	ug_app_init_gui (UgAppGtk* app)
 	ug_statusbar_init (&app->statusbar);
 	ug_toolbar_init (&app->toolbar, app->accel_group);
 	ug_menubar_init (&app->menubar, app->accel_group);
-	ug_window_init  (&app->window, app);
+	ug_banner_init (&app->banner);
+	ug_window_init (&app->window, app);
 }
 
 // ----------------------------------------------------------------------------
@@ -201,12 +202,11 @@ static void ug_window_init  (struct UgWindow* window, UgAppGtk* app)
 	gtk_window_add_accel_group (window->self, app->accel_group);
 	gtk_window_set_default_icon_name (UG_APP_GTK_APP_ICON_NAME);
 
-	vbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	// banner
-	ug_banner_init (&app->banner);
-	gtk_box_pack_start (vbox, app->banner.self, FALSE, FALSE, 0);
 	// top container for Main Window
+	vbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (window->self), GTK_WIDGET (vbox));
+	// banner + menubar
+	gtk_box_pack_start (vbox, app->banner.self, FALSE, FALSE, 0);
 	gtk_box_pack_start (vbox, app->menubar.self, FALSE, FALSE, 0);
 	// right side vbox
 	rbox = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);

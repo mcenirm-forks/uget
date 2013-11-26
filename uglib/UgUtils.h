@@ -103,7 +103,7 @@ const char*	ug_io_channel_decide_encoding (GIOChannel* channel);
 gboolean	ug_launch_uri (const gchar* uri);
 gboolean	ug_launch_default_app (const gchar* folder, const gchar* file);
 void		ug_shutdown (void);
-gchar*      ug_sys_release (void);
+gchar*		ug_sys_release (void);
 
 #ifdef __cplusplus
 }

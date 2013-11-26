@@ -125,6 +125,7 @@ struct UgSetting
 		gboolean	statusbar;
 		gboolean	category;
 		gboolean	summary;
+		gboolean	banner;
 
 		gint		x;		// window position
 		gint		y;
