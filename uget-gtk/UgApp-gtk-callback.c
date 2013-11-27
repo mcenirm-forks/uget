@@ -1342,8 +1342,8 @@ void    on_check_updates (GtkWidget* widget, UgAppGtk* app)
 void	on_about (GtkWidget* widget, UgAppGtk* app)
 {
 	GtkDialog* adialog;
-	GdkPixbuf*  pixbuf;
-	char*       path;
+	GdkPixbuf* pixbuf;
+	char*      path;
 
 	path = g_build_filename (
 			ug_get_data_dir (), "pixmaps", "uget", "logo.png", NULL);
@@ -1357,7 +1357,7 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 
 	adialog = (GtkDialog*) gtk_about_dialog_new ();
 	gtk_window_set_transient_for ((GtkWindow*) adialog, app->window.self);
-	gtk_dialog_set_default_response (adialog, GTK_RESPONSE_OK);
+	gtk_dialog_set_default_response (adialog, GTK_RESPONSE_CANCEL);
 	g_object_set (adialog,
 //			"logo-icon-name", UG_APP_GTK_APP_ICON_NAME,
 			"logo", pixbuf,
@@ -1382,7 +1382,6 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 		GtkWidget* textview;
 		GtkBox* box;
 
-		box = (GtkBox*) gtk_dialog_get_content_area (adialog);
 		textview = gtk_text_view_new ();
 		tbuf = gtk_text_view_get_buffer ((GtkTextView*) textview);
 		gtk_text_buffer_set_text (tbuf, app->update_info.text->str, -1);
@@ -1393,8 +1392,9 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 		gtk_scrolled_window_set_policy (scrolled,
 				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 		gtk_container_add (GTK_CONTAINER (scrolled), textview);
-
 		gtk_widget_show_all ((GtkWidget*) scrolled);
+
+		box = (GtkBox*) gtk_dialog_get_content_area (adialog);
 		gtk_box_pack_end (box, (GtkWidget*) scrolled, TRUE, TRUE, 2);
 	}
 

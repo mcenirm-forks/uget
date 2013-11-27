@@ -140,6 +140,8 @@ void	ug_app_quit (UgAppGtk* app)
 	ug_trayicon_set_visible (&app->trayicon, FALSE);
 	// hide window
 	gtk_widget_hide (GTK_WIDGET (app->window.self));
+	// clear update info
+	ug_app_clear_update_info (app);
 	// aria2
 	ug_app_aria2_shutdown (app);
 	// This will quit gtk_main() in main()
@@ -377,6 +379,8 @@ void	ug_app_get_setting (UgAppGtk* app, UgSetting* setting)
 
 static size_t  write_update_info (void *ptr, size_t size, size_t nmemb, GString* buf)
 {
+	if (buf->len > 4096)
+		return 0;
 	g_string_append_len (buf, ptr, size * nmemb);
 	return nmemb;
 }
@@ -399,15 +403,28 @@ static void  get_update_info_thread (UgAppGtk* app)
 
 	if (res == CURLE_OK && response_code < 400)
 		app->update_info.ready = TRUE;
+	app->update_info.thread = NULL;
 }
 
 void ug_app_get_update_info (UgAppGtk* app)
 {
 	if (app->update_info.thread == NULL) {
-		app->update_info.text = g_string_sized_new (2048);
+		if (app->update_info.text == NULL)
+			app->update_info.text = g_string_sized_new (2048);
+		g_string_set_size (app->update_info.text, 0);
 		app->update_info.ready = FALSE;
 		app->update_info.thread = g_thread_new ("get update info",
 				(GThreadFunc) get_update_info_thread, app);
+	}
+}
+
+void  ug_app_clear_update_info (UgAppGtk* app)
+{
+	if (app->update_info.thread == NULL) {
+		if (app->update_info.text)
+			g_string_free (app->update_info.text, TRUE);
+		app->update_info.text = NULL;
+		app->update_info.ready = FALSE;
 	}
 }
 
