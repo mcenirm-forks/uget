@@ -1331,7 +1331,7 @@ void    on_submit_feedback (GtkWidget* widget, UgAppGtk* app)
 
 void    on_report_bug (GtkWidget* widget, UgAppGtk* app)
 {
-	ug_launch_uri ("http://ugetdm.com/forum/viewforum.php?f=6");
+	ug_launch_uri ("http://ugetdm.com/reportbug");
 }
 
 void    on_check_updates (GtkWidget* widget, UgAppGtk* app)
