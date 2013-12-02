@@ -212,17 +212,23 @@ static void	ug_plugin_aria2_finalize (UgPluginAria2* plugin)
 static UgResult	ug_plugin_aria2_set_state (UgPluginAria2* plugin, UgState  state)
 {
 	UgState		old_state;
+	GThread*	thread;
 
-	old_state		= plugin->state;
-	plugin->state	= state;
+	old_state = plugin->state;
 	// change plug-in status
 	if (state != old_state) {
 		if (state == UG_STATE_ACTIVE && old_state < UG_STATE_ACTIVE) {
 			// call ug_plugin_unref () by ug_plugin_aria2_thread ()
 			ug_plugin_ref ((UgPlugin*) plugin);
-			g_thread_new ("uget-aria2", (GThreadFunc) ug_plugin_aria2_thread, plugin);
+			// create thread
+			thread = g_thread_try_new ("uget-aria2",
+					(GThreadFunc) ug_plugin_aria2_thread, plugin, NULL);
+			if (thread == NULL) {
+				ug_plugin_unref ((UgPlugin*) plugin);
+				return UG_RESULT_ERROR;
+			}
 		}
-
+		plugin->state = state;
 		ug_plugin_post ((UgPlugin*) plugin, ug_message_new_state (state));
 	}
 

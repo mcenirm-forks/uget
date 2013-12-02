@@ -76,6 +76,7 @@ static const gchar*	common_error[] =
 	N_("Folder can't be created."),								// UG_MESSAGE_ERROR_FOLDER_CREATE_FAILED
 	N_("File can't be created (bad filename or file exist)."),	// UG_MESSAGE_ERROR_FILE_CREATE_FAILED
 	N_("File can't be opened."),								// UG_MESSAGE_ERROR_FILE_OPEN_FAILED
+	N_("Unable to create thread, reduce number of download."),	// UG_MESSAGE_ERROR_THREAD_CREATE_FAILED
 	N_("Out of resource (disk full or run out of memory)."),	// UG_MESSAGE_ERROR_OUT_OF_RESOURCE
 	N_("No output file."),										// UG_MESSAGE_ERROR_NO_OUTPUT_FILE
 	N_("No output setting."),									// UG_MESSAGE_ERROR_NO_OUTPUT_SETTING

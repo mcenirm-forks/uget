@@ -180,17 +180,24 @@ static void	ug_plugin_curl_finalize (UgPluginCurl* plugin)
 
 static UgResult	ug_plugin_curl_set_state (UgPluginCurl* plugin, UgState  state)
 {
-	UgState		old_state;
+	UgState  old_state;
+	GThread* thread;
 
-	old_state		= plugin->state;
-	plugin->state	= state;
+	old_state = plugin->state;
 	// change plug-in status
 	if (state != old_state) {
 		if (state == UG_STATE_ACTIVE && old_state < UG_STATE_ACTIVE) {
-			ug_plugin_ref ((UgPlugin*) plugin);		// call ug_plugin_unref () by ug_plugin_curl_thread ()
-			g_thread_new ("uget-curl", (GThreadFunc) ug_plugin_curl_thread, plugin);
+			// call ug_plugin_unref () by ug_plugin_curl_thread ()
+			ug_plugin_ref ((UgPlugin*) plugin);
+			// create thread
+			thread = g_thread_try_new ("uget-curl",
+					(GThreadFunc) ug_plugin_curl_thread, plugin, NULL);
+			if (thread == NULL) {
+				ug_plugin_unref ((UgPlugin*) plugin);
+				return UG_RESULT_ERROR;
+			}
 		}
-
+		plugin->state = state;
 		ug_plugin_post ((UgPlugin*) plugin, ug_message_new_state (state));
 	}
 

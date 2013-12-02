@@ -85,7 +85,7 @@ gboolean	ug_running_add (UgRunning* running, UgDataset* dataset)
 		relation->plugin = ug_plugin_new_by_data (dataset);
 		if (relation->plugin == NULL) {
 			// set relation->hints
-			relation->hints |=  UG_HINT_ERROR;
+			relation->hints |= UG_HINT_ERROR;
 			g_free (relation->message.string);
 			relation->message.type = UG_MESSAGE_ERROR;
 			relation->message.string = g_strdup (_("No plug-in support this scheme or file."));
@@ -96,6 +96,18 @@ gboolean	ug_running_add (UgRunning* running, UgDataset* dataset)
 			return FALSE;
 		}
 	}
+	// activate task
+	if (ug_plugin_set_state (relation->plugin, UG_STATE_ACTIVE) != UG_RESULT_OK) {
+		relation->hints |= UG_HINT_ERROR;
+		g_free (relation->message.string);
+		relation->message.type = UG_MESSAGE_ERROR;
+		relation->message.string = g_strdup (_("Unable to create thread, reduce number of download."));
+		// notify
+		if (category)
+			ug_category_changed (category, dataset);
+		// If this task can't activate, return FALSE.
+		return FALSE;
+	}
 	// change relation->hints and notify category
 	relation->hints &= ~UG_HINT_INACTIVE;
 	relation->hints |=  UG_HINT_DOWNLOADING;
@@ -104,8 +116,6 @@ gboolean	ug_running_add (UgRunning* running, UgDataset* dataset)
 	// add to group
 	ug_dataset_ref (dataset);
 	g_queue_push_tail (&running->group, dataset);
-	// activate task
-	ug_plugin_set_state (relation->plugin, UG_STATE_ACTIVE);
 	ug_running_do_speed_limit (running);
 	// If this task can activate, return TRUE.
 	return TRUE;
