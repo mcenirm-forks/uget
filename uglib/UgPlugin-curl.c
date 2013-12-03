@@ -196,6 +196,7 @@ static UgResult	ug_plugin_curl_set_state (UgPluginCurl* plugin, UgState  state)
 				ug_plugin_unref ((UgPlugin*) plugin);
 				return UG_RESULT_ERROR;
 			}
+			g_thread_unref (thread);
 		}
 		plugin->state = state;
 		ug_plugin_post ((UgPlugin*) plugin, ug_message_new_state (state));
@@ -603,8 +604,8 @@ exit:
 
 	if (plugin->state == UG_STATE_ACTIVE)
 		ug_plugin_curl_set_state (plugin, UG_STATE_READY);
-	ug_plugin_unref ((UgPlugin*) plugin);	// call ug_plugin_ref () by ug_plugin_curl_set_state ()
-
+	// call ug_plugin_ref () by ug_plugin_curl_set_state ()
+	ug_plugin_unref ((UgPlugin*) plugin);
 	return NULL;
 }
 

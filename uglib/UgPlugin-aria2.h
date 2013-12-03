@@ -72,6 +72,7 @@ struct UgPluginAria2
 	UgetHttp*   http;
 	UgetFtp*    ftp;
 
+	// status
 	gboolean		renamed;
 
 	// temp

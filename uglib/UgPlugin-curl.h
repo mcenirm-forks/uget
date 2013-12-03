@@ -68,8 +68,8 @@ struct UgPluginCurl
 //	GMutex*						lock;
 
 	// supported data
-	UgetCommon*	common;
-	UgetProxy*	proxy;
+	UgetCommon*		common;
+	UgetProxy*		proxy;
 	UgetHttp*		http;
 	UgetFtp*		ftp;
 
