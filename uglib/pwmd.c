@@ -19,7 +19,6 @@
 #include <config.h>
 #endif
 
-#ifdef HAVE_LIBPWMD
 #include <glib/gi18n.h>
 #include <string.h>
 #include <stdlib.h>
@@ -57,7 +56,7 @@ gpg_error_t ug_set_pwmd_proxy_options(struct pwmd_proxy_s *pwmd,
        if (proxy->pwmd.element) {
                pwmd->path = path = g_strdup_printf("%s\t", proxy->pwmd.element);
 
-               for (i = 0; i < strlen(path); i++) {
+               for (i = 0; path[i]; i++) {
                        if (path[i] == '^')
                                path[i] = '\t';
                }
@@ -154,7 +153,4 @@ void ug_close_pwmd(struct pwmd_proxy_s *pwmd)
   pwmd_free(pwmd->username);
   pwmd_free(pwmd->password);
   g_free(pwmd->path);
-  if (pwmd->pwm)
-    pwmd_close(pwmd->pwm);
 }
-#endif

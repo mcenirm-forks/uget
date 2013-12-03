@@ -15,11 +15,13 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02110-1301  USA
 */
+#ifndef PWMD_H
+#define PWMD_H
+
 #include <libpwmd.h>
 #include "UgetData.h"
 
 struct pwmd_proxy_s {
-       pwm_t *pwm;
        gchar *hostname;
        gchar *username;
        gchar *password;
@@ -30,3 +32,5 @@ struct pwmd_proxy_s {
 
 gpg_error_t ug_set_pwmd_proxy_options(struct pwmd_proxy_s *, UgetProxy *);
 void ug_close_pwmd(struct pwmd_proxy_s *);
+
+#endif

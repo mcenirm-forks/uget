@@ -188,6 +188,7 @@ if test "x$enable_pwmd" = "xyes"; then
   PKG_CHECK_MODULES(LIBPWMD, [libpwmd-7.0 >= 7.0.0])
   AC_DEFINE(HAVE_LIBPWMD, 1, [Define to 1 if libpwmd support is required.])
 fi
+AM_CONDITIONAL([WITH_LIBPWMD],  [test "x$enable_pwmd" = "xyes"])
 
 ## -----------------
 ## HIDE_TEMPORARY_FILE
