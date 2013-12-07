@@ -415,6 +415,7 @@ void ug_app_get_update_info (UgAppGtk* app)
 		app->update_info.ready = FALSE;
 		app->update_info.thread = g_thread_new ("get update info",
 				(GThreadFunc) get_update_info_thread, app);
+		g_thread_unref (app->update_info.thread);
 	}
 }
 
