@@ -102,28 +102,27 @@ void  ug_banner_show_donation (struct UgBanner* banner)
 	gtk_text_buffer_insert (banner->buffer, &iter, _("Attention uGetters:"), -1);
 	gtk_text_buffer_insert (banner->buffer, &iter, " ", 1);
 	gtk_text_buffer_insert (banner->buffer, &iter,
-			"we are running a Donation Drive "
-			"for uGet's Future Development, please click ",
-			-1);
+			_("we are running a Donation Drive "
+			  "for uGet's Future Development, please click "), -1);
 	gtk_text_buffer_insert_with_tags (banner->buffer, &iter,
 			_("HERE"), -1, banner->tag_link, NULL);
 }
 
-void  ug_banner_show_survery (struct UgBanner* banner)
+void  ug_banner_show_survey (struct UgBanner* banner)
 {
 	GtkTextIter iter;
 
-	banner->status = UG_BANNER_SURVERY;
+	banner->status = UG_BANNER_SURVEY;
 	gtk_text_buffer_set_text(banner->buffer, "", 0);
 	gtk_text_buffer_get_iter_at_offset (banner->buffer, &iter, 0);
 	gtk_text_buffer_insert (banner->buffer, &iter, "  ", 2);
 	gtk_text_buffer_insert (banner->buffer, &iter, _("Attention uGetters:"), -1);
 	gtk_text_buffer_insert (banner->buffer, &iter, " ", 1);
 	gtk_text_buffer_insert (banner->buffer, &iter,
-			_("please fill out this quick User Survery for uGet."), -1);
+			_("please fill out this quick User Survey for uGet."), -1);
 	gtk_text_buffer_insert (banner->buffer, &iter, " - ", 3);
 	gtk_text_buffer_insert_with_tags (banner->buffer, &iter,
-			_("click here to take survery"), -1, banner->tag_link, NULL);
+			_("click here to take survey"), -1, banner->tag_link, NULL);
 }
 
 // ----------------------------------------------------------------------------
@@ -169,7 +168,7 @@ event_after (GtkWidget* text_view, GdkEvent* ev, UgBanner* banner)
 			ug_launch_uri ("http://ugetdm.com/donate");
 			break;
 
-		case UG_BANNER_SURVERY:
+		case UG_BANNER_SURVEY:
 			ug_launch_uri ("http://ugetdm.com/survey");
 			break;
 		}
@@ -236,10 +235,10 @@ on_x_button_release (GtkWidget* text_view, GdkEvent* ev, UgBanner* banner)
 
 	switch (banner->status) {
 	case UG_BANNER_DONATION:
-		ug_banner_show_survery (banner);
+		ug_banner_show_survey (banner);
 		break;
 
-	case UG_BANNER_SURVERY:
+	case UG_BANNER_SURVEY:
 		gtk_widget_hide (banner->self);
 		break;
 	}

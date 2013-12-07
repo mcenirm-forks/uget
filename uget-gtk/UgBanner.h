@@ -47,7 +47,7 @@ extern "C" {
 typedef struct UgBanner    UgBanner;
 enum UgBannerState {
 	UG_BANNER_DONATION,
-	UG_BANNER_SURVERY,
+	UG_BANNER_SURVEY,
 };
 
 // --------------------------------
@@ -64,7 +64,7 @@ struct UgBanner {
 
 void   ug_banner_init (struct UgBanner* banner);
 void   ug_banner_show_donation (struct UgBanner* banner);
-void   ug_banner_show_survery (struct UgBanner* banner);
+void   ug_banner_show_survey (struct UgBanner* banner);
 
 #ifdef __cplusplus
 }
