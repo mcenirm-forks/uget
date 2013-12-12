@@ -266,9 +266,9 @@ int main (int argc, char** argv)
 	if (notify_is_initted ())
 		notify_uninit ();
 #endif
-	// shutdown IPC and sleep 2 second to wait thread
+	// shutdown IPC and sleep 3 second to wait thread
+	g_usleep (3 * 1000000);
 	ug_ipc_finalize (&app->ipc);
-	g_usleep (2 * 1000000);
 
 exit:
 	// finalize for MS-Windows
