@@ -519,7 +519,7 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 					ug_app_save (app);
 					ug_shutdown ();
 					ug_app_show_message (app, GTK_MESSAGE_INFO,
-							"This program need root privileges to shutdown.");
+							_("This program need root privileges to shutdown."));
 				}
 			}
 		}
