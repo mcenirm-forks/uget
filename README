@@ -1,3 +1,9 @@
+uGet 1.10.4 (stable)
+01. aria2 plug-in support magnet
+02. Add GnuTLS support (configure --enable-gnutls)
+03. Fix: uGet unexpectedly exits with large list of urls.
+04. add and update translation files.
+
 uGet 1.10.3 (stable)
 01. Add new download option - "mirrors".
 02. Change hotkey, Shift+Delete to delete data, Ctrl+Delete to delete file and data.
