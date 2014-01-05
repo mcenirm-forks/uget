@@ -159,6 +159,7 @@ AC_ARG_ENABLE(
 if test "x$enable_gnutls" = "xyes"; then
   PKG_CHECK_MODULES(GNUTLS, gnutls)
   AC_DEFINE(HAVE_GNUTLS, 1, [Define to 1 if gnutls support is required.])
+  AM_PATH_LIBGCRYPT(,,AC_ERROR([Could not find libgcrypt]))
   # for ArchLinux
   AC_SUBST(GNUTLS_CFLAGS)
   AC_SUBST(GNUTLS_LIBS)
