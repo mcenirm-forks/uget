@@ -145,24 +145,45 @@ AC_ARG_ENABLE(
 )
 
 if test "x$plugin_curl" = "xyes"; then
-    AC_DEFINE(HAVE_PLUGIN_CURL, 1, [Define to 1 to enable cURL plug-in.])
+	AC_DEFINE(HAVE_PLUGIN_CURL, 1, [Define to 1 to enable cURL plug-in.])
 fi
 
 ## ----------------
 ## GnuTLS
-AC_ARG_ENABLE(
+AC_ARG_WITH(
 	[gnutls],
-	AC_HELP_STRING([--enable-gnutls], [Enable GnuTLS support.]),
-	[enable_gnutls="$enableval"],
-	[enable_gnutls="no"]
+	AC_HELP_STRING([--with-gnutls[=@<:@no/auto/yes@:>@]], [Enable GnuTLS support.]),
+	[with_gnutls="$withval"],
+	[with_gnutls="auto"]
 )
-if test "x$enable_gnutls" = "xyes"; then
-  PKG_CHECK_MODULES(GNUTLS, gnutls)
-  AC_DEFINE(HAVE_GNUTLS, 1, [Define to 1 if gnutls support is required.])
-  AM_PATH_LIBGCRYPT(,,AC_ERROR([Could not find libgcrypt]))
-  # for ArchLinux
-  AC_SUBST(GNUTLS_CFLAGS)
-  AC_SUBST(GNUTLS_LIBS)
+if test "x$with_gnutls" != "xno"; then
+#	AC_CHECK_HEADER(gcrypt.h, [USE_GNUTLS_GCRYPT=1], [USE_GNUTLS_GCRYPT=0])
+#	if test "$USE_GNUTLS_GCRYPT" = "1"; then
+#		LIBGCRYPT_CFLAGS=""
+#		AC_SUBST(LIBGCRYPT_CFLAGS)
+#	fi
+#	AC_CHECK_HEADER(gcrypt/gcrypt.h, [USE_GNUTLS_GCRYPT=1], [USE_GNUTLS_GCRYPT=0])
+#	if test "$USE_GNUTLS_GCRYPT" = "1"; then
+#		LIBGCRYPT_CFLAGS=""
+#		AC_SUBST(LIBGCRYPT_CFLAGS, [""])
+#	fi
+#	AC_CHECK_LIB(gcrypt, gcry_control, [USE_GNUTLS_GCRYPT=1], [USE_GNUTLS_GCRYPT=0])
+#	if test "$USE_GNUTLS_GCRYPT" = "1"; then
+#		LIBGCRYPT_LIBS="-lgcrypt"
+#		AC_SUBST(LIBGCRYPT_LIBS, ["-lgcrypt"])
+#	fi
+	AC_PATH_PROG(LIBGCRYPT_CONFIG, libgcrypt-config)
+	if test "x$LIBGCRYPT_CONFIG" = "x" ; then
+		if test "x$with_gnutls" = "xyes"; then
+			AC_MSG_ERROR(Unable to find libgcrypt-config, please install libgcrypt)
+		fi
+	else
+		LIBGCRYPT_CFLAGS=`$LIBGCRYPT_CONFIG --cflags`
+		LIBGCRYPT_LIBS=`$LIBGCRYPT_CONFIG --libs`
+		AC_SUBST(LIBGCRYPT_CFLAGS)
+		AC_SUBST(LIBGCRYPT_LIBS)
+		AC_DEFINE(USE_GNUTLS, 1, [Define to 1 if gnutls support is required.])
+	fi
 fi
 
 ## -----------------

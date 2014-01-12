@@ -113,7 +113,7 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
 #include <UgApp-gtk.h>
 
 // GnuTLS
-#ifdef HAVE_GNUTLS
+#ifdef USE_GNUTLS
 #include <gcrypt.h>
 #include <errno.h>
 
@@ -123,7 +123,7 @@ void init_gnutls_locks (void)
 {
 	gcry_control (GCRYCTL_SET_THREAD_CBS);
 }
-#endif // HAVE_GNUTLS
+#endif // USE_GNUTLS
 
 // GStreamer
 #ifdef HAVE_GSTREAMER
