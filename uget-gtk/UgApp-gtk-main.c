@@ -119,9 +119,9 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
 
 GCRY_THREAD_OPTION_PTHREAD_IMPL;
 
-void init_gnutls_locks (void)
+void init_locks (void)
 {
-	gcry_control (GCRYCTL_SET_THREAD_CBS);
+	gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 }
 #endif // USE_GNUTLS
 
@@ -200,7 +200,7 @@ int main (int argc, char** argv)
 	textdomain (GETTEXT_PACKAGE);
 
 #ifdef USE_GNUTLS
-	init_gnutls_locks ();
+	init_locks ();
 #endif
 
 	string = ug_arg_find_version (argc, argv);
