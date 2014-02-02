@@ -1,3 +1,6 @@
+uGet 1.10.5 (stable)
+01. Fix GnuTLS build problem. (--with-gnutls)
+
 uGet 1.10.4 (stable)
 01. aria2 plug-in support magnet
 02. Add GnuTLS support (configure --enable-gnutls)
