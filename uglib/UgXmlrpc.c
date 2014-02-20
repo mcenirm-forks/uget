@@ -115,6 +115,7 @@ void	ug_xmlrpc_use_client (UgXmlrpc* xmlrpc, const gchar* uri, const gchar* user
 	xmlrpc->user_agent = g_strdup (user_agent ? user_agent : "uGet/1.7");
 
 	curl_easy_setopt (xmlrpc->curl, CURLOPT_URL, xmlrpc->uri);
+	curl_easy_setopt (xmlrpc->curl, CURLOPT_NOSIGNAL , 1);
 	curl_easy_setopt (xmlrpc->curl, CURLOPT_USERAGENT, xmlrpc->user_agent);
 }
 
