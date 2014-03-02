@@ -358,8 +358,9 @@ struct UgAppGtk
 			GtkWidget*  documentation;
 			GtkWidget*  support_forum;
 			GtkWidget*  submit_feedback;
-			GtkWidget*  check_updates;
 			GtkWidget*  report_bug;
+			GtkWidget*  keyboard_shortcuts;
+			GtkWidget*  check_updates;
 			GtkWidget*	about_uget;
 		} help;
 	} menubar;

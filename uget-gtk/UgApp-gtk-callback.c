@@ -1334,6 +1334,11 @@ void    on_report_bug (GtkWidget* widget, UgAppGtk* app)
 	ug_launch_uri ("http://ugetdm.com/reportbug");
 }
 
+void    on_keyboard_shortcuts (GtkWidget* widget, UgAppGtk* app)
+{
+	ug_launch_uri ("http://ugetdm.com/keyboard-shortcuts");
+}
+
 void    on_check_updates (GtkWidget* widget, UgAppGtk* app)
 {
 	ug_launch_uri ("http://ugetdm.com/versioncheck?v=" PACKAGE_VERSION);
@@ -2008,10 +2013,12 @@ static void ug_menubar_init_callback (struct UgMenubar* menubar, UgAppGtk* app)
 			G_CALLBACK (on_support_forum), app);
 	g_signal_connect (menubar->help.submit_feedback, "activate",
 			G_CALLBACK (on_submit_feedback), app);
-	g_signal_connect (menubar->help.check_updates, "activate",
-			G_CALLBACK (on_check_updates), app);
 	g_signal_connect (menubar->help.report_bug, "activate",
 			G_CALLBACK (on_report_bug), app);
+	g_signal_connect (menubar->help.keyboard_shortcuts, "activate",
+			G_CALLBACK (on_keyboard_shortcuts), app);
+	g_signal_connect (menubar->help.check_updates, "activate",
+			G_CALLBACK (on_check_updates), app);
 	g_signal_connect (menubar->help.about_uget, "activate",
 			G_CALLBACK (on_about), app);
 }
