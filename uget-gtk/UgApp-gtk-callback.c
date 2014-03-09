@@ -54,14 +54,7 @@ static const char	uget_license[] =
 
 // static data
 static const gchar*	uget_authors[] = { "C.H. Huang  (\xE9\xBB\x83\xE6\xAD\xA3\xE9\x9B\x84)", NULL };
-static const gchar*	uget_artists[] =
-{
-	"Logo designer: Michael Tunnell (visuex.com)",
-	"Website by: Michael Tunnell (visuex.com)",
-	"Former Logo designer: saf1 (linuxac.org)",
-	"Former Logo improver: Skeleton_Eel (linuxac.org)",
-	NULL
-};
+static const gchar*	uget_artists[] = { "Michael Tunnell (visuex.com)", NULL};
 static const gchar*	uget_version   = UG_APP_GTK_VERSION;
 static const gchar*	uget_comments  = N_("Download Manager");
 static const gchar*	uget_copyright = "Copyright (C) 2005-2014 C.H. Huang";
@@ -1349,6 +1342,7 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 	GtkDialog* adialog;
 	GdkPixbuf* pixbuf;
 	char*      path;
+	char*      comments;
 
 	path = g_build_filename (
 			ug_get_data_dir (), "pixmaps", "uget", "logo.png", NULL);
@@ -1360,6 +1354,12 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 //		gtk_widget_show ((GtkWidget*) app->window.self);
 //	}
 
+	comments = g_strconcat (
+			gettext (uget_comments),     "\n",
+			_("uGet Founder: "),         uget_authors[0], "\n",
+			_("uGet Project Manager: "), uget_artists[0], "\n",
+			NULL);
+
 	adialog = (GtkDialog*) gtk_about_dialog_new ();
 	gtk_window_set_transient_for ((GtkWindow*) adialog, app->window.self);
 	gtk_dialog_set_default_response (adialog, GTK_RESPONSE_CANCEL);
@@ -1368,7 +1368,7 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 			"logo", pixbuf,
 			"program-name", UG_APP_GTK_NAME,
 			"version", uget_version,
-			"comments", gettext (uget_comments),
+			"comments", comments,
 			"copyright", uget_copyright,
 #ifdef _WIN32
 			"website-label", UGET_URL_WEBSITE,
@@ -1380,6 +1380,8 @@ void	on_about (GtkWidget* widget, UgAppGtk* app)
 			"artists", uget_artists,
 			"translator-credits", gettext (translator_credits),
 			NULL);
+
+	g_free (comments);
 
 	if (app->update_info.ready) {
 		GtkScrolledWindow* scrolled;
