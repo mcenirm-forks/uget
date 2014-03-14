@@ -328,7 +328,7 @@ static void	ug_download_form_init_page1 (UgDownloadForm* dform, UgProxyForm* pro
 	gtk_grid_attach (grid, widget, 4, 0, 3, 1);
 	dform->title_connections = widget;
 	// connections - spin button
-	widget = gtk_spin_button_new_with_range (1.0, 20.0, 1.0);
+	widget = gtk_spin_button_new_with_range (1.0, 16.0, 1.0);
 	gtk_entry_set_width_chars (GTK_ENTRY (widget), 3);
 	g_object_set (widget, "margin-left", 2, "margin-right", 2, NULL);
 	g_object_set (widget, "margin-top", 1, "margin-bottom", 1, NULL);

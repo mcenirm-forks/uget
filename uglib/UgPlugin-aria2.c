@@ -1110,6 +1110,8 @@ static void	ug_plugin_aria2_set_common	(UgPluginAria2* plugin, UgXmlrpcValue* op
 		value = ug_xmlrpc_value_alloc (options);
 		value->name = "max-connection-per-server";
 		value->type = UG_XMLRPC_STRING;
+		if (common->max_connections > 16)
+			common->max_connections = 16;
 		g_string_printf (string, "%u", common->max_connections);
 		value->c.string = g_string_chunk_insert (plugin->chunk, string->str);
 	}
