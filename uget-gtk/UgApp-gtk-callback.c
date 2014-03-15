@@ -190,7 +190,7 @@ static void	on_config_category (GtkWidget* widget, UgAppGtk* app)
 //
 static void	ug_app_setup_download_dialog (UgAppGtk* app, UgDownloadDialog* ddialog)
 {
-	UgetCommon*	common;
+//	UgetCommon*	common;
 	GtkTreePath*	path;
 	GtkTreeModel*	model;
 
@@ -206,11 +206,11 @@ static void	ug_app_setup_download_dialog (UgAppGtk* app, UgDownloadDialog* ddial
 			gtk_tree_path_free (path);
 		}
 
-		common = ug_dataset_realloc (app->last.download, UgetCommonInfo, 0);
-		if (common && common->file) {
-			g_free (common->file);
-			common->file = NULL;
-		}
+//		common = ug_dataset_realloc (app->last.download, UgetCommonInfo, 0);
+//		if (common && common->file) {
+//			g_free (common->file);
+//			common->file = NULL;
+//		}
 		ug_download_dialog_set (ddialog, app->last.download);
 	}
 }
