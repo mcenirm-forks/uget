@@ -67,7 +67,7 @@ static void	ug_menubar_init_callback   (struct UgMenubar* menubar, UgAppGtk* app
 static void	ug_trayicon_init_callback (struct UgTrayIcon* icon,   UgAppGtk* app);
 
 static GtkWidget*	create_file_chooser (const gchar* title, GtkWindow* parent, const gchar* filter_name, const gchar* mine_type);
-
+static void  on_switch_download_state (UgAppGtk* app);
 
 void	ug_app_init_callback (UgAppGtk* app)
 {
@@ -77,6 +77,8 @@ void	ug_app_init_callback (UgAppGtk* app)
 //	                         g_cclosure_new_swap (G_CALLBACK (ug_app_save), app, NULL));
 //	gtk_accel_group_connect (app->accel_group, GDK_KEY_c, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE,
 //	                         g_cclosure_new_swap (G_CALLBACK (on_summary_copy_selected), app, NULL));
+	gtk_accel_group_connect (app->accel_group, GDK_KEY_space, 0, GTK_ACCEL_VISIBLE,
+	                         g_cclosure_new_swap (G_CALLBACK (on_switch_download_state), app, NULL));
 	ug_window_init_callback  (&app->window,  app);
 	ug_toolbar_init_callback (&app->toolbar, app);
 	ug_menubar_init_callback (&app->menubar, app);
@@ -701,6 +703,37 @@ static void	on_set_download_force_start (GtkWidget* widget, UgAppGtk* app)
 	g_list_free (list);
 	// refresh other data & status
 	gtk_widget_queue_draw (app->cwidget.self);
+	gtk_widget_queue_draw (GTK_WIDGET (dwidget->view));
+	ug_summary_show (&app->summary, ug_download_widget_get_cursor (dwidget));
+}
+
+static void on_switch_download_state (UgAppGtk* app)
+{
+	UgDownloadWidget*	dwidget;
+	UgetRelation*			relation;
+	GList*				list;
+	GList*				link;
+
+	// set action status "stop by user"
+	app->action.stop = TRUE;
+
+	dwidget = app->cwidget.current.widget;
+	list = ug_download_widget_get_selected (dwidget);
+	for (link = list;  link;  link = link->next) {
+		relation = UG_DATASET_RELATION ((UgDataset*) link->data);
+		if (relation->hints & UG_HINT_ACTIVE) {
+			// stop task
+			relation->hints |=  UG_HINT_PAUSED;
+			ug_running_remove (&app->running, link->data);
+		}
+		else if (relation->hints & UG_HINT_PAUSED) {
+			relation->hints &= ~UG_HINT_UNRUNNABLE;
+			// If task is in Finished or Recycled, move it to Queuing.
+			ug_category_gtk_changed (relation->category, link->data);
+		}
+	}
+	g_list_free (list);
+	// refresh other data & status
 	gtk_widget_queue_draw (GTK_WIDGET (dwidget->view));
 	ug_summary_show (&app->summary, ug_download_widget_get_cursor (dwidget));
 }
