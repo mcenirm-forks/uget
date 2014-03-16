@@ -390,7 +390,7 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 {
 	GtkWidget*		image;
 	GtkWidget*		menu;
-	GtkWidget*		sub_menu;
+	GtkWidget*		submenu;
 	GtkWidget*		menu_item;
 
 	// Menubar
@@ -406,76 +406,76 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 
 	// New --- start --- (accelerators)
 	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_NEW, NULL);
-	sub_menu = gtk_menu_new ();
-	gtk_menu_set_accel_group ((GtkMenu*)sub_menu, accel_group);
-	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, sub_menu);
+	submenu = gtk_menu_new ();
+	gtk_menu_set_accel_group ((GtkMenu*)submenu, accel_group);
+	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, submenu);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	// New - Download (accelerators)
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Download..."));
 	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_CTRL_N);
 	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->file.create.download = menu_item;
 	// New - Category
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Category..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->file.create.category = menu_item;
 	// New - separator
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, gtk_separator_menu_item_new() );
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, gtk_separator_menu_item_new() );
 	// New - Torrent
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("Torrent..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->file.create.torrent = menu_item;
 	// New - Metalink
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("Metalink..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->file.create.metalink = menu_item;
 	// New --- end ---
 
 	// Batch Downloads --- start ---
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Batch Downloads"));
-	sub_menu = gtk_menu_new ();
-	gtk_menu_set_accel_group ((GtkMenu*)sub_menu, accel_group);
-	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, sub_menu);
+	submenu = gtk_menu_new ();
+	gtk_menu_set_accel_group ((GtkMenu*)submenu, accel_group);
+	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, submenu);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	// Batch downloads - Clipboard batch
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Clipboard batch..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_PASTE, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->file.batch.clipboard = menu_item;
 	// Batch downloads - URL Sequence batch
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_URL Sequence batch..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_SORT_ASCENDING, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->file.batch.sequence = menu_item;
 	// Batch downloads - Text file import (.txt)
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Text file import (.txt)..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->file.batch.text_import = menu_item;
 	// Batch downloads - HTML file import (.html)
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_HTML file import (.html)..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_CONVERT, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->file.batch.html_import = menu_item;
 	// Batch downloads - separator
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, gtk_separator_menu_item_new() );
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, gtk_separator_menu_item_new() );
 	// Batch downloads - Export to Text file (.txt)
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Export to Text file (.txt)..."));
 	image = gtk_image_new_from_stock (GTK_STOCK_GO_BACK, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
-	gtk_menu_shell_append ((GtkMenuShell*)sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->file.batch.text_export = menu_item;
 	// Batch downloads --- end ---
 
@@ -515,9 +515,37 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
 
-	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Shutdown when downloads complete"));
+	// Auto Shutdown --- start ---
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Auto Shutdown"));
+	submenu = gtk_menu_new ();
+//	gtk_menu_set_accel_group ((GtkMenu*)submenu, accel_group);
+	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, submenu);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	menubar->edit.shutdown = menu_item;
+	// Auto Shutdown - Disable
+	menu_item = gtk_radio_menu_item_new_with_mnemonic (NULL, _("_Disable"));
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
+	menubar->edit.when_complete.shutdown = menu_item;
+	// Auto Shutdown - Hibernate when downloads complete
+	menu_item = gtk_radio_menu_item_new_with_mnemonic_from_widget (
+			(GtkRadioMenuItem*) menu_item, _("Hibernate when downloads complete"));
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
+	menubar->edit.when_complete.hibernate = menu_item;
+	// Auto Shutdown - Suspend when downloads complete
+	menu_item = gtk_radio_menu_item_new_with_mnemonic_from_widget (
+			(GtkRadioMenuItem*) menu_item, _("Suspend when downloads complete"));
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
+	menubar->edit.when_complete.suspend = menu_item;
+	// Auto Shutdown - Shutdown when downloads complete
+	menu_item = gtk_radio_menu_item_new_with_mnemonic_from_widget (
+			(GtkRadioMenuItem*) menu_item, _("Shutdown when downloads complete"));
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
+	menubar->edit.when_complete.shutdown = menu_item;
+	// Auto Shutdown - Reboot when downloads complete
+	menu_item = gtk_radio_menu_item_new_with_mnemonic_from_widget (
+			(GtkRadioMenuItem*) menu_item, _("Reboot when downloads complete"));
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
+	menubar->edit.when_complete.reboot = menu_item;
+	// Auto Shutdown --- end ---
 
 //	menu_item = gtk_menu_item_new_with_mnemonic (_("_Settings..."));
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Settings..."));
@@ -557,38 +585,38 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 
 	// Summary Items --- start ---
 	menu_item = gtk_menu_item_new_with_mnemonic (_("Summary _Items"));
-	sub_menu  = gtk_menu_new ();
-	gtk_menu_item_set_submenu ((GtkMenuItem*) menu_item, sub_menu);
+	submenu  = gtk_menu_new ();
+	gtk_menu_item_set_submenu ((GtkMenuItem*) menu_item, submenu);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	// Summary Items - Name
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Name"));
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	menubar->view.summary_items.name = menu_item;
 	// Summary Items - Folder
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Folder"));
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	menubar->view.summary_items.folder = menu_item;
 	// Summary Items - Category
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Category"));
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	menubar->view.summary_items.category = menu_item;
 	// Summary Items - Elapsed
 //	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Elapsed"));
 //	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
-//	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+//	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 //	menubar->view.summary_items.elapsed = menu_item;
 	// Summary Items - URL
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_URL"));
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	menubar->view.summary_items.url = menu_item;
 	// Summary Items - Message
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Message"));
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	menubar->view.summary_items.message = menu_item;
 	// Summary Items --- end ---
 
@@ -600,79 +628,79 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 //	menubar->view.rules_hint = menu_item;
 
 	// Download Columns --- start ---
-	sub_menu  = gtk_menu_new ();
+	submenu  = gtk_menu_new ();
 	menu_item = gtk_menu_item_new_with_mnemonic (_("Download _Columns"));
-	gtk_menu_item_set_submenu ((GtkMenuItem*) menu_item, sub_menu);
+	gtk_menu_item_set_submenu ((GtkMenuItem*) menu_item, submenu);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	menubar->view.columns.self = sub_menu;
+	menubar->view.columns.self = submenu;
 	// Download Columns - Completed
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Complete"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.completed = menu_item;
 	// Download Columns - Total
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Size"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.total = menu_item;
 	// Download Columns - Percent (%)
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Percent '%'"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.percent = menu_item;
 	// Download Columns - Elapsed
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Elapsed"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.elapsed = menu_item;
 	// Download Columns - Left
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Left"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.left = menu_item;
 	// Download Columns - Speed
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Speed"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.speed = menu_item;
 	// Download Columns - Up Speed
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Up Speed"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.upload_speed = menu_item;
 	// Download Columns - Uploaded
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Uploaded"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.uploaded = menu_item;
 	// Download Columns - Ratio
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Ratio"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.ratio = menu_item;
 	// Download Columns - Retry
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Retry"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.retry = menu_item;
 	// Download Columns - Category
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Category"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.category = menu_item;
 	// Download Columns - URL
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_URL"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.url = menu_item;
 	// Download Columns - Added On
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Added On"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.added_on = menu_item;
 	// Download Columns - Completed On
 	menu_item = gtk_check_menu_item_new_with_mnemonic (_("Completed On"));
-	gtk_menu_shell_append ((GtkMenuShell*) sub_menu, menu_item);
+	gtk_menu_shell_append ((GtkMenuShell*) submenu, menu_item);
 	gtk_check_menu_item_set_active ((GtkCheckMenuItem*) menu_item, TRUE);
 	menubar->view.columns.completed_on = menu_item;
 	// Download Columns --- end ---
@@ -776,9 +804,9 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	menubar->download.move_to.item = menu_item;
 	// Move to - submenu
-	sub_menu = gtk_menu_new ();
-	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, sub_menu);
-	menubar->download.move_to.self = sub_menu;
+	submenu = gtk_menu_new ();
+	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, submenu);
+	menubar->download.move_to.self = submenu;
 	menubar->download.move_to.array = g_ptr_array_sized_new (16*2);
 	// Move to --- end ---
 

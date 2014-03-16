@@ -515,11 +515,25 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 				// completed notification
 				ug_app_notify_completed (app);
 				// shutdown
-				if (app->setting.shutdown) {
+				if (app->setting.when_complete > 0) {
 					ug_app_save (app);
-					ug_shutdown ();
+					switch (app->setting.when_complete) {
+					case 1:    // hibernate
+						ug_hibernate ();
+						break;
+					case 2:    // suspend
+						ug_suspend ();
+						break;
+					case 3:    // shutdown
+						ug_shutdown ();
+						break;
+					case 4:    // reboot
+						ug_reboot ();
+						break;
+					}
 					ug_app_show_message (app, GTK_MESSAGE_INFO,
-							_("This program need root privileges to shutdown."));
+							_("This program need privileges to shutdown or suspend." "\n"
+							  "If it can not work, please check your privileges."));
 				}
 			}
 		}

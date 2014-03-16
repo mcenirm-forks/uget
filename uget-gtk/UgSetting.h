@@ -219,7 +219,7 @@ struct UgSetting
 	} plugin;
 
 	gboolean		offline_mode;
-	guint			shutdown;			// shutdown when downloads complete
+	guint           when_complete;    // when downloads complete
 
 	// "FolderList"
 	GList*			folder_list;

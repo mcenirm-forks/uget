@@ -70,6 +70,7 @@
 			<Add library="curldll" />
 			<Add library="ws2_32" />
 			<Add library="winmm" />
+			<Add library="PowrProf" />
 			<Add directory="D:/devpack/gtk3/lib" />
 			<Add directory="D:/devpack/curl-mingw/lib" />
 		</Linker>

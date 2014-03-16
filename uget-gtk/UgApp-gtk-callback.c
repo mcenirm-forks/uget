@@ -1136,10 +1136,20 @@ static void	on_config_settings_response (GtkDialog *dialog, gint response, UgSet
 
 static void	on_config_shutdown (GtkWidget* widget, UgAppGtk* app)
 {
-	gboolean	active;
+//	gboolean	active;
 
-	active = gtk_check_menu_item_get_active ((GtkCheckMenuItem*) widget);
-	app->setting.shutdown = active;
+//	active = gtk_check_menu_item_get_active ((GtkCheckMenuItem*) widget);
+
+	if (widget == app->menubar.edit.when_complete.disable)
+		app->setting.when_complete = 0;
+	else if (widget == app->menubar.edit.when_complete.hibernate)
+		app->setting.when_complete = 1;
+	else if (widget == app->menubar.edit.when_complete.suspend)
+		app->setting.when_complete = 2;
+	else if (widget == app->menubar.edit.when_complete.shutdown)
+		app->setting.when_complete = 3;
+	else if (widget == app->menubar.edit.when_complete.reboot)
+		app->setting.when_complete = 4;
 }
 
 static void	on_config_settings (GtkWidget* widget, UgAppGtk* app)
@@ -1940,7 +1950,15 @@ static void ug_menubar_init_callback (struct UgMenubar* menubar, UgAppGtk* app)
 			G_CALLBACK (on_monitor_clipboard), app);
 	g_signal_connect (menubar->edit.clipboard_option, "activate",
 			G_CALLBACK (on_config_clipboard), app);
-	g_signal_connect (menubar->edit.shutdown, "activate",
+	g_signal_connect (menubar->edit.when_complete.disable, "activate",
+			G_CALLBACK (on_config_shutdown), app);
+	g_signal_connect (menubar->edit.when_complete.hibernate, "activate",
+			G_CALLBACK (on_config_shutdown), app);
+	g_signal_connect (menubar->edit.when_complete.suspend, "activate",
+			G_CALLBACK (on_config_shutdown), app);
+	g_signal_connect (menubar->edit.when_complete.shutdown, "activate",
+			G_CALLBACK (on_config_shutdown), app);
+	g_signal_connect (menubar->edit.when_complete.reboot, "activate",
 			G_CALLBACK (on_config_shutdown), app);
 	g_signal_connect (menubar->edit.settings, "activate",
 			G_CALLBACK (on_config_settings), app);

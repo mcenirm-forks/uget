@@ -270,8 +270,15 @@ struct UgAppGtk
 		{
 			GtkWidget*	clipboard_monitor;
 			GtkWidget*	clipboard_option;
-			GtkWidget*	shutdown;
 			GtkWidget*	settings;
+
+			struct {
+				GtkWidget*  disable;
+				GtkWidget*  hibernate;
+				GtkWidget*  suspend;
+				GtkWidget*  shutdown;
+				GtkWidget*  reboot;
+			} when_complete;
 		} edit;
 
 		struct UgViewMenu

@@ -36,10 +36,12 @@
 
 #include <errno.h>
 #include <string.h>
+#include <stdlib.h>
 #include <memory.h>
 
 #ifdef _WIN32
 #include <windows.h>
+//#include <PowrProf.h>   // SetSuspendState()
 #include <sys/utime.h>	// struct utimbuf
 #else
 #include <utime.h>		// struct utimbuf
@@ -477,6 +479,94 @@ const char*	ug_io_channel_decide_encoding (GIOChannel* channel)
 	return encoding;
 }
 
+// ----------------------------------------------------------------------------
+// Power Management
+
+#ifdef _WIN32
+static int  ug_win32_get_shutdown_privilege ()
+{
+	HANDLE hToken;
+	TOKEN_PRIVILEGES tkp;
+
+	if (OpenProcessToken (GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY, &hToken))
+	{
+		LookupPrivilegeValue (NULL, SE_SHUTDOWN_NAME, &tkp.Privileges[0].Luid);
+		tkp.PrivilegeCount = 1;
+		tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+		AdjustTokenPrivileges (hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+void	ug_reboot (void)
+{
+	ug_win32_get_shutdown_privilege ();
+	ExitWindowsEx (EWX_SHUTDOWN | EWX_REBOOT, 0);
+}
+
+void	ug_shutdown (void)
+{
+	ug_win32_get_shutdown_privilege();
+	ExitWindowsEx (EWX_SHUTDOWN | EWX_POWEROFF, 0);
+}
+
+void	ug_suspend (void)
+{
+	system ("powercfg -hibernate off");
+//	SetSuspendState (0, 1, 0);
+	system ("rundll32 powrprof.dll,SetSuspendState 0,1,0");
+	system ("powercfg -hibernate on");
+}
+
+void	ug_hibernate (void)
+{
+//	SetSuspendState (1, 0, 0);
+	system ("rundll32 powrprof.dll,SetSuspendState 1,0,0");
+}
+
+#else
+void	ug_reboot (void)
+{
+	g_spawn_command_line_async ("reboot", NULL);
+//	g_spawn_command_line_async ("shutdown -r now", NULL);
+
+	system ("dbus-send --system --print-reply "
+	        "--dest=\"org.freedesktop.ConsoleKit\" "
+	        "/org/freedesktop/ConsoleKit/Manager "
+	        "org.freedesktop.ConsoleKit.Manager.Restart");
+}
+
+void	ug_shutdown (void)
+{
+	g_spawn_command_line_async ("poweroff", NULL);
+//	g_spawn_command_line_async ("shutdown -h -P now", NULL);
+	// change to runlevel 0
+
+	system ("dbus-send --system --print-reply "
+	        "--dest=\"org.freedesktop.ConsoleKit\" "
+	        "/org/freedesktop/ConsoleKit/Manager "
+	        "org.freedesktop.ConsoleKit.Manager.Stop");
+}
+
+void	ug_suspend (void)
+{
+	system ("pm-suspend");
+	system ("dbus-send --system --print-reply "
+	        "--dest=\"org.freedesktop.UPower\" "
+	        "/org/freedesktop/UPower "
+	        "org.freedesktop.UPower.Suspend");
+}
+
+void	ug_hibernate (void)
+{
+	system ("pm-hibernate");
+	system ("dbus-send --system --print-reply "
+	        "--dest=\"org.freedesktop.UPower\" "
+	        "/org/freedesktop/UPower "
+	        "org.freedesktop.UPower.Hibernate");
+}
+#endif // _WIN32
 
 // ------------------------------------------------------------------
 // others
@@ -514,23 +604,6 @@ gboolean	ug_launch_default_app (const gchar* folder, const gchar* file)
 	g_free (path_wcs);
 
 	return TRUE;
-}
-
-void	ug_shutdown (void)
-{
-	HANDLE hToken;
-	TOKEN_PRIVILEGES tkp;
-
-	if (OpenProcessToken (GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY, &hToken))
-	{
-		LookupPrivilegeValue (NULL, SE_SHUTDOWN_NAME, &tkp.Privileges[0].Luid);
-		tkp.PrivilegeCount = 1;
-		tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
-		AdjustTokenPrivileges (hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0);
-		ExitWindowsEx (EWX_SHUTDOWN | EWX_POWEROFF, 0);
-	}
-
-	ExitWindowsEx (EWX_SHUTDOWN | EWX_POWEROFF, 0);
 }
 
 char*  ug_sys_release (void)
@@ -589,13 +662,6 @@ gboolean	ug_launch_default_app (const gchar* folder, const gchar* file)
 	}
 
 	return TRUE;
-}
-
-void	ug_shutdown (void)
-{
-	g_spawn_command_line_async ("poweroff", NULL);
-//	g_spawn_command_line_async ("shutdown -h -P now", NULL);
-	// change to runlevel 0
 }
 
 // lsb_release -i

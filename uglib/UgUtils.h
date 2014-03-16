@@ -98,11 +98,18 @@ const char*	ug_io_channel_decide_encoding (GIOChannel* channel);
 
 
 // ------------------------------------------------------------------
+// Power Management
+
+void		ug_reboot (void);
+void		ug_shutdown (void);
+void		ug_suspend (void);
+void		ug_hibernate (void);
+
+// ------------------------------------------------------------------
 // others
 //
 gboolean	ug_launch_uri (const gchar* uri);
 gboolean	ug_launch_default_app (const gchar* folder, const gchar* file);
-void		ug_shutdown (void);
 gchar*		ug_sys_release (void);
 
 #ifdef __cplusplus

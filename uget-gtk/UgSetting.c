@@ -521,7 +521,7 @@ void	ug_setting_init (UgSetting* setting)
 
 	// Others
 	setting->offline_mode = FALSE;
-	setting->shutdown = 0;
+	setting->when_complete = 0;
 	setting->launch.active = TRUE;
 	setting->launch.types = g_strdup (UG_APP_GTK_LAUNCH_APP_TYPES);
 	setting->auto_save.active = TRUE;
