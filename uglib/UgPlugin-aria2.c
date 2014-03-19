@@ -40,6 +40,7 @@
 
 #ifdef HAVE_PLUGIN_ARIA2
 
+#include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 // uglib
@@ -174,8 +175,11 @@ static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
 	if (common == NULL)
 		return FALSE;
 	// reset data
-	if (common)
+	if (common) {
 		common->retry_count = 0;
+		if (common->retry_limit == 0)
+			common->retry_limit = UINT_MAX;
+	}
 	if (http)
 		http->redirection_count = 0;
 	// copy supported data
