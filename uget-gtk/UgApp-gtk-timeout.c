@@ -514,7 +514,7 @@ static gboolean	ug_app_timeout_queuing (UgAppGtk* app)
 			if (app->action.stop == FALSE) {
 				// completed notification
 				ug_app_notify_completed (app);
-				// shutdown
+				// shutdown when complete
 				if (app->setting.when_complete > 0) {
 					ug_app_save (app);
 					switch (app->setting.when_complete) {

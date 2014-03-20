@@ -40,7 +40,6 @@
 
 #ifdef HAVE_PLUGIN_CURL
 
-#include <limits.h>
 #include <string.h>
 #include <UgPlugin-curl.h>
 #include <UgetData.h>
@@ -150,11 +149,8 @@ static gboolean	ug_plugin_curl_init (UgPluginCurl* plugin, UgDataset* dataset)
 	if (common == NULL  ||  common->url == NULL)
 		return FALSE;
 	// reset
-	if (common) {
+	if (common)
 		common->retry_count = 0;
-		if (common->retry_limit == 0)
-			common->retry_limit = UINT_MAX;
-	}
 	if (http)
 		http->redirection_count = 0;
 	// copy supported data
@@ -554,7 +550,7 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 		}
 
 		// retry
-		if (common->retry_count < common->retry_limit) {
+		if (common->retry_count < common->retry_limit || common->retry_limit == 0) {
 			common->retry_count++;
 			ug_plugin_post ((UgPlugin*) plugin,
 					ug_message_new_info (UG_MESSAGE_INFO_RETRY, NULL));

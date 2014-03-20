@@ -175,11 +175,8 @@ static gboolean	ug_plugin_aria2_init (UgPluginAria2* plugin, UgDataset* dataset)
 	if (common == NULL)
 		return FALSE;
 	// reset data
-	if (common) {
+	if (common)
 		common->retry_count = 0;
-		if (common->retry_limit == 0)
-			common->retry_limit = UINT_MAX;
-	}
 	if (http)
 		http->redirection_count = 0;
 	// copy supported data
@@ -424,7 +421,7 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 			// download speed was too slow
 			if (plugin->errorCode == 5 && plugin->local_file == NULL) {
 				// retry
-				if (common->retry_count < common->retry_limit) {
+				if (common->retry_count < common->retry_limit || common->retry_limit == 0) {
 					common->retry_count++;
 					ug_plugin_post ((UgPlugin*) plugin,
 							ug_message_new_info (UG_MESSAGE_INFO_RETRY, NULL));
