@@ -1152,6 +1152,11 @@ static void	on_config_shutdown (GtkWidget* widget, UgAppGtk* app)
 		app->setting.when_complete = 4;
 }
 
+static void	on_config_shutdown_help (GtkWidget* widget, UgAppGtk* app)
+{
+	ug_launch_uri ("http://ugetdm.com/documentation/on-complete");
+}
+
 static void	on_config_settings (GtkWidget* widget, UgAppGtk* app)
 {
 	UgSettingDialog*	sdialog;
@@ -1960,6 +1965,8 @@ static void ug_menubar_init_callback (struct UgMenubar* menubar, UgAppGtk* app)
 			G_CALLBACK (on_config_shutdown), app);
 	g_signal_connect (menubar->edit.when_complete.reboot, "activate",
 			G_CALLBACK (on_config_shutdown), app);
+	g_signal_connect (menubar->edit.when_complete.help, "activate",
+			G_CALLBACK (on_config_shutdown_help), app);
 	g_signal_connect (menubar->edit.settings, "activate",
 			G_CALLBACK (on_config_settings), app);
 

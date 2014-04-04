@@ -71,6 +71,7 @@ extern "C" {
 #define	UG_APP_GTK_ACCEL_PATH_DELETE_F	"<uGet>/Download/DeleteFile"
 #define	UG_APP_GTK_ACCEL_PATH_OPEN		"<uGet>/Download/Open"
 #define	UG_APP_GTK_ACCEL_PATH_OPEN_F	"<uGet>/Download/OpenFolder"
+#define	UG_APP_GTK_ACCEL_PATH_SWITCH	"<uGet>/Download/SwitchState"
 #define	UG_APP_GTK_CATEGORY_STOCK		GTK_STOCK_DND_MULTIPLE
 
 typedef struct	UgAppGtk				UgAppGtk;
@@ -278,6 +279,7 @@ struct UgAppGtk
 				GtkWidget*  suspend;
 				GtkWidget*  shutdown;
 				GtkWidget*  reboot;
+				GtkWidget*  help;
 			} when_complete;
 		} edit;
 

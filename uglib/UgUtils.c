@@ -531,10 +531,17 @@ void	ug_reboot (void)
 	g_spawn_command_line_async ("reboot", NULL);
 //	g_spawn_command_line_async ("shutdown -r now", NULL);
 
+	// old system
 	system ("dbus-send --system --print-reply "
 	        "--dest=\"org.freedesktop.ConsoleKit\" "
 	        "/org/freedesktop/ConsoleKit/Manager "
 	        "org.freedesktop.ConsoleKit.Manager.Restart");
+
+	system ("dbus-send --system --print-reply "
+	        "--dest=org.freedesktop.login1 "
+	        "/org/freedesktop/login1 "
+	        "org.freedesktop.login1.Manager.Reboot "
+	        "boolean:true");
 }
 
 void	ug_shutdown (void)
@@ -543,28 +550,53 @@ void	ug_shutdown (void)
 //	g_spawn_command_line_async ("shutdown -h -P now", NULL);
 	// change to runlevel 0
 
+	// old system
 	system ("dbus-send --system --print-reply "
 	        "--dest=\"org.freedesktop.ConsoleKit\" "
 	        "/org/freedesktop/ConsoleKit/Manager "
 	        "org.freedesktop.ConsoleKit.Manager.Stop");
+
+	system ("dbus-send --system --print-reply "
+	        "--dest=org.freedesktop.login1 "
+	        "/org/freedesktop/login1 "
+	        "org.freedesktop.login1.Manager.PowerOff "
+	        "boolean:true");
 }
 
 void	ug_suspend (void)
 {
 	system ("pm-suspend");
+
+	// old system
 	system ("dbus-send --system --print-reply "
 	        "--dest=\"org.freedesktop.UPower\" "
 	        "/org/freedesktop/UPower "
 	        "org.freedesktop.UPower.Suspend");
+
+	system ("dbus-send --system --print-reply "
+	        "--dest=org.freedesktop.login1 "
+	        "/org/freedesktop/login1 "
+	        "org.freedesktop.login1.Manager.Suspend "
+	        "boolean:true");
 }
 
 void	ug_hibernate (void)
 {
 	system ("pm-hibernate");
+	// old system
 	system ("dbus-send --system --print-reply "
 	        "--dest=\"org.freedesktop.UPower\" "
 	        "/org/freedesktop/UPower "
 	        "org.freedesktop.UPower.Hibernate");
+
+	system ("dbus-send --system --print-reply "
+	        "--dest=org.freedesktop.login1 "
+	        "/org/freedesktop/login1 "
+	        "org.freedesktop.login1.Manager.Hibernate "
+	        "boolean:true");
+
+	// if system can't hibernate, try to suspend
+	ug_suspend ();
 }
 #endif // _WIN32
 

@@ -70,6 +70,7 @@ void	ug_app_init_gui (UgAppGtk* app)
 	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_DELETE_F, GDK_KEY_Delete, GDK_CONTROL_MASK);
 	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_OPEN,     GDK_KEY_Return, 0);
 	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_OPEN_F,   GDK_KEY_Return, GDK_SHIFT_MASK);
+//	gtk_accel_map_add_entry (UG_APP_GTK_ACCEL_PATH_SWITCH,   GDK_KEY_space,  0);
 	// accelerators
 	app->accel_group = gtk_accel_group_new ();
 	// tray icon
@@ -515,37 +516,41 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 
 	gtk_menu_shell_append ((GtkMenuShell*)menu, gtk_separator_menu_item_new() );
 
-	// Auto Shutdown --- start ---
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Auto Shutdown"));
+	// --- Completion Auto-Actions --- start ---
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("Completion _Auto-Actions"));
 	submenu = gtk_menu_new ();
 //	gtk_menu_set_accel_group ((GtkMenu*)submenu, accel_group);
 	gtk_menu_item_set_submenu ((GtkMenuItem*)menu_item, submenu);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
-	// Auto Shutdown - Disable
+	// Completion Auto-Actions - Disable
 	menu_item = gtk_radio_menu_item_new_with_mnemonic (NULL, _("_Disable"));
 	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->edit.when_complete.shutdown = menu_item;
-	// Auto Shutdown - Hibernate when downloads complete
+	// Completion Auto-Actions - Hibernate
 	menu_item = gtk_radio_menu_item_new_with_mnemonic_from_widget (
-			(GtkRadioMenuItem*) menu_item, _("Hibernate when downloads complete"));
+			(GtkRadioMenuItem*) menu_item, _("Hibernate"));
 	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->edit.when_complete.hibernate = menu_item;
-	// Auto Shutdown - Suspend when downloads complete
+	// Completion Auto-Actions - Suspend
 	menu_item = gtk_radio_menu_item_new_with_mnemonic_from_widget (
-			(GtkRadioMenuItem*) menu_item, _("Suspend when downloads complete"));
+			(GtkRadioMenuItem*) menu_item, _("Suspend"));
 	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->edit.when_complete.suspend = menu_item;
-	// Auto Shutdown - Shutdown when downloads complete
+	// Completion Auto-Actions - Shutdown
 	menu_item = gtk_radio_menu_item_new_with_mnemonic_from_widget (
-			(GtkRadioMenuItem*) menu_item, _("Shutdown when downloads complete"));
+			(GtkRadioMenuItem*) menu_item, _("Shutdown"));
 	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->edit.when_complete.shutdown = menu_item;
-	// Auto Shutdown - Reboot when downloads complete
+	// Completion Auto-Actions - Reboot
 	menu_item = gtk_radio_menu_item_new_with_mnemonic_from_widget (
-			(GtkRadioMenuItem*) menu_item, _("Reboot when downloads complete"));
+			(GtkRadioMenuItem*) menu_item, _("Reboot"));
 	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
 	menubar->edit.when_complete.reboot = menu_item;
-	// Auto Shutdown --- end ---
+	// Completion Auto-Actions - Help
+	menu_item = gtk_menu_item_new_with_mnemonic (_("Help"));
+	gtk_menu_shell_append ((GtkMenuShell*)submenu, menu_item);
+	menubar->edit.when_complete.help = menu_item;
+	// --- Completion Auto-Actions --- end ---
 
 //	menu_item = gtk_menu_item_new_with_mnemonic (_("_Settings..."));
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Settings..."));
@@ -783,12 +788,14 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	menubar->download.force_start = menu_item;
 
 	menu_item = gtk_image_menu_item_new_with_mnemonic(_("_Runnable"));
+//	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_SWITCH);
 	image = gtk_image_new_from_stock (GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	menubar->download.runnable = menu_item;
 
 	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_MEDIA_PAUSE, NULL);
+//	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_SWITCH);
 //	menu_item = gtk_image_menu_item_new_with_mnemonic(_("P_ause"));
 //	image = gtk_image_new_from_stock (GTK_STOCK_MEDIA_PAUSE, GTK_ICON_SIZE_MENU);
 //	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
