@@ -749,15 +749,15 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	menubar->download.create = menu_item;
 
-	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_DELETE, accel_group);
+//	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_DELETE, accel_group);
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Delete Entry"));
 	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_DELETE);
-//	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Delete"));
-//	image = gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
-//	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
+	image = gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
 	gtk_menu_shell_append ((GtkMenuShell*)menu, menu_item);
 	menubar->download.delete = menu_item;
 
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("Delete _File and Data"));
+	menu_item = gtk_image_menu_item_new_with_mnemonic (_("Delete Entry and _File"));
 	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_DELETE_F);
 //	image = gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
 //	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
@@ -772,7 +772,7 @@ static void ug_menubar_init (struct UgMenubar* menubar, GtkAccelGroup* accel_gro
 	menubar->download.open = menu_item;
 	gtk_widget_hide (menu_item);
 
-	menu_item = gtk_image_menu_item_new_with_mnemonic(_("Open _containing folder"));
+	menu_item = gtk_image_menu_item_new_with_mnemonic(_("Open _Containing folder"));
 	gtk_menu_item_set_accel_path ((GtkMenuItem*) menu_item, UG_APP_GTK_ACCEL_PATH_OPEN_F);
 	image = gtk_image_new_from_stock (GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image ((GtkImageMenuItem*)menu_item, image);
