@@ -162,8 +162,8 @@ static void	ug_html_context_parse_tag (UgHtmlContextPrivate* context)
 	gchar*   attr_name		= NULL;
 	gchar*   attr_value		= NULL;
 	gchar*   tag_cur;
-	gchar    inside_chr		= 0;
-	gint     inside_level;
+	gchar    quote_chr		= 0;
+	gint     quote_level;
 
 	g_ptr_array_set_size (context->attr_names,  0);
 	g_ptr_array_set_size (context->attr_values, 0);
@@ -210,8 +210,8 @@ static void	ug_html_context_parse_tag (UgHtmlContextPrivate* context)
 
 		// attribute value
 		attr_value = tag_cur;
-		inside_level = 0;
-		inside_chr   = 0;
+		quote_level = 0;
+		quote_chr   = 0;
 		for (; ; tag_cur++) {
 			switch (tag_cur[0]) {
 			case 0:
@@ -220,18 +220,18 @@ static void	ug_html_context_parse_tag (UgHtmlContextPrivate* context)
 			case '"':
 			case '\'':
 				// handle <tag attr='"'"value"'"'>
-				if (inside_chr == tag_cur[0]) {
-					inside_chr = (inside_chr=='"') ? '\'' : '"';
-					inside_level--;
+				if (quote_chr == tag_cur[0]) {
+					quote_chr = (quote_chr=='"') ? '\'' : '"';
+					quote_level--;
 				}
 				else {
-					if (inside_level==0)
+					if (quote_level==0)
 						attr_value = tag_cur +1;	// ignore first character
-					inside_chr = tag_cur[0];
-					inside_level++;
+					quote_chr = tag_cur[0];
+					quote_level++;
 				}
 
-				if (inside_level==0) {
+				if (quote_level==0) {
 					tag_cur[0] = 0;	// null-terminated
 					tag_cur++;
 					goto break_forLoop;
@@ -239,8 +239,8 @@ static void	ug_html_context_parse_tag (UgHtmlContextPrivate* context)
 				break;
 
 			case '/':
-				if (inside_level == 0) {
-					inside_chr = '/';
+				if (quote_level == 0) {
+					quote_chr = '/';
 					tag_cur[0] = 0;
 //					tag_cur++;
 					goto break_forLoop;
@@ -248,7 +248,7 @@ static void	ug_html_context_parse_tag (UgHtmlContextPrivate* context)
 				break;
 
 			case ' ':
-				if (inside_level == 0) {
+				if (quote_level == 0) {
 					tag_cur[0] = 0;
 					tag_cur++;
 					goto break_forLoop;
@@ -270,7 +270,7 @@ break_forLoop:
 	g_ptr_array_add (context->attr_values, NULL);
 
 	context->element_name = context->tag;
-	if (inside_chr == '/')
+	if (quote_chr == '/')
 		context->tag_state = UG_HTML_TAG_START | UG_HTML_TAG_END;
 	else
 		context->tag_state = UG_HTML_TAG_START;
