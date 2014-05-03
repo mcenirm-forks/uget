@@ -806,6 +806,8 @@ static void	ug_str_unescape_text (gchar* text)
 
 		if (strncmp (beg, "quot", len) == 0)
 			*text++ = '\"';
+		else if (strncmp (beg, "apos", len) == 0)
+			*text++ = '\'';
 		else if (strncmp (beg, "amp", len) == 0)
 			*text++ = '&';
 		else if (strncmp (beg, "lt", len) == 0)
