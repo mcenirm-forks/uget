@@ -499,18 +499,22 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 					ug_message_new_info (UG_MESSAGE_INFO_NOT_RESUMABLE, NULL));
 			break;
 
+#if 1
+		case CURLE_COULDNT_CONNECT:
+#else
+		// can't connect (retry)
+		case CURLE_COULDNT_CONNECT:
+			ug_plugin_post ((UgPlugin*) plugin,
+					ug_message_new_error (UG_MESSAGE_ERROR_CONNECT_FAILED, plugin->curl_error_string));
+			break;
+
+#endif
 		// retry
 		case CURLE_SEND_ERROR:
 		case CURLE_GOT_NOTHING:
 		case CURLE_BAD_CONTENT_ENCODING:
 			ug_plugin_post ((UgPlugin*) plugin,
 					ug_message_new_error (UG_MESSAGE_ERROR_CUSTOM, plugin->curl_error_string));
-			break;
-
-		// can't connect (retry)
-		case CURLE_COULDNT_CONNECT:
-			ug_plugin_post ((UgPlugin*) plugin,
-					ug_message_new_error (UG_MESSAGE_ERROR_CONNECT_FAILED, plugin->curl_error_string));
 			break;
 
 		// too many redirection (exit)
