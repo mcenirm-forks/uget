@@ -418,8 +418,8 @@ static gpointer	ug_plugin_aria2_thread (UgPluginAria2* plugin)
 		case ARIA2_ERROR:
 			// tell aria2 to remove this gid
 //			ug_plugin_aria2_remove (plugin);
-			// download speed was too slow
-			if (plugin->errorCode == 5 && plugin->local_file == NULL) {
+			// download speed was too slow  or  name resolution failed
+			if ((plugin->errorCode == 5 || plugin->errorCode == 19) && plugin->local_file == NULL) {
 				// retry
 				if (common->retry_count < common->retry_limit || common->retry_limit == 0) {
 					common->retry_count++;

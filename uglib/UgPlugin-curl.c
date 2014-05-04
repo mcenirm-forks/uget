@@ -499,15 +499,15 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 					ug_message_new_info (UG_MESSAGE_INFO_NOT_RESUMABLE, NULL));
 			break;
 
-#if 1
-		case CURLE_COULDNT_CONNECT:
-#else
+#if 0
 		// can't connect (retry)
 		case CURLE_COULDNT_CONNECT:
 			ug_plugin_post ((UgPlugin*) plugin,
 					ug_message_new_error (UG_MESSAGE_ERROR_CONNECT_FAILED, plugin->curl_error_string));
 			break;
-
+#else
+		case CURLE_COULDNT_CONNECT:
+		case CURLE_COULDNT_RESOLVE_HOST:
 #endif
 		// retry
 		case CURLE_SEND_ERROR:
@@ -541,7 +541,9 @@ static gpointer	ug_plugin_curl_thread (UgPluginCurl* plugin)
 			goto exit;
 
 		// other error (exit)
+#if 0
 		case CURLE_COULDNT_RESOLVE_HOST:
+#endif
 		case CURLE_COULDNT_RESOLVE_PROXY:
 		case CURLE_FAILED_INIT:
 		case CURLE_URL_MALFORMAT:
