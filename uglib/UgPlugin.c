@@ -340,7 +340,7 @@ gchar*	ug_plugin_create_file (UgPlugin* plugin, const gchar* folder, const gchar
 	head_len = tail_str - gstr->str;
 	tail_str = g_strdup (tail_str);
 	// create file
-	for (count=0;  count < 100;  count++) {
+	for (count=0;  count < 10000;  count++) {
 //		fd = open (gstr->str, O_CREAT | O_EXCL | O_RDWR,
 //		           S_IREAD | S_IWRITE | S_IRGRP | S_IROTH);
 		fd = ug_fd_open (gstr->str, UG_FD_O_CREATE | UG_FD_O_EXCL | UG_FD_O_RDWR,
@@ -357,7 +357,7 @@ gchar*	ug_plugin_create_file (UgPlugin* plugin, const gchar* folder, const gchar
 	// free tail_str
 	g_free ((gpointer) tail_str);
 	// result
-	if (count == 100) {
+	if (count == 10000) {
 		ug_plugin_post (plugin,
 				ug_message_new_error (UG_MESSAGE_ERROR_FILE_CREATE_FAILED, NULL));
 		return g_string_free (gstr, TRUE);
