@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# probil <m_lyashuk@ukr.net>, 2013
+# Maks Lyashuk <m_lyashuk@ukr.net>, 2013-2014
+# Oleh <aalesshhkka@gmail.com>, 2014
 # Serhij Dubyk <serhijdubyk@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: uGet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-07 23:06+0800\n"
-"PO-Revision-Date: 2013-12-07 20:06+0000\n"
-"Last-Translator: uGet <michael@ugetdm.com>\n"
+"PO-Revision-Date: 2014-03-29 23:15+0000\n"
+"Last-Translator: Maks Lyashuk <m_lyashuk@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/uget/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +39,7 @@ msgstr "Спроби"
 #. UG_MESSAGE_INFO_RETRY,
 #: ../../po/../uglib/UgMessage.c:55
 msgid "Download completed"
-msgstr "звантаження завершено"
+msgstr "Завантаження завершено"
 
 #. UG_MESSAGE_INFO_COMPLETE,
 #: ../../po/../uglib/UgMessage.c:56 ../../po/../uget-gtk/UgCategoryWidget.c:45
@@ -54,7 +55,7 @@ msgstr "Можливе продовження"
 #. UG_MESSAGE_INFO_RESUMABLE,
 #: ../../po/../uglib/UgMessage.c:59 ../../po/../uglib/UgPlugin-aria2.c:889
 msgid "Not Resumable"
-msgstr "Продовження не можливе"
+msgstr "Продовження неможливе"
 
 #. UG_MESSAGE_WARNING_CUSTOM
 #: ../../po/../uglib/UgMessage.c:67 ../../po/../uglib/UgPlugin-aria2.c:913
@@ -64,7 +65,7 @@ msgstr "Вихідний файл неможливо перейменувати.
 #. UG_MESSAGE_ERROR_CUSTOM
 #: ../../po/../uglib/UgMessage.c:75
 msgid "couldn't connect to host."
-msgstr "не вдається підключитися до вузла."
+msgstr "не вдається під'єднатися до вузла."
 
 #. UG_MESSAGE_ERROR_CONNECT_FAILED
 #: ../../po/../uglib/UgMessage.c:76
@@ -84,7 +85,7 @@ msgstr "Не вдалося відкрити файл."
 #. UG_MESSAGE_ERROR_FILE_OPEN_FAILED
 #: ../../po/../uglib/UgMessage.c:79 ../../po/../uglib/UgRunning.c:104
 msgid "Unable to create thread, reduce number of download."
-msgstr ""
+msgstr "Неможливо створити потік, зменшіть число завантажень."
 
 #. UG_MESSAGE_ERROR_THREAD_CREATE_FAILED
 #: ../../po/../uglib/UgMessage.c:80
@@ -143,7 +144,7 @@ msgstr "Обрано записів: %d"
 #. create confirmation dialog
 #: ../../po/../uget-gtk/UgApp-gtk.c:686
 msgid "Really Quit?"
-msgstr "дійсно вийти?"
+msgstr "Дійсно вийти?"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:703
 msgid "Are you sure you want to quit?"
@@ -151,7 +152,7 @@ msgstr "Ви дійсно хочете вийти?"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:708
 msgid "Remember this action"
-msgstr "запам’ятати цю дію"
+msgstr "Запам’ятати цю дію"
 
 #. radio button
 #: ../../po/../uget-gtk/UgApp-gtk.c:713
@@ -160,12 +161,12 @@ msgstr "сховати до системної таці"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:715
 msgid "Exit uGet"
-msgstr "вийти з uGet"
+msgstr "Вийти з uGet"
 
 #. create confirmation dialog
 #: ../../po/../uget-gtk/UgApp-gtk.c:770
 msgid "Really delete files?"
-msgstr "дійсно хочете вилучити файли?"
+msgstr "Дійсно хочете вилучити файли?"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:788
 msgid "Are you sure you want to delete files?"
@@ -195,7 +196,7 @@ msgstr "Менеджер звантажень"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:68
 msgid "translator-credits"
-msgstr "Сергій Дубик <serhijdubyk@gmail.com>"
+msgstr "Сергій Дубик <serhijdubyk@gmail.com>\nМакс Ляшук <m_lyashuk@ukr.net>"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:118
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:131
@@ -257,7 +258,7 @@ msgstr "Не вдається запустити програму за умов�
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:594
 #, c-format
 msgid "'%s' - This folder does not exist."
-msgstr "„%s“ — ця тека не існує."
+msgstr "'%s' – ця тека не існує."
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:674
 msgid "Download Properties"
@@ -275,7 +276,7 @@ msgstr "Зображення <IMG>"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:927
 msgid "Import URLs from HTML file"
-msgstr "імпорт URL-адрес з HTML файлу"
+msgstr "Імпортувати URL-адреси з HTML-файлу"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:968
 msgid "Text File"
@@ -283,7 +284,7 @@ msgstr "Текстовий файл"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:984
 msgid "Import URLs from text file"
-msgstr "імпорт URL-адрес з текстового файлу"
+msgstr "Імпортувати URL-адреси з текстового файлу"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:1030
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:1031
@@ -534,7 +535,7 @@ msgstr "_Розмір"
 #. Download Columns - Percent (%)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:619
 msgid "_Percent '%'"
-msgstr "Відсоток „%“"
+msgstr "Відсоток '%'"
 
 #. Download Columns - Elapsed
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:624
@@ -699,12 +700,12 @@ msgstr "Усі файли з черги успішно звантажено."
 
 #: ../../po/../uget-gtk/UgBanner.c:102 ../../po/../uget-gtk/UgBanner.c:119
 msgid "Attention uGetters:"
-msgstr ""
+msgstr "Користувачі UGet, зверніть увагу:"
 
 #: ../../po/../uget-gtk/UgBanner.c:105
 msgid ""
 "we are running a Donation Drive for uGet's Future Development, please click "
-msgstr ""
+msgstr "ми запустили Donation Drive для подальшої розробки uGet, будь ласка, клацніть"
 
 #: ../../po/../uget-gtk/UgBanner.c:108
 msgid "HERE"
@@ -712,11 +713,11 @@ msgstr "ТУТ"
 
 #: ../../po/../uget-gtk/UgBanner.c:122
 msgid "please fill out this quick User Survey for uGet."
-msgstr ""
+msgstr "будь ласка, пройдіть швидке опитування користувачів uGet."
 
 #: ../../po/../uget-gtk/UgBanner.c:125
 msgid "click here to take survey"
-msgstr ""
+msgstr "натисніть тут, аби пройти опитування"
 
 #. URL - label
 #: ../../po/../uget-gtk/UgBatchForm.c:63

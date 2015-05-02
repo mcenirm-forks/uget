@@ -3,18 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# ahmadzxc <ahmad.almomani5@gmail.com>, 2013
-# ahmadzxc <ahmad.almomani5@gmail.com>, 2013
-# safaalfulaij <safaalfulaij@hotmail.com>, 2013
-# safaalfulaij <safaalfulaij@hotmail.com>, 2013
-# safaalfulaij <safaalfulaij@hotmail.com>, 2013
+# ahmad <ahmad.almomani5@gmail.com>, 2013
+# ahmad <ahmad.almomani5@gmail.com>, 2013
+# Ibrahim Saed <ibraheem5000@hotmail.com>, 2014
+# صفا الفليج <safaalfulaij@hotmail.com>, 2013
+# صفا الفليج <safaalfulaij@hotmail.com>, 2013
+# صفا الفليج <safaalfulaij@hotmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: uGet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-07 23:06+0800\n"
-"PO-Revision-Date: 2013-12-08 13:16+0000\n"
-"Last-Translator: safaalfulaij <safaalfulaij@hotmail.com>\n"
+"PO-Revision-Date: 2014-07-13 21:45+0000\n"
+"Last-Translator: صفا الفليج <safaalfulaij@hotmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/uget/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +63,7 @@ msgstr "غير قابل للاستئناف"
 #. UG_MESSAGE_WARNING_CUSTOM
 #: ../../po/../uglib/UgMessage.c:67 ../../po/../uglib/UgPlugin-aria2.c:913
 msgid "Output file can't be renamed."
-msgstr "الملف المُخرج لا يمكن إعادة تسميته."
+msgstr "تعذّرت تسمية الملف المُخرج."
 
 #. UG_MESSAGE_ERROR_CUSTOM
 #: ../../po/../uglib/UgMessage.c:75
@@ -77,7 +78,7 @@ msgstr "تعذّر إنشاء المجلد."
 #. UG_MESSAGE_ERROR_FOLDER_CREATE_FAILED
 #: ../../po/../uglib/UgMessage.c:77
 msgid "File can't be created (bad filename or file exist)."
-msgstr "تعذّر إنشاء الملف (اسم ملف سيئ أو موجود مسبقًا)."
+msgstr "تعذّر إنشاء الملف (اسم الملف سيء أو موجود مسبقًا)."
 
 #. UG_MESSAGE_ERROR_FILE_CREATE_FAILED
 #: ../../po/../uglib/UgMessage.c:78
@@ -92,7 +93,7 @@ msgstr "تعذّر إنشاء الخيط، قلّل عدد التنزيلات."
 #. UG_MESSAGE_ERROR_THREAD_CREATE_FAILED
 #: ../../po/../uglib/UgMessage.c:80
 msgid "Out of resource (disk full or run out of memory)."
-msgstr "نفذت الموارد (القرص ممتلئ أو نفذت الذاكرة)"
+msgstr "نفذت الموارد (القرص ممتلئ أو نفذت الذاكرة)."
 
 #. UG_MESSAGE_ERROR_OUT_OF_RESOURCE
 #: ../../po/../uglib/UgMessage.c:81
@@ -117,7 +118,7 @@ msgstr "مخطّط (ميفاق) غير مدعوم."
 #. UG_MESSAGE_ERROR_UNSUPPORTED_SCHEME
 #: ../../po/../uglib/UgMessage.c:85
 msgid "Unsupported file."
-msgstr "ملف غير مدعوم"
+msgstr "ملف غير مدعوم."
 
 #. UG_MESSAGE_ERROR_HTTP_MEMBER_CUSTOM
 #: ../../po/../uglib/UgMessage.c:103
@@ -136,7 +137,7 @@ msgstr "لا توجد ملحقة تدعم هذا المخطط أو الملف."
 #: ../../po/../uget-gtk/UgApp-gtk.c:571
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:529
 msgid "tasks"
-msgstr "المهام"
+msgstr "من المهام"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:616
 #, c-format
@@ -146,20 +147,20 @@ msgstr "%d من العناصر محدّدة"
 #. create confirmation dialog
 #: ../../po/../uget-gtk/UgApp-gtk.c:686
 msgid "Really Quit?"
-msgstr "الخروج بالفعل؟"
+msgstr "أأخرج بالفعل؟"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:703
 msgid "Are you sure you want to quit?"
-msgstr "أأنت متأكد من الخروج؟"
+msgstr "أتريد حقًّا الخروج؟"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:708
 msgid "Remember this action"
-msgstr "تذكّر هذا الفعل"
+msgstr "تذكّر هذا الإجراء"
 
 #. radio button
 #: ../../po/../uget-gtk/UgApp-gtk.c:713
 msgid "Minimize to tray"
-msgstr "صغّر لصينية النظام"
+msgstr "صغّر إلى صينية النظام"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:715
 msgid "Exit uGet"
@@ -168,11 +169,11 @@ msgstr "أغلق uGet"
 #. create confirmation dialog
 #: ../../po/../uget-gtk/UgApp-gtk.c:770
 msgid "Really delete files?"
-msgstr "مسح الملفات بالفعل؟"
+msgstr "أأحذف الملفات؟"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:788
 msgid "Are you sure you want to delete files?"
-msgstr "أأنت متأكد من حذف الملفات؟"
+msgstr "أتريد حقًّا حذف الملفات؟"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:793
 msgid "Do not ask me again"
@@ -220,11 +221,11 @@ msgstr "تنزيل جديد"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:298
 msgid "URL Sequence batch"
-msgstr "دفعة عناوين URL متسلسلة"
+msgstr "دفعة وصلات متسلسلة"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:321
 msgid "No URLs found in clipboard."
-msgstr "لا توجد عناوين URL في الحافظة."
+msgstr "لا توجد وصلات في الحافظة."
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:325
 msgid "Clipboard batch"
@@ -260,7 +261,7 @@ msgstr "تعذّر تشغيل التطبيق الافتراضي للملف \"%s\
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:594
 #, c-format
 msgid "'%s' - This folder does not exist."
-msgstr "\"%s\" - الملف هذا غير موجود."
+msgstr "\"%s\" - المجلد هذا غير موجود."
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:674
 msgid "Download Properties"
@@ -278,7 +279,7 @@ msgstr "صورة <IMG>"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:927
 msgid "Import URLs from HTML file"
-msgstr "استورد عناوين URL من ملف HTML"
+msgstr "استورد وصلات من ملف HTML"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:968
 msgid "Text File"
@@ -286,7 +287,7 @@ msgstr "ملف نصّي"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:984
 msgid "Import URLs from text file"
-msgstr "استورد عناوين URL من ملف نصّي"
+msgstr "استورد وصلات من ملف نصّي"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:1030
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:1031
@@ -352,7 +353,7 @@ msgstr "_فئة جديدة..."
 #. New URL Sequence batch
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:312
 msgid "New _URL Sequence batch..."
-msgstr "دفعة _عناوين URL متسلسلة جديدة..."
+msgstr "دفعة و_صلات متسلسلة جديدة..."
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:338
 msgid "Save all"
@@ -393,7 +394,7 @@ msgstr "_ملف"
 #. New - Download (accelerators)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:414
 msgid "_Download..."
-msgstr "ن_زل..."
+msgstr "ن_زّل..."
 
 #. New - Category
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:421
@@ -424,32 +425,32 @@ msgstr "دفعة من الحاف_ظة..."
 #. Batch downloads - URL Sequence batch
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:455
 msgid "_URL Sequence batch..."
-msgstr "دفعة _عناوين URL متسلسلة..."
+msgstr "دفعة و_صلات متسلسلة..."
 
 #. Batch downloads - Text file import (.txt)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:461
 msgid "_Text file import (.txt)..."
-msgstr "استورد ملف _نصّي (.txt)..."
+msgstr "استورد ملف _نصّي (‎.txt)..."
 
 #. Batch downloads - HTML file import (.html)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:467
 msgid "_HTML file import (.html)..."
-msgstr "است_ورد ملف HTML (.html)..."
+msgstr "است_ورد ملف HTML‏ (‎.html)..."
 
 #. Batch downloads - Export to Text file (.txt)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:475
 msgid "_Export to Text file (.txt)..."
-msgstr "_صدر إلى ملف نصّي (.txt)..."
+msgstr "_صدر إلى ملف نصّي (‎.txt)..."
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:503
 msgid "_Edit"
-msgstr "_حرر"
+msgstr "_حرّر"
 
 #. menu.gtk_menu_shell_append((GtkMenuShell*)menu, gtk_tearoff_menu_item_new()
 #. );
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:508
 msgid "Clipboard _Monitor"
-msgstr "را_قة الحافظة"
+msgstr "را_قب الحافظة"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:512
 msgid "_Clipboard Option..."
@@ -486,12 +487,12 @@ msgstr "الفئة"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:551
 msgid "_Summary"
-msgstr "مل_خص"
+msgstr "المل_خّص"
 
 #. Summary Items --- start ---
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:559
 msgid "Summary _Items"
-msgstr "ع_ناصر الملخص"
+msgstr "ع_ناصر الملخّص"
 
 #. Summary Items - Name
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:564
@@ -513,7 +514,7 @@ msgstr "الم_جلد"
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:584
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:664
 msgid "_URL"
-msgstr "عن_وان URL"
+msgstr "الو_صلة"
 
 #. Summary Items - Message
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:589
@@ -602,11 +603,11 @@ msgstr "فئة _جديدة..."
 #. Delete Category
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:694
 msgid "_Delete Category"
-msgstr "ح_ذف الفئة"
+msgstr "اح_ذف الفئة"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:708
 msgid "_Download"
-msgstr "ن_زل"
+msgstr "ن_زّل"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:727
 msgid "Delete _File and Data"
@@ -614,7 +615,7 @@ msgstr "احذف ال_ملف والبيانات"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:742
 msgid "Open _containing folder"
-msgstr "افتح المجلد الم_حتوي"
+msgstr "افتح المجلد ال_حاوي"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:751
 msgid "Force Start"
@@ -682,7 +683,7 @@ msgstr "سطر الأوامر"
 msgid ""
 "Failed to connect to aria2.\n"
 "Is aria2 shutdown? or aria2 launch failed."
-msgstr "تعذّر الاتصال بـ aria2.\nهل aria2 مُطفى؟ لربما فشل بدء aria2."
+msgstr "تعذّر الاتصال بـ aria2.\nهل aria2 مُطفأ؟ لربما فشل بدء aria2."
 
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:735
 msgid "Download Starting"
@@ -702,7 +703,7 @@ msgstr "جميع التنزيلات المصطفّة اكتملت."
 
 #: ../../po/../uget-gtk/UgBanner.c:102 ../../po/../uget-gtk/UgBanner.c:119
 msgid "Attention uGetters:"
-msgstr "انتبهوا uGetters:"
+msgstr "مستخدمي uGet انتبهوا:"
 
 #: ../../po/../uget-gtk/UgBanner.c:105
 msgid ""
@@ -725,7 +726,7 @@ msgstr "انقر هنا لأخذ الدراسة"
 #: ../../po/../uget-gtk/UgBatchForm.c:63
 #: ../../po/../uget-gtk/UgDownloadForm.c:131
 msgid "_URL:"
-msgstr "عن_وان URL:"
+msgstr "الو_صلة:"
 
 #. e.g.
 #: ../../po/../uget-gtk/UgBatchForm.c:74
@@ -759,11 +760,11 @@ msgstr "حسّاس للأحرف"
 
 #: ../../po/../uget-gtk/UgBatchForm.c:188
 msgid "No wildcard(*) character in URL entry."
-msgstr "لا حرف بدل (*) في مدخلة عنوان URL."
+msgstr "لا حرف بدل (*) في مُدخلة الوصلة."
 
 #: ../../po/../uget-gtk/UgBatchForm.c:192
 msgid "URL is not valid."
-msgstr "عنوان URL غير صالح."
+msgstr "الوصلة غير صالحة."
 
 #: ../../po/../uget-gtk/UgBatchForm.c:196
 msgid "No character in 'From' or 'To' entry."
@@ -795,28 +796,28 @@ msgstr "التن_زيلات النشطة:"
 
 #: ../../po/../uget-gtk/UgCategoryForm.c:76
 msgid "Capacity of Finished:"
-msgstr "كمية التنزيلات المنتهية:"
+msgstr "سعة المنتهية:"
 
 #: ../../po/../uget-gtk/UgCategoryForm.c:85
 msgid "Capacity of Recycled:"
-msgstr "كمية التنزيلات المنتهية:"
+msgstr "سعة المحذوفة"
 
 #: ../../po/../uget-gtk/UgCategoryWidget.c:42
 #: ../../po/../uget-gtk/UgSelector.c:292
 msgid "All"
-msgstr "الكل"
+msgstr "الكلّ"
 
 #: ../../po/../uget-gtk/UgCategoryWidget.c:43
 msgid "Active"
-msgstr "نشط"
+msgstr "النشطة"
 
 #: ../../po/../uget-gtk/UgCategoryWidget.c:44
 msgid "Queuing"
-msgstr "مصطف"
+msgstr "المصطفّة"
 
 #: ../../po/../uget-gtk/UgCategoryWidget.c:46
 msgid "Recycled"
-msgstr "محذوف"
+msgstr "المحذوفة"
 
 #: ../../po/../uget-gtk/UgCategoryWidget.c:461
 msgid "Quantity"
@@ -824,11 +825,11 @@ msgstr "الكمية"
 
 #: ../../po/../uget-gtk/UgDownloadForm.c:92
 msgid "General"
-msgstr "عام"
+msgstr "عامّ"
 
 #: ../../po/../uget-gtk/UgDownloadForm.c:93
 msgid "Advanced"
-msgstr "متقدم"
+msgstr "متقدّم"
 
 #. Mirrors - label
 #: ../../po/../uget-gtk/UgDownloadForm.c:150
@@ -844,7 +845,7 @@ msgstr "الملف:"
 #: ../../po/../uget-gtk/UgDownloadForm.c:181
 #: ../../po/../uget-gtk/UgDownloadForm.c:916
 msgid "Select Folder"
-msgstr "اختيار مجلد"
+msgstr "اختر مجلدًا"
 
 #. Folder - label
 #: ../../po/../uget-gtk/UgDownloadForm.c:189
@@ -916,7 +917,7 @@ msgstr "ثانية"
 #. "Connections per server" - title label
 #: ../../po/../uget-gtk/UgDownloadForm.c:325
 msgid "Connections per server"
-msgstr "اتصال لكل خادم"
+msgstr "اتصال لكل خادوم"
 
 #. connections - label
 #: ../../po/../uget-gtk/UgDownloadForm.c:338
@@ -1004,7 +1005,7 @@ msgstr "المتبقي"
 #: ../../po/../uget-gtk/UgDownloadWidget.c:925
 #: ../../po/../uget-gtk/UgSelector.c:487 ../../po/../uget-gtk/UgSummary.c:151
 msgid "URL"
-msgstr "عنوان URL"
+msgstr "الوصلة"
 
 #. proxy type label & combo box
 #: ../../po/../uget-gtk/UgProxyForm.c:64
@@ -1095,7 +1096,7 @@ msgstr "- شغّل المهمة اعتياديًا"
 
 #: ../../po/../uget-gtk/UgSelector.c:94
 msgid "Base hypertext reference"
-msgstr "قاعدة النص التشعبي المرجعية"
+msgstr "أساس المرجع النصيّ التشعبيّ"
 
 #. select all
 #: ../../po/../uget-gtk/UgSelector.c:110
@@ -1122,11 +1123,11 @@ msgstr "علّم بالمرشّح"
 
 #: ../../po/../uget-gtk/UgSelector.c:332
 msgid "Mark URLs by host AND filename extension."
-msgstr "علّم عناوين URL بالمضيف وامتداد الملف."
+msgstr "علّم الوصلات بالمضيف وامتداد الملف."
 
 #: ../../po/../uget-gtk/UgSelector.c:335
 msgid "This will reset all marks of URLs."
-msgstr "هذا سيُعيد جميع علامات عناوين URL."
+msgstr "هذا سيُعيد جميع علامات الوصلات."
 
 #. filter view -----------------------
 #. left side
@@ -1141,7 +1142,7 @@ msgstr "الملف موجود"
 
 #: ../../po/../uget-gtk/UgSettingDialog.c:71
 msgid "UI Settings"
-msgstr "إعدادات واجهة المستخدم"
+msgstr "إعدادات الواجهة"
 
 #: ../../po/../uget-gtk/UgSettingDialog.c:87
 msgid "Scheduler"
@@ -1167,7 +1168,7 @@ msgstr "افصل الأنواع بالمحرف \"|\"."
 #: ../../po/../uget-gtk/UgSettingForm.c:92
 #: ../../po/../uget-gtk/UgSettingForm.c:247
 msgid "You can use regular expressions here."
-msgstr "تستطيع استعمال التعبيرات الاعتيادية هنا."
+msgstr "تستطيع استعمال التعابير النمطية هنا."
 
 #: ../../po/../uget-gtk/UgSettingForm.c:100
 msgid "_Quiet mode"
@@ -1175,7 +1176,7 @@ msgstr "الوضع ال_صامت"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:109
 msgid "Add URL to Nth category"
-msgstr "أضف عنوان URL إلى الفئة النونية"
+msgstr "أضف وصلة إلى الفئة النونية"
 
 #. check button
 #: ../../po/../uget-gtk/UgSettingForm.c:147
@@ -1192,7 +1193,7 @@ msgstr "أظهر صينية النظام دائمًا"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:156
 msgid "Minimize to tray on startup"
-msgstr "صغّر إلى الصينية عند بدء التشغيل"
+msgstr "صغّر إلى الصينية عند البدء"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:159
 msgid "Enable offline mode on startup"
@@ -1235,11 +1236,11 @@ msgstr "إعدادات سطر الأوامر"
 #. --quiet
 #: ../../po/../uget-gtk/UgSettingForm.c:341
 msgid "Use '--quiet' by default"
-msgstr "استخدم \"--quiet\" افتراضيًا"
+msgstr "استخدم \"‎--quiet\" افتراضيًا"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:347
 msgid "'--category-index' default value"
-msgstr "قيمة \"--category-index\" الافتراضية"
+msgstr "قيمة \"‎--category-index\" الافتراضية"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:410
 msgid "_Enable aria2 plug-in"
@@ -1297,4 +1298,4 @@ msgstr "قيمة"
 #. Copy All
 #: ../../po/../uget-gtk/UgSummary.c:296
 msgid "Copy _All"
-msgstr "انسخ ال_كل"
+msgstr "انسخ ال_كلّ"

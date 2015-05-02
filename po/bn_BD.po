@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# lordamit <lordamit.reg@outlook.com>, 2013
-# towfique anam, 2013
-# towfique anam, 2013
+# lordamit <lordamit.reg@outlook.com>, 2013-2014
+# Towfique Anam, 2013
+# Towfique Anam, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: uGet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-07 23:06+0800\n"
-"PO-Revision-Date: 2013-12-17 17:18+0000\n"
+"PO-Revision-Date: 2014-02-03 04:42+0000\n"
 "Last-Translator: lordamit <lordamit.reg@outlook.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/uget/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -300,13 +300,13 @@ msgstr "সেটিং"
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:101
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:292
 msgid "New _Download..."
-msgstr "নতুন ডাউনলোড... _D"
+msgstr "New _Download..."
 
 #. New Clipboard batch
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:108
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:305
 msgid "New Clipboard _batch..."
-msgstr "নতুন সাজানো ক্লিপবোর্ড... _b"
+msgstr "New Clipboard _batch..."
 
 #. New Torrent
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:117
@@ -325,7 +325,7 @@ msgstr "নতুন মেটালিঙ্ক..."
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:133
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:523
 msgid "_Settings..."
-msgstr "সেটিং... _S"
+msgstr "_Settings..."
 
 #. Show window
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:147
@@ -336,7 +336,7 @@ msgstr "উইন্ডো প্রদর্শন"
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:152
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:492
 msgid "_Offline Mode"
-msgstr "অফলাইন মোড _O"
+msgstr "_Offline Mode"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:282
 msgid "Create new download"
@@ -345,12 +345,12 @@ msgstr "নতুন ডাউনলোড তৈরী"
 #. New Category
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:299
 msgid "New _Category..."
-msgstr "নতুন ক্যাটাগরি... _C"
+msgstr "New _Category..."
 
 #. New URL Sequence batch
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:312
 msgid "New _URL Sequence batch..."
-msgstr "নতুন _URL সাজানো ক্রম"
+msgstr "New _URL Sequence batch..."
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:338
 msgid "Save all"
@@ -386,17 +386,17 @@ msgstr "নির্বাচিত ডাউনলোড সবার নিচ
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:402
 msgid "_File"
-msgstr "ফাইল _F"
+msgstr "_File"
 
 #. New - Download (accelerators)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:414
 msgid "_Download..."
-msgstr "ডাউনলোড... _D"
+msgstr "_Download..."
 
 #. New - Category
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:421
 msgid "_Category..."
-msgstr "ক্যাটাগরি... _C"
+msgstr "_Category..."
 
 #. New - Torrent
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:429
@@ -412,46 +412,46 @@ msgstr "মেটালিংক"
 #. Batch Downloads --- start ---
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:443
 msgid "_Batch Downloads"
-msgstr "ব্যাচকৃত ডাউনলোড _B"
+msgstr "_Batch Downloads"
 
 #. Batch downloads - Clipboard batch
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:449
 msgid "_Clipboard batch..."
-msgstr "ক্লিপবোর্ড ব্যাচ... _C"
+msgstr "_Clipboard batch..."
 
 #. Batch downloads - URL Sequence batch
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:455
 msgid "_URL Sequence batch..."
-msgstr "_URL ক্রমকৃত ব্যাচ..."
+msgstr "_URL Sequence batch..."
 
 #. Batch downloads - Text file import (.txt)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:461
 msgid "_Text file import (.txt)..."
-msgstr "টেক্সট ফাইল আমদানি(.txt)... _T"
+msgstr "_Text file import (.txt)..."
 
 #. Batch downloads - HTML file import (.html)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:467
 msgid "_HTML file import (.html)..."
-msgstr "এইচটিএমএল ফাইল আমদানি(.html)... _H"
+msgstr "_HTML file import (.html)..."
 
 #. Batch downloads - Export to Text file (.txt)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:475
 msgid "_Export to Text file (.txt)..."
-msgstr "টেক্সট ফাইল আমদানি(.txt)... _T"
+msgstr "_Export to Text file (.txt)..."
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:503
 msgid "_Edit"
-msgstr "সম্পাদন _E"
+msgstr "_Edit"
 
 #. menu.gtk_menu_shell_append((GtkMenuShell*)menu, gtk_tearoff_menu_item_new()
 #. );
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:508
 msgid "Clipboard _Monitor"
-msgstr "ক্লিপবোর্ড মনিটর _M"
+msgstr "Clipboard _Monitor"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:512
 msgid "_Clipboard Option..."
-msgstr "ক্লিপবোর্ড অপশন... _C"
+msgstr "_Clipboard Option..."
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:518
 msgid "Shutdown when downloads complete"
@@ -459,11 +459,11 @@ msgstr "ডাউনলোড শেষে শাটডাউন করুন"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:532
 msgid "_View"
-msgstr "প্রর্দশন _V"
+msgstr "_View"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:536
 msgid "_Toolbar"
-msgstr "টুলবার _T"
+msgstr "_Toolbar"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:541
 msgid "Statusbar"
@@ -484,22 +484,22 @@ msgstr "ক্যাটাগরি"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:551
 msgid "_Summary"
-msgstr "সারসংক্ষেপ  _S"
+msgstr "_Summary"
 
 #. Summary Items --- start ---
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:559
 msgid "Summary _Items"
-msgstr "বস্তুসমুহের সারসংক্ষেপ _I"
+msgstr "Summary _Items"
 
 #. Summary Items - Name
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:564
 msgid "_Name"
-msgstr "নাম _N"
+msgstr "_Name"
 
 #. Summary Items - Folder
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:569
 msgid "_Folder"
-msgstr "ফোল্ডার _F"
+msgstr "_Folder"
 
 #. Summary Items - Elapsed
 #. menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Elapsed"));
@@ -511,41 +511,41 @@ msgstr "ফোল্ডার _F"
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:584
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:664
 msgid "_URL"
-msgstr "ইউআরএল _U"
+msgstr "_URL"
 
 #. Summary Items - Message
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:589
 msgid "_Message"
-msgstr "বার্তা _M"
+msgstr "_Message"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:604
 msgid "Download _Columns"
-msgstr "ডাউনলোড কলাম _C"
+msgstr "Download _Columns"
 
 #. Download Columns - Completed
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:609
 msgid "_Complete"
-msgstr "সম্পন্ন _C"
+msgstr "_Complete"
 
 #. Download Columns - Total
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:614
 msgid "_Size"
-msgstr "সাইজ_S"
+msgstr "_Size"
 
 #. Download Columns - Percent (%)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:619
 msgid "_Percent '%'"
-msgstr "শতাংশ '%'_P"
+msgstr "_Percent '%'"
 
 #. Download Columns - Elapsed
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:624
 msgid "_Elapsed"
-msgstr "অতিক্রান্ত_E"
+msgstr "_Elapsed"
 
 #. Download Columns - Left
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:629
 msgid "_Left"
-msgstr "বাকী_L"
+msgstr "_Left"
 
 #. Download Columns - Speed
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:634
@@ -574,7 +574,7 @@ msgstr "অনুপাত"
 #. Download Columns - Retry
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:654
 msgid "_Retry"
-msgstr "পুনঃচেষ্টা_R"
+msgstr "_Retry"
 
 #. Download Columns - Added On
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:669
@@ -590,29 +590,29 @@ msgstr "সমাপ্ত হয়েছে"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:683
 msgid "_Category"
-msgstr "ক্যাটাগরি_C"
+msgstr "_Category"
 
 #. New Category
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:688
 msgid "_New Category..."
-msgstr "নতুন ক্যাটাগরি..._N"
+msgstr "_New Category..."
 
 #. Delete Category
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:694
 msgid "_Delete Category"
-msgstr "ক্যাটাগরি মুছুন_D"
+msgstr "_Delete Category"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:708
 msgid "_Download"
-msgstr "ডাউনলোড_D"
+msgstr "_Download"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:727
 msgid "Delete _File and Data"
-msgstr "ফাইল ও ডাটা মুছুন_F"
+msgstr "Delete _File and Data"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:742
 msgid "Open _containing folder"
-msgstr "যে ফোল্ডারে আছে তা খুলুন_c"
+msgstr "Open _containing folder"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:751
 msgid "Force Start"
@@ -621,16 +621,16 @@ msgstr "জোরপূর্বক আরম্ভ"
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:757
 #: ../../po/../uget-gtk/UgDownloadForm.c:225
 msgid "_Runnable"
-msgstr "চালু করা যাবে_R"
+msgstr "_Runnable"
 
 #. Move to --- start ---
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:773
 msgid "_Move To"
-msgstr "সরান_M"
+msgstr "_Move To"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:824
 msgid "_Help"
-msgstr "সাহায্য_H"
+msgstr "_Help"
 
 #. Get Help Online
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:829
@@ -734,7 +734,7 @@ msgstr "যেমন:"
 #. radio "From"
 #: ../../po/../uget-gtk/UgBatchForm.c:85
 msgid "_From:"
-msgstr "হতে:_F"
+msgstr "_From:"
 
 #. label "To"
 #: ../../po/../uget-gtk/UgBatchForm.c:108
@@ -748,7 +748,7 @@ msgstr "সংখ্যা:"
 
 #: ../../po/../uget-gtk/UgBatchForm.c:132
 msgid "F_rom:"
-msgstr "হতে:_r"
+msgstr "F_rom:"
 
 #. label case-sensitive
 #: ../../po/../uget-gtk/UgBatchForm.c:162
@@ -785,11 +785,11 @@ msgstr "পূর্বনির্ধারিত 2"
 
 #: ../../po/../uget-gtk/UgCategoryForm.c:53
 msgid "Category _name:"
-msgstr "ক্যাটাগরি নাম:_n"
+msgstr "Category _name:"
 
 #: ../../po/../uget-gtk/UgCategoryForm.c:68
 msgid "Active _downloads:"
-msgstr "সক্রিয় ডাউনলোড:_d"
+msgstr "Active _downloads:"
 
 #: ../../po/../uget-gtk/UgCategoryForm.c:76
 msgid "Capacity of Finished:"
@@ -847,7 +847,7 @@ msgstr "ফোল্ডার নির্বাচন"
 #. Folder - label
 #: ../../po/../uget-gtk/UgDownloadForm.c:189
 msgid "_Folder:"
-msgstr "ফোল্ডার:_F"
+msgstr "_Folder:"
 
 #. Referrer - label
 #: ../../po/../uget-gtk/UgDownloadForm.c:204
@@ -862,7 +862,7 @@ msgstr "অবস্থা"
 
 #: ../../po/../uget-gtk/UgDownloadForm.c:227
 msgid "P_ause"
-msgstr "বিরতি_a"
+msgstr "P_ause"
 
 #. ----------------------------------------------------
 #. frame for login
@@ -894,7 +894,7 @@ msgstr "অপশন"
 #. Retry limit - label
 #: ../../po/../uget-gtk/UgDownloadForm.c:286
 msgid "Retry _limit:"
-msgstr "পুনঃচেষ্টা সীমা:_l"
+msgstr "Retry _limit:"
 
 #. counts - label
 #: ../../po/../uget-gtk/UgDownloadForm.c:292
@@ -904,7 +904,7 @@ msgstr "গণনা"
 #. Retry delay - label
 #: ../../po/../uget-gtk/UgDownloadForm.c:306
 msgid "Retry _delay:"
-msgstr "পুনঃচেষ্টা বিলম্ব:_d"
+msgstr "Retry _delay:"
 
 #. seconds - label
 #: ../../po/../uget-gtk/UgDownloadForm.c:312
@@ -1069,7 +1069,7 @@ msgstr "রবি"
 
 #: ../../po/../uget-gtk/UgScheduleForm.c:99
 msgid "_Enable Scheduler"
-msgstr "শিডিউলার সক্রিয়_E"
+msgstr "_Enable Scheduler"
 
 #. Turn off - label
 #: ../../po/../uget-gtk/UgScheduleForm.c:141
@@ -1098,17 +1098,17 @@ msgstr "মূল হাইপারটেক্সট রেফারেন্�
 #. select all
 #: ../../po/../uget-gtk/UgSelector.c:110
 msgid "Mark _All"
-msgstr "সবকিছু চিহ্নিত_A"
+msgstr "Mark _All"
 
 #. select none
 #: ../../po/../uget-gtk/UgSelector.c:116
 msgid "Mark _None"
-msgstr "কোনকিছু চিহ্নিত করবেন না_N"
+msgstr "Mark _All"
 
 #. select by filter
 #: ../../po/../uget-gtk/UgSelector.c:122
 msgid "_Mark by filter..."
-msgstr "ফিল্টা অনুযায়ী চিহ্নিত...M"
+msgstr "_Mark by filter..."
 
 #: ../../po/../uget-gtk/UgSelector.c:297
 msgid "None"
@@ -1155,7 +1155,7 @@ msgstr "অন্যান্য"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:72
 msgid "_Monitor clipboard for specified file types:"
-msgstr "বিশেষ প্রকারের ফাইলসমূহের জন্য ক্লিপবোর্ড মনিটর করুন:_M"
+msgstr "_Monitor clipboard for specified file types:"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:87
 #: ../../po/../uget-gtk/UgSettingForm.c:242
@@ -1169,7 +1169,7 @@ msgstr "এখানে রেগুলার এক্সপ্রেশন ব
 
 #: ../../po/../uget-gtk/UgSettingForm.c:100
 msgid "_Quiet mode"
-msgstr "শান্ত প্রক্রিয়া_Q"
+msgstr "_Quiet mode"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:109
 msgid "Add URL to Nth category"
@@ -1210,11 +1210,11 @@ msgstr "সাম্প্রতিক ডাউনলোড সেটিং প
 
 #: ../../po/../uget-gtk/UgSettingForm.c:229
 msgid "_Launch default application for specified file types:"
-msgstr "নির্দিষ্ট প্রকারভেদের ফাইল এর জন্য পূর্বনির্ধারিত এপ্লিকেশন চালু করুন:_L"
+msgstr "_Launch default application for specified file types:"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:288
 msgid "_Auto save"
-msgstr "স্বয়ংক্রীয় সংরক্ষণ_A"
+msgstr "_Auto save"
 
 #. auto save spin & label (interval)
 #: ../../po/../uget-gtk/UgSettingForm.c:294
@@ -1224,7 +1224,7 @@ msgstr "মিনিট"
 #. auto save label
 #: ../../po/../uget-gtk/UgSettingForm.c:301
 msgid "_Interval:"
-msgstr "মধ্যবর্তী সময়:_I"
+msgstr "_Interval:"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:337
 msgid "Commandline Settings"
@@ -1241,15 +1241,15 @@ msgstr "'--category-index'  পূর্বনির্ধারিত মান
 
 #: ../../po/../uget-gtk/UgSettingForm.c:410
 msgid "_Enable aria2 plug-in"
-msgstr "aria2 প্লাগ-ইন সক্রিয়_E"
+msgstr "_Enable aria2 plug-in"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:417
 msgid "_Launch aria2 on startup"
-msgstr "শুরুর সময় aria2 চালু করুন_L"
+msgstr "_Launch aria2 on startup"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:423
 msgid "_Shutdown aria2 on exit"
-msgstr "বন্ধের সময় aria2 শাটডাউন করুন_S"
+msgstr "_Shutdown aria2 on exit"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:439
 msgid "Path"
@@ -1295,4 +1295,4 @@ msgstr "মান"
 #. Copy All
 #: ../../po/../uget-gtk/UgSummary.c:296
 msgid "Copy _All"
-msgstr "সবগুলো কপি (_A)"
+msgstr "Copy _All"

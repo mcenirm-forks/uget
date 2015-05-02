@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# balzamon <kurjak.richard@gmail.com>, 2013
+# Balzamon, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: uGet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-07 23:06+0800\n"
-"PO-Revision-Date: 2013-12-07 20:06+0000\n"
-"Last-Translator: uGet <michael@ugetdm.com>\n"
+"PO-Revision-Date: 2014-02-27 09:15+0000\n"
+"Last-Translator: Balzamon\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/uget/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -703,7 +703,7 @@ msgstr "Figyelmeztetés uGet használóknak:"
 #: ../../po/../uget-gtk/UgBanner.c:105
 msgid ""
 "we are running a Donation Drive for uGet's Future Development, please click "
-msgstr ""
+msgstr "Itt támogathatod a jövőbeni fejlesztéseket."
 
 #: ../../po/../uget-gtk/UgBanner.c:108
 msgid "HERE"
@@ -711,11 +711,11 @@ msgstr "ITT"
 
 #: ../../po/../uget-gtk/UgBanner.c:122
 msgid "please fill out this quick User Survey for uGet."
-msgstr ""
+msgstr "Kérlek töltsd ki ezt a felmérést az Ugetről."
 
 #: ../../po/../uget-gtk/UgBanner.c:125
 msgid "click here to take survey"
-msgstr ""
+msgstr "klikkelj ide a felméréshez"
 
 #. URL - label
 #: ../../po/../uget-gtk/UgBatchForm.c:63

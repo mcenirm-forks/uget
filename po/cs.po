@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alois Nešpor <info@aloisnespor.info>, 2014
 # ToMáš_Marný, 2013
-# ToMáš_Marný, 2013
+# ToMáš Marný, 2013
 # wastingdouglas <adminkonsoleshop@volny.cz>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: uGet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-07 23:06+0800\n"
-"PO-Revision-Date: 2013-12-19 18:12+0000\n"
-"Last-Translator: ToMáš_Marný\n"
+"PO-Revision-Date: 2014-03-14 09:28+0000\n"
+"Last-Translator: Alois Nešpor <info@aloisnespor.info>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/uget/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1033,7 +1034,7 @@ msgstr "Socket:"
 
 #: ../../po/../uget-gtk/UgProxyForm.c:345
 msgid "Socket args:"
-msgstr ""
+msgstr "Argumenty socketu:"
 
 #: ../../po/../uget-gtk/UgProxyForm.c:355
 msgid "Element:"

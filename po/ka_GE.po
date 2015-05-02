@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# DrAcid <acidlabz@gmail.com>, 2013
-# DrAcid <acidlabz@gmail.com>, 2013
-# DrAcid <acidlabz@gmail.com>, 2013
+# Giorgi Maghlakelidze <acidlabz@gmail.com>, 2013
+# Giorgi Maghlakelidze <acidlabz@gmail.com>, 2013
+# Giorgi Maghlakelidze <acidlabz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: uGet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-07 23:06+0800\n"
 "PO-Revision-Date: 2013-12-08 06:49+0000\n"
-"Last-Translator: DrAcid <acidlabz@gmail.com>\n"
+"Last-Translator: Giorgi Maghlakelidze <acidlabz@gmail.com>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/uget/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

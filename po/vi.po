@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# ppanhh <vietnamesel10n@gmail.com>, 2013
+# Anh Phan <vietnamesel10n@gmail.com>, 2013
+# Anh Phan <vietnamesel10n@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: uGet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-07 23:06+0800\n"
-"PO-Revision-Date: 2013-12-07 20:06+0000\n"
-"Last-Translator: uGet <michael@ugetdm.com>\n"
+"PO-Revision-Date: 2015-03-29 17:33+0000\n"
+"Last-Translator: Đỗ Xuân Quyết <quyet.doxuan@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/uget/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,7 +84,7 @@ msgstr "Không thể mở tập tin."
 #. UG_MESSAGE_ERROR_FILE_OPEN_FAILED
 #: ../../po/../uglib/UgMessage.c:79 ../../po/../uglib/UgRunning.c:104
 msgid "Unable to create thread, reduce number of download."
-msgstr ""
+msgstr "Không thể tạo tiến trình mới, hãy giảm lại số lượng tiến trình đang tải."
 
 #. UG_MESSAGE_ERROR_THREAD_CREATE_FAILED
 #: ../../po/../uglib/UgMessage.c:80
@@ -132,7 +133,7 @@ msgstr "Tiện ích không được hỗ trợ trong giản đồ hoặc tập t
 #: ../../po/../uget-gtk/UgApp-gtk.c:571
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:529
 msgid "tasks"
-msgstr "các tác vụ"
+msgstr "tác vụ"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:616
 #, c-format
@@ -633,32 +634,32 @@ msgstr "_Dịch bởi Vetati"
 #. Get Help Online
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:829
 msgid "Get Help Online"
-msgstr ""
+msgstr "Nhận trợ giúp trực tuyến"
 
 #. Documentation
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:836
 msgid "Documentation"
-msgstr ""
+msgstr "Tài liệu hướng dẫn"
 
 #. Support Forum
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:843
 msgid "Support Forum"
-msgstr ""
+msgstr "Diễn đàn hỗ trợ"
 
 #. Submit Feedback
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:850
 msgid "Submit Feedback"
-msgstr ""
+msgstr "Gửi phản hồi"
 
 #. Report a Bug
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:857
 msgid "Report a Bug"
-msgstr ""
+msgstr "Báo cáo lỗi"
 
 #. Check for Updates
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:864
 msgid "Check for Updates"
-msgstr ""
+msgstr "Kiểm tra cập nhật mới"
 
 #. only 1 url matched
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:153
@@ -698,24 +699,24 @@ msgstr "Tiến trình tải về của toàn bộ các đối tượng trong dan
 
 #: ../../po/../uget-gtk/UgBanner.c:102 ../../po/../uget-gtk/UgBanner.c:119
 msgid "Attention uGetters:"
-msgstr ""
+msgstr "Xin người dùng lưu ý:"
 
 #: ../../po/../uget-gtk/UgBanner.c:105
 msgid ""
 "we are running a Donation Drive for uGet's Future Development, please click "
-msgstr ""
+msgstr "chúng tôi hiện đang nhận sự ủng hộ tài chính để có thể phát triển dự án hơn nữa, hãy click vào"
 
 #: ../../po/../uget-gtk/UgBanner.c:108
 msgid "HERE"
-msgstr ""
+msgstr "TẠI ĐÂY"
 
 #: ../../po/../uget-gtk/UgBanner.c:122
 msgid "please fill out this quick User Survey for uGet."
-msgstr ""
+msgstr "hãy điền vào bảng khảo sát sau đây"
 
 #: ../../po/../uget-gtk/UgBanner.c:125
 msgid "click here to take survey"
-msgstr ""
+msgstr "hãy click vào đây để tham gia khảo sát"
 
 #. URL - label
 #: ../../po/../uget-gtk/UgBatchForm.c:63
@@ -829,7 +830,7 @@ msgstr "Nâng cao"
 #. Mirrors - label
 #: ../../po/../uget-gtk/UgDownloadForm.c:150
 msgid "Mirrors:"
-msgstr ""
+msgstr "Phần phụ:"
 
 #. File - label
 #: ../../po/../uget-gtk/UgDownloadForm.c:166
@@ -1031,7 +1032,7 @@ msgstr "Socket :"
 
 #: ../../po/../uget-gtk/UgProxyForm.c:345
 msgid "Socket args:"
-msgstr ""
+msgstr "Đối số mã mạng:"
 
 #: ../../po/../uget-gtk/UgProxyForm.c:355
 msgid "Element:"
@@ -1243,7 +1244,7 @@ msgstr "_Cho phép bật tiện ích aria2"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:417
 msgid "_Launch aria2 on startup"
-msgstr "_Chạy aria3 khi khởi động"
+msgstr "_Chạy aria2 khi khởi động"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:423
 msgid "_Shutdown aria2 on exit"

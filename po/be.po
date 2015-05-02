@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# meequz <meequz@gmail.com>, 2011
-# meequz <meequz@gmail.com>, 2011
+# Mihail Varantsou <meequz@gmail.com>, 2011
+# Mihail Varantsou <meequz@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: uGet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-07 23:06+0800\n"
-"PO-Revision-Date: 2013-12-08 07:48+0000\n"
-"Last-Translator: meequz <meequz@gmail.com>\n"
+"PO-Revision-Date: 2014-03-12 21:35+0000\n"
+"Last-Translator: Mihail Varantsou <meequz@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/projects/p/uget/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: be\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #. UG_MESSAGE_INFO_CUSTOM
 #: ../../po/../uglib/UgMessage.c:52
@@ -99,7 +99,7 @@ msgstr "Няма выходнага файла."
 #. UG_MESSAGE_ERROR_NO_OUTPUT_FILE
 #: ../../po/../uglib/UgMessage.c:82
 msgid "No output setting."
-msgstr "Няма выходных настаўленняў."
+msgstr "Няма выходных настáўленняў."
 
 #. UG_MESSAGE_ERROR_NO_OUTPUT_SETTING
 #: ../../po/../uglib/UgMessage.c:83
@@ -225,7 +225,7 @@ msgstr "Не знойдзена URL'аў у буферы абмену."
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:325
 msgid "Clipboard batch"
-msgstr "Настаўленні _буферу абмену"
+msgstr "Настáўленні _буферу абмену"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:333
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:168
@@ -292,7 +292,7 @@ msgstr "Экспартаваць у"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:1128
 msgid "Settings"
-msgstr "Настаўленні"
+msgstr "Настáўленні"
 
 #. New Download
 #. New Download (accelerators)
@@ -324,7 +324,7 @@ msgstr "Новая мета-спасылка..."
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:133
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:523
 msgid "_Settings..."
-msgstr "_Настаўленні..."
+msgstr "_Настáўленні..."
 
 #. Show window
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:147
@@ -416,7 +416,7 @@ msgstr "Новая серыя сцягванняў"
 #. Batch downloads - Clipboard batch
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:449
 msgid "_Clipboard batch..."
-msgstr "_Настаўленні буферу абмену..."
+msgstr "_Настáўленні буферу абмену..."
 
 #. Batch downloads - URL Sequence batch
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:455
@@ -450,7 +450,7 @@ msgstr "Сачыць за _буферам абмену"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:512
 msgid "_Clipboard Option..."
-msgstr "_Настаўленні буферу абмену..."
+msgstr "_Настáўленні буферу абмену..."
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:518
 msgid "Shutdown when downloads complete"
@@ -772,15 +772,15 @@ msgstr "Перадпрагляд"
 
 #: ../../po/../uget-gtk/UgCategoryDialog.c:62
 msgid "Category settings"
-msgstr "Настаўленні катэгорыі"
+msgstr "Настáўленні катэгорыі"
 
 #: ../../po/../uget-gtk/UgCategoryDialog.c:64
 msgid "Default for new download 1"
-msgstr "Прадвызначэнні катэгорыі"
+msgstr "Стандартныя настáўленні катэгорыі"
 
 #: ../../po/../uget-gtk/UgCategoryDialog.c:66
 msgid "Default 2"
-msgstr "Дадатковыя прадвызначэнні"
+msgstr "Дадатковыя стандартныя настáўленні"
 
 #: ../../po/../uget-gtk/UgCategoryForm.c:53
 msgid "Category _name:"
@@ -1205,7 +1205,7 @@ msgstr "Гук, калі сцягванне скончана"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:168
 msgid "Apply recently download settings"
-msgstr "Ужываць настаўленні апошняга сцягвання"
+msgstr "Ужываць настáўленні апошняга сцягвання"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:229
 msgid "_Launch default application for specified file types:"

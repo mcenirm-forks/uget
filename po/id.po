@@ -3,15 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Benny adhi multi <tarzq306@gmail.com>, 2013
-# chocolateshirt <tydushikari@gmail.com>, 2013
+# benny <tarzq306@gmail.com>, 2013
+# Ikhwan Setiawan <kuro.kid@gmail.com>, 2014
+# Hasan Al Banna, 2014
+# Muhammad Iqbal <tydushikari@gmail.com>, 2013
+# rizmut <sundaralinux@gmail.com>, 2014
+# Yurike, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: uGet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-07 23:06+0800\n"
-"PO-Revision-Date: 2013-12-07 20:06+0000\n"
-"Last-Translator: uGet <michael@ugetdm.com>\n"
+"PO-Revision-Date: 2014-07-19 16:59+0000\n"
+"Last-Translator: rizmut <sundaralinux@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/uget/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +88,7 @@ msgstr "Berkas tidak dapat dibuka"
 #. UG_MESSAGE_ERROR_FILE_OPEN_FAILED
 #: ../../po/../uglib/UgMessage.c:79 ../../po/../uglib/UgRunning.c:104
 msgid "Unable to create thread, reduce number of download."
-msgstr ""
+msgstr "Tidak dapat membuat thread, kurangi jumlah unduhan."
 
 #. UG_MESSAGE_ERROR_THREAD_CREATE_FAILED
 #: ../../po/../uglib/UgMessage.c:80
@@ -94,12 +98,12 @@ msgstr "Melebihi kapasitas (penyimpanan penuh atau melebihi kapasitas memori)"
 #. UG_MESSAGE_ERROR_OUT_OF_RESOURCE
 #: ../../po/../uglib/UgMessage.c:81
 msgid "No output file."
-msgstr "Output file tidak ada"
+msgstr "Berkas keluaran tidak ada"
 
 #. UG_MESSAGE_ERROR_NO_OUTPUT_FILE
 #: ../../po/../uglib/UgMessage.c:82
 msgid "No output setting."
-msgstr "Tidak ada output pengaturan"
+msgstr "Tidak ada pengaturan keluaran"
 
 #. UG_MESSAGE_ERROR_NO_OUTPUT_SETTING
 #: ../../po/../uglib/UgMessage.c:83
@@ -143,7 +147,7 @@ msgstr "Memilih %d items"
 #. create confirmation dialog
 #: ../../po/../uget-gtk/UgApp-gtk.c:686
 msgid "Really Quit?"
-msgstr "Benar mau keluar?"
+msgstr "Apakah yakin mau keluar?"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:703
 msgid "Are you sure you want to quit?"
@@ -169,7 +173,7 @@ msgstr "Yakin akan menghapus file?"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:788
 msgid "Are you sure you want to delete files?"
-msgstr "Apakah anda yakin akan menghapus file ini?"
+msgstr "Apakah Anda yakin akan menghapus file ini?"
 
 #: ../../po/../uget-gtk/UgApp-gtk.c:793
 msgid "Do not ask me again"
@@ -217,21 +221,21 @@ msgstr "Download Baru"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:298
 msgid "URL Sequence batch"
-msgstr ""
+msgstr "Urutan kumpulan URL"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:321
 msgid "No URLs found in clipboard."
-msgstr "Tidak ada URLs ditemukan pada clipboard"
+msgstr "Tidak ada URL ditemukan pada papan klip"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:325
 msgid "Clipboard batch"
-msgstr ""
+msgstr "Kumpulan papan klip"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:333
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:168
 #: ../../po/../uget-gtk/UgSettingDialog.c:80
 msgid "Clipboard"
-msgstr "Clipboard"
+msgstr "Papan klip"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:359
 msgid "New Torrent"
@@ -275,15 +279,15 @@ msgstr "Gambar <IMG>"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:927
 msgid "Import URLs from HTML file"
-msgstr "Mengimpor URLs dari file HTML"
+msgstr "Mengimpor URLs dari berkas HTML"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:968
 msgid "Text File"
-msgstr "File Teks"
+msgstr "Berkas Teks"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:984
 msgid "Import URLs from text file"
-msgstr "Mengimpor URLs dari file teks"
+msgstr "Mengimpor URLs dari berkas teks"
 
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:1030
 #: ../../po/../uget-gtk/UgApp-gtk-callback.c:1031
@@ -299,7 +303,7 @@ msgstr "Pengaturan"
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:101
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:292
 msgid "New _Download..."
-msgstr "Unggahan_Baru"
+msgstr "Unduhan_ Baru"
 
 #. New Clipboard batch
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:108
@@ -335,11 +339,11 @@ msgstr "Tunjukkan jendela"
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:152
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:492
 msgid "_Offline Mode"
-msgstr "_Secara Offline"
+msgstr "_Modus Offline"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:282
 msgid "Create new download"
-msgstr "Membuat download baru"
+msgstr "Membuat unduhan baru"
 
 #. New Category
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:299
@@ -349,7 +353,7 @@ msgstr "Kategori_Baru"
 #. New URL Sequence batch
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:312
 msgid "New _URL Sequence batch..."
-msgstr ""
+msgstr "Rangkaian baru kumpulan _URL"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:338
 msgid "Save all"
@@ -357,31 +361,31 @@ msgstr "Menyimpan semuanya"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:346
 msgid "Set selected download runnable"
-msgstr "Pilih unggahan untuk dilanjutkan"
+msgstr "Pilih unduhan untuk dilanjutkan"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:351
 msgid "Set selected download to pause"
-msgstr "Pilih unggahan untuk berhenti sebentar"
+msgstr "Pilih unduhan untuk berhenti sebentar"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:356
 msgid "Set selected download properties"
-msgstr "Atur properti unggahan yang dipilih"
+msgstr "Atur properti unduhan yang dipilih"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:364
 msgid "Move selected download up"
-msgstr "Pindah keatas"
+msgstr "Pindahkan unduhan terpilih keatas"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:369
 msgid "Move selected download down"
-msgstr "Pindah Kebawah"
+msgstr "Pindah unduhan terpilih kebawah"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:374
 msgid "Move selected download to top"
-msgstr "Pindah unggahan ke paling atas"
+msgstr "Pindah unduhan terpilih ke paling atas"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:379
 msgid "Move selected download to bottom"
-msgstr "Pindah unggahan ke paling bawah"
+msgstr "Pindah unduhan terpilih ke paling bawah"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:402
 msgid "_File"
@@ -390,7 +394,7 @@ msgstr "_Berkas"
 #. New - Download (accelerators)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:414
 msgid "_Download..."
-msgstr "_Unggahan"
+msgstr "_Unduhan"
 
 #. New - Category
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:421
@@ -436,7 +440,7 @@ msgstr "_Impor berkas HTML (.html)"
 #. Batch downloads - Export to Text file (.txt)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:475
 msgid "_Export to Text file (.txt)..."
-msgstr ""
+msgstr "_Export ke berkas Text (.txt)..."
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:503
 msgid "_Edit"
@@ -446,7 +450,7 @@ msgstr "_Edit"
 #. );
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:508
 msgid "Clipboard _Monitor"
-msgstr "Pemantau_Clipboard"
+msgstr "Pemantau_ Papan Klip"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:512
 msgid "_Clipboard Option..."
@@ -488,7 +492,7 @@ msgstr "_Hasil"
 #. Summary Items --- start ---
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:559
 msgid "Summary _Items"
-msgstr "Item_Ringkasan"
+msgstr "Butir _Ringkasan"
 
 #. Summary Items - Name
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:564
@@ -519,7 +523,7 @@ msgstr "_Rincian"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:604
 msgid "Download _Columns"
-msgstr "Kolom_Unggahan"
+msgstr "Kolom_ Unduhan"
 
 #. Download Columns - Completed
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:609
@@ -529,7 +533,7 @@ msgstr "_Selesai"
 #. Download Columns - Total
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:614
 msgid "_Size"
-msgstr "_Total ukuran"
+msgstr "_Ukuran"
 
 #. Download Columns - Percent (%)
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:619
@@ -539,12 +543,12 @@ msgstr "_Persentasi '%'"
 #. Download Columns - Elapsed
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:624
 msgid "_Elapsed"
-msgstr "_Tersisa"
+msgstr "_Sudah berjalan"
 
 #. Download Columns - Left
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:629
 msgid "_Left"
-msgstr "_Kiri"
+msgstr "_Tersisa"
 
 #. Download Columns - Speed
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:634
@@ -556,13 +560,13 @@ msgstr "Kecepatan"
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:639
 #: ../../po/../uget-gtk/UgDownloadWidget.c:854
 msgid "Up Speed"
-msgstr "Kecepatan Upload"
+msgstr "Kecepatan Unggah"
 
 #. Download Columns - Uploaded
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:644
 #: ../../po/../uget-gtk/UgDownloadWidget.c:868
 msgid "Uploaded"
-msgstr "Terkirim"
+msgstr "Terunggah"
 
 #. Download Columns - Ratio
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:649
@@ -603,24 +607,24 @@ msgstr "_Hapus Kategori"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:708
 msgid "_Download"
-msgstr "_Unggah"
+msgstr "_Unduh"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:727
 msgid "Delete _File and Data"
-msgstr "Menghapus _File dan Data"
+msgstr "Menghapus _Berkas dan Data"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:742
 msgid "Open _containing folder"
-msgstr "`"
+msgstr "`Buka _folder yang bersangkutan"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:751
 msgid "Force Start"
-msgstr "Mulai Mendadak"
+msgstr "Mulai Paksa"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:757
 #: ../../po/../uget-gtk/UgDownloadForm.c:225
 msgid "_Runnable"
-msgstr "_Dapat dilanjutkan"
+msgstr "_Dapat dijalankan"
 
 #. Move to --- start ---
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:773
@@ -683,28 +687,28 @@ msgstr "Tidak bisa terhubung dengan aria2.⏎\nApakah aria2 mati? atau peluncura
 
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:735
 msgid "Download Starting"
-msgstr "Memulai Download"
+msgstr "Memulai Unduhan"
 
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:736
 msgid "Starting download queue."
-msgstr "Memulai antrian download"
+msgstr "Memulai antrian unduhan"
 
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:737
 msgid "Download Completed"
-msgstr "Download Komplit"
+msgstr "Unduhan selesai"
 
 #: ../../po/../uget-gtk/UgApp-gtk-timeout.c:738
 msgid "All queuing downloads have been completed."
-msgstr "Semua antrian download sudah komplit"
+msgstr "Semua antrian unduhan sudah selesai"
 
 #: ../../po/../uget-gtk/UgBanner.c:102 ../../po/../uget-gtk/UgBanner.c:119
 msgid "Attention uGetters:"
-msgstr ""
+msgstr "Perhatian uGetters:"
 
 #: ../../po/../uget-gtk/UgBanner.c:105
 msgid ""
 "we are running a Donation Drive for uGet's Future Development, please click "
-msgstr ""
+msgstr "kami menjalankan Donation Drive untuk pengembangkan uGet ke depannya, tolong klik"
 
 #: ../../po/../uget-gtk/UgBanner.c:108
 msgid "HERE"
@@ -712,11 +716,11 @@ msgstr "DISINI"
 
 #: ../../po/../uget-gtk/UgBanner.c:122
 msgid "please fill out this quick User Survey for uGet."
-msgstr ""
+msgstr "Harap isi Survei Pengguna untuk uGet."
 
 #: ../../po/../uget-gtk/UgBanner.c:125
 msgid "click here to take survey"
-msgstr ""
+msgstr "klik disini untuk mengikuti survei"
 
 #. URL - label
 #: ../../po/../uget-gtk/UgBatchForm.c:63
@@ -747,7 +751,7 @@ msgstr "digit"
 
 #: ../../po/../uget-gtk/UgBatchForm.c:132
 msgid "F_rom:"
-msgstr ""
+msgstr "_Dari:"
 
 #. label case-sensitive
 #: ../../po/../uget-gtk/UgBatchForm.c:162
@@ -756,7 +760,7 @@ msgstr "hurup besar & kecil dibedakan"
 
 #: ../../po/../uget-gtk/UgBatchForm.c:188
 msgid "No wildcard(*) character in URL entry."
-msgstr ""
+msgstr "Tidak boleh ada character wildcard(*) di entri URL."
 
 #: ../../po/../uget-gtk/UgBatchForm.c:192
 msgid "URL is not valid."
@@ -764,7 +768,7 @@ msgstr "URL tidak valid."
 
 #: ../../po/../uget-gtk/UgBatchForm.c:196
 msgid "No character in 'From' or 'To' entry."
-msgstr ""
+msgstr "Tidak ada karakter di entri 'Dari' atau 'Ke'."
 
 #: ../../po/../uget-gtk/UgBatchForm.c:305
 msgid "Preview"
@@ -776,11 +780,11 @@ msgstr "Atur Kategori"
 
 #: ../../po/../uget-gtk/UgCategoryDialog.c:64
 msgid "Default for new download 1"
-msgstr ""
+msgstr "Bawaan untuk unduhan baru 1"
 
 #: ../../po/../uget-gtk/UgCategoryDialog.c:66
 msgid "Default 2"
-msgstr ""
+msgstr "Bawaan 2"
 
 #: ../../po/../uget-gtk/UgCategoryForm.c:53
 msgid "Category _name:"
@@ -788,15 +792,15 @@ msgstr "Nama_kategori"
 
 #: ../../po/../uget-gtk/UgCategoryForm.c:68
 msgid "Active _downloads:"
-msgstr "Unggahan_aktif"
+msgstr "Unduhan_aktif"
 
 #: ../../po/../uget-gtk/UgCategoryForm.c:76
 msgid "Capacity of Finished:"
-msgstr ""
+msgstr "Kapasitas yang telah selesai:"
 
 #: ../../po/../uget-gtk/UgCategoryForm.c:85
 msgid "Capacity of Recycled:"
-msgstr ""
+msgstr "Kapasitas yang didaur ulang:"
 
 #: ../../po/../uget-gtk/UgCategoryWidget.c:42
 #: ../../po/../uget-gtk/UgSelector.c:292
@@ -861,7 +865,7 @@ msgstr "Status"
 
 #: ../../po/../uget-gtk/UgDownloadForm.c:227
 msgid "P_ause"
-msgstr ""
+msgstr "_Jeda"
 
 #. ----------------------------------------------------
 #. frame for login
@@ -874,14 +878,14 @@ msgstr "Login"
 #: ../../po/../uget-gtk/UgDownloadForm.c:247
 #: ../../po/../uget-gtk/UgProxyForm.c:143
 msgid "User:"
-msgstr "User:"
+msgstr "Pengguna:"
 
 #. Password - label
 #. password label & entry
 #: ../../po/../uget-gtk/UgDownloadForm.c:263
 #: ../../po/../uget-gtk/UgProxyForm.c:154
 msgid "Password:"
-msgstr "Password"
+msgstr "Kata kunci"
 
 #. dform->password_label = widget;
 #. ----------------------------------------------------
@@ -948,7 +952,7 @@ msgstr "Kurir:"
 #. label - Max upload speed
 #: ../../po/../uget-gtk/UgDownloadForm.c:424
 msgid "Max upload speed:"
-msgstr "Kecepatan upload maksimal:"
+msgstr "Kecepatan unggah maksimal:"
 
 #. label - "KiB/s"
 #: ../../po/../uget-gtk/UgDownloadForm.c:435
@@ -961,12 +965,12 @@ msgstr "KiB/s"
 #. label - Max download speed
 #: ../../po/../uget-gtk/UgDownloadForm.c:441
 msgid "Max download speed:"
-msgstr "Kecepatan download maksimal:"
+msgstr "Kecepatan unduh maksimal:"
 
 #. Retrieve timestamp
 #: ../../po/../uget-gtk/UgDownloadForm.c:458
 msgid "Retrieve timestamp"
-msgstr ""
+msgstr "Mengambil catatan waktu"
 
 #: ../../po/../uget-gtk/UgDownloadWidget.c:378
 #: ../../po/../uget-gtk/UgSummary.c:116
@@ -992,11 +996,11 @@ msgstr "%"
 
 #: ../../po/../uget-gtk/UgDownloadWidget.c:812
 msgid "Elapsed"
-msgstr "Waktu Sisa"
+msgstr "Sudah berjalan"
 
 #: ../../po/../uget-gtk/UgDownloadWidget.c:826
 msgid "Left"
-msgstr "Kiri"
+msgstr "Tersisa"
 
 #: ../../po/../uget-gtk/UgDownloadWidget.c:925
 #: ../../po/../uget-gtk/UgSelector.c:487 ../../po/../uget-gtk/UgSummary.c:151
@@ -1032,7 +1036,7 @@ msgstr "Soket:"
 
 #: ../../po/../uget-gtk/UgProxyForm.c:345
 msgid "Socket args:"
-msgstr ""
+msgstr "args Socket:"
 
 #: ../../po/../uget-gtk/UgProxyForm.c:355
 msgid "Element:"
@@ -1092,7 +1096,7 @@ msgstr "- jalankan tugas secara normal"
 
 #: ../../po/../uget-gtk/UgSelector.c:94
 msgid "Base hypertext reference"
-msgstr ""
+msgstr "Referensi dasar hypertext"
 
 #. select all
 #: ../../po/../uget-gtk/UgSelector.c:110
@@ -1197,15 +1201,15 @@ msgstr "Aktifkan modus offline saat startup"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:162
 msgid "Download starting notification"
-msgstr ""
+msgstr "Pemberitahuan memulai unduhan"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:165
 msgid "Sound when download is finished"
-msgstr "Aktifkan suara ketika unggahan selesai"
+msgstr "Aktifkan suara ketika unduhan selesai"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:168
 msgid "Apply recently download settings"
-msgstr "Pakai aturan unggahan saat ini"
+msgstr "Terapkan pengaturan unduh baru-baru ini"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:229
 msgid "_Launch default application for specified file types:"
@@ -1252,7 +1256,7 @@ msgstr "_Matikan aria2 saat keluar"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:439
 msgid "Path"
-msgstr "Direktori"
+msgstr "Lokasi"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:447
 msgid "Arguments"
@@ -1269,15 +1273,15 @@ msgstr "Batas Kecepatan"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:467
 msgid "Upload"
-msgstr "Upload"
+msgstr "Unggah"
 
 #: ../../po/../uget-gtk/UgSettingForm.c:478
 msgid "Download"
-msgstr "Download"
+msgstr "Unduh"
 
 #: ../../po/../uget-gtk/UgSummary.c:109
 msgid "File"
-msgstr "File"
+msgstr "Berkas"
 
 #: ../../po/../uget-gtk/UgSummary.c:129
 msgid "Folder"

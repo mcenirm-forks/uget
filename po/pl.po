@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# frecel <frecelto@gmail.com>, 2013
+# Artur Frącek <frecelto@gmail.com>, 2013
+# fazi.3294, 2014
 # Miś Uszatek <adres.email@ymail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: uGet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-07 23:06+0800\n"
-"PO-Revision-Date: 2013-12-16 01:47+0000\n"
-"Last-Translator: frecel <frecelto@gmail.com>\n"
+"PO-Revision-Date: 2014-10-05 19:43+0000\n"
+"Last-Translator: fazi.3294\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/uget/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -519,7 +520,7 @@ msgstr "_Wiadomość"
 
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:604
 msgid "Download _Columns"
-msgstr "Pozycje _Pobrabia"
+msgstr "Kolumny Pobierania"
 
 #. Download Columns - Completed
 #: ../../po/../uget-gtk/UgApp-gtk-gui.c:609
